@@ -27,11 +27,11 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   return (
     <header
-      className={`${montserrat.className} flex w-full items-center justify-between gap-8 border-b border-white/20 pt-8 pb-4 sm:gap-12 sm:pt-10 sm:pb-5`}
+      className={`${montserrat.className} flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] pt-8 pb-4 sm:gap-12 sm:pt-10 sm:pb-5`}
     >
       <Link
         href="/"
-        className="text-lg font-semibold tracking-[0.18em] text-white transition-opacity duration-300 hover:opacity-70 sm:text-xl"
+        className="text-lg font-semibold tracking-[0.18em] text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
       >
         {ownerName}
       </Link>
@@ -70,10 +70,10 @@ function NavTextLink({ href, label }: NavTextLinkProps) {
   return (
     <Link
       href={href}
-      className="group relative text-lg font-medium tracking-[0.14em] text-white transition-colors duration-300 hover:text-white/80 focus-visible:text-white/80 focus-visible:outline-none sm:text-xl"
+      className="group relative text-lg font-medium tracking-[0.14em] text-[var(--header-item-color)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none sm:text-xl"
     >
       {label}
-      <span className="absolute -bottom-1 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
+      <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--header-item-color)] transition-all duration-300 group-hover:w-full" />
     </Link>
   );
 }
@@ -91,7 +91,7 @@ function SocialIconLink({ href, label, children }: SocialIconLinkProps) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="inline-flex items-center justify-center text-white transition duration-300 hover:scale-110 hover:text-zinc-300 focus-visible:scale-110 focus-visible:text-zinc-300 focus-visible:outline-none"
+      className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
     >
       {children}
     </a>
