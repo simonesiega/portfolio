@@ -1,13 +1,24 @@
 import { SiteHeader } from "@/components/site-header";
 import { ParticleNetwork } from "@/components/particle-network";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { animationTimings, toMs } from "@/lib/animation-timings";
 import { montserrat } from "@/lib/fonts";
 import { siteConfig } from "@/lib/site-config";
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { FaGithub, FaLinkedinIn, FaRegCopyright } from "react-icons/fa6";
 
 const { owner, navigation, social, contact, home } = siteConfig;
+const { landingReveal } = animationTimings;
 const contactEmailHref = `mailto:${contact.email}`;
+
+const landingRevealContainerStyle = {
+  "--landing-reveal-duration": toMs(landingReveal.durationMs),
+} as CSSProperties;
+
+function getLandingRevealStyle(delayMs: number): CSSProperties {
+  return { animationDelay: toMs(delayMs) };
+}
 
 export default function Home() {
   return (
@@ -23,44 +34,68 @@ export default function Home() {
         <section className="relative flex min-h-[calc(100vh-110px)] items-center justify-center">
           <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
 
-          <div className="relative z-10 w-full max-w-4xl translate-x-2 sm:translate-x-4">
+          <div
+            className="relative z-10 w-full max-w-4xl translate-x-2 sm:translate-x-4"
+            style={landingRevealContainerStyle}
+          >
             <div className="flex items-center gap-5 sm:gap-7">
-              <Image
-                src={owner.profileImage.src}
-                alt={owner.profileImage.alt}
-                width={96}
-                height={96}
-                priority
-                className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24"
-              />
+              <div
+                className="landing-reveal"
+                style={getLandingRevealStyle(landingReveal.delaysMs.avatar)}
+              >
+                <Image
+                  src={owner.profileImage.src}
+                  alt={owner.profileImage.alt}
+                  width={96}
+                  height={96}
+                  priority
+                  className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24"
+                />
+              </div>
 
               <div className={montserrat.className}>
-                <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl">
+                <h1
+                  className="landing-reveal text-3xl font-extrabold tracking-tight sm:text-5xl"
+                  style={getLandingRevealStyle(landingReveal.delaysMs.heading)}
+                >
                   {home.hero.heading}
                 </h1>
-                <p className="mt-2 text-base text-[var(--header-item-color)] sm:text-lg">
+                <p
+                  className="landing-reveal mt-2 text-base text-[var(--header-item-color)] sm:text-lg"
+                  style={getLandingRevealStyle(landingReveal.delaysMs.location)}
+                >
                   {home.hero.locationLine}
                 </p>
               </div>
             </div>
 
-            <div className="mt-8 space-y-4 text-[var(--header-item-color)] sm:text-lg">
+            <div
+              className="landing-reveal mt-8 space-y-4 text-[var(--header-item-color)] sm:text-lg"
+              style={getLandingRevealStyle(landingReveal.delaysMs.bio)}
+            >
               {home.hero.bioLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
             </div>
 
             <div className="mt-10">
-              <h2 className={`${montserrat.className} text-2xl font-bold sm:text-3xl`}>
+              <h2
+                className={`${montserrat.className} landing-reveal text-2xl font-bold sm:text-3xl`}
+                style={getLandingRevealStyle(landingReveal.delaysMs.skillsTitle)}
+              >
                 {home.hero.topSkillsTitle}
               </h2>
-              <p className="mt-3 max-w-3xl text-[var(--header-item-color)] sm:text-lg">
+              <p
+                className="landing-reveal mt-3 max-w-3xl text-[var(--header-item-color)] sm:text-lg"
+                style={getLandingRevealStyle(landingReveal.delaysMs.skillsText)}
+              >
                 {home.hero.topSkillsText}
               </p>
 
               <a
                 href={`#${home.contactSection.id}`}
-                className={`${montserrat.className} mt-8 inline-flex items-center justify-center rounded-full bg-[var(--cta-bg)] px-7 py-3 text-sm font-semibold tracking-[0.08em] text-[var(--cta-fg)] transition duration-300 hover:scale-[1.02] hover:opacity-90 sm:text-base`}
+                className={`${montserrat.className} landing-reveal mt-8 inline-flex items-center justify-center rounded-full bg-[var(--cta-bg)] px-7 py-3 text-sm font-semibold tracking-[0.08em] text-[var(--cta-fg)] transition duration-300 hover:scale-[1.02] hover:opacity-90 sm:text-base`}
+                style={getLandingRevealStyle(landingReveal.delaysMs.cta)}
               >
                 {home.hero.ctaLabel}
               </a>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { animationConfig } from "@/lib/animation-config";
 
 type ParticleNetworkProps = {
   className?: string;
@@ -43,22 +44,14 @@ type NetworkColors = {
   dustRgb: string;
 };
 
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-
-const BASE_PARTICLE_DENSITY = 0.00012;
-const BASE_DUST_DENSITY = 0.00008;
-const MIN_PARTICLES = 70;
-const MAX_PARTICLES = 165;
-
-const BASE_LINK_DISTANCE = 118;
-const POINTER_LINK_DISTANCE = 170;
-const POINTER_RADIUS = 190;
-const POINTER_SPAWN_RADIUS = 130;
-
-const MAX_SPEED = 34;
-const RESPAWN_RATE_PER_SECOND = 0.03;
-const LIFETIME_MIN = 14;
-const LIFETIME_MAX = 30;
+const { particleNetwork } = animationConfig;
+const {
+  reducedMotionQuery,
+  density,
+  links,
+  pointer: pointerConfig,
+  motion,
+} = particleNetwork;
 
 export function ParticleNetwork({ className }: ParticleNetworkProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -86,7 +79,7 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       return;
     }
 
-    const reducedMotionMedia = window.matchMedia(REDUCED_MOTION_QUERY);
+    const reducedMotionMedia = window.matchMedia(reducedMotionQuery);
     reducedMotionRef.current = reducedMotionMedia.matches;
 
     const syncNetworkColors = () => {
@@ -117,19 +110,25 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       const { width, height } = dimensionsRef.current;
       const area = width * height;
 
-      const baseCount = clamp(
-        Math.round(area * BASE_PARTICLE_DENSITY),
-        MIN_PARTICLES,
-        MAX_PARTICLES,
+        const baseCount = clamp(
+        Math.round(area * density.baseParticles),
+        density.minParticles,
+        density.maxParticles,
       );
 
       const particleCount = reducedMotionRef.current
-        ? Math.max(30, Math.round(baseCount * 0.42))
+        ? Math.max(
+            density.reducedMotionMinParticles,
+            Math.round(baseCount * density.reducedMotionParticleFactor),
+          )
         : baseCount;
 
       const dustCount = reducedMotionRef.current
-        ? Math.max(12, Math.round(area * BASE_DUST_DENSITY * 0.35))
-        : Math.max(28, Math.round(area * BASE_DUST_DENSITY));
+        ? Math.max(
+            density.reducedMotionMinDust,
+            Math.round(area * density.baseDust * density.reducedMotionDustFactor),
+          )
+        : Math.max(density.minDust, Math.round(area * density.baseDust));
 
       centersRef.current = Array.from({ length: randomInt(3, 6) }, () => ({
         x: Math.random() * width,
@@ -298,14 +297,14 @@ function updateParticles({
   reducedMotion: boolean;
   centers: Point[];
 }) {
-  const wrapMargin = 44;
-  const pointerStrength = reducedMotion ? 0 : 140;
+  const wrapMargin = motion.particleWrapMargin;
+  const pointerStrength = reducedMotion ? 0 : pointerConfig.strength;
 
   for (const particle of particles) {
     particle.age += dt;
 
     const shouldRespawnByLifetime = particle.age >= particle.lifetime;
-    const shouldRespawnByChance = Math.random() < RESPAWN_RATE_PER_SECOND * dt;
+    const shouldRespawnByChance = Math.random() < motion.respawnRatePerSecond * dt;
 
     if (shouldRespawnByLifetime || shouldRespawnByChance) {
       Object.assign(
@@ -326,28 +325,31 @@ function updateParticles({
       const dy = particle.y - pointer.y;
       const distanceSquared = dx * dx + dy * dy;
 
-      if (distanceSquared < POINTER_RADIUS * POINTER_RADIUS && distanceSquared > 0.01) {
+      if (
+        distanceSquared < pointerConfig.radius * pointerConfig.radius &&
+        distanceSquared > 0.01
+      ) {
         const distance = Math.sqrt(distanceSquared);
-        const force = (1 - distance / POINTER_RADIUS) * pointerStrength;
+        const force = (1 - distance / pointerConfig.radius) * pointerStrength;
         const forceX = (dx / distance) * force * dt * particle.depth;
         const forceY = (dy / distance) * force * dt * particle.depth;
 
-        particle.vx = clamp(particle.vx + forceX, -MAX_SPEED, MAX_SPEED);
-        particle.vy = clamp(particle.vy + forceY, -MAX_SPEED, MAX_SPEED);
+        particle.vx = clamp(particle.vx + forceX, -motion.maxSpeed, motion.maxSpeed);
+        particle.vy = clamp(particle.vy + forceY, -motion.maxSpeed, motion.maxSpeed);
       }
     }
 
-    particle.vx += (Math.random() - 0.5) * 0.75 * dt;
-    particle.vy += (Math.random() - 0.5) * 0.75 * dt;
+    particle.vx += (Math.random() - 0.5) * motion.randomDrift * dt;
+    particle.vy += (Math.random() - 0.5) * motion.randomDrift * dt;
 
-    particle.vx = clamp(particle.vx, -MAX_SPEED, MAX_SPEED);
-    particle.vy = clamp(particle.vy, -MAX_SPEED, MAX_SPEED);
+    particle.vx = clamp(particle.vx, -motion.maxSpeed, motion.maxSpeed);
+    particle.vy = clamp(particle.vy, -motion.maxSpeed, motion.maxSpeed);
 
     particle.x += particle.vx * dt;
     particle.y += particle.vy * dt;
 
-    particle.vx *= 0.996;
-    particle.vy *= 0.996;
+    particle.vx *= motion.velocityDamping;
+    particle.vy *= motion.velocityDamping;
 
     if (particle.x < -wrapMargin) {
       particle.x = width + wrapMargin;
@@ -374,7 +376,7 @@ function updateDustParticles({
   height: number;
   dt: number;
 }) {
-  const wrapMargin = 26;
+  const wrapMargin = motion.dustWrapMargin;
 
   for (const particle of dustParticles) {
     particle.x += particle.vx * dt;
@@ -405,7 +407,7 @@ function drawLinks({
   pointer: PointerState;
   colors: NetworkColors;
 }) {
-  const cellSize = POINTER_LINK_DISTANCE;
+  const cellSize = links.pointerDistance;
   const grid = buildSpatialGrid(particles, cellSize);
 
   for (let index = 0; index < particles.length; index += 1) {
@@ -429,10 +431,10 @@ function drawLinks({
           const neighbor = particles[neighborIndex];
           const nearPointer =
             pointer.active &&
-            (distanceToPointerSquared(particle, pointer) < POINTER_RADIUS * POINTER_RADIUS ||
-              distanceToPointerSquared(neighbor, pointer) < POINTER_RADIUS * POINTER_RADIUS);
+            (distanceToPointerSquared(particle, pointer) < pointerConfig.radius * pointerConfig.radius ||
+              distanceToPointerSquared(neighbor, pointer) < pointerConfig.radius * pointerConfig.radius);
 
-          const linkDistance = nearPointer ? POINTER_LINK_DISTANCE : BASE_LINK_DISTANCE;
+          const linkDistance = nearPointer ? links.pointerDistance : links.baseDistance;
           const linkDistanceSquared = linkDistance * linkDistance;
 
           const dx = particle.x - neighbor.x;
@@ -474,7 +476,7 @@ function drawPoints({
   for (const particle of particles) {
     const nearPointer =
       pointer.active &&
-      distanceToPointerSquared(particle, pointer) < POINTER_RADIUS * POINTER_RADIUS;
+      distanceToPointerSquared(particle, pointer) < pointerConfig.radius * pointerConfig.radius;
 
     const glowAlpha = nearPointer ? 0.3 : 0.18;
     const dotAlpha = nearPointer ? 0.95 : 0.58 + particle.depth * 0.32;
@@ -529,8 +531,8 @@ function spawnParticle({
   const shouldSpawnInCluster = !shouldSpawnNearPointer && Math.random() < 0.3;
 
   if (shouldSpawnNearPointer) {
-    x = pointer.x + randomGaussian() * POINTER_SPAWN_RADIUS;
-    y = pointer.y + randomGaussian() * POINTER_SPAWN_RADIUS;
+    x = pointer.x + randomGaussian() * pointerConfig.spawnRadius;
+    y = pointer.y + randomGaussian() * pointerConfig.spawnRadius;
   } else if (shouldSpawnInCluster && centers.length > 0) {
     const center = centers[randomInt(0, centers.length - 1)];
     const sigma = Math.min(width, height) * 0.18;
@@ -544,7 +546,7 @@ function spawnParticle({
   const depth = randomBetween(0.46, 1);
   const speed = randomBetween(6, 18) * depth;
   const angle = Math.random() * Math.PI * 2;
-  const lifetime = randomBetween(LIFETIME_MIN, LIFETIME_MAX);
+  const lifetime = randomBetween(motion.lifetimeMin, motion.lifetimeMax);
 
   return {
     x,
