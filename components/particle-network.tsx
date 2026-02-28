@@ -110,7 +110,7 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       const { width, height } = dimensionsRef.current;
       const area = width * height;
 
-        const baseCount = clamp(
+      const baseCount = clamp(
         Math.round(area * density.baseParticles),
         density.minParticles,
         density.maxParticles,

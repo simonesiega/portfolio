@@ -6,6 +6,7 @@
   --ui-fg-muted: #d4d4d8;
   --header-item-color: #a1a1aa;
   --header-item-hover-color: #f5f5f5;
+  --bio-text-color: #d0d0d4;
   --header-border-color: rgba(255, 255, 255, 0.2);
   --header-overlay-bg: rgba(0, 0, 0, 0.72);
   --cta-bg: #ffffff;
@@ -28,6 +29,7 @@
   --ui-fg-muted: #27272a;
   --header-item-color: #52525b;
   --header-item-hover-color: #09090b;
+  --bio-text-color: #3f3f46;
   --header-border-color: rgba(0, 0, 0, 0.2);
   --header-overlay-bg: rgba(255, 255, 255, 0.74);
   --cta-bg: #000000;

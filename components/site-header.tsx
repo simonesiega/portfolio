@@ -7,15 +7,19 @@ import type { HeaderLink } from "@/lib/site-config";
 type SiteHeaderProps = {
   ownerName: string;
   navItems: readonly HeaderLink[];
+  navAriaLabel: string;
   githubUrl: string;
   linkedinUrl: string;
+  socialLabels: { github: string; linkedin: string };
 };
 
 export function SiteHeader({
   ownerName,
   navItems,
+  navAriaLabel,
   githubUrl,
   linkedinUrl,
+  socialLabels,
 }: SiteHeaderProps) {
   return (
     <header
@@ -28,7 +32,7 @@ export function SiteHeader({
         {ownerName}
       </Link>
 
-      <nav aria-label="Primary navigation" className="ml-6 sm:ml-10">
+      <nav aria-label={navAriaLabel} className="ml-6 sm:ml-10">
         <ul className="flex items-center gap-4 sm:gap-6">
           {navItems.map((item) => (
             <li key={item.href}>
@@ -37,13 +41,13 @@ export function SiteHeader({
           ))}
 
           <li>
-            <SocialIconLink href={githubUrl} label="github">
+            <SocialIconLink href={githubUrl} label={socialLabels.github}>
               <FaGithub className="h-6 w-6" />
             </SocialIconLink>
           </li>
 
           <li>
-            <SocialIconLink href={linkedinUrl} label="linkedin">
+            <SocialIconLink href={linkedinUrl} label={socialLabels.linkedin}>
               <FaLinkedinIn className="h-6 w-6" />
             </SocialIconLink>
           </li>
