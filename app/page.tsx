@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/site-header";
 import { ParticleNetwork } from "@/components/particle-network";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { animationTimings, toMs } from "@/lib/animation-timings";
 import { montserrat } from "@/lib/fonts";
@@ -57,7 +58,7 @@ export default function Home() {
           socialLabels={social.labels}
         />
 
-        <section className="relative flex min-h-[calc(100vh-110px)] items-center justify-center">
+        <section className="relative flex min-h-[calc(100vh-110px)] items-center justify-center pb-0">
           <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
 
           <div
@@ -81,61 +82,28 @@ export default function Home() {
 
             <p
               className={`${montserrat.className} landing-reveal mt-4 text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
-              style={getLandingRevealStyle(landingReveal.delaysMs.location)}
+              style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
             >
               {home.hero.tagline}
             </p>
             <p
               className="landing-reveal mt-1.5 text-sm tracking-wide text-[var(--header-item-color)] sm:text-base"
-              style={getLandingRevealStyle(landingReveal.delaysMs.location)}
+              style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
             >
               {home.hero.locationLine}
             </p>
 
-            <div
-              className="landing-reveal mt-6 max-w-2xl space-y-4 text-[var(--bio-text-color)] sm:text-lg"
+            <p
+              className="landing-reveal mt-4 max-w-2xl text-[var(--bio-text-color)] sm:text-lg"
               style={getLandingRevealStyle(landingReveal.delaysMs.bio)}
             >
-              {home.hero.bioLines.map((line, index) => (
-                <p key={index}>{line}</p>
-              ))}
-            </div>
+              {home.hero.bio}
+            </p>
 
-            <div
-              className="landing-reveal mt-6"
-              style={getLandingRevealStyle(landingReveal.delaysMs.featuredProject)}
-            >
-              <a
-                href={home.hero.featuredProject.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${home.hero.featuredProject.ariaLabelPrefix} ${home.hero.featuredProject.title}`}
-                className="group inline-flex items-center gap-2 text-sm transition duration-300 hover:text-[var(--header-item-hover-color)]"
-              >
-                <span className="font-medium uppercase tracking-[0.1em] text-[var(--ui-fg-muted)]">
-                  {home.hero.featuredProject.label}
-                </span>
-                <span className="text-[var(--header-item-color)]/40">—</span>
-                <span className={`${montserrat.className} font-bold text-[var(--ui-fg)]`}>
-                  {home.hero.featuredProject.title}
-                </span>
-                <FiArrowUpRight className="h-3.5 w-3.5 opacity-50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
-              </a>
-              <p className="mt-1 text-sm text-[var(--header-item-color)]">
-                {home.hero.featuredProject.description}
-              </p>
-            </div>
-
-            <div className="mt-10">
-              <h3
-                className={`${montserrat.className} landing-reveal text-2xl font-bold sm:text-3xl`}
-                style={getLandingRevealStyle(landingReveal.delaysMs.skillsTitle)}
-              >
-                {home.hero.topSkillsTitle}
-              </h3>
+            <div className="mt-8">
               <div
-                className="landing-reveal mt-4 flex max-w-3xl flex-wrap gap-2.5"
-                style={getLandingRevealStyle(landingReveal.delaysMs.skillsText)}
+                className="landing-reveal flex max-w-3xl flex-wrap gap-2.5"
+                style={getLandingRevealStyle(landingReveal.delaysMs.skills)}
               >
                 {home.hero.skills.map(({ label, iconKey, color }) => {
                   const Icon = skillIcons[iconKey];
@@ -180,71 +148,153 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Currently building ── */}
         <section
-          id={home.contactSection.id}
-          className="relative flex min-h-screen items-center justify-center"
+          id={home.currentlyBuilding.id}
+          className="pt-6 sm:pt-8"
         >
-          <div className="w-full max-w-3xl text-center">
-            <h2 className={`${montserrat.className} text-3xl font-extrabold sm:text-5xl`}>
-              {home.contactSection.title}
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
-              {home.contactSection.description}
-            </p>
-                  
-            <p className="mx-auto mt-5 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
-              {home.contactSection.statusLine}
-            </p>
-
-            <a
-              href={contactEmailHref}
-              className="mt-8 inline-flex text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] sm:text-xl"
-            >
-              {contact.email}
-            </a>
-
-            <div className="mt-8 flex items-center justify-center gap-7">
-              <a
-                href={social.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.labels.github}
-                className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)]"
+          <div className="mx-auto max-w-4xl">
+            <ScrollReveal variant="fade-up">
+              <h2
+                className={`${montserrat.className} text-2xl font-extrabold tracking-tight sm:text-4xl`}
               >
-                <FaGithub className="h-6 w-6" />
-              </a>
+                {home.currentlyBuilding.title}
+              </h2>
+              <p className="mt-3 text-sm text-[var(--header-item-color)] sm:text-base">
+                {home.currentlyBuilding.subtitle}
+              </p>
+            </ScrollReveal>
 
-              <span className="text-[var(--header-item-color)]" aria-hidden="true">·</span>
-
-              <a
-                href={social.linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.labels.linkedin}
-                className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)]"
-              >
-                <FaLinkedinIn className="h-6 w-6" />
-              </a>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              {home.currentlyBuilding.projects.map((project, i) => (
+                <ScrollReveal
+                  key={project.title}
+                  variant="scale-up"
+                  delay={i * 150}
+                  duration={800}
+                >
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={project.ariaLabel}
+                    className="group flex h-full flex-col justify-between rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 backdrop-blur-sm transition duration-300 hover:border-[var(--card-hover-border)] hover:scale-[1.01]"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <h3
+                          className={`${montserrat.className} text-lg font-bold sm:text-xl`}
+                        >
+                          {project.title}
+                        </h3>
+                        <FiArrowUpRight className="h-4 w-4 shrink-0 text-[var(--header-item-color)] opacity-50 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
+                      </div>
+                      <p className="mt-3 text-sm leading-relaxed text-[var(--header-item-color)] sm:text-base">
+                        {project.description}
+                      </p>
+                    </div>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full bg-[var(--card-tag-bg)] px-3 py-1 text-xs font-medium text-[var(--card-tag-color)]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </a>
+                </ScrollReveal>
+              ))}
             </div>
-          </div>
-
-          <div className="absolute bottom-10 left-0 sm:bottom-12">
-            <div className="flex items-center gap-2">
-              <FaRegCopyright className="h-4 w-4 text-[var(--header-item-color)]" />
-              <span className={`${montserrat.className} text-sm tracking-[0.14em] text-[var(--header-item-color)]`}>
-                {home.contactSection.copyrightLabel}
-              </span>
-            </div>
-            <p className={`${montserrat.className} mt-2 text-xs font-medium tracking-[0.16em] text-[var(--header-item-color)] sm:text-sm`}>
-              {home.contactSection.tagline}
-            </p>
-          </div>
-
-          <div className="absolute right-0 bottom-8 sm:bottom-10">
-            <ThemeToggle />
           </div>
         </section>
+
+        {/* ── Divider ── */}
+        <ScrollReveal variant="fade-in" duration={600}>
+          <div className="mx-auto max-w-4xl pt-8 sm:pt-12">
+            <hr className="border-[var(--card-border)]" />
+          </div>
+        </ScrollReveal>
+
+        {/* ── Contact ── */}
+        <section
+          id={home.contactSection.id}
+          className="py-16 sm:py-20"
+        >
+          <div className="mx-auto max-w-4xl text-center">
+            <ScrollReveal variant="fade-up" duration={800}>
+              <p className={`${montserrat.className} text-lg font-semibold tracking-tight text-[var(--header-item-color)] sm:text-xl`}>
+                {home.contactSection.eyebrow}
+              </p>
+              <h2 className={`${montserrat.className} mt-2 text-3xl font-extrabold sm:text-5xl`}>
+                {home.contactSection.title}
+              </h2>
+            </ScrollReveal>
+
+            <ScrollReveal variant="fade-up" delay={120} duration={800}>
+              <p className="mx-auto mt-5 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
+                {home.contactSection.description}
+              </p>
+
+              <p className="mx-auto mt-3 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
+                {home.contactSection.statusLine}
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal variant="fade-up" delay={240} duration={800}>
+              <a
+                href={contactEmailHref}
+                className="mt-8 inline-flex text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] sm:text-xl"
+              >
+                {contact.email}
+              </a>
+
+              <div className="mt-8 flex items-center justify-center gap-7">
+                <a
+                  href={social.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.labels.github}
+                  className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)]"
+                >
+                  <FaGithub className="h-6 w-6" />
+                </a>
+
+                <span className="text-[var(--header-item-color)]" aria-hidden="true">·</span>
+
+                <a
+                  href={social.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.labels.linkedin}
+                  className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)]"
+                >
+                  <FaLinkedinIn className="h-6 w-6" />
+                </a>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* ── Footer ── */}
+        <ScrollReveal variant="fade-in" delay={0} duration={1000} threshold={0.05}>
+          <footer className="flex items-end justify-between pb-10 sm:pb-12">
+            <div>
+              <div className="flex items-center gap-2">
+                <FaRegCopyright className="h-4 w-4 text-[var(--header-item-color)]" />
+                <span className={`${montserrat.className} text-sm tracking-[0.14em] text-[var(--header-item-color)]`}>
+                  {new Date().getFullYear()} {home.contactSection.copyrightName}
+                </span>
+              </div>
+              <p className={`${montserrat.className} mt-2 text-xs font-medium tracking-[0.16em] text-[var(--header-item-color)] sm:text-sm`}>
+                {home.contactSection.tagline}
+              </p>
+            </div>
+
+            <ThemeToggle />
+          </footer>
+        </ScrollReveal>
 
       </div>
     </main>
