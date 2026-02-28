@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/lib/config/site-config";
 import {
   applyThemePreference,
   getPrefersLightMediaQuery,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { animationConfig } from "@/lib/animation-config";
+import { animationConfig } from "@/lib/animation/animation-config";
 
 type ParticleNetworkProps = {
   className?: string;

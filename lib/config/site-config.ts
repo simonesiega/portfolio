@@ -60,7 +60,7 @@ export const siteConfig = {
     currentlyBuilding: {
       id: "currently-building",
       title: "Currently building",
-      subtitle: "Projects and experiments I’m actively shipping.",
+      subtitle: "Projects and experiments I'm actively shipping.",
       projects: [
         {
           title: "AI Culinary Assistant",
@@ -86,7 +86,7 @@ export const siteConfig = {
       eyebrow: "Interested in building AI products?",
       title: "Let's build something great together.",
       description:
-        "Have an idea, a product to improve, or a team that needs design and engineering working side by side? I’d love to hear from you.",
+        "Have an idea, a product to improve, or a team that needs design and engineering working side by side? I'd love to hear from you.",
       statusLine: "Open to internships, collaborations, and selected freelance work.",
       responseTime: "I usually reply within 24–48 hours.",
       copyrightName: "SIMONE SIEGA",

@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/lib/config/site-config";
 
 const THEME_ATTRIBUTE = "data-theme";
 

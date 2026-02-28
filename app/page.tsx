@@ -1,12 +1,11 @@
-import { SiteHeader } from "@/components/site-header";
-import { ParticleNetwork } from "@/components/particle-network";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { animationTimings, toMs } from "@/lib/animation-timings";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { ParticleNetwork } from "@/components/animation/particle-network";
+import { ScrollReveal } from "@/components/animation/scroll-reveal";
+import { animationTimings, toMs } from "@/lib/animation/animation-timings";
 import { montserrat } from "@/lib/fonts";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/lib/config/site-config";
 import type { CSSProperties } from "react";
-import { FaGithub, FaLinkedinIn, FaRegCopyright } from "react-icons/fa6";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { FiArrowUpRight } from "react-icons/fi";
 import type { IconType } from "react-icons";
 import {
@@ -47,16 +46,8 @@ function getLandingRevealStyle(delayMs: number): CSSProperties {
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-x-clip bg-[var(--ui-bg)] text-[var(--ui-fg)]">
+    <div className="overflow-x-clip">
       <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-8">
-        <SiteHeader
-          ownerName={owner.name}
-          navItems={navigation.headerLinks}
-          navAriaLabel={navigation.ariaLabel}
-          githubUrl={social.githubUrl}
-          linkedinUrl={social.linkedinUrl}
-          socialLabels={social.labels}
-        />
 
         <section className="relative flex min-h-[calc(100vh-110px)] items-center justify-center pb-0">
           <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
@@ -282,24 +273,10 @@ export default function Home() {
 
         {/* ── Footer ── */}
         <ScrollReveal variant="fade-in" delay={0} duration={1000} threshold={0.05}>
-          <footer className="flex items-end justify-between pb-10 sm:pb-12">
-            <div>
-              <div className="flex items-center gap-2">
-                <FaRegCopyright className="h-4 w-4 text-[var(--header-item-color)]" />
-                <span className={`${montserrat.className} text-sm tracking-[0.14em] text-[var(--header-item-color)]`}>
-                  {new Date().getFullYear()} {home.contactSection.copyrightName}
-                </span>
-              </div>
-              <p className={`${montserrat.className} mt-2 text-xs font-medium tracking-[0.16em] text-[var(--header-item-color)] sm:text-sm`}>
-                {home.contactSection.tagline}
-              </p>
-            </div>
-
-            <ThemeToggle />
-          </footer>
+          <SiteFooter />
         </ScrollReveal>
 
       </div>
-    </main>
+    </div>
   );
 }
