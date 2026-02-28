@@ -1,25 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { geistMono, geistSans } from "@/lib/fonts";
+import { siteConfig } from "@/lib/site-config";
+import { getThemeInitScript } from "@/lib/theme";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const themeInitScript = getThemeInitScript();
 
 export const metadata: Metadata = {
-  title: {
-    default: "Simone Siega | Software Engineer",
-    template: "%s | Simone Siega",
-  },
-  description: "Personal portfolio of Simone Siega, showcasing software engineering projects, skills, and experience.",
+  title: siteConfig.metadata.title,
+  description: siteConfig.metadata.description,
   icons: {
-    icon: "/icon.svg",
+    icon: siteConfig.metadata.iconPath,
   },
 };
 
@@ -33,8 +24,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('portfolio-theme');if(t==='system'){if(window.matchMedia('(prefers-color-scheme: light)').matches){document.documentElement.setAttribute('data-theme','light')}else{document.documentElement.removeAttribute('data-theme')}}else if(t==='light'){document.documentElement.setAttribute('data-theme','light')}else{document.documentElement.removeAttribute('data-theme')}}catch(e){}",
+            __html: themeInitScript,
           }}
         />
       </head>

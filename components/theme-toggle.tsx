@@ -2,20 +2,28 @@
 
 import { useEffect } from "react";
 import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
+import { siteConfig } from "@/lib/site-config";
+import {
+  applyThemePreference,
+  getPrefersLightMediaQuery,
+  getStoredThemePreference,
+  isLightThemeActive,
+  setStoredThemePreference,
+  themePreference,
+} from "@/lib/theme";
 
-const THEME_STORAGE_KEY = "portfolio-theme";
-const PREFERS_LIGHT_QUERY = "(prefers-color-scheme: light)";
+const prefersLightMediaQuery = getPrefersLightMediaQuery();
 
 export function ThemeToggle() {
   useEffect(() => {
-    const mediaQuery = window.matchMedia(PREFERS_LIGHT_QUERY);
+    const mediaQuery = window.matchMedia(prefersLightMediaQuery);
 
     function handleSystemThemeChange() {
-      if (window.localStorage.getItem(THEME_STORAGE_KEY) !== "system") {
+      if (getStoredThemePreference() !== themePreference.system) {
         return;
       }
 
-      applySystemTheme();
+      applyThemePreference(themePreference.system);
     }
 
     mediaQuery.addEventListener("change", handleSystemThemeChange);
@@ -26,22 +34,20 @@ export function ThemeToggle() {
   }, []);
 
   function handleSystemMode() {
-    window.localStorage.setItem(THEME_STORAGE_KEY, "system");
-    applySystemTheme();
+    setStoredThemePreference(themePreference.system);
+    applyThemePreference(themePreference.system);
   }
 
   function handleToggle() {
-    const rootElement = document.documentElement;
-    const isCurrentlyLight = rootElement.getAttribute("data-theme") === "light";
-
+    const isCurrentlyLight = isLightThemeActive();
     if (isCurrentlyLight) {
-      rootElement.removeAttribute("data-theme");
-      window.localStorage.setItem(THEME_STORAGE_KEY, "dark");
+      setStoredThemePreference(themePreference.dark);
+      applyThemePreference(themePreference.dark);
       return;
     }
 
-    rootElement.setAttribute("data-theme", "light");
-    window.localStorage.setItem(THEME_STORAGE_KEY, "light");
+    setStoredThemePreference(themePreference.light);
+    applyThemePreference(themePreference.light);
   }
 
   return (
@@ -49,7 +55,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={handleSystemMode}
-        aria-label="Use system color theme"
+        aria-label={siteConfig.theme.labels.useSystem}
         className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
       >
         <FiMonitor className="h-6 w-6" />
@@ -58,7 +64,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={handleToggle}
-        aria-label="Toggle color theme"
+        aria-label={siteConfig.theme.labels.toggleTheme}
         className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
       >
         <span className="theme-toggle-icons relative h-6 w-6">
@@ -72,15 +78,4 @@ export function ThemeToggle() {
       </button>
     </div>
   );
-}
-
-function applySystemTheme() {
-  const prefersLightTheme = window.matchMedia(PREFERS_LIGHT_QUERY).matches;
-
-  if (prefersLightTheme) {
-    document.documentElement.setAttribute("data-theme", "light");
-    return;
-  }
-
-  document.documentElement.removeAttribute("data-theme");
 }

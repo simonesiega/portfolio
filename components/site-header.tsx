@@ -1,44 +1,36 @@
 import Link from "next/link";
-import { Montserrat } from "next/font/google";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import type { ReactNode } from "react";
+import { montserrat } from "@/lib/fonts";
+import type { HeaderLink } from "@/lib/site-config";
 
 type SiteHeaderProps = {
   ownerName: string;
+  navItems: readonly HeaderLink[];
   githubUrl: string;
   linkedinUrl: string;
 };
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  display: "swap",
-});
-
-const NAV_ITEMS = [
-  { href: "/projects", label: "projects" },
-  { href: "/work", label: "work" },
-] as const;
-
 export function SiteHeader({
   ownerName,
+  navItems,
   githubUrl,
   linkedinUrl,
 }: SiteHeaderProps) {
   return (
     <header
-      className={`${montserrat.className} flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] pt-8 pb-4 sm:gap-12 sm:pt-10 sm:pb-5`}
+      className={`${montserrat.className} sticky top-0 z-40 flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] py-6 backdrop-blur-md sm:gap-12 sm:py-7`}
     >
       <Link
         href="/"
-        className="text-lg font-semibold tracking-[0.18em] text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
+        className="text-lg font-medium tracking-[0.08em] text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
       >
         {ownerName}
       </Link>
 
       <nav aria-label="Primary navigation" className="ml-6 sm:ml-10">
         <ul className="flex items-center gap-4 sm:gap-6">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <li key={item.href}>
               <NavTextLink href={item.href} label={item.label} />
             </li>
@@ -70,7 +62,7 @@ function NavTextLink({ href, label }: NavTextLinkProps) {
   return (
     <Link
       href={href}
-      className="group relative text-lg font-medium tracking-[0.14em] text-[var(--header-item-color)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none sm:text-xl"
+      className="group relative text-lg font-medium tracking-[0.08em] text-[var(--header-item-color)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none sm:text-xl"
     >
       {label}
       <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--header-item-color)] transition-all duration-300 group-hover:w-full" />
