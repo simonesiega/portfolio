@@ -94,7 +94,7 @@ export default function Home() {
             </p>
 
             <p
-              className="landing-reveal mt-4 max-w-2xl text-[var(--bio-text-color)] sm:text-lg"
+              className="landing-reveal mt-6 max-w-2xl text-[var(--bio-text-color)] sm:text-lg"
               style={getLandingRevealStyle(landingReveal.delaysMs.bio)}
             >
               {home.hero.bio}
@@ -159,7 +159,7 @@ export default function Home() {
                 className={`${montserrat.className} text-2xl font-extrabold tracking-tight sm:text-4xl`}
               >
                 {home.currentlyBuilding.title}
-              </h2>
+              </h2> 
               <p className="mt-3 text-sm text-[var(--header-item-color)] sm:text-base">
                 {home.currentlyBuilding.subtitle}
               </p>
@@ -237,15 +237,18 @@ export default function Home() {
                 {home.contactSection.description}
               </p>
 
-              <p className="mx-auto mt-3 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
+              <p className="mx-auto mt-8 max-w-md text-xs text-[var(--header-item-color)] sm:text-sm">
                 {home.contactSection.statusLine}
+              </p>
+              <p className="mx-auto mt-1 max-w-md text-xs text-[var(--header-item-color)]/70 sm:text-sm">
+                {home.contactSection.responseTime}
               </p>
             </ScrollReveal>
 
             <ScrollReveal variant="fade-up" delay={240} duration={800}>
               <a
                 href={contactEmailHref}
-                className="mt-8 inline-flex text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] sm:text-xl"
+                className="mt-3 inline-flex text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] sm:text-xl"
               >
                 {contact.email}
               </a>

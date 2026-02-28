@@ -27,7 +27,7 @@ export function SiteHeader({
     >
       <Link
         href="/"
-        className="text-lg font-medium tracking-[0.08em] text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
+        className="text-lg font-medium text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
       >
         {ownerName}
       </Link>
@@ -66,7 +66,7 @@ function NavTextLink({ href, label }: NavTextLinkProps) {
   return (
     <Link
       href={href}
-      className="group relative text-lg font-medium tracking-[0.08em] text-[var(--header-item-color)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none sm:text-xl"
+      className="group relative text-lg font-medium text-[var(--header-item-color)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none sm:text-xl"
     >
       {label}
       <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--header-item-color)] transition-all duration-300 group-hover:w-full" />
