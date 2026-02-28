@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/components/site-header";
+import { ParticleNetwork } from "@/components/particle-network";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { montserrat } from "@/lib/fonts";
 import { siteConfig } from "@/lib/site-config";
@@ -10,7 +11,7 @@ const contactEmailHref = `mailto:${contact.email}`;
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[var(--ui-bg)] text-[var(--ui-fg)]">
+    <main className="min-h-screen overflow-x-clip bg-[var(--ui-bg)] text-[var(--ui-fg)]">
       <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-8">
         <SiteHeader
           ownerName={owner.name}
@@ -19,8 +20,10 @@ export default function Home() {
           linkedinUrl={social.linkedinUrl}
         />
 
-        <section className="flex min-h-[calc(100vh-110px)] items-center justify-center">
-          <div className="w-full max-w-4xl translate-x-2 sm:translate-x-4">
+        <section className="relative flex min-h-[calc(100vh-110px)] items-center justify-center">
+          <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
+
+          <div className="relative z-10 w-full max-w-4xl translate-x-2 sm:translate-x-4">
             <div className="flex items-center gap-5 sm:gap-7">
               <Image
                 src={owner.profileImage.src}

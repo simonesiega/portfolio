@@ -10,6 +10,9 @@
   --header-overlay-bg: rgba(0, 0, 0, 0.72);
   --cta-bg: #ffffff;
   --cta-fg: #000000;
+  --network-point-rgb: 245,245,245;
+  --network-link-rgb: 245,245,245;
+  --network-dust-rgb: 255,255,255;
 }
 
 @theme inline {
@@ -29,6 +32,9 @@
   --header-overlay-bg: rgba(255, 255, 255, 0.74);
   --cta-bg: #000000;
   --cta-fg: #ffffff;
+  --network-point-rgb: 24,24,27;
+  --network-link-rgb: 24,24,27;
+  --network-dust-rgb: 39,39,42;
 }
 
 html {
