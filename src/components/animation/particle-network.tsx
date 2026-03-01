@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { animationConfig } from "@/lib/animation/animation-config";
+import { particleNetworkConfig } from "@/lib/animation/particle-network-config";
 
 type ParticleNetworkProps = {
   className?: string;
@@ -44,7 +44,7 @@ type NetworkColors = {
   dustRgb: string;
 };
 
-const { particleNetwork } = animationConfig;
+const { particleNetwork } = particleNetworkConfig;
 const {
   reducedMotionQuery,
   density,

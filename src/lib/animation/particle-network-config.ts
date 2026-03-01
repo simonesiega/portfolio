@@ -1,4 +1,4 @@
-export const animationConfig = {
+export const particleNetworkConfig = {
   particleNetwork: {
     reducedMotionQuery: "(prefers-reduced-motion: reduce)",
     density: {

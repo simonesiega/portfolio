@@ -1,11 +1,11 @@
 import { FaRegCopyright } from "react-icons/fa6";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { montserrat } from "@/lib/fonts";
-import { siteConfig } from "@/lib/config/site-config";
+import { appConfig } from "@/lib/config/app-config";
 
-const { home } = siteConfig;
+const { owner } = appConfig;
 
-export function SiteFooter() {
+export function Footer() {
   return (
     <footer className="flex items-end justify-between pb-10 sm:pb-12">
       <div>
@@ -14,13 +14,13 @@ export function SiteFooter() {
           <span
             className={`${montserrat.className} text-sm tracking-[0.14em] text-[var(--header-item-color)]`}
           >
-            {new Date().getFullYear()} {home.contactSection.copyrightName}
+            {new Date().getFullYear()} {owner.copyrightName}
           </span>
         </div>
         <p
           className={`${montserrat.className} mt-2 text-xs font-medium tracking-[0.16em] text-[var(--header-item-color)] sm:text-sm`}
         >
-          {home.contactSection.tagline}
+          {owner.tagline}
         </p>
       </div>
 

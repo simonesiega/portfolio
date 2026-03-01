@@ -11,9 +11,9 @@ import {
   type ReactNode,
 } from "react";
 import { montserrat } from "@/lib/fonts";
-import type { HeaderLink } from "@/lib/config/site-config";
+import type { HeaderLink } from "@/lib/config/app-config";
 
-type SiteHeaderProps = {
+type HeaderProps = {
   ownerName: string;
   navItems: readonly HeaderLink[];
   navAriaLabel: string;
@@ -22,14 +22,14 @@ type SiteHeaderProps = {
   socialLabels: { github: string; linkedin: string };
 };
 
-export function SiteHeader({
+export function Header({
   ownerName,
   navItems,
   navAriaLabel,
   githubUrl,
   linkedinUrl,
   socialLabels,
-}: SiteHeaderProps) {
+}: HeaderProps) {
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());

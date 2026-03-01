@@ -85,8 +85,6 @@ body {
   }
 }
 
-/* ── Scroll reveal ── */
-
 .scroll-reveal {
   will-change: transform, opacity, filter;
   transition-property: transform, opacity, filter;

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
-import { siteConfig } from "@/lib/config/site-config";
+import { appConfig } from "@/lib/config/app-config";
 import {
   applyThemePreference,
   getPrefersLightMediaQuery,
@@ -55,7 +55,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={handleSystemMode}
-        aria-label={siteConfig.theme.labels.useSystem}
+        aria-label={appConfig.theme.labels.useSystem}
         className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
       >
         <FiMonitor className="h-6 w-6" />
@@ -64,7 +64,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={handleToggle}
-        aria-label={siteConfig.theme.labels.toggleTheme}
+        aria-label={appConfig.theme.labels.toggleTheme}
         className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
       >
         <span className="theme-toggle-icons relative h-6 w-6">

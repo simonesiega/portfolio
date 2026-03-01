@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import { geistMono, geistSans } from "@/lib/fonts";
-import { siteConfig } from "@/lib/config/site-config";
+import { appConfig } from "@/lib/config/app-config";
 import { getThemeInitScript } from "@/lib/theme";
-import { SiteHeader } from "@/components/layout/site-header";
+import { Header } from "@/components/layout/header";
 import "./globals.css";
 
 const themeInitScript = getThemeInitScript();
-const { owner, navigation, social } = siteConfig;
+const { owner, navigation, social } = appConfig;
 
 export const metadata: Metadata = {
-  title: siteConfig.metadata.title,
-  description: siteConfig.metadata.description,
+  title: appConfig.metadata.title,
+  description: appConfig.metadata.description,
   icons: {
-    icon: siteConfig.metadata.iconPath,
+    icon: appConfig.metadata.iconPath,
   },
 };
 
@@ -39,7 +39,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased`}
       >
         <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-8">
-          <SiteHeader
+          <Header
             ownerName={owner.name}
             navItems={navigation.headerLinks}
             navAriaLabel={navigation.ariaLabel}

@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/config/site-config";
+import { appConfig } from "@/lib/config/app-config";
 
 const THEME_ATTRIBUTE = "data-theme";
 
@@ -11,7 +11,7 @@ export const themePreference = {
 export type ThemePreference =
   (typeof themePreference)[keyof typeof themePreference];
 
-const { storageKey, prefersLightMediaQuery } = siteConfig.theme;
+const { storageKey, prefersLightMediaQuery } = appConfig.theme;
 
 export function getThemeInitScript() {
   const serializedStorageKey = JSON.stringify(storageKey);

@@ -1,9 +1,10 @@
-import { SiteFooter } from "@/components/layout/site-footer";
+import { Footer } from "@/components/layout/footer";
 import { ParticleNetwork } from "@/components/animation/particle-network";
 import { ScrollReveal } from "@/components/animation/scroll-reveal";
 import { animationTimings, toMs } from "@/lib/animation/animation-timings";
 import { montserrat } from "@/lib/fonts";
-import { siteConfig } from "@/lib/config/site-config";
+import { appConfig } from "@/lib/config/app-config";
+import { homeText } from "@/lib/config/text/home";
 import type { CSSProperties } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { FiArrowUpRight } from "react-icons/fi";
@@ -20,7 +21,8 @@ import {
   SiDocker,
 } from "react-icons/si";
 
-const { owner, navigation, social, contact, home } = siteConfig;
+const { social, contact } = appConfig;
+const { hero, currentlyBuilding, contactSection } = homeText;
 const { landingReveal } = animationTimings;
 const contactEmailHref = `mailto:${contact.email}`;
 
@@ -68,27 +70,27 @@ export default function Home() {
               className={`${montserrat.className} landing-reveal text-4xl font-extrabold tracking-tight sm:text-6xl`}
               style={getLandingRevealStyle(landingReveal.delaysMs.heading)}
             >
-              {home.hero.heading}
+              {hero.heading}
             </h1>
 
             <p
               className={`${montserrat.className} landing-reveal mt-4 text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
               style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
             >
-              {home.hero.tagline}
+              {hero.tagline}
             </p>
             <p
               className="landing-reveal mt-1.5 text-sm tracking-wide text-[var(--header-item-color)] sm:text-base"
               style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
             >
-              {home.hero.locationLine}
+              {hero.locationLine}
             </p>
 
             <p
               className="landing-reveal mt-6 max-w-2xl text-[var(--bio-text-color)] sm:text-lg"
               style={getLandingRevealStyle(landingReveal.delaysMs.bio)}
             >
-              {home.hero.bio}
+              {hero.bio}
             </p>
 
             <div className="mt-8">
@@ -96,7 +98,7 @@ export default function Home() {
                 className="landing-reveal flex max-w-3xl flex-wrap gap-2.5"
                 style={getLandingRevealStyle(landingReveal.delaysMs.skills)}
               >
-                {home.hero.skills.map(({ label, iconKey, color }) => {
+                {hero.skills.map(({ label, iconKey, color }) => {
                   const Icon = skillIcons[iconKey];
                   return (
                     <span
@@ -117,21 +119,21 @@ export default function Home() {
                 style={getLandingRevealStyle(landingReveal.delaysMs.cta)}
               >
                 <p className={`${montserrat.className} mb-3 text-xs font-semibold tracking-[0.14em] text-[var(--header-item-color)]/85 sm:text-sm`}>
-                  {home.hero.statusLine}
+                  {hero.statusLine}
                 </p>
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                   <a
-                    href={`#${home.contactSection.id}`}
+                    href={`#${contactSection.id}`}
                     className={`${montserrat.className} inline-flex items-center justify-center rounded-full bg-[var(--cta-bg)] px-7 py-3 text-sm font-semibold tracking-[0.08em] text-[var(--cta-fg)] transition duration-300 hover:scale-[1.02] hover:opacity-90 sm:text-base`}
                   >
-                    {home.hero.primaryCtaLabel}
+                    {hero.primaryCtaLabel}
                   </a>
 
                   <a
-                    href={home.hero.secondaryCtaHref}
+                    href={hero.secondaryCtaHref}
                     className={`${montserrat.className} inline-flex items-center justify-center rounded-full border border-[var(--header-item-color)]/45 bg-transparent px-7 py-3 text-sm font-semibold tracking-[0.08em] text-[var(--ui-fg)] transition duration-300 hover:scale-[1.02] hover:border-[var(--header-item-hover-color)] hover:text-[var(--header-item-hover-color)] sm:text-base`}
                   >
-                    {home.hero.secondaryCtaLabel}
+                    {hero.secondaryCtaLabel}
                   </a>
                 </div>
               </div>
@@ -141,7 +143,7 @@ export default function Home() {
 
         {/* ── Currently building ── */}
         <section
-          id={home.currentlyBuilding.id}
+          id={currentlyBuilding.id}
           className="pt-6 sm:pt-8"
         >
           <div className="mx-auto max-w-4xl">
@@ -149,15 +151,15 @@ export default function Home() {
               <h2
                 className={`${montserrat.className} text-2xl font-extrabold tracking-tight sm:text-4xl`}
               >
-                {home.currentlyBuilding.title}
+                {currentlyBuilding.title}
               </h2> 
               <p className="mt-3 text-sm text-[var(--header-item-color)] sm:text-base">
-                {home.currentlyBuilding.subtitle}
+                {currentlyBuilding.subtitle}
               </p>
             </ScrollReveal>
 
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {home.currentlyBuilding.projects.map((project, i) => (
+              {currentlyBuilding.projects.map((project, i) => (
                 <ScrollReveal
                   key={project.title}
                   variant="scale-up"
@@ -210,29 +212,29 @@ export default function Home() {
 
         {/* ── Contact ── */}
         <section
-          id={home.contactSection.id}
+          id={contactSection.id}
           className="py-16 sm:py-20"
         >
           <div className="mx-auto max-w-4xl text-center">
             <ScrollReveal variant="fade-up" duration={800}>
               <p className={`${montserrat.className} text-lg font-semibold tracking-tight text-[var(--header-item-color)] sm:text-xl`}>
-                {home.contactSection.eyebrow}
+                {contactSection.eyebrow}
               </p>
               <h2 className={`${montserrat.className} mt-2 text-3xl font-extrabold sm:text-5xl`}>
-                {home.contactSection.title}
+                {contactSection.title}
               </h2>
             </ScrollReveal>
 
             <ScrollReveal variant="fade-up" delay={120} duration={800}>
               <p className="mx-auto mt-5 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
-                {home.contactSection.description}
+                {contactSection.description}
               </p>
 
               <p className="mx-auto mt-8 max-w-md text-xs text-[var(--header-item-color)] sm:text-sm">
-                {home.contactSection.statusLine}
+                {contactSection.statusLine}
               </p>
               <p className="mx-auto mt-1 max-w-md text-xs text-[var(--header-item-color)]/70 sm:text-sm">
-                {home.contactSection.responseTime}
+                {contactSection.responseTime}
               </p>
             </ScrollReveal>
 
@@ -273,7 +275,7 @@ export default function Home() {
 
         {/* ── Footer ── */}
         <ScrollReveal variant="fade-in" delay={0} duration={1000} threshold={0.05}>
-          <SiteFooter />
+          <Footer />
         </ScrollReveal>
 
       </div>
