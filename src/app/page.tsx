@@ -1,7 +1,6 @@
 import { ContactSection } from "@/components/home/contact-section";
 import { CurrentlyBuildingSection } from "@/components/home/currently-building-section";
 import { HomeHeroSection } from "@/components/home/hero-section";
-import { Footer } from "@/components/layout/footer";
 import { ScrollReveal } from "@/components/animation/scroll-reveal";
 import { appConfig } from "@/lib/config/app-config";
 import { homeText } from "@/lib/config/text/home";
@@ -29,10 +28,6 @@ export default function Home() {
           linkedinUrl={social.linkedinUrl}
           socialLabels={social.labels}
         />
-
-        <ScrollReveal variant="fade-in" duration={1000} threshold={0.05}>
-          <Footer />
-        </ScrollReveal>
       </div>
     </div>
   );

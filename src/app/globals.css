@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --app-header-height: 6rem;
   --ui-bg: #000000;
   --ui-fg: #ffffff;
   --ui-fg-muted: #d4d4d8;
@@ -126,6 +127,11 @@ body {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);
   filter: blur(0);
+}
+
+.deferred-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
 }
 
 @media (prefers-reduced-motion: reduce) {

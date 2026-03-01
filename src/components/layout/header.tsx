@@ -31,6 +31,7 @@ export function Header({
   socialLabels,
 }: HeaderProps) {
   const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
   const [indicator, setIndicator] = useState<{
@@ -70,9 +71,31 @@ export function Header({
     };
   }, [updateIndicator]);
 
+  useEffect(() => {
+    const headerEl = headerRef.current;
+    if (!headerEl) {
+      return;
+    }
+
+    const syncHeaderHeight = () => {
+      const height = Math.ceil(headerEl.getBoundingClientRect().height);
+      document.documentElement.style.setProperty("--app-header-height", `${height}px`);
+    };
+
+    syncHeaderHeight();
+
+    const resizeObserver = new ResizeObserver(syncHeaderHeight);
+    resizeObserver.observe(headerEl);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   return (
     <header
-      className={`${montserrat.className} sticky top-0 z-40 flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] py-6 backdrop-blur-md sm:gap-12 sm:py-7`}
+      ref={headerRef}
+      className={`${montserrat.className} flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] py-6 backdrop-blur-md sm:gap-12 sm:py-7`}
     >
       <Link
         href="/"

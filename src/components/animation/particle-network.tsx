@@ -44,6 +44,13 @@ type NetworkColors = {
   dustRgb: string;
 };
 
+type CanvasBounds = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
+
 const { particleNetwork } = particleNetworkConfig;
 const {
   reducedMotionQuery,
@@ -62,6 +69,12 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
   const centersRef = useRef<Point[]>([]);
   const reducedMotionRef = useRef(false);
   const dimensionsRef = useRef({ width: 0, height: 0 });
+  const canvasBoundsRef = useRef<CanvasBounds>({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+  });
   const colorsRef = useRef<NetworkColors>({
     pointRgb: "245,245,245",
     linkRgb: "245,245,245",
@@ -94,11 +107,22 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       };
     };
 
-    const resizeCanvas = () => {
+    const syncCanvasBounds = () => {
       const bounds = canvas.getBoundingClientRect();
+      canvasBoundsRef.current = {
+        left: bounds.left,
+        top: bounds.top,
+        width: bounds.width,
+        height: bounds.height,
+      };
+      return bounds;
+    };
+
+    const resizeCanvas = () => {
+      const bounds = syncCanvasBounds();
       const width = Math.max(1, Math.round(bounds.width));
       const height = Math.max(1, Math.round(bounds.height));
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
 
       dimensionsRef.current = { width, height };
       canvas.width = Math.round(width * dpr);
@@ -151,7 +175,7 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      const bounds = canvas.getBoundingClientRect();
+      const bounds = canvasBoundsRef.current;
       const localX = event.clientX - bounds.left;
       const localY = event.clientY - bounds.top;
 
@@ -170,6 +194,18 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
 
     const clearPointer = () => {
       pointerRef.current.active = false;
+    };
+
+    let boundsAnimationFrame = 0;
+    const syncBoundsOnNextFrame = () => {
+      if (boundsAnimationFrame !== 0) {
+        return;
+      }
+
+      boundsAnimationFrame = window.requestAnimationFrame(() => {
+        boundsAnimationFrame = 0;
+        syncCanvasBounds();
+      });
     };
 
     const handleReducedMotionChange = (event: MediaQueryListEvent) => {
@@ -193,15 +229,23 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
     reducedMotionMedia.addEventListener("change", handleReducedMotionChange);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("pointerleave", clearPointer);
+    window.addEventListener("scroll", syncBoundsOnNextFrame, { passive: true });
 
     resizeCanvas();
     syncNetworkColors();
     initParticles();
 
+    const targetFrameMs = 1000 / 50;
     let previousTime = performance.now();
 
     const frame = (time: number) => {
-      const dt = Math.min((time - previousTime) / 1000, 0.05);
+      const elapsed = time - previousTime;
+      if (elapsed < targetFrameMs) {
+        animationFrameRef.current = window.requestAnimationFrame(frame);
+        return;
+      }
+
+      const dt = Math.min(elapsed / 1000, 0.05);
       previousTime = time;
 
       drawFrame({
@@ -229,6 +273,8 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       reducedMotionMedia.removeEventListener("change", handleReducedMotionChange);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", clearPointer);
+      window.removeEventListener("scroll", syncBoundsOnNextFrame);
+      window.cancelAnimationFrame(boundsAnimationFrame);
     };
   }, []);
 

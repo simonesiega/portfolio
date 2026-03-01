@@ -11,7 +11,7 @@ export function CurrentlyBuildingSection({
   currentlyBuilding,
 }: CurrentlyBuildingSectionProps) {
   return (
-    <section id={currentlyBuilding.id} className="pt-6 sm:pt-8">
+    <section id={currentlyBuilding.id} className="deferred-section pt-6 sm:pt-8">
       <div className="mx-auto max-w-4xl">
         <ScrollReveal variant="fade-up">
           <h2
