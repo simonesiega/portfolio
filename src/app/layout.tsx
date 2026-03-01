@@ -6,7 +6,7 @@ import { Header } from "@/components/layout/header";
 import "./globals.css";
 
 const themeInitScript = getThemeInitScript();
-const { owner, navigation, social } = appConfig;
+const { owner, navigation, social, analytics } = appConfig;
 
 export const metadata: Metadata = {
   title: appConfig.metadata.title,
@@ -31,8 +31,8 @@ export default function RootLayout({
         />
         <script
           defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id="4ed28268-4936-4cda-a09f-8649dbfb9129"
+          src={analytics.umami.scriptSrc}
+          data-website-id={analytics.umami.websiteId}
         />
       </head>
       <body

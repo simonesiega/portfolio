@@ -32,6 +32,13 @@ export const appConfig = {
     },
   },
 
+  analytics: {
+    umami: {
+      scriptSrc: "https://cloud.umami.is/script.js",
+      websiteId: "4ed28268-4936-4cda-a09f-8649dbfb9129",
+    },
+  },
+
   contact: {
     email: "simonesiega1@gmail.com",
   },

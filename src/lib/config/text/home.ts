@@ -55,3 +55,7 @@ export const homeText = {
     responseTime: "I usually reply within 24–48 hours.",
   },
 } as const;
+
+export type HomeHero = (typeof homeText)["hero"];
+export type HomeCurrentlyBuilding = (typeof homeText)["currentlyBuilding"];
+export type HomeContactSection = (typeof homeText)["contactSection"];

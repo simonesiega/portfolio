@@ -37,7 +37,6 @@ export function Header({
     left: number;
     width: number;
   } | null>(null);
-  const [animated, setAnimated] = useState(false);
 
   const updateIndicator = useCallback(() => {
     const container = containerRef.current;
@@ -58,17 +57,16 @@ export function Header({
   }, [pathname]);
 
   useEffect(() => {
-    updateIndicator();
+    const frameId = window.requestAnimationFrame(updateIndicator);
 
-    const timer = setTimeout(() => {
-      updateIndicator();
-      setAnimated(true);
-    }, 60);
+    const handleResize = () => {
+      window.requestAnimationFrame(updateIndicator);
+    };
 
-    window.addEventListener("resize", updateIndicator);
+    window.addEventListener("resize", handleResize);
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener("resize", updateIndicator);
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", handleResize);
     };
   }, [updateIndicator]);
 
@@ -111,11 +109,7 @@ export function Header({
             })}
 
             <span
-              className={`pointer-events-none absolute -bottom-1 h-px bg-[var(--ui-fg)] ${
-                animated
-                  ? "transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                  : ""
-              }`}
+              className="pointer-events-none absolute -bottom-1 h-px bg-[var(--ui-fg)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{
                 left: indicator?.left ?? 0,
                 width: indicator?.width ?? 0,
