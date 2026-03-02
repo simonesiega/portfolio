@@ -98,7 +98,7 @@ export function Header({
                     if (el) itemRefs.current.set(item.href, el);
                   }}
                   aria-current={isActive ? "page" : undefined}
-                  className={`text-lg font-medium transition-colors duration-300 focus-visible:outline-none sm:text-xl ${
+                  className={`text-lg font-medium transition-colors duration-300 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)] sm:text-xl ${
                     isActive
                       ? "text-[var(--ui-fg)]"
                       : "text-[var(--header-item-color)] hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)]"
@@ -145,7 +145,7 @@ function SocialIconLink({ href, label, children }: SocialIconLinkProps) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
+      className="inline-flex items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
     >
       {children}
     </a>

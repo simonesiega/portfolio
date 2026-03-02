@@ -59,7 +59,7 @@ export function ThemeToggle() {
         type="button"
         onClick={handleSystemMode}
         aria-label={appConfig.theme.labels.useSystem}
-        className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
+        className="inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
         <FiMonitor className={iconSizeClass} />
       </button>
@@ -68,7 +68,7 @@ export function ThemeToggle() {
         type="button"
         onClick={handleToggle}
         aria-label={appConfig.theme.labels.toggleTheme}
-        className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
+        className="inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
         <span className={`theme-toggle-icons relative ${wrapperSizeClass}`}>
           <FiSun
