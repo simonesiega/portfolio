@@ -57,7 +57,7 @@ html {
 body {
   background: var(--ui-bg);
   color: var(--ui-fg);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   transition: background-color 220ms ease, color 220ms ease;
 }
 

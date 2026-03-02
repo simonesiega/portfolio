@@ -34,7 +34,7 @@ export default function WorkPage() {
             subtitle={hero.subtitle}
           />
 
-          <section aria-label={sections.experienceAriaLabel} className="pb-24 sm:pb-28">
+          <section aria-label={sections.experienceAriaLabel} className="pb-24 sm:pb-24">
             <ol className="relative ml-2 border-l border-[var(--card-border)]">
               {orderedWorkExperience.map((experience, index) => (
                 <WorkExperienceItem
