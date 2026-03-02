@@ -14,6 +14,12 @@ import type {
 
 const { links, pointer: pointerConfig } = particleNetworkConfig.particleNetwork;
 
+/**
+ * Executes one full visual frame:
+ * 1) clear canvas
+ * 2) update simulation state
+ * 3) draw links, points, and dust layers
+ */
 export function drawFrame({
   context,
   width,
@@ -55,6 +61,11 @@ export function drawFrame({
   drawDust({ context, dustParticles, colors });
 }
 
+/**
+ * Draws proximity links between neighboring particles.
+ *
+ * A spatial grid keeps pair checks bounded and avoids O(n^2) scans.
+ */
 function drawLinks({
   context,
   particles,
@@ -67,6 +78,7 @@ function drawLinks({
   colors: NetworkColors;
 }) {
   const cellSize = links.pointerDistance;
+  // Grid cell size tied to max interactive link distance.
   const grid = buildSpatialGrid(particles, cellSize);
 
   for (let index = 0; index < particles.length; index += 1) {
@@ -95,6 +107,7 @@ function drawLinks({
               distanceToPointerSquared(neighbor, pointer) <
                 pointerConfig.radius * pointerConfig.radius);
 
+          // Expand link radius near pointer for stronger local feedback.
           const linkDistance = nearPointer ? links.pointerDistance : links.baseDistance;
           const linkDistanceSquared = linkDistance * linkDistance;
 
@@ -109,6 +122,7 @@ function drawLinks({
           const distance = Math.sqrt(distanceSquared);
           const alphaBase = 1 - distance / linkDistance;
           const alphaBoost = nearPointer ? 1.35 : 1;
+          // Keep line intensity proportional to normalized proximity.
           const alpha = alphaBase * alphaBoost;
 
           context.strokeStyle = `rgba(${colors.linkRgb},${alpha * 0.2})`;
@@ -123,6 +137,10 @@ function drawLinks({
   }
 }
 
+/**
+ * Draws particle glow and core dot.
+ * Pointer proximity increases contrast and opacity.
+ */
 function drawPoints({
   context,
   particles,
@@ -154,6 +172,9 @@ function drawPoints({
   }
 }
 
+/**
+ * Draws small ambient particles that add background texture.
+ */
 function drawDust({
   context,
   dustParticles,
@@ -163,6 +184,7 @@ function drawDust({
   dustParticles: DustParticle[];
   colors: NetworkColors;
 }) {
+  // Dust particles are drawn with a simple filled circle, with alpha based on their individual alpha property and a shared RGB color from the theme. They don't interact with the pointer and have a subtle presence to add depth and visual interest to the background without distracting from the main particle network.
   for (const particle of dustParticles) {
     context.fillStyle = `rgba(${colors.dustRgb},${particle.alpha})`;
     context.beginPath();
@@ -171,15 +193,20 @@ function drawDust({
   }
 }
 
+/**
+ * Buckets particles into fixed-size cells for efficient neighbor lookup.
+ */
 function buildSpatialGrid(particles: Particle[], cellSize: number) {
   const grid = new Map<string, number[]>();
 
+  // Each particle is assigned to a cell based on its coordinates. The grid is a map where the key is a string of the form "cellX,cellY" and the value is an array of particle indexes that fall into that cell. This allows for efficient retrieval of nearby particles by only checking the current cell and its 8 neighbors, rather than all particles.
   for (let index = 0; index < particles.length; index += 1) {
     const particle = particles[index];
     const cellX = Math.floor(particle.x / cellSize);
     const cellY = Math.floor(particle.y / cellSize);
     const key = `${cellX},${cellY}`;
 
+    // Lazily allocate only occupied cells. This keeps memory usage down, especially since many cells may be empty in a sparse distribution. It also simplifies the logic for adding particles to cells, as we don't need to pre-initialize a large grid structure.
     if (!grid.has(key)) {
       grid.set(key, []);
     }
