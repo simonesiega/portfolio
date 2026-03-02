@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import {
@@ -99,12 +98,12 @@ export function Header({
       ref={headerRef}
       className={`${montserrat.className} flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] py-6 backdrop-blur-md sm:gap-12 sm:py-7`}
     >
-      <Link
+      <a
         href={homeHref}
         className="text-lg font-medium text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
       >
         {ownerName}
-      </Link>
+      </a>
 
       <nav aria-label={navAriaLabel} className="ml-6 sm:ml-10">
         <div className="flex items-center gap-4 sm:gap-6">
@@ -115,7 +114,7 @@ export function Header({
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
-                <Link
+                <a
                   key={item.href}
                   href={item.href}
                   ref={(el: HTMLAnchorElement | null) => {
@@ -129,7 +128,7 @@ export function Header({
                   }`}
                 >
                   {item.label}
-                </Link>
+                </a>
               );
             })}
 
