@@ -52,6 +52,8 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -115,11 +117,6 @@ body {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);
   filter: blur(0);
-}
-
-.deferred-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 900px;
 }
 
 @media (prefers-reduced-motion: reduce) {

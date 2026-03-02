@@ -45,7 +45,7 @@ function getLandingRevealStyle(delayMs: number): CSSProperties {
 
 export function HomeHeroSection({ hero, contactSectionId }: HomeHeroSectionProps) {
   return (
-    <section className="relative flex min-h-[calc(100svh-110px)] items-center justify-center pb-0">
+    <section className="relative flex min-h-[calc(100vh-110px)] min-h-[calc(100svh-110px)] items-center justify-center pb-0">
       <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
 
       <div

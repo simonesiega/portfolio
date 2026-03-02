@@ -25,7 +25,7 @@ export function ContactSection({
   const { homeContactSection } = animationTimings;
 
   return (
-    <section id={contactSection.id} className="deferred-section py-16 sm:py-20">
+    <section id={contactSection.id} className="py-16 sm:py-20">
       <div className="mx-auto max-w-4xl text-center">
         <ScrollReveal
           variant="fade-up"

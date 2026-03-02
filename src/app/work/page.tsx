@@ -25,7 +25,7 @@ export default function WorkPage() {
 
   return (
     <div className="overflow-x-clip bg-[var(--ui-bg)]">
-      <div className="mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
+      <div className="mx-auto flex min-h-[calc(100vh-var(--app-header-height,6rem))] min-h-[calc(100svh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
         <main className="mx-auto max-w-5xl px-6">
           <SecondaryPageHero
             sectionId={hero.sectionId}
