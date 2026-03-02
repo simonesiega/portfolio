@@ -210,49 +210,19 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       pointerRef.current.active = false;
     };
 
-    let boundsAnimationFrame = 0;
-    const syncBoundsOnNextFrame = () => {
-      if (boundsAnimationFrame !== 0) {
-        return;
-      }
-
-      boundsAnimationFrame = window.requestAnimationFrame(() => {
-        boundsAnimationFrame = 0;
-        syncCanvasBounds();
-      });
-    };
-
-    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
-      reducedMotionRef.current = event.matches;
-      initParticles();
-    };
-
-    const resizeObserver = new ResizeObserver(() => {
-      resizeCanvas();
-      initParticles();
-    });
-
-    const themeObserver = new MutationObserver(syncNetworkColors);
-
-    resizeObserver.observe(canvas);
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-
-    reducedMotionMedia.addEventListener("change", handleReducedMotionChange);
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerleave", clearPointer);
-    window.addEventListener("scroll", syncBoundsOnNextFrame, { passive: true });
-
-    resizeCanvas();
-    syncNetworkColors();
-    initParticles();
+    let isCanvasVisible = true;
 
     const targetFrameMs = 1000 / rendering.targetFps;
     let previousTime = performance.now();
 
+    const shouldRunAnimation = () => isCanvasVisible && !document.hidden;
+
     const frame = (time: number) => {
+      if (!shouldRunAnimation()) {
+        animationFrameRef.current = 0;
+        return;
+      }
+
       const elapsed = time - previousTime;
       if (elapsed < targetFrameMs) {
         animationFrameRef.current = window.requestAnimationFrame(frame);
@@ -278,15 +248,101 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       animationFrameRef.current = window.requestAnimationFrame(frame);
     };
 
-    animationFrameRef.current = window.requestAnimationFrame(frame);
+    const startAnimation = () => {
+      if (!shouldRunAnimation() || animationFrameRef.current !== 0) {
+        return;
+      }
+
+      previousTime = performance.now();
+      animationFrameRef.current = window.requestAnimationFrame(frame);
+    };
+
+    const stopAnimation = () => {
+      if (animationFrameRef.current === 0) {
+        return;
+      }
+
+      window.cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = 0;
+    };
+
+    let boundsAnimationFrame = 0;
+    const syncBoundsOnNextFrame = () => {
+      if (boundsAnimationFrame !== 0) {
+        return;
+      }
+
+      boundsAnimationFrame = window.requestAnimationFrame(() => {
+        boundsAnimationFrame = 0;
+        syncCanvasBounds();
+      });
+    };
+
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      reducedMotionRef.current = event.matches;
+      initParticles();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        clearPointer();
+        stopAnimation();
+        return;
+      }
+
+      startAnimation();
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      resizeCanvas();
+      initParticles();
+    });
+
+    const themeObserver = new MutationObserver(syncNetworkColors);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isCanvasVisible = entry.isIntersecting;
+
+        if (!isCanvasVisible) {
+          clearPointer();
+          stopAnimation();
+          return;
+        }
+
+        syncCanvasBounds();
+        startAnimation();
+      },
+      { threshold: 0.01 },
+    );
+
+    resizeObserver.observe(canvas);
+    visibilityObserver.observe(canvas);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    reducedMotionMedia.addEventListener("change", handleReducedMotionChange);
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointerleave", clearPointer);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("scroll", syncBoundsOnNextFrame, { passive: true });
+
+    resizeCanvas();
+    syncNetworkColors();
+    initParticles();
+
+    startAnimation();
 
     return () => {
-      window.cancelAnimationFrame(animationFrameRef.current);
+      stopAnimation();
       resizeObserver.disconnect();
+      visibilityObserver.disconnect();
       themeObserver.disconnect();
       reducedMotionMedia.removeEventListener("change", handleReducedMotionChange);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", clearPointer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("scroll", syncBoundsOnNextFrame);
       window.cancelAnimationFrame(boundsAnimationFrame);
     };
