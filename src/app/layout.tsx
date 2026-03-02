@@ -46,7 +46,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} [--app-header-height:6rem] sm:[--app-header-height:7rem] flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased`}
       >
         <div className="fixed inset-x-0 top-0 z-50">
-          <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-8">
+          <div className="mx-auto w-full max-w-[90rem] px-0 sm:px-8">
             <Header
               homeHref={navigation.homeHref}
               ownerName={owner.name}
