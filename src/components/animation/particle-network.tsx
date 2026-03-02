@@ -58,6 +58,9 @@ const {
   links,
   pointer: pointerConfig,
   motion,
+  rendering,
+  spawning,
+  dust,
 } = particleNetwork;
 
 export function ParticleNetwork({ className }: ParticleNetworkProps) {
@@ -76,9 +79,9 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
     height: 0,
   });
   const colorsRef = useRef<NetworkColors>({
-    pointRgb: "245,245,245",
-    linkRgb: "245,245,245",
-    dustRgb: "255,255,255",
+    pointRgb: rendering.defaultColors.pointRgb,
+    linkRgb: rendering.defaultColors.linkRgb,
+    dustRgb: rendering.defaultColors.dustRgb,
   });
 
   useEffect(() => {
@@ -97,15 +100,18 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
 
     const syncNetworkColors = () => {
       const styles = getComputedStyle(document.documentElement);
-      colorsRef.current = {
-        pointRgb:
-          styles.getPropertyValue("--network-point-rgb").trim() || "245,245,245",
-        linkRgb:
-          styles.getPropertyValue("--network-link-rgb").trim() || "245,245,245",
-        dustRgb:
-          styles.getPropertyValue("--network-dust-rgb").trim() || "255,255,255",
+        colorsRef.current = {
+          pointRgb:
+            styles.getPropertyValue("--network-point-rgb").trim() ||
+            rendering.defaultColors.pointRgb,
+          linkRgb:
+            styles.getPropertyValue("--network-link-rgb").trim() ||
+            rendering.defaultColors.linkRgb,
+          dustRgb:
+            styles.getPropertyValue("--network-dust-rgb").trim() ||
+            rendering.defaultColors.dustRgb,
+        };
       };
-    };
 
     const syncCanvasBounds = () => {
       const bounds = canvas.getBoundingClientRect();
@@ -122,7 +128,7 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
       const bounds = syncCanvasBounds();
       const width = Math.max(1, Math.round(bounds.width));
       const height = Math.max(1, Math.round(bounds.height));
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      const dpr = Math.min(window.devicePixelRatio || 1, rendering.maxDevicePixelRatio);
 
       dimensionsRef.current = { width, height };
       canvas.width = Math.round(width * dpr);
@@ -154,10 +160,18 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
           )
         : Math.max(density.minDust, Math.round(area * density.baseDust));
 
-      centersRef.current = Array.from({ length: randomInt(3, 6) }, () => ({
+      centersRef.current = Array.from(
+        {
+          length: randomInt(
+            spawning.clusterCenterCountMin,
+            spawning.clusterCenterCountMax,
+          ),
+        },
+        () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-      }));
+        }),
+      );
 
       particlesRef.current = Array.from({ length: particleCount }, () =>
         spawnParticle({
@@ -235,7 +249,7 @@ export function ParticleNetwork({ className }: ParticleNetworkProps) {
     syncNetworkColors();
     initParticles();
 
-    const targetFrameMs = 1000 / 50;
+    const targetFrameMs = 1000 / rendering.targetFps;
     let previousTime = performance.now();
 
     const frame = (time: number) => {
@@ -573,15 +587,16 @@ function spawnParticle({
   let y = Math.random() * height;
 
   const shouldSpawnNearPointer =
-    pointerBias && pointer.active && Math.random() < 0.58;
-  const shouldSpawnInCluster = !shouldSpawnNearPointer && Math.random() < 0.3;
+    pointerBias && pointer.active && Math.random() < spawning.nearPointerSpawnChance;
+  const shouldSpawnInCluster =
+    !shouldSpawnNearPointer && Math.random() < spawning.clusteredSpawnChance;
 
   if (shouldSpawnNearPointer) {
     x = pointer.x + randomGaussian() * pointerConfig.spawnRadius;
     y = pointer.y + randomGaussian() * pointerConfig.spawnRadius;
   } else if (shouldSpawnInCluster && centers.length > 0) {
     const center = centers[randomInt(0, centers.length - 1)];
-    const sigma = Math.min(width, height) * 0.18;
+    const sigma = Math.min(width, height) * spawning.clusterSigmaFactor;
     x = center.x + randomGaussian() * sigma;
     y = center.y + randomGaussian() * sigma;
   }
@@ -590,7 +605,7 @@ function spawnParticle({
   y = clamp(y, 0, height);
 
   const depth = randomBetween(0.46, 1);
-  const speed = randomBetween(6, 18) * depth;
+  const speed = randomBetween(spawning.speedMin, spawning.speedMax) * depth;
   const angle = Math.random() * Math.PI * 2;
   const lifetime = randomBetween(motion.lifetimeMin, motion.lifetimeMax);
 
@@ -599,15 +614,15 @@ function spawnParticle({
     y,
     vx: Math.cos(angle) * speed,
     vy: Math.sin(angle) * speed,
-    radius: randomBetween(1.05, 2.35),
+    radius: randomBetween(spawning.radiusMin, spawning.radiusMax),
     depth,
-    age: randomBetween(0, lifetime * 0.32),
+    age: randomBetween(0, lifetime * spawning.initialAgeFactorMax),
     lifetime,
   };
 }
 
 function spawnDustParticle(width: number, height: number) {
-  const speed = randomBetween(2, 6);
+  const speed = randomBetween(dust.speedMin, dust.speedMax);
   const angle = Math.random() * Math.PI * 2;
 
   return {
@@ -615,8 +630,8 @@ function spawnDustParticle(width: number, height: number) {
     y: Math.random() * height,
     vx: Math.cos(angle) * speed,
     vy: Math.sin(angle) * speed,
-    radius: randomBetween(0.5, 1.25),
-    alpha: randomBetween(0.08, 0.34),
+    radius: randomBetween(dust.radiusMin, dust.radiusMax),
+    alpha: randomBetween(dust.alphaMin, dust.alphaMax),
   };
 }
 

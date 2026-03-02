@@ -5,7 +5,7 @@ import { appConfig } from "@/lib/config/app-config";
 
 const { owner } = appConfig;
 
-export function Footer() {
+export function PrimaryFooter() {
   return (
     <footer className="flex items-end justify-between pb-10 sm:pb-12">
       <div>

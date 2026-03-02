@@ -1,5 +1,6 @@
 import { FiArrowUpRight } from "react-icons/fi";
 import { ScrollReveal } from "@/components/animation/scroll-reveal";
+import { animationTimings } from "@/lib/animation/animation-timings";
 import { montserrat } from "@/lib/fonts";
 import type { HomeCurrentlyBuilding } from "@/lib/config/text/home";
 
@@ -10,6 +11,8 @@ type CurrentlyBuildingSectionProps = {
 export function CurrentlyBuildingSection({
   currentlyBuilding,
 }: CurrentlyBuildingSectionProps) {
+  const { homeCurrentlyBuilding } = animationTimings;
+
   return (
     <section id={currentlyBuilding.id} className="deferred-section pt-6 sm:pt-8">
       <div className="mx-auto max-w-4xl">
@@ -29,8 +32,8 @@ export function CurrentlyBuildingSection({
             <ScrollReveal
               key={project.title}
               variant="scale-up"
-              delay={index * 150}
-              duration={800}
+              delay={index * homeCurrentlyBuilding.cards.stepDelayMs}
+              duration={homeCurrentlyBuilding.cards.durationMs}
             >
               <a
                 href={project.href}

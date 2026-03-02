@@ -3,18 +3,23 @@ import { geistMono, geistSans } from "@/lib/fonts";
 import { appConfig } from "@/lib/config/app-config";
 import { getThemeInitScript } from "@/lib/theme";
 import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { RouteReveal } from "@/components/animation/route-reveal";
 import "./globals.css";
 
 const themeInitScript = getThemeInitScript();
-const { owner, navigation, social, analytics } = appConfig;
+const {
+  owner,
+  navigation,
+  social,
+  analytics,
+  metadata: metadataConfig,
+  layout,
+} = appConfig;
 
 export const metadata: Metadata = {
-  title: appConfig.metadata.title,
-  description: appConfig.metadata.description,
+  title: metadataConfig.title,
+  description: metadataConfig.description,
   icons: {
-    icon: appConfig.metadata.iconPath,
+    icon: metadataConfig.iconPath,
   },
 };
 
@@ -24,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={metadataConfig.language} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -43,6 +48,7 @@ export default function RootLayout({
         <div className="fixed inset-x-0 top-0 z-50">
           <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-8">
             <Header
+              homeHref={navigation.homeHref}
               ownerName={owner.name}
               navItems={navigation.headerLinks}
               navAriaLabel={navigation.ariaLabel}
@@ -54,15 +60,10 @@ export default function RootLayout({
         </div>
         <main
           className="flex flex-1 flex-col"
-          style={{ paddingTop: "var(--app-header-height, 6rem)" }}
+          style={{ paddingTop: `var(--app-header-height, ${layout.headerHeightFallback})` }}
         >
           {children}
         </main>
-        <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-8">
-          <RouteReveal variant="fade-in" duration={1300} threshold={0.05}>
-            <Footer />
-          </RouteReveal>
-        </div>
       </body>
     </html>
   );

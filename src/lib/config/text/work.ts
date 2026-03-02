@@ -1,39 +1,32 @@
 export const workText = {
-  title: "Experience",
-  subtitle: "Places I've worked at and things I've built along the way.",
+  hero: {
+    sectionId: "work-heading",
+    eyebrow: "WORK",
+    title: "Professional Experience",
+    subtitle: "Internships and roles completed during my academic journey.",
+  },
+
+  sections: {
+    experienceAriaLabel: "Selected experience",
+    technologiesAriaLabel: "Technologies used",
+  },
+
   experiences: [
     {
-      company: "Nexora Technologies",
-      role: "Full-Stack Developer",
-      period: "Jun 2025 – Present",
-      location: "Remote",
-      type: "Full-time",
-      highlights: ["-40% API latency", "2M+ events/day", "Mentored 2 engineers"],
+      id: "dacos-srl",
+      sortStart: "2025-05",
+      logoSrc: "/work/logos/Dacos.png",
+      logoAlt: "Dacos SRL logo",
+      dateRange: "May 2025 - June 2025",
+      role: "Software Engineering",
+      company: "Dacos SRL",
+      companyType: "Internship",
+      location: "📍 Venice, Italy",
       description:
-        "Building and scaling a cloud-based analytics platform used by over 50,000 professionals. Leading the migration from a legacy monolith to a distributed microservices architecture.",
-      achievements: [
-        "Reduced API response times by 40% through query optimization and Redis caching layers",
-        "Designed and shipped a real-time notification pipeline processing 2M+ events per day",
-        "Mentored two junior engineers through structured onboarding and weekly code reviews",
-      ],
-      technologies: ["TypeScript", "React", "Node.js", "PostgreSQL", "Redis", "Docker", "AWS"],
-    },
-    {
-      company: "Meridian Labs",
-      role: "Software Engineering Intern",
-      period: "Jan 2025 – May 2025",
-      location: "Venice, Italy",
-      type: "Internship",
-      highlights: ["94% classification accuracy", "QA from 3 days to 4 hours"],
-      description:
-        "Contributed to an AI-powered document processing pipeline, collaborating closely with the ML team to integrate NLP models into the production backend.",
-      achievements: [
-        "Built a document classification module achieving 94% accuracy on internal benchmarks",
-        "Developed automated CI/CD testing pipelines that cut QA cycles from 3 days to 4 hours",
-      ],
-      technologies: ["Python", "FastAPI", "LangChain", "PostgreSQL", "Docker"],
+        "Designed a full-stack e-commerce platform for electronics and hardware components, building a modular Vue.js storefront with dynamic routing and state management, and implementing RESTful backend services for product catalog operations and core business logic within a three-week timeframe.",
+      technologies: ["Vue.js", "JavaScript", "HTML", "CSS", "Node.js"],
     },
   ],
 } as const;
 
-export type WorkExperience = (typeof workText.experiences)[number];
+export type WorkPageExperience = (typeof workText.experiences)[number];

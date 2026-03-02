@@ -111,18 +111,6 @@ body {
   filter: blur(4px);
 }
 
-.scroll-reveal--slide-left {
-  opacity: 0;
-  transform: translateX(40px);
-  filter: blur(4px);
-}
-
-.scroll-reveal--slide-right {
-  opacity: 0;
-  transform: translateX(-40px);
-  filter: blur(4px);
-}
-
 .scroll-reveal--visible {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);

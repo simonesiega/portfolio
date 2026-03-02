@@ -1,7 +1,5 @@
 import { appConfig } from "@/lib/config/app-config";
 
-const THEME_ATTRIBUTE = "data-theme";
-
 export const themePreference = {
   dark: "dark",
   light: "light",
@@ -11,7 +9,7 @@ export const themePreference = {
 export type ThemePreference =
   (typeof themePreference)[keyof typeof themePreference];
 
-const { storageKey, prefersLightMediaQuery } = appConfig.theme;
+const { storageKey, prefersLightMediaQuery, attributeName } = appConfig.theme;
 
 export function getThemeInitScript() {
   const serializedStorageKey = JSON.stringify(storageKey);
@@ -20,8 +18,9 @@ export function getThemeInitScript() {
   );
   const serializedSystem = JSON.stringify(themePreference.system);
   const serializedLight = JSON.stringify(themePreference.light);
+  const serializedThemeAttribute = JSON.stringify(attributeName);
 
-  return `try{var storageKey=${serializedStorageKey};var theme=localStorage.getItem(storageKey);var prefersLight=window.matchMedia(${serializedPrefersLightMediaQuery}).matches;if(theme===${serializedSystem}){if(prefersLight){document.documentElement.setAttribute('data-theme',${serializedLight});}else{document.documentElement.removeAttribute('data-theme');}}else if(theme===${serializedLight}){document.documentElement.setAttribute('data-theme',${serializedLight});}else{document.documentElement.removeAttribute('data-theme');}}catch(e){}`;
+  return `try{var storageKey=${serializedStorageKey};var themeAttribute=${serializedThemeAttribute};var theme=localStorage.getItem(storageKey);var prefersLight=window.matchMedia(${serializedPrefersLightMediaQuery}).matches;if(theme===${serializedSystem}){if(prefersLight){document.documentElement.setAttribute(themeAttribute,${serializedLight});}else{document.documentElement.removeAttribute(themeAttribute);}}else if(theme===${serializedLight}){document.documentElement.setAttribute(themeAttribute,${serializedLight});}else{document.documentElement.removeAttribute(themeAttribute);}}catch(e){}`;
 }
 
 export function isLightThemeActive() {
@@ -29,7 +28,7 @@ export function isLightThemeActive() {
     return false;
   }
 
-  return document.documentElement.getAttribute(THEME_ATTRIBUTE) === themePreference.light;
+  return document.documentElement.getAttribute(attributeName) === themePreference.light;
 }
 
 export function applyThemePreference(preference: ThemePreference) {
@@ -43,11 +42,11 @@ export function applyThemePreference(preference: ThemePreference) {
   }
 
   if (preference === themePreference.light) {
-    document.documentElement.setAttribute(THEME_ATTRIBUTE, themePreference.light);
+    document.documentElement.setAttribute(attributeName, themePreference.light);
     return;
   }
 
-  document.documentElement.removeAttribute(THEME_ATTRIBUTE);
+  document.documentElement.removeAttribute(attributeName);
 }
 
 export function applySystemTheme() {
@@ -58,11 +57,11 @@ export function applySystemTheme() {
   const prefersLightTheme = window.matchMedia(prefersLightMediaQuery).matches;
 
   if (prefersLightTheme) {
-    document.documentElement.setAttribute(THEME_ATTRIBUTE, themePreference.light);
+    document.documentElement.setAttribute(attributeName, themePreference.light);
     return;
   }
 
-  document.documentElement.removeAttribute(THEME_ATTRIBUTE);
+  document.documentElement.removeAttribute(attributeName);
 }
 
 export function getStoredThemePreference() {

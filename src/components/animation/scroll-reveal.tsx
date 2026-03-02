@@ -6,8 +6,9 @@ import {
   type ReactNode,
   type CSSProperties,
 } from "react";
+import { animationTimings } from "@/lib/animation/animation-timings";
 
-type Variant = "fade-up" | "fade-in" | "scale-up" | "slide-left" | "slide-right";
+type Variant = "fade-up" | "fade-in" | "scale-up";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -25,13 +26,14 @@ export function ScrollReveal({
   children,
   variant = "fade-up",
   delay = 0,
-  duration = 700,
-  threshold = 0.15,
+  duration = animationTimings.scrollRevealDefaults.durationMs,
+  threshold = animationTimings.scrollRevealDefaults.threshold,
   className = "",
   as: Tag = "div",
   once = true,
   style,
 }: ScrollRevealProps) {
+  const { scrollRevealDefaults } = animationTimings;
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export function ScrollReveal({
     if (!el) return;
 
     const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+      scrollRevealDefaults.reducedMotionQuery
     ).matches;
     if (prefersReduced) {
       el.classList.add("scroll-reveal--visible");
@@ -53,12 +55,12 @@ export function ScrollReveal({
           if (once) observer.unobserve(el);
         }
       },
-      { threshold, rootMargin: "0px 0px -40px 0px" }
+      { threshold, rootMargin: scrollRevealDefaults.rootMargin }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold, once]);
+  }, [threshold, once, scrollRevealDefaults.reducedMotionQuery, scrollRevealDefaults.rootMargin]);
 
   const combinedStyle: CSSProperties = {
     ...style,

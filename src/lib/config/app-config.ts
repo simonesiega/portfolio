@@ -1,5 +1,6 @@
 export const appConfig = {
   metadata: {
+    language: "en",
     title: {
       default: "Simone Siega | Software Engineer",
       template: "%s | Simone Siega",
@@ -16,6 +17,7 @@ export const appConfig = {
   },
 
   navigation: {
+    homeHref: "/",
     headerLinks: [
       { href: "/projects", label: "projects" },
       { href: "/work", label: "work" },
@@ -41,9 +43,15 @@ export const appConfig = {
 
   contact: {
     email: "simonesiega1@gmail.com",
+    availabilityLine: "Available for internships & collaborations",
+  },
+
+  layout: {
+    headerHeightFallback: "6rem",
   },
 
   theme: {
+    attributeName: "data-theme",
     storageKey: "portfolio-theme",
     prefersLightMediaQuery: "(prefers-color-scheme: light)",
     labels: {

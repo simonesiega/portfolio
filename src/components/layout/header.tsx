@@ -14,6 +14,7 @@ import { montserrat } from "@/lib/fonts";
 import type { HeaderLink } from "@/lib/config/app-config";
 
 type HeaderProps = {
+  homeHref: string;
   ownerName: string;
   navItems: readonly HeaderLink[];
   navAriaLabel: string;
@@ -23,6 +24,7 @@ type HeaderProps = {
 };
 
 export function Header({
+  homeHref,
   ownerName,
   navItems,
   navAriaLabel,
@@ -98,7 +100,7 @@ export function Header({
       className={`${montserrat.className} flex w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] py-6 backdrop-blur-md sm:gap-12 sm:py-7`}
     >
       <Link
-        href="/"
+        href={homeHref}
         className="text-lg font-medium text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
       >
         {ownerName}

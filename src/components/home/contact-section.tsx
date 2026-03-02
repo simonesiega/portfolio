@@ -1,5 +1,6 @@
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { ScrollReveal } from "@/components/animation/scroll-reveal";
+import { animationTimings } from "@/lib/animation/animation-timings";
 import { montserrat } from "@/lib/fonts";
 import type { HomeContactSection } from "@/lib/config/text/home";
 
@@ -21,10 +22,15 @@ export function ContactSection({
   linkedinUrl,
   socialLabels,
 }: ContactSectionProps) {
+  const { homeContactSection } = animationTimings;
+
   return (
     <section id={contactSection.id} className="deferred-section py-16 sm:py-20">
       <div className="mx-auto max-w-4xl text-center">
-        <ScrollReveal variant="fade-up" duration={800}>
+        <ScrollReveal
+          variant="fade-up"
+          duration={homeContactSection.heading.durationMs}
+        >
           <p className={`${montserrat.className} text-lg font-semibold tracking-tight text-[var(--header-item-color)] sm:text-xl`}>
             {contactSection.eyebrow}
           </p>
@@ -33,7 +39,11 @@ export function ContactSection({
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal variant="fade-up" delay={120} duration={800}>
+        <ScrollReveal
+          variant="fade-up"
+          delay={homeContactSection.description.delayMs}
+          duration={homeContactSection.description.durationMs}
+        >
           <p className="mx-auto mt-5 max-w-2xl text-base text-[var(--header-item-color)] sm:text-lg">
             {contactSection.description}
           </p>
@@ -46,7 +56,11 @@ export function ContactSection({
           </p>
         </ScrollReveal>
 
-        <ScrollReveal variant="fade-up" delay={240} duration={800}>
+        <ScrollReveal
+          variant="fade-up"
+          delay={homeContactSection.actions.delayMs}
+          duration={homeContactSection.actions.durationMs}
+        >
           <a
             href={`mailto:${email}`}
             className="mt-3 inline-flex text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] sm:text-xl"
