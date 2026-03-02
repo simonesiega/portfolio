@@ -95,7 +95,12 @@ export function Header({
                   key={item.href}
                   href={item.href}
                   ref={(el: HTMLAnchorElement | null) => {
-                    if (el) itemRefs.current.set(item.href, el);
+                    if (el) {
+                      itemRefs.current.set(item.href, el);
+                      return;
+                    }
+
+                    itemRefs.current.delete(item.href);
                   }}
                   aria-current={isActive ? "page" : undefined}
                   className={`text-lg font-medium transition-colors duration-300 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)] sm:text-xl ${
