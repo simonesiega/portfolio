@@ -50,15 +50,18 @@ export function ThemeToggle() {
     applyThemePreference(themePreference.light);
   }
 
+  const iconSizeClass = "h-5 w-5";
+  const wrapperSizeClass = "h-5 w-5";
+
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-4">
       <button
         type="button"
         onClick={handleSystemMode}
         aria-label={appConfig.theme.labels.useSystem}
         className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
       >
-        <FiMonitor className="h-6 w-6" />
+        <FiMonitor className={iconSizeClass} />
       </button>
 
       <button
@@ -67,12 +70,12 @@ export function ThemeToggle() {
         aria-label={appConfig.theme.labels.toggleTheme}
         className="inline-flex cursor-pointer items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
       >
-        <span className="theme-toggle-icons relative h-6 w-6">
+        <span className={`theme-toggle-icons relative ${wrapperSizeClass}`}>
           <FiSun
-            className="theme-toggle-sun absolute inset-0 h-6 w-6 transform-gpu transition-all duration-500 ease-out"
+            className={`theme-toggle-sun absolute inset-0 ${iconSizeClass} transform-gpu transition-all duration-500 ease-out`}
           />
           <FiMoon
-            className="theme-toggle-moon absolute inset-0 h-6 w-6 transform-gpu transition-all duration-500 ease-out"
+            className={`theme-toggle-moon absolute inset-0 ${iconSizeClass} transform-gpu transition-all duration-500 ease-out`}
           />
         </span>
       </button>

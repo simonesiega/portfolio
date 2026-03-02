@@ -7,18 +7,18 @@ const { owner } = appConfig;
 
 export function PrimaryFooter() {
   return (
-    <footer className="flex items-end justify-between pb-10 sm:pb-12">
+    <footer className="flex w-full items-end justify-between pb-10 sm:pb-12">
       <div>
         <div className="flex items-center gap-2">
-          <FaRegCopyright className="h-4 w-4 text-[var(--header-item-color)]" />
+          <FaRegCopyright className="h-3.5 w-3.5 text-[var(--header-item-color)]" />
           <span
-            className={`${montserrat.className} text-sm tracking-[0.14em] text-[var(--header-item-color)]`}
+            className={`${montserrat.className} text-xs tracking-[0.14em] text-[var(--header-item-color)] sm:text-sm`}
           >
             {new Date().getFullYear()} {owner.copyrightName}
           </span>
         </div>
         <p
-          className={`${montserrat.className} mt-2 text-xs font-medium tracking-[0.16em] text-[var(--header-item-color)] sm:text-sm`}
+          className={`${montserrat.className} mt-2 text-[0.7rem] font-medium tracking-[0.16em] text-[var(--header-item-color)] sm:text-xs`}
         >
           {owner.tagline}
         </p>
