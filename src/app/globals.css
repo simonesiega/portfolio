@@ -17,6 +17,7 @@
   --card-hover-border: rgba(255, 255, 255, 0.22);
   --card-tag-bg: rgba(255, 255, 255, 0.08);
   --card-tag-color: #a1a1aa;
+  --work-item-hover-bg: rgba(255, 255, 255, 0.07);
   --network-point-rgb: 245,245,245;
   --network-link-rgb: 245,245,245;
   --network-dust-rgb: 255,255,255;
@@ -45,6 +46,7 @@
   --card-hover-border: rgba(0, 0, 0, 0.22);
   --card-tag-bg: rgba(0, 0, 0, 0.06);
   --card-tag-color: #52525b;
+  --work-item-hover-bg: rgba(0, 0, 0, 0.07);
   --network-point-rgb: 24,24,27;
   --network-link-rgb: 24,24,27;
   --network-dust-rgb: 39,39,42;

@@ -39,7 +39,7 @@ export function WorkExperienceItem({
 
       <span
         aria-hidden="true"
-        className="absolute top-20 left-0 h-3 w-3 -translate-x-1/2 rounded-full border border-[var(--header-item-color)]/45 bg-[var(--ui-bg)] transition-colors duration-300 group-hover:border-[var(--ui-fg)]/85 group-hover:bg-[var(--ui-fg)]/85 group-focus-within:border-[var(--ui-fg)]/85 group-focus-within:bg-[var(--ui-fg)]/85"
+        className="absolute top-20 left-0 h-3 w-3 -translate-x-1/2 rounded-full border border-[var(--header-item-color)]/45 bg-[var(--ui-bg)] transition-colors duration-300 group-hover:border-[var(--ui-fg)]/80 group-hover:bg-[var(--ui-fg)]/80"
       />
 
       <ScrollReveal
@@ -48,7 +48,7 @@ export function WorkExperienceItem({
         duration={revealDurationMs}
         threshold={revealThreshold}
       >
-        <article className="-mx-2 rounded-2xl border border-transparent px-2 py-4 transition duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:bg-[var(--card-bg)]/70">
+        <article className="-mx-2 rounded-2xl border border-transparent px-2 py-4 transition-colors duration-300 hover:bg-[var(--work-item-hover-bg)]">
           <header className="sm:flex sm:items-start sm:justify-between sm:gap-6">
             <div className="flex min-w-0 items-start gap-4">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden">
