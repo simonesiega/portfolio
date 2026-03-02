@@ -10,10 +10,13 @@ const {
   owner,
   navigation,
   social,
-  analytics,
   metadata: metadataConfig,
   layout,
 } = appConfig;
+
+const isUmamiEnabled = process.env.NEXT_PUBLIC_UMAMI_ENABLED === "true";
+const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC;
+const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 export const metadata: Metadata = {
   title: metadataConfig.title,
@@ -36,11 +39,9 @@ export default function RootLayout({
             __html: themeInitScript,
           }}
         />
-        <script
-          defer
-          src={analytics.umami.scriptSrc}
-          data-website-id={analytics.umami.websiteId}
-        />
+        {isUmamiEnabled && umamiScriptSrc && umamiWebsiteId ? (
+          <script defer src={umamiScriptSrc} data-website-id={umamiWebsiteId} />
+        ) : null}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} [--app-header-height:6rem] sm:[--app-header-height:7rem] flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased`}
