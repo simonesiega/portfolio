@@ -70,7 +70,7 @@ export function ThemeToggle() {
         aria-label={appConfig.theme.labels.toggleTheme}
         className="inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
-        <span className={`theme-toggle-icons relative ${wrapperSizeClass}`}>
+        <span className={`relative ${wrapperSizeClass}`}>
           <FiSun
             className={`theme-toggle-sun absolute inset-0 ${iconSizeClass} transform-gpu transition-all duration-500 ease-out`}
           />
