@@ -11,6 +11,11 @@ export const workText = {
     technologiesAriaLabel: "Technologies used",
   },
 
+  footer: {
+    legalDisclaimerLine:
+      "Logos and trademarks are the property of their respective owners.",
+  },
+
   experiences: [
     {
       id: "dacos-srl",

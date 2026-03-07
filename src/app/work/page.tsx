@@ -44,7 +44,7 @@ export default function WorkPage() {
     }
   );
 
-  const { hero, sections } = workText;
+  const { hero, sections, footer } = workText;
   const { routeReveal, workExperienceList } = animationTimings;
 
   return (
@@ -81,7 +81,7 @@ export default function WorkPage() {
           threshold={routeReveal.threshold}
           className="mt-auto"
         >
-          <SecondaryFooter />
+          <SecondaryFooter legalDisclaimerLine={footer.legalDisclaimerLine} />
         </RouteReveal>
       </div>
     </div>
