@@ -29,7 +29,7 @@ export const homeText = {
         description:
           "Voice-first cooking assistant that turns recipes into structured data, transcribes in real time, and reads steps back while you cook.",
         tags: ["Python", "Voice assistant", "Database", "Ollama", "Speech recognition", "Text-to-speech"],
-        href: "https://github.com/simonesiega-academics/hs-ai-culinary-assistant",
+        href: "https://github.com/simonesiega-academics/culinary-ai-assistant.git",
         ariaLabel: "View AI Culinary Assistant on GitHub",
       },
       {
