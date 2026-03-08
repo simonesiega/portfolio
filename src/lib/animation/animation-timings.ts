@@ -70,6 +70,10 @@ export const animationTimings = {
       threshold: 0.1,
     },
   },
+
+  themeTransition: {
+    durationMs: 1000,
+  },
 } as const;
 
 export function toMs(value: number) {

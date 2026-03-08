@@ -62,7 +62,10 @@ body {
   background: var(--ui-bg);
   color: var(--ui-fg);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  transition: background-color 220ms ease, color 220ms ease;
+  transition: background-color var(--theme-transition-duration, 220ms)
+      var(--theme-transition-easing, ease),
+    color var(--theme-transition-duration, 220ms)
+      var(--theme-transition-easing, ease);
 }
 
 .landing-reveal {
