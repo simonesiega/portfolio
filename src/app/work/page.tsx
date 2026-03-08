@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { RouteReveal } from "@/components/animation/route-reveal";
 import { SecondaryPageHero } from "@/components/layout/secondary-page-hero";
 import { SecondaryFooter } from "@/components/layout/secondary-footer";
@@ -87,3 +88,20 @@ export default function WorkPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Work",
+  description: workText.hero.subtitle,
+  alternates: {
+    canonical: "/work",
+  },
+  openGraph: {
+    url: "/work",
+    title: "Work | Simone Siega",
+    description: workText.hero.subtitle,
+  },
+  twitter: {
+    title: "Work | Simone Siega",
+    description: workText.hero.subtitle,
+  },
+};

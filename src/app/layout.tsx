@@ -8,6 +8,8 @@ import "./globals.css";
 
 const themeInitScript = getThemeInitScript();
 const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL ?? "http://localhost:3000";
+const metadataBase = new URL(siteUrl);
 const {
   owner,
   navigation,
@@ -18,8 +20,25 @@ const {
 } = appConfig;
 
 export const metadata: Metadata = {
+  metadataBase,
   title: metadataConfig.title,
   description: metadataConfig.description,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: owner.name,
+    title: metadataConfig.title.default,
+    description: metadataConfig.description,
+  },
+  twitter: {
+    card: "summary",
+    title: metadataConfig.title.default,
+    description: metadataConfig.description,
+  },
   icons: {
     icon: metadataConfig.iconPath,
   },
