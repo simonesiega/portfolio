@@ -36,8 +36,9 @@ export const appConfig = {
 
   analytics: {
     umami: {
-      scriptSrc: "https://cloud.umami.is/script.js",
-      websiteId: "4ed28268-4936-4cda-a09f-8649dbfb9129",
+      enabled: process.env.NEXT_PUBLIC_UMAMI_ENABLED === "true",
+      scriptSrc: process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC,
+      websiteId: process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID,
     },
   },
 

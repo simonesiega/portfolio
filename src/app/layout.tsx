@@ -11,12 +11,9 @@ const {
   navigation,
   social,
   metadata: metadataConfig,
+  analytics,
   layout,
 } = appConfig;
-
-const isUmamiEnabled = process.env.NEXT_PUBLIC_UMAMI_ENABLED === "true";
-const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC;
-const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 export const metadata: Metadata = {
   title: metadataConfig.title,
@@ -39,8 +36,12 @@ export default function RootLayout({
             __html: themeInitScript,
           }}
         />
-        {isUmamiEnabled && umamiScriptSrc && umamiWebsiteId ? (
-          <script defer src={umamiScriptSrc} data-website-id={umamiWebsiteId} />
+        {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
+          <script
+            defer
+            src={analytics.umami.scriptSrc}
+            data-website-id={analytics.umami.websiteId}
+          />
         ) : null}
       </head>
       <body
