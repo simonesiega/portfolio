@@ -1,13 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import {
   useRef,
+  useLayoutEffect,
   useEffect,
   useState,
   useCallback,
+  useMemo,
   type ReactNode,
+  type MouseEvent as ReactMouseEvent,
 } from "react";
 import { montserrat } from "@/lib/fonts";
 import type { HeaderLink } from "@/lib/config/app-config";
@@ -34,53 +38,123 @@ export function Header({
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const previousPathRef = useRef(pathname);
   const [indicator, setIndicator] = useState<{
     left: number;
     width: number;
   } | null>(null);
+  const [indicatorMotion, setIndicatorMotion] = useState<"none" | "spawn" | "slide">("none");
+  const [brandBounceActive, setBrandBounceActive] = useState(false);
 
-  const updateIndicator = useCallback(() => {
+  const navHrefs = useMemo<Set<string>>(
+    () => new Set(navItems.map((item) => item.href)),
+    [navItems],
+  );
+
+  const measureIndicator = useCallback(() => {
     const container = containerRef.current;
     const activeEl = itemRefs.current.get(pathname);
 
     if (!container || !activeEl) {
-      setIndicator(null);
-      return;
+      return null;
     }
 
-    const containerRect = container.getBoundingClientRect();
-    const itemRect = activeEl.getBoundingClientRect();
-
-    setIndicator({
-      left: itemRect.left - containerRect.left,
-      width: itemRect.width,
-    });
+    return {
+      left: activeEl.offsetLeft,
+      width: activeEl.offsetWidth,
+    };
   }, [pathname]);
 
-  useEffect(() => {
-    const frameId = window.requestAnimationFrame(updateIndicator);
+  useLayoutEffect(() => {
+    const frameId = window.requestAnimationFrame(() => {
+      const previousPath = previousPathRef.current;
+      const currentIsNav = navHrefs.has(pathname);
+      const previousIsNav = navHrefs.has(previousPath);
+      const nextIndicator = measureIndicator();
 
+      if (!currentIsNav || !nextIndicator) {
+        setIndicatorMotion("none");
+        setIndicator(null);
+        previousPathRef.current = pathname;
+        return;
+      }
+
+      if (!previousIsNav) {
+        setIndicatorMotion("spawn");
+      } else if (previousPath !== pathname) {
+        setIndicatorMotion("slide");
+      } else {
+        setIndicatorMotion("none");
+      }
+
+      setIndicator(nextIndicator);
+      previousPathRef.current = pathname;
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [measureIndicator, navHrefs, pathname]);
+
+  useEffect(() => {
     const handleResize = () => {
-      window.requestAnimationFrame(updateIndicator);
+      window.requestAnimationFrame(() => {
+        const nextIndicator = measureIndicator();
+        if (nextIndicator) {
+          setIndicator(nextIndicator);
+        }
+      });
     };
 
     window.addEventListener("resize", handleResize);
     return () => {
-      window.cancelAnimationFrame(frameId);
       window.removeEventListener("resize", handleResize);
     };
-  }, [updateIndicator]);
+  }, [measureIndicator]);
+
+  useEffect(() => {
+    if (!brandBounceActive) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setBrandBounceActive(false);
+    }, 460);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [brandBounceActive]);
+
+  const handleOwnerClick = useCallback(
+    (event: ReactMouseEvent<HTMLAnchorElement>) => {
+      if (pathname !== homeHref) {
+        return;
+      }
+
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setBrandBounceActive(false);
+      window.requestAnimationFrame(() => {
+        setBrandBounceActive(true);
+      });
+    },
+    [homeHref, pathname],
+  );
 
   return (
     <header
       className={`${montserrat.className} flex h-24 w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 sm:h-28 sm:gap-12 sm:px-0 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)]`}
     >
-      <a
+      <Link
         href={homeHref}
-        className="text-lg font-medium text-[var(--ui-fg)] transition-opacity duration-300 hover:opacity-70 sm:text-xl"
+        onClick={handleOwnerClick}
+        className={`text-lg font-medium text-[var(--ui-fg)] no-underline transition-opacity duration-300 hover:opacity-70 sm:text-xl ${
+          brandBounceActive ? "header-owner-repulse" : ""
+        }`}
       >
-        {ownerName}
-      </a>
+        <span className="inline-block">{ownerName}</span>
+      </Link>
 
       <nav aria-label={navAriaLabel} className="ml-6 sm:ml-10">
         <div className="flex items-center gap-4 sm:gap-6">
@@ -91,7 +165,7 @@ export function Header({
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   ref={(el: HTMLAnchorElement | null) => {
@@ -103,25 +177,37 @@ export function Header({
                     itemRefs.current.delete(item.href);
                   }}
                   aria-current={isActive ? "page" : undefined}
-                  className={`text-lg font-medium transition-colors duration-300 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)] sm:text-xl ${
+                  className={`text-lg font-medium no-underline transition-colors duration-300 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)] sm:text-xl ${
                     isActive
                       ? "text-[var(--ui-fg)]"
                       : "text-[var(--header-item-color)] hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)]"
                   }`}
                 >
                   {item.label}
-                </a>
+                </Link>
               );
             })}
 
             <span
-              className="pointer-events-none absolute -bottom-1 h-px bg-[var(--ui-fg)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              className={`pointer-events-none absolute -bottom-1 h-px ${
+                indicatorMotion === "slide"
+                  ? "transition-[transform,opacity] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  : ""
+              } left-0 w-px origin-left will-change-transform`}
               style={{
-                left: indicator?.left ?? 0,
-                width: indicator?.width ?? 0,
+                transform: `translate3d(${indicator?.left ?? 0}px, 0, 0) scaleX(${Math.max(
+                  indicator?.width ?? 0,
+                  1,
+                )})`,
                 opacity: indicator ? 1 : 0,
               }}
-            />
+            >
+              <span
+                className={`block h-full w-full bg-[var(--ui-fg)] ${
+                  indicatorMotion === "spawn" ? "header-nav-indicator-spawn" : ""
+                }`}
+              />
+            </span>
           </div>
 
           <SocialIconLink href={githubUrl} label={socialLabels.github}>
