@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { appConfig } from "@/lib/config/app-config";
 import { animationTimings, toMs } from "@/lib/animation/animation-timings";
-import { getThemeInitScript } from "@/lib/theme";
 import { Header } from "@/components/layout/header";
 import "./globals.css";
 
-const themeInitScript = getThemeInitScript();
 const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL ?? "http://localhost:3000";
 const metadataBase = new URL(siteUrl);
@@ -52,11 +51,7 @@ export default function RootLayout({
   return (
     <html lang={metadataConfig.language} suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: themeInitScript,
-          }}
-        />
+        <Script src="/theme-init.js" strategy="beforeInteractive" />
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
             defer
