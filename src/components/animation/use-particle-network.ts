@@ -213,7 +213,24 @@ export function useParticleNetwork() {
     };
 
     // The engine runs only when visible and in a foreground tab.
-    const shouldRunAnimation = () => state.isCanvasVisible && !document.hidden;
+    const shouldRunAnimation = () =>
+      state.isCanvasVisible && !document.hidden && !state.reducedMotion;
+
+    // Renders a single static frame without starting the loop, used for reduced-motion mode and after theme changes.
+    const renderStaticFrame = () => {
+      drawFrame({
+        context,
+        width: state.dimensions.width,
+        height: state.dimensions.height,
+        dt: 0,
+        particles: state.particles,
+        dustParticles: state.dustParticles,
+        pointer: state.pointer,
+        reducedMotion: state.reducedMotion,
+        centers: state.centers,
+        colors: state.colors,
+      });
+    };
 
     // Main render loop throttled to target FPS.
     const frame = (time: number) => {
@@ -296,6 +313,16 @@ export function useParticleNetwork() {
     const handleReducedMotionChange = (event: MediaQueryListEvent) => {
       state.reducedMotion = event.matches;
       initParticles();
+
+      // If motion is now reduced, stop the loop and render a single static frame. Otherwise, start the loop to resume animation.
+      if (state.reducedMotion) {
+        stopAnimation();
+        renderStaticFrame();
+        return;
+      }
+
+      // On enabling motion, reset timeline to avoid huge first delta and start the loop.
+      startAnimation();
     };
 
     // Suspends work in background tabs and resumes when visible again.
@@ -313,9 +340,24 @@ export function useParticleNetwork() {
       // Recompute canvas backing size and regenerate particles for new area.
       resizeCanvas();
       initParticles();
+
+      // If motion is reduced, render a static frame after resize to reflect the new layout without starting the animation loop.
+      if (state.reducedMotion) {
+        renderStaticFrame();
+      }
     });
 
-    const themeObserver = new MutationObserver(syncNetworkColors);
+    // Observes theme changes to update colors and re-render static frame if motion is reduced.
+    const themeObserver = new MutationObserver(() => {
+      syncNetworkColors();
+
+      // Re-render a static frame on theme change when motion is reduced to reflect new colors without needing to start the animation loop.
+      if (state.reducedMotion) {
+        renderStaticFrame();
+      }
+    });
+
+    // Observes canvas visibility to pause the loop when offscreen and avoid unnecessary CPU/battery usage, especially on mobile.
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         state.isCanvasVisible = entry.isIntersecting;
@@ -352,6 +394,11 @@ export function useParticleNetwork() {
     resizeCanvas();
     syncNetworkColors();
     initParticles();
+
+    // If reduced motion is preferred, render a single static frame to show the effect without starting the animation loop.
+    if (state.reducedMotion) {
+      renderStaticFrame();
+    }
     startAnimation();
 
     // Full teardown to avoid leaking observers/listeners between route changes.

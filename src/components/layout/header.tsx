@@ -13,6 +13,7 @@ import {
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
 } from "react";
+import { animationTimings } from "@/lib/animation/animation-timings";
 import { montserrat } from "@/lib/fonts";
 import type { HeaderLink } from "@/lib/config/app-config";
 
@@ -133,7 +134,14 @@ export function Header({
       }
 
       event.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia(
+          animationTimings.scrollRevealDefaults.reducedMotionQuery,
+        ).matches
+          ? "auto"
+          : "smooth",
+      });
       setBrandBounceActive(false);
       window.requestAnimationFrame(() => {
         setBrandBounceActive(true);

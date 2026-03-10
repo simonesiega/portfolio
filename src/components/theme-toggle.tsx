@@ -82,7 +82,7 @@ export function ThemeToggle() {
         onClick={handleSystemMode}
         aria-label={`${appConfig.theme.labels.useSystem}. Current mode: ${currentModeLabel}.`}
         aria-pressed={selectedPreference === themePreference.system}
-        className="inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
+        className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
         <FiMonitor className={iconSizeClass} />
       </button>
@@ -92,7 +92,7 @@ export function ThemeToggle() {
         onClick={handleToggle}
         aria-label={`${appConfig.theme.labels.toggleTheme}. Current mode: ${currentModeLabel}.`}
         aria-pressed={selectedPreference !== themePreference.system}
-        className="inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
+        className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
         <span className={`relative ${wrapperSizeClass}`}>
           <FiSun

@@ -49,7 +49,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={metadataConfig.language} suppressHydrationWarning>
+    <html
+      lang={metadataConfig.language}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <head>
         <Script src="/runtime-init.js" strategy="beforeInteractive" />
         <Script src="/theme-init.js" strategy="beforeInteractive" />

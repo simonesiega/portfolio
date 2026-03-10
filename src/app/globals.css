@@ -59,6 +59,25 @@ html {
   scrollbar-gutter: stable both-edges;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    transition: none !important;
+  }
+}
+
 body {
   background: var(--ui-bg);
   color: var(--ui-fg);
@@ -217,9 +236,18 @@ html.js .scroll-reveal--visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .theme-toggle-button,
+  .theme-toggle-button:hover,
+  .theme-toggle-button:focus-visible,
+  .theme-toggle-sun,
+  .theme-toggle-moon {
+    transition: none !important;
+    transform: none !important;
+  }
+
   .header-nav-indicator-spawn,
   .header-owner-repulse,
   :root[data-theme="light"] .header-owner-repulse {
-    animation: none;
+    animation: none !important;
   }
 }
