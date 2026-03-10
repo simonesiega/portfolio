@@ -102,24 +102,24 @@ body {
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.scroll-reveal--fade-up {
+html.js .scroll-reveal--fade-up {
   opacity: 0;
   transform: translateY(32px);
   filter: blur(4px);
 }
 
-.scroll-reveal--fade-in {
+html.js .scroll-reveal--fade-in {
   opacity: 0;
   filter: blur(4px);
 }
 
-.scroll-reveal--scale-up {
+html.js .scroll-reveal--scale-up {
   opacity: 0;
   transform: scale(0.92);
   filter: blur(4px);
 }
 
-.scroll-reveal--visible {
+html.js .scroll-reveal--visible {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);
   filter: blur(0);

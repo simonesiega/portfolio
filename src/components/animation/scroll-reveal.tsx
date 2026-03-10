@@ -48,6 +48,11 @@ export function ScrollReveal({
       return;
     }
 
+    if (typeof IntersectionObserver === "undefined") {
+      el.classList.add("scroll-reveal--visible");
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
