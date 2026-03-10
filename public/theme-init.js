@@ -1,6 +1,4 @@
 try {
-  document.documentElement.classList.add("js");
-
   var storageKey = "portfolio-theme";
   var themeAttribute = "data-theme";
   var theme = localStorage.getItem(storageKey);

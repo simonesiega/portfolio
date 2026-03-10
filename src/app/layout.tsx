@@ -51,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang={metadataConfig.language} suppressHydrationWarning>
       <head>
+        <Script src="/runtime-init.js" strategy="beforeInteractive" />
         <Script src="/theme-init.js" strategy="beforeInteractive" />
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
