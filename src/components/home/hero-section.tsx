@@ -61,14 +61,14 @@ export function HomeHeroSection({ hero, contactSectionId }: HomeHeroSectionProps
         style={landingRevealContainerStyle}
       >
         <h1
-          className={`${montserrat.className} landing-reveal text-4xl font-extrabold tracking-tight sm:text-6xl`}
+          className={`${montserrat.className} landing-reveal text-[2.15rem] font-extrabold tracking-tight max-[405px]:text-[1.8rem] sm:text-6xl`}
           style={getLandingRevealStyle(landingReveal.delaysMs.heading)}
         >
           {hero.heading}
         </h1>
 
         <p
-          className={`${montserrat.className} landing-reveal mt-4 text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
+          className={`${montserrat.className} landing-reveal mt-4 text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] max-[405px]:mt-2 sm:text-2xl`}
           style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
         >
           {hero.tagline}
