@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
+import { getSiteOrigin } from "@/lib/site-url";
 
-const defaultSiteUrl = "https://simonesiega.com";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL ?? defaultSiteUrl;
-const normalizedSiteUrl = new URL(siteUrl).origin;
+const normalizedSiteUrl = getSiteOrigin();
 
 export default function robots(): MetadataRoute.Robots {
   return {

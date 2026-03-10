@@ -3,12 +3,12 @@ import Script from "next/script";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { appConfig } from "@/lib/config/app-config";
 import { animationTimings, toMs } from "@/lib/animation/animation-timings";
+import { getSiteUrl } from "@/lib/site-url";
 import { Header } from "@/components/layout/header";
 import "./globals.css";
 
 const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL ?? "http://localhost:3000";
-const metadataBase = new URL(siteUrl);
+const metadataBase = getSiteUrl();
 const {
   owner,
   navigation,
