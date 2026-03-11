@@ -1,12 +1,13 @@
 import { ImageResponse } from "next/og";
-import { socialPreviewText } from "@/lib/metadata";
+import {
+  socialPreviewContentType,
+  socialPreviewImageSize,
+  socialPreviewText,
+} from "@/lib/metadata";
 
-export const size = {
-  width: 1200,
-  height: 630,
-};
+export const size = socialPreviewImageSize;
 
-export const contentType = "image/png";
+export const contentType = socialPreviewContentType;
 
 const outerStyle = {
   display: "flex",
@@ -149,7 +150,9 @@ export default function OpenGraphImage() {
                 </div>
               ))}
             </div>
-            <div style={{ display: "flex", color: "#f5f5f5" }}>Portfolio</div>
+            <div style={{ display: "flex", color: "#f5f5f5" }}>
+              {socialPreviewText.footerLabel}
+            </div>
           </div>
         </div>
       </div>

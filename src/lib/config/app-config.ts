@@ -15,6 +15,7 @@ export const appConfig = {
       description:
         "Selected projects, engineering work, and systems experiments.",
       highlights: ["Backend", "AI Systems", "Dev tools"],
+      footerLabel: "Portfolio",
     },
   },
 

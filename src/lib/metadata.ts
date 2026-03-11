@@ -1,6 +1,9 @@
 import { appConfig } from "@/lib/config/app-config";
 
-const { metadata, owner } = appConfig;
+const {
+  metadata: { socialPreview },
+  owner,
+} = appConfig;
 
 export const socialPreviewImage = {
   url: "/opengraph-image",
@@ -8,6 +11,13 @@ export const socialPreviewImage = {
   height: 630,
   alt: `${owner.name} portfolio preview`,
 };
+
+export const socialPreviewImageSize = {
+  width: socialPreviewImage.width,
+  height: socialPreviewImage.height,
+};
+
+export const socialPreviewContentType = "image/png";
 
 export const sharedOpenGraph = {
   images: [socialPreviewImage],
@@ -19,10 +29,11 @@ export const sharedTwitter = {
 };
 
 export const socialPreviewText = {
-  description: metadata.socialPreview.description,
   ownerName: owner.name,
-  role: metadata.socialPreview.role,
-  supportingLine: metadata.socialPreview.supportingLine,
-  highlights: metadata.socialPreview.highlights,
-  domain: metadata.socialPreview.domain,
+  domain: socialPreview.domain,
+  role: socialPreview.role,
+  description: socialPreview.description,
+  supportingLine: socialPreview.supportingLine,
+  highlights: socialPreview.highlights,
+  footerLabel: socialPreview.footerLabel,
 } as const;
