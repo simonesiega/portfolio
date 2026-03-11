@@ -3,6 +3,7 @@ import Script from "next/script";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { appConfig } from "@/lib/config/app-config";
 import { animationTimings, toMs } from "@/lib/animation/animation-timings";
+import { sharedOpenGraph, sharedTwitter } from "@/lib/metadata";
 import { getSiteUrl } from "@/lib/site-url";
 import { getThemeInitScript } from "@/lib/theme";
 import { Header } from "@/components/layout/header";
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
+    ...sharedOpenGraph,
     type: "website",
     locale: "en_US",
     url: "/",
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     description: metadataConfig.description,
   },
   twitter: {
-    card: "summary",
+    ...sharedTwitter,
     title: metadataConfig.title.default,
     description: metadataConfig.description,
   },

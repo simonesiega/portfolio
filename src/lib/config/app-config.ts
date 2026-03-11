@@ -8,6 +8,14 @@ export const appConfig = {
     description:
       "Personal portfolio of Simone Siega, showcasing software engineering projects, skills, and experience.",
     iconPath: "/icon.svg",
+    socialPreview: {
+      domain: "simonesiega.com",
+      role: "Software Engineer",
+      supportingLine: "Venice, Italy",
+      description:
+        "Selected projects, engineering work, and systems experiments.",
+      highlights: ["Backend", "AI Systems", "Dev tools"],
+    },
   },
 
   owner: {

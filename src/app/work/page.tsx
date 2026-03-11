@@ -5,6 +5,7 @@ import { SecondaryFooter } from "@/components/layout/secondary-footer";
 import { WorkExperienceItem } from "@/components/work/work-experience-section";
 import { animationTimings } from "@/lib/animation/animation-timings";
 import { workText } from "@/lib/config/text/work";
+import { sharedOpenGraph, sharedTwitter } from "@/lib/metadata";
 
 function toMonthIndex(value: string) {
   const match = value.match(/^(\d{4})-(\d{2})$/);
@@ -96,11 +97,13 @@ export const metadata: Metadata = {
     canonical: "/work",
   },
   openGraph: {
+    ...sharedOpenGraph,
     url: "/work",
     title: "Work | Simone Siega",
     description: workText.hero.subtitle,
   },
   twitter: {
+    ...sharedTwitter,
     title: "Work | Simone Siega",
     description: workText.hero.subtitle,
   },
