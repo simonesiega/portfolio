@@ -15,6 +15,7 @@ export function SecondaryFooter({ legalDisclaimerLine }: SecondaryFooterProps) {
         <p
           className={`${montserrat.className} text-[0.7rem] font-medium tracking-[0.14em] text-[var(--header-item-color)] sm:text-xs`}
         >
+          {contact.availabilityLine}
         </p>
 
         <a
