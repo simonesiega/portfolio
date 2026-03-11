@@ -4,6 +4,7 @@ import { geistMono, geistSans } from "@/lib/fonts";
 import { appConfig } from "@/lib/config/app-config";
 import { animationTimings, toMs } from "@/lib/animation/animation-timings";
 import { getSiteUrl } from "@/lib/site-url";
+import { getThemeInitScript } from "@/lib/theme";
 import { Header } from "@/components/layout/header";
 import "./globals.css";
 
@@ -56,7 +57,7 @@ export default function RootLayout({
     >
       <head>
         <Script src="/runtime-init.js" strategy="beforeInteractive" />
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
+        <script dangerouslySetInnerHTML={{ __html: getThemeInitScript() }} />
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
             defer
