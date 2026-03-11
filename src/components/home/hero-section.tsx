@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import type { IconType } from "react-icons";
 import {
   SiOpenai,
@@ -123,12 +124,12 @@ export function HomeHeroSection({ hero, contactSectionId }: HomeHeroSectionProps
                 {hero.primaryCtaLabel}
               </a>
 
-              <a
+              <Link
                 href={hero.secondaryCtaHref}
                 className={`${montserrat.className} inline-flex items-center justify-center rounded-full border border-[var(--header-item-color)]/45 bg-transparent px-7 py-3 text-sm font-semibold tracking-[0.08em] text-[var(--ui-fg)] transition duration-300 hover:scale-[1.02] hover:border-[var(--header-item-hover-color)] hover:text-[var(--header-item-hover-color)] sm:text-base`}
               >
                 {hero.secondaryCtaLabel}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
