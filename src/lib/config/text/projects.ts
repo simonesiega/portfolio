@@ -3,7 +3,6 @@ export const projectsText = {
     sectionId: "projects-heading",
     eyebrow: "PROJECTS",
     title: "Personal Projects",
-    subtitle:
-      "Independent and academic software projects built alongside my studies.",
+    subtitle: "Independent and academic software projects built alongside my studies.",
   },
 } as const;

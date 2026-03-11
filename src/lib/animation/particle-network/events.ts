@@ -1,7 +1,4 @@
-import type {
-  CanvasBounds,
-  PointerState,
-} from "@/lib/animation/particle-network/types";
+import type {CanvasBounds, PointerState} from "@/lib/animation/particle-network/types";
 
 /**
  * Converts a global pointer event into canvas-local coordinates.
@@ -12,14 +9,13 @@ import type {
 export function updatePointerStateFromEvent(
   event: PointerEvent,
   bounds: CanvasBounds,
-  pointerState: PointerState,
+  pointerState: PointerState
 ) {
   // Convert viewport coordinates to local canvas coordinates.
   const localX = event.clientX - bounds.left;
   const localY = event.clientY - bounds.top;
 
-  const isInside =
-    localX >= 0 && localX <= bounds.width && localY >= 0 && localY <= bounds.height;
+  const isInside = localX >= 0 && localX <= bounds.width && localY >= 0 && localY <= bounds.height;
 
   // If the pointer is outside the canvas, disable interaction for this frame to prevent applying forces based on stale coordinates.
   if (!isInside) {

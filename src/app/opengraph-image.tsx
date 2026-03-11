@@ -1,9 +1,5 @@
-import { ImageResponse } from "next/og";
-import {
-  socialPreviewContentType,
-  socialPreviewImageSize,
-  socialPreviewText,
-} from "@/lib/metadata";
+import {ImageResponse} from "next/og";
+import {socialPreviewContentType, socialPreviewImageSize, socialPreviewText} from "@/lib/metadata";
 
 export const size = socialPreviewImageSize;
 
@@ -29,10 +25,8 @@ const panelStyle = {
   borderRadius: "34px",
   border: "1px solid rgba(255,255,255,0.12)",
   padding: "54px",
-  background:
-    "linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.012))",
-  boxShadow:
-    "inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.35)",
+  background: "linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.012))",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.35)",
 } as const;
 
 const topRowStyle = {
@@ -72,91 +66,87 @@ const footerStyle = {
 
 export default function OpenGraphImage() {
   return new ImageResponse(
-    (
-      <div style={outerStyle}>
-        <div style={panelStyle}>
-          <div style={topRowStyle}>
-            <div style={{ display: "flex" }}>{socialPreviewText.ownerName}</div>
-            <div style={{ display: "flex", color: "#d4d4d8" }}>{socialPreviewText.domain}</div>
-          </div>
+    <div style={outerStyle}>
+      <div style={panelStyle}>
+        <div style={topRowStyle}>
+          <div style={{display: "flex"}}>{socialPreviewText.ownerName}</div>
+          <div style={{display: "flex", color: "#d4d4d8"}}>{socialPreviewText.domain}</div>
+        </div>
 
-          <div style={contentStyle}>
-            <div style={titleBlockStyle}>
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: 108,
-                  fontWeight: 800,
-                  lineHeight: 0.9,
-                  letterSpacing: "-0.075em",
-                  color: "#E7E7E7",
-                }}
-              >
-                {socialPreviewText.role}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: 30,
-                  fontWeight: 500,
-                  lineHeight: 1.2,
-                  color: "#d4d4d8",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {socialPreviewText.description}
-              </div>
-            </div>
-
+        <div style={contentStyle}>
+          <div style={titleBlockStyle}>
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                fontSize: 24,
-                lineHeight: 1.2,
-                color: "#bfbfc4",
+                fontSize: 108,
+                fontWeight: 800,
+                lineHeight: 0.9,
+                letterSpacing: "-0.075em",
+                color: "#E7E7E7",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "999px",
-                  backgroundColor: "#ef4444",
-                }}
-              />
-              {socialPreviewText.supportingLine}
+              {socialPreviewText.role}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 30,
+                fontWeight: 500,
+                lineHeight: 1.2,
+                color: "#d4d4d8",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              {socialPreviewText.description}
             </div>
           </div>
 
-          <div style={footerStyle}>
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-              {socialPreviewText.highlights.map((highlight, index) => (
-                <div key={highlight} style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                  {index > 0 ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "6px",
-                        height: "6px",
-                        borderRadius: "999px",
-                        backgroundColor: "#6b7280",
-                      }}
-                    />
-                  ) : null}
-                  <div style={{ display: "flex" }}>{highlight}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ display: "flex", color: "#f5f5f5" }}>
-              {socialPreviewText.footerLabel}
-            </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              fontSize: 24,
+              lineHeight: 1.2,
+              color: "#bfbfc4",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                width: "8px",
+                height: "8px",
+                borderRadius: "999px",
+                backgroundColor: "#ef4444",
+              }}
+            />
+            {socialPreviewText.supportingLine}
           </div>
         </div>
+
+        <div style={footerStyle}>
+          <div style={{display: "flex", alignItems: "center", gap: "14px"}}>
+            {socialPreviewText.highlights.map((highlight, index) => (
+              <div key={highlight} style={{display: "flex", alignItems: "center", gap: "14px"}}>
+                {index > 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "999px",
+                      backgroundColor: "#6b7280",
+                    }}
+                  />
+                ) : null}
+                <div style={{display: "flex"}}>{highlight}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{display: "flex", color: "#f5f5f5"}}>{socialPreviewText.footerLabel}</div>
+        </div>
       </div>
-    ),
+    </div>,
     size
   );
 }

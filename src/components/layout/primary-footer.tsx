@@ -1,12 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
-import { FaRegCopyright } from "react-icons/fa6";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { montserrat } from "@/lib/fonts";
-import { appConfig } from "@/lib/config/app-config";
+import {useMemo} from "react";
+import {FaRegCopyright} from "react-icons/fa6";
+import {ThemeToggle} from "@/components/theme-toggle";
+import {montserrat} from "@/lib/fonts";
+import {appConfig} from "@/lib/config/app-config";
 
-const { owner } = appConfig;
+const {owner} = appConfig;
 
 export function PrimaryFooter() {
   const currentYear = useMemo(() => new Date().getFullYear(), []);

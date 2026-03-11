@@ -1,6 +1,6 @@
-import type { MetadataRoute } from "next";
-import { execFileSync } from "node:child_process";
-import { getSiteOrigin } from "@/lib/site-url";
+import type {MetadataRoute} from "next";
+import {execFileSync} from "node:child_process";
+import {getSiteOrigin} from "@/lib/site-url";
 
 const baseUrl = getSiteOrigin();
 
@@ -19,13 +19,7 @@ function getLastModifiedByFile(filePaths: readonly string[]) {
   try {
     const output = execFileSync(
       "git",
-      [
-        "log",
-        `--format=${gitLogEntrySeparator}%n%cI`,
-        "--name-only",
-        "--",
-        ...filePaths,
-      ],
+      ["log", `--format=${gitLogEntrySeparator}%n%cI`, "--name-only", "--", ...filePaths],
       {
         encoding: "utf8",
         stdio: ["ignore", "pipe", "ignore"],

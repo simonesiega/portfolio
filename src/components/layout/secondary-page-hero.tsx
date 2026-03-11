@@ -1,6 +1,6 @@
-import { ScrollReveal } from "@/components/animation/scroll-reveal";
-import { animationTimings } from "@/lib/animation/animation-timings";
-import { montserrat } from "@/lib/fonts";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {animationTimings} from "@/lib/animation/animation-timings";
+import {montserrat} from "@/lib/fonts";
 
 type SecondaryPageHeroProps = {
   sectionId: string;
@@ -9,13 +9,8 @@ type SecondaryPageHeroProps = {
   subtitle: string;
 };
 
-export function SecondaryPageHero({
-  sectionId,
-  eyebrow,
-  title,
-  subtitle,
-}: SecondaryPageHeroProps) {
-  const { secondaryPageHero } = animationTimings;
+export function SecondaryPageHero({sectionId, eyebrow, title, subtitle}: SecondaryPageHeroProps) {
+  const {secondaryPageHero} = animationTimings;
 
   return (
     <section

@@ -1,6 +1,6 @@
 "use client";
 
-import { useParticleNetwork } from "@/components/animation/use-particle-network";
+import {useParticleNetwork} from "@/components/animation/use-particle-network";
 
 type ParticleNetworkProps = {
   className?: string;
@@ -11,7 +11,7 @@ type ParticleNetworkProps = {
  *
  * All simulation lifecycle and rendering logic live inside `useParticleNetwork`.
  */
-export function ParticleNetwork({ className }: ParticleNetworkProps) {
+export function ParticleNetwork({className}: ParticleNetworkProps) {
   const canvasRef = useParticleNetwork();
 
   return (

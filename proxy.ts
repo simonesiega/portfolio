@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import {NextResponse, type NextRequest} from "next/server";
 
 const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC;
 const isProduction = process.env.NODE_ENV === "production";
@@ -89,7 +89,10 @@ export function proxy(request: NextRequest) {
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
   if (isProduction) {
-    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+    response.headers.set(
+      "Strict-Transport-Security",
+      "max-age=63072000; includeSubDomains; preload"
+    );
   }
 
   return response;
@@ -100,8 +103,8 @@ export const config = {
     {
       source: "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
       missing: [
-        { type: "header", key: "next-router-prefetch" },
-        { type: "header", key: "purpose", value: "prefetch" },
+        {type: "header", key: "next-router-prefetch"},
+        {type: "header", key: "purpose", value: "prefetch"},
       ],
     },
   ],

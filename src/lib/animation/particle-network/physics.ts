@@ -1,6 +1,6 @@
-import { particleNetworkConfig } from "@/lib/animation/particle-network-config";
-import { clamp } from "@/lib/animation/particle-network/math";
-import { spawnParticle } from "@/lib/animation/particle-network/spawning";
+import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
+import {clamp} from "@/lib/animation/particle-network/math";
+import {spawnParticle} from "@/lib/animation/particle-network/spawning";
 import type {
   DustParticle,
   Particle,
@@ -8,7 +8,7 @@ import type {
   PointerState,
 } from "@/lib/animation/particle-network/types";
 
-const { motion, pointer: pointerConfig } = particleNetworkConfig.particleNetwork;
+const {motion, pointer: pointerConfig} = particleNetworkConfig.particleNetwork;
 
 /**
  * Advances primary particles by one simulation step.
@@ -55,7 +55,7 @@ export function updateParticles({
           centers,
           pointer,
           pointerBias: true,
-        }),
+        })
       );
       continue;
     }
@@ -67,10 +67,7 @@ export function updateParticles({
       const distanceSquared = dx * dx + dy * dy;
 
       // Only apply repulsion if within pointer radius and avoid extreme forces at very close distances.
-      if (
-        distanceSquared < pointerConfig.radius * pointerConfig.radius &&
-        distanceSquared > 0.01
-      ) {
+      if (distanceSquared < pointerConfig.radius * pointerConfig.radius && distanceSquared > 0.01) {
         const distance = Math.sqrt(distanceSquared);
         // Repulsion fades linearly with pointer distance.
         const force = (1 - distance / pointerConfig.radius) * pointerStrength;

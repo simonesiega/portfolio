@@ -1,4 +1,4 @@
-import type { Particle, PointerState } from "@/lib/animation/particle-network/types";
+import type {Particle, PointerState} from "@/lib/animation/particle-network/types";
 
 /**
  * Returns squared pointer distance to avoid unnecessary square roots.

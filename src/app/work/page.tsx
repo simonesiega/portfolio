@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { RouteReveal } from "@/components/animation/route-reveal";
-import { SecondaryPageHero } from "@/components/layout/secondary-page-hero";
-import { SecondaryFooter } from "@/components/layout/secondary-footer";
-import { WorkExperienceItem } from "@/components/work/work-experience-section";
-import { animationTimings } from "@/lib/animation/animation-timings";
-import { workText } from "@/lib/config/text/work";
-import { sharedOpenGraph, sharedTwitter } from "@/lib/metadata";
+import type {Metadata} from "next";
+import {RouteReveal} from "@/components/animation/route-reveal";
+import {SecondaryPageHero} from "@/components/layout/secondary-page-hero";
+import {SecondaryFooter} from "@/components/layout/secondary-footer";
+import {WorkExperienceItem} from "@/components/work/work-experience-section";
+import {animationTimings} from "@/lib/animation/animation-timings";
+import {workText} from "@/lib/config/text/work";
+import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
 
 function toMonthIndex(value: string) {
   const match = value.match(/^(\d{4})-(\d{2})$/);
@@ -25,33 +25,31 @@ function toMonthIndex(value: string) {
 }
 
 export default function WorkPage() {
-  const orderedWorkExperience = [...workText.experiences].sort(
-    (left, right) => {
-      const leftMonthIndex = toMonthIndex(left.sortStart);
-      const rightMonthIndex = toMonthIndex(right.sortStart);
+  const orderedWorkExperience = [...workText.experiences].sort((left, right) => {
+    const leftMonthIndex = toMonthIndex(left.sortStart);
+    const rightMonthIndex = toMonthIndex(right.sortStart);
 
-      if (leftMonthIndex === null && rightMonthIndex === null) {
-        return left.id.localeCompare(right.id);
-      }
-
-      if (leftMonthIndex === null) {
-        return 1;
-      }
-
-      if (rightMonthIndex === null) {
-        return -1;
-      }
-
-      return rightMonthIndex - leftMonthIndex;
+    if (leftMonthIndex === null && rightMonthIndex === null) {
+      return left.id.localeCompare(right.id);
     }
-  );
 
-  const { hero, sections, footer } = workText;
-  const { routeReveal, workExperienceList } = animationTimings;
+    if (leftMonthIndex === null) {
+      return 1;
+    }
+
+    if (rightMonthIndex === null) {
+      return -1;
+    }
+
+    return rightMonthIndex - leftMonthIndex;
+  });
+
+  const {hero, sections, footer} = workText;
+  const {routeReveal, workExperienceList} = animationTimings;
 
   return (
     <div className="overflow-x-clip">
-      <div className="mx-auto flex min-h-[calc(100vh-var(--app-header-height,6rem))] min-h-[calc(100svh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
+      <div className="mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
         <div className="mx-auto max-w-5xl px-6">
           <SecondaryPageHero
             sectionId={hero.sectionId}

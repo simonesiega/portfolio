@@ -1,7 +1,7 @@
-import { appConfig } from "@/lib/config/app-config";
+import {appConfig} from "@/lib/config/app-config";
 
 const {
-  metadata: { socialPreview },
+  metadata: {socialPreview},
   owner,
 } = appConfig;
 

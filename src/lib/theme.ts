@@ -1,4 +1,4 @@
-import { appConfig } from "@/lib/config/app-config";
+import {appConfig} from "@/lib/config/app-config";
 
 export const themePreference = {
   dark: "dark",
@@ -6,16 +6,13 @@ export const themePreference = {
   system: "system",
 } as const;
 
-export type ThemePreference =
-  (typeof themePreference)[keyof typeof themePreference];
+export type ThemePreference = (typeof themePreference)[keyof typeof themePreference];
 
-const { storageKey, prefersLightMediaQuery, attributeName } = appConfig.theme;
+const {storageKey, prefersLightMediaQuery, attributeName} = appConfig.theme;
 
 export function getThemeInitScript() {
   const serializedStorageKey = JSON.stringify(storageKey);
-  const serializedPrefersLightMediaQuery = JSON.stringify(
-    prefersLightMediaQuery,
-  );
+  const serializedPrefersLightMediaQuery = JSON.stringify(prefersLightMediaQuery);
   const serializedSystem = JSON.stringify(themePreference.system);
   const serializedLight = JSON.stringify(themePreference.light);
   const serializedThemeAttribute = JSON.stringify(attributeName);

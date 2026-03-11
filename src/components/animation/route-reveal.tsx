@@ -1,8 +1,8 @@
 "use client";
 
-import type { ComponentProps } from "react";
-import { usePathname } from "next/navigation";
-import { ScrollReveal } from "@/components/animation/scroll-reveal";
+import type {ComponentProps} from "react";
+import {usePathname} from "next/navigation";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
 
 type RouteRevealProps = ComponentProps<typeof ScrollReveal>;
 

@@ -12,8 +12,7 @@ export const appConfig = {
       domain: "simonesiega.com",
       role: "Software Engineer",
       supportingLine: "Venice, Italy",
-      description:
-        "Selected projects, engineering work, and systems experiments.",
+      description: "Selected projects, engineering work, and systems experiments.",
       highlights: ["Backend", "AI Systems", "Dev tools"],
       footerLabel: "Portfolio",
     },
@@ -28,8 +27,8 @@ export const appConfig = {
   navigation: {
     homeHref: "/",
     headerLinks: [
-      { href: "/projects", label: "projects" },
-      { href: "/work", label: "work" },
+      {href: "/projects", label: "projects"},
+      {href: "/work", label: "work"},
     ],
     ariaLabel: "Primary navigation",
   },

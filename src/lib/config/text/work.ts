@@ -12,8 +12,7 @@ export const workText = {
   },
 
   footer: {
-    legalDisclaimerLine:
-      "Logos and trademarks are the property of their respective owners.",
+    legalDisclaimerLine: "Logos and trademarks are the property of their respective owners.",
   },
 
   experiences: [

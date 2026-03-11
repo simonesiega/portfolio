@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { ScrollReveal } from "@/components/animation/scroll-reveal";
-import { montserrat } from "@/lib/fonts";
-import type { WorkPageExperience } from "@/lib/config/text/work";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {montserrat} from "@/lib/fonts";
+import type {WorkPageExperience} from "@/lib/config/text/work";
 
 type WorkExperienceItemProps = {
   experience: WorkPageExperience;
@@ -29,7 +29,7 @@ export function WorkExperienceItem({
   technologiesAriaLabel,
 }: WorkExperienceItemProps) {
   return (
-    <li className="group relative py-8 sm:py-9 pl-8 sm:pl-10">
+    <li className="group relative py-8 pl-8 sm:py-9 sm:pl-10">
       {showDivider && (
         <div
           aria-hidden="true"

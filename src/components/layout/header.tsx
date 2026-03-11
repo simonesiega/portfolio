@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
+import {usePathname} from "next/navigation";
+import {FaGithub, FaLinkedinIn} from "react-icons/fa6";
 import {
   useRef,
   useLayoutEffect,
@@ -13,9 +13,9 @@ import {
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
 } from "react";
-import { animationTimings } from "@/lib/animation/animation-timings";
-import { montserrat } from "@/lib/fonts";
-import type { HeaderLink } from "@/lib/config/app-config";
+import {animationTimings} from "@/lib/animation/animation-timings";
+import {montserrat} from "@/lib/fonts";
+import type {HeaderLink} from "@/lib/config/app-config";
 
 type HeaderProps = {
   homeHref: string;
@@ -24,7 +24,7 @@ type HeaderProps = {
   navAriaLabel: string;
   githubUrl: string;
   linkedinUrl: string;
-  socialLabels: { github: string; linkedin: string };
+  socialLabels: {github: string; linkedin: string};
 };
 
 export function Header({
@@ -49,7 +49,7 @@ export function Header({
 
   const navHrefs = useMemo<Set<string>>(
     () => new Set(navItems.map((item) => item.href)),
-    [navItems],
+    [navItems]
   );
 
   const measureIndicator = useCallback(() => {
@@ -136,9 +136,8 @@ export function Header({
       event.preventDefault();
       window.scrollTo({
         top: 0,
-        behavior: window.matchMedia(
-          animationTimings.scrollRevealDefaults.reducedMotionQuery,
-        ).matches
+        behavior: window.matchMedia(animationTimings.scrollRevealDefaults.reducedMotionQuery)
+          .matches
           ? "auto"
           : "smooth",
       });
@@ -147,12 +146,12 @@ export function Header({
         setBrandBounceActive(true);
       });
     },
-    [homeHref, pathname],
+    [homeHref, pathname]
   );
 
   return (
     <header
-      className={`${montserrat.className} flex h-24 w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 sm:h-28 sm:gap-12 sm:px-0 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)]`}
+      className={`${montserrat.className} flex h-24 w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)] sm:h-28 sm:gap-12 sm:px-0`}
     >
       <Link
         href={homeHref}
@@ -166,10 +165,7 @@ export function Header({
 
       <nav aria-label={navAriaLabel} className="ml-6 sm:ml-10">
         <div className="flex items-center gap-4 sm:gap-6">
-          <div
-            ref={containerRef}
-            className="relative flex items-center gap-4 sm:gap-6"
-          >
+          <div ref={containerRef} className="relative flex items-center gap-4 sm:gap-6">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -205,7 +201,7 @@ export function Header({
               style={{
                 transform: `translate3d(${indicator?.left ?? 0}px, 0, 0) scaleX(${Math.max(
                   indicator?.width ?? 0,
-                  1,
+                  1
                 )})`,
                 opacity: indicator ? 1 : 0,
               }}
@@ -237,7 +233,7 @@ type SocialIconLinkProps = {
   children: ReactNode;
 };
 
-function SocialIconLink({ href, label, children }: SocialIconLinkProps) {
+function SocialIconLink({href, label, children}: SocialIconLinkProps) {
   return (
     <a
       href={href}

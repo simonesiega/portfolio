@@ -1,5 +1,10 @@
-import { particleNetworkConfig } from "@/lib/animation/particle-network-config";
-import { clamp, randomBetween, randomGaussian, randomInt } from "@/lib/animation/particle-network/math";
+import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
+import {
+  clamp,
+  randomBetween,
+  randomGaussian,
+  randomInt,
+} from "@/lib/animation/particle-network/math";
 import type {
   DustParticle,
   Particle,
@@ -7,7 +12,7 @@ import type {
   PointerState,
 } from "@/lib/animation/particle-network/types";
 
-const { pointer: pointerConfig, motion, spawning, dust } = particleNetworkConfig.particleNetwork;
+const {pointer: pointerConfig, motion, spawning, dust} = particleNetworkConfig.particleNetwork;
 
 /**
  * Creates a new primary particle.
@@ -35,7 +40,7 @@ export function spawnParticle({
   // Pointer-biased respawn creates a more interactive feel by keeping new particles within the area of influence, especially after bursts of pointer-driven respawns. Clustered respawn creates visually interesting denser areas that still have some randomness due to the gaussian spread, and prevents the scene from feeling too uniform or grid-like.
   const shouldSpawnNearPointer =
     pointerBias && pointer.active && Math.random() < spawning.nearPointerSpawnChance;
-  
+
   // Clustered spawn is only attempted if not spawning near the pointer, to maintain a balance between interaction and visual interest. If centers are defined but clustered spawn isn't chosen, particles will spawn uniformly, which can help fill in gaps and keep the distribution from feeling too rigid.
   const shouldSpawnInCluster =
     !shouldSpawnNearPointer && Math.random() < spawning.clusteredSpawnChance;

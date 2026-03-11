@@ -1,17 +1,15 @@
-import { FiArrowUpRight } from "react-icons/fi";
-import { ScrollReveal } from "@/components/animation/scroll-reveal";
-import { animationTimings } from "@/lib/animation/animation-timings";
-import { montserrat } from "@/lib/fonts";
-import type { HomeCurrentlyBuilding } from "@/lib/config/text/home";
+import {FiArrowUpRight} from "react-icons/fi";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {animationTimings} from "@/lib/animation/animation-timings";
+import {montserrat} from "@/lib/fonts";
+import type {HomeCurrentlyBuilding} from "@/lib/config/text/home";
 
 type CurrentlyBuildingSectionProps = {
   currentlyBuilding: HomeCurrentlyBuilding;
 };
 
-export function CurrentlyBuildingSection({
-  currentlyBuilding,
-}: CurrentlyBuildingSectionProps) {
-  const { homeCurrentlyBuilding } = animationTimings;
+export function CurrentlyBuildingSection({currentlyBuilding}: CurrentlyBuildingSectionProps) {
+  const {homeCurrentlyBuilding} = animationTimings;
 
   return (
     <section id={currentlyBuilding.id} className="pt-6 sm:pt-8">
@@ -44,9 +42,7 @@ export function CurrentlyBuildingSection({
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <h3
-                      className={`${montserrat.className} text-lg font-bold sm:text-xl`}
-                    >
+                    <h3 className={`${montserrat.className} text-lg font-bold sm:text-xl`}>
                       {project.title}
                     </h3>
                     <FiArrowUpRight className="h-4 w-4 shrink-0 text-[var(--header-item-color)] opacity-50 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />

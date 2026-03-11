@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { particleNetworkConfig } from "@/lib/animation/particle-network-config";
-import { updatePointerStateFromEvent, clearPointerState } from "@/lib/animation/particle-network/events";
-import { clamp, randomInt } from "@/lib/animation/particle-network/math";
-import { drawFrame } from "@/lib/animation/particle-network/rendering";
-import { spawnDustParticle, spawnParticle } from "@/lib/animation/particle-network/spawning";
+import {useEffect, useRef} from "react";
+import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
+import {
+  updatePointerStateFromEvent,
+  clearPointerState,
+} from "@/lib/animation/particle-network/events";
+import {clamp, randomInt} from "@/lib/animation/particle-network/math";
+import {drawFrame} from "@/lib/animation/particle-network/rendering";
+import {spawnDustParticle, spawnParticle} from "@/lib/animation/particle-network/spawning";
 import type {
   CanvasBounds,
   DustParticle,
@@ -15,13 +18,8 @@ import type {
   PointerState,
 } from "@/lib/animation/particle-network/types";
 
-const { particleNetwork } = particleNetworkConfig;
-const {
-  reducedMotionQuery,
-  density,
-  rendering,
-  spawning,
-} = particleNetwork;
+const {particleNetwork} = particleNetworkConfig;
+const {reducedMotionQuery, density, rendering, spawning} = particleNetwork;
 
 /**
  * Mutable runtime container for the particle engine.
@@ -33,7 +31,7 @@ type ParticleNetworkState = {
   boundsAnimationFrame: number;
   isCanvasVisible: boolean;
   previousTime: number;
-  dimensions: { width: number; height: number };
+  dimensions: {width: number; height: number};
   canvasBounds: CanvasBounds;
   colors: NetworkColors;
   particles: Particle[];
@@ -52,7 +50,7 @@ function createInitialState(): ParticleNetworkState {
     boundsAnimationFrame: 0,
     isCanvasVisible: true,
     previousTime: performance.now(),
-    dimensions: { width: 0, height: 0 },
+    dimensions: {width: 0, height: 0},
     canvasBounds: {
       left: 0,
       top: 0,
@@ -66,7 +64,7 @@ function createInitialState(): ParticleNetworkState {
     },
     particles: [],
     dustParticles: [],
-    pointer: { x: 0, y: 0, active: false },
+    pointer: {x: 0, y: 0, active: false},
     centers: [],
     reducedMotion: false,
   };
@@ -93,7 +91,7 @@ export function useParticleNetwork() {
       return;
     }
 
-    const context = canvas.getContext("2d", { alpha: true });
+    const context = canvas.getContext("2d", {alpha: true});
     if (!context) {
       return;
     }
@@ -114,14 +112,11 @@ export function useParticleNetwork() {
       const styles = getComputedStyle(document.documentElement);
       state.colors = {
         pointRgb:
-          styles.getPropertyValue("--network-point-rgb").trim() ||
-          rendering.defaultColors.pointRgb,
+          styles.getPropertyValue("--network-point-rgb").trim() || rendering.defaultColors.pointRgb,
         linkRgb:
-          styles.getPropertyValue("--network-link-rgb").trim() ||
-          rendering.defaultColors.linkRgb,
+          styles.getPropertyValue("--network-link-rgb").trim() || rendering.defaultColors.linkRgb,
         dustRgb:
-          styles.getPropertyValue("--network-dust-rgb").trim() ||
-          rendering.defaultColors.dustRgb,
+          styles.getPropertyValue("--network-dust-rgb").trim() || rendering.defaultColors.dustRgb,
       };
     };
 
@@ -146,7 +141,7 @@ export function useParticleNetwork() {
       // Cap DPR to avoid very high fill-rate cost on dense mobile displays.
       const dpr = Math.min(window.devicePixelRatio || 1, rendering.maxDevicePixelRatio);
 
-      state.dimensions = { width, height };
+      state.dimensions = {width, height};
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -154,14 +149,14 @@ export function useParticleNetwork() {
 
     // Rebuilds particles and dust after resize/theme/motion preference changes.
     const initParticles = () => {
-      const { width, height } = state.dimensions;
+      const {width, height} = state.dimensions;
       const area = width * height;
 
       // Keep particle count proportional to canvas area, within safe bounds.
       const baseCount = clamp(
         Math.round(area * density.baseParticles),
         density.minParticles,
-        density.maxParticles,
+        density.maxParticles
       );
 
       // Reduce counts more aggressively when motion is reduced to keep the effect present but lightweight.
@@ -169,47 +164,42 @@ export function useParticleNetwork() {
         ? Math.max(
             // Reduced motion keeps the effect present, but significantly lighter.
             density.reducedMotionMinParticles,
-            Math.round(baseCount * density.reducedMotionParticleFactor),
+            Math.round(baseCount * density.reducedMotionParticleFactor)
           )
         : baseCount;
-        
-      // Dust is more performance-sensitive than main particles, so reduce it more when motion is reduced.  
+
+      // Dust is more performance-sensitive than main particles, so reduce it more when motion is reduced.
       const dustCount = state.reducedMotion
         ? Math.max(
             density.reducedMotionMinDust,
-            Math.round(area * density.baseDust * density.reducedMotionDustFactor),
+            Math.round(area * density.baseDust * density.reducedMotionDustFactor)
           )
         : Math.max(density.minDust, Math.round(area * density.baseDust));
 
       // Generate new particle clusters and randomize positions for all particles and dust.
       state.centers = Array.from(
         {
-          length: randomInt(
-            spawning.clusterCenterCountMin,
-            spawning.clusterCenterCountMax,
-          ),
+          length: randomInt(spawning.clusterCenterCountMin, spawning.clusterCenterCountMax),
         },
         () => ({
           x: Math.random() * width,
           y: Math.random() * height,
-        }),
+        })
       );
 
       // Spawn main particles with awareness of pointer and cluster centers for more dynamic initial positions.
-      state.particles = Array.from({ length: particleCount }, () =>
+      state.particles = Array.from({length: particleCount}, () =>
         spawnParticle({
           width,
           height,
           centers: state.centers,
           pointer: state.pointer,
           pointerBias: false,
-        }),
+        })
       );
 
       // Spawn dust particles with a stronger bias towards pointer and cluster centers to create a more interactive and lively background effect, especially on larger screens where more dust can be used without overwhelming performance.
-      state.dustParticles = Array.from({ length: dustCount }, () =>
-        spawnDustParticle(width, height),
-      );
+      state.dustParticles = Array.from({length: dustCount}, () => spawnDustParticle(width, height));
     };
 
     // The engine runs only when visible and in a foreground tab.
@@ -374,7 +364,7 @@ export function useParticleNetwork() {
         startAnimation();
       },
       // Treat barely visible canvas as visible to avoid frequent thrashing.
-      { threshold: 0.01 },
+      {threshold: 0.01}
     );
 
     // Start observing as early as possible to keep state in sync with layout/theme.
@@ -386,10 +376,10 @@ export function useParticleNetwork() {
     });
 
     reducedMotionMedia.addEventListener("change", handleReducedMotionChange);
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, {passive: true});
     window.addEventListener("pointerleave", clearPointer);
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("scroll", syncBoundsOnNextFrame, { passive: true });
+    window.addEventListener("scroll", syncBoundsOnNextFrame, {passive: true});
 
     resizeCanvas();
     syncNetworkColors();

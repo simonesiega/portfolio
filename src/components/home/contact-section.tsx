@@ -1,8 +1,8 @@
-import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
-import { ScrollReveal } from "@/components/animation/scroll-reveal";
-import { animationTimings } from "@/lib/animation/animation-timings";
-import { montserrat } from "@/lib/fonts";
-import type { HomeContactSection } from "@/lib/config/text/home";
+import {FaGithub, FaLinkedinIn} from "react-icons/fa6";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {animationTimings} from "@/lib/animation/animation-timings";
+import {montserrat} from "@/lib/fonts";
+import type {HomeContactSection} from "@/lib/config/text/home";
 
 type ContactSectionProps = {
   contactSection: HomeContactSection;
@@ -22,16 +22,15 @@ export function ContactSection({
   linkedinUrl,
   socialLabels,
 }: ContactSectionProps) {
-  const { homeContactSection } = animationTimings;
+  const {homeContactSection} = animationTimings;
 
   return (
     <section id={contactSection.id} className="py-16 sm:py-20">
       <div className="mx-auto max-w-4xl text-center">
-        <ScrollReveal
-          variant="fade-up"
-          duration={homeContactSection.heading.durationMs}
-        >
-          <p className={`${montserrat.className} text-lg font-semibold tracking-tight text-[var(--header-item-color)] sm:text-xl`}>
+        <ScrollReveal variant="fade-up" duration={homeContactSection.heading.durationMs}>
+          <p
+            className={`${montserrat.className} text-lg font-semibold tracking-tight text-[var(--header-item-color)] sm:text-xl`}
+          >
             {contactSection.eyebrow}
           </p>
           <h2 className={`${montserrat.className} mt-2 text-3xl font-extrabold sm:text-5xl`}>
@@ -79,7 +78,9 @@ export function ContactSection({
               <FaGithub className="h-6 w-6" />
             </a>
 
-            <span className="text-[var(--header-item-color)]" aria-hidden="true">.</span>
+            <span className="text-[var(--header-item-color)]" aria-hidden="true">
+              .
+            </span>
 
             <a
               href={linkedinUrl}

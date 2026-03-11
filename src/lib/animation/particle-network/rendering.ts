@@ -1,9 +1,6 @@
-import { particleNetworkConfig } from "@/lib/animation/particle-network-config";
-import { distanceToPointerSquared } from "@/lib/animation/particle-network/math";
-import {
-  updateDustParticles,
-  updateParticles,
-} from "@/lib/animation/particle-network/physics";
+import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
+import {distanceToPointerSquared} from "@/lib/animation/particle-network/math";
+import {updateDustParticles, updateParticles} from "@/lib/animation/particle-network/physics";
 import type {
   DustParticle,
   NetworkColors,
@@ -12,7 +9,7 @@ import type {
   PointerState,
 } from "@/lib/animation/particle-network/types";
 
-const { links, pointer: pointerConfig } = particleNetworkConfig.particleNetwork;
+const {links, pointer: pointerConfig} = particleNetworkConfig.particleNetwork;
 
 /**
  * Executes one full visual frame:
@@ -54,11 +51,11 @@ export function drawFrame({
     reducedMotion,
     centers,
   });
-  updateDustParticles({ dustParticles, width, height, dt });
+  updateDustParticles({dustParticles, width, height, dt});
 
-  drawLinks({ context, particles, pointer, colors });
-  drawPoints({ context, particles, pointer, colors });
-  drawDust({ context, dustParticles, colors });
+  drawLinks({context, particles, pointer, colors});
+  drawPoints({context, particles, pointer, colors});
+  drawDust({context, dustParticles, colors});
 }
 
 /**

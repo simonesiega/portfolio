@@ -1,5 +1,5 @@
-import type { MetadataRoute } from "next";
-import { getSiteOrigin } from "@/lib/site-url";
+import type {MetadataRoute} from "next";
+import {getSiteOrigin} from "@/lib/site-url";
 
 const normalizedSiteUrl = getSiteOrigin();
 

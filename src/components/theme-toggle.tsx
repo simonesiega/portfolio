@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
-import { appConfig } from "@/lib/config/app-config";
+import {useEffect, useState} from "react";
+import {FiMonitor, FiMoon, FiSun} from "react-icons/fi";
+import {appConfig} from "@/lib/config/app-config";
 import {
   applyThemePreference,
   getPrefersLightMediaQuery,

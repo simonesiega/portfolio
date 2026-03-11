@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { ContactSection } from "@/components/home/contact-section";
-import { CurrentlyBuildingSection } from "@/components/home/currently-building-section";
-import { HomeHeroSection } from "@/components/home/hero-section";
-import { RouteReveal } from "@/components/animation/route-reveal";
-import { ScrollReveal } from "@/components/animation/scroll-reveal";
-import { PrimaryFooter } from "@/components/layout/primary-footer";
-import { animationTimings } from "@/lib/animation/animation-timings";
-import { appConfig } from "@/lib/config/app-config";
-import { homeText } from "@/lib/config/text/home";
+import type {Metadata} from "next";
+import {ContactSection} from "@/components/home/contact-section";
+import {CurrentlyBuildingSection} from "@/components/home/currently-building-section";
+import {HomeHeroSection} from "@/components/home/hero-section";
+import {RouteReveal} from "@/components/animation/route-reveal";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {PrimaryFooter} from "@/components/layout/primary-footer";
+import {animationTimings} from "@/lib/animation/animation-timings";
+import {appConfig} from "@/lib/config/app-config";
+import {homeText} from "@/lib/config/text/home";
 
-const { social, contact } = appConfig;
-const { hero, currentlyBuilding, contactSection } = homeText;
-const { homePage, routeReveal } = animationTimings;
+const {social, contact} = appConfig;
+const {hero, currentlyBuilding, contactSection} = homeText;
+const {homePage, routeReveal} = animationTimings;
 
 export const metadata: Metadata = {
   alternates: {

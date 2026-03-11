@@ -1,14 +1,14 @@
-import { ThemeToggle } from "@/components/theme-toggle";
-import { montserrat } from "@/lib/fonts";
-import { appConfig } from "@/lib/config/app-config";
+import {ThemeToggle} from "@/components/theme-toggle";
+import {montserrat} from "@/lib/fonts";
+import {appConfig} from "@/lib/config/app-config";
 
-const { contact } = appConfig;
+const {contact} = appConfig;
 
 type SecondaryFooterProps = {
   legalDisclaimerLine?: string;
 };
 
-export function SecondaryFooter({ legalDisclaimerLine }: SecondaryFooterProps) {
+export function SecondaryFooter({legalDisclaimerLine}: SecondaryFooterProps) {
   return (
     <footer className="grid w-full grid-cols-[1fr_auto] items-start gap-x-6 pb-10 sm:pb-12">
       <div className="flex min-w-0 flex-col gap-2">
@@ -31,7 +31,8 @@ export function SecondaryFooter({ legalDisclaimerLine }: SecondaryFooterProps) {
           aria-hidden={!legalDisclaimerLine}
           className={`${montserrat.className} max-w-[26rem] text-right text-[0.62rem] leading-relaxed text-[var(--header-item-color)] opacity-80 sm:text-[0.7rem] ${legalDisclaimerLine ? "" : "invisible"}`}
         >
-          {legalDisclaimerLine ?? "Logos and trademarks are the property of their respective owners."}
+          {legalDisclaimerLine ??
+            "Logos and trademarks are the property of their respective owners."}
         </p>
 
         <ThemeToggle />

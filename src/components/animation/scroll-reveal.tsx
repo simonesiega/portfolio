@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  useRef,
-  useEffect,
-  type ReactNode,
-  type CSSProperties,
-} from "react";
-import { animationTimings } from "@/lib/animation/animation-timings";
+import {useRef, useEffect, type ReactNode, type CSSProperties} from "react";
+import {animationTimings} from "@/lib/animation/animation-timings";
 
 type Variant = "fade-up" | "fade-in" | "scale-up";
 
@@ -33,16 +28,14 @@ export function ScrollReveal({
   once = true,
   style,
 }: ScrollRevealProps) {
-  const { scrollRevealDefaults } = animationTimings;
+  const {scrollRevealDefaults} = animationTimings;
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const prefersReduced = window.matchMedia(
-      scrollRevealDefaults.reducedMotionQuery
-    ).matches;
+    const prefersReduced = window.matchMedia(scrollRevealDefaults.reducedMotionQuery).matches;
     if (prefersReduced) {
       el.classList.add("scroll-reveal--visible");
       return;
@@ -60,7 +53,7 @@ export function ScrollReveal({
           if (once) observer.unobserve(el);
         }
       },
-      { threshold, rootMargin: scrollRevealDefaults.rootMargin }
+      {threshold, rootMargin: scrollRevealDefaults.rootMargin}
     );
 
     observer.observe(el);

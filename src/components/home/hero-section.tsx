@@ -1,6 +1,6 @@
-import type { CSSProperties } from "react";
+import type {CSSProperties} from "react";
 import Link from "next/link";
-import type { IconType } from "react-icons";
+import type {IconType} from "react-icons";
 import {
   SiOpenai,
   SiOracle,
@@ -12,17 +12,17 @@ import {
   SiTypescript,
   SiDocker,
 } from "react-icons/si";
-import { ParticleNetwork } from "@/components/animation/particle-network";
-import { animationTimings, toMs } from "@/lib/animation/animation-timings";
-import { montserrat } from "@/lib/fonts";
-import type { HomeHero } from "@/lib/config/text/home";
+import {ParticleNetwork} from "@/components/animation/particle-network";
+import {animationTimings, toMs} from "@/lib/animation/animation-timings";
+import {montserrat} from "@/lib/fonts";
+import type {HomeHero} from "@/lib/config/text/home";
 
 type HomeHeroSectionProps = {
   hero: HomeHero;
   contactSectionId: string;
 };
 
-const { landingReveal } = animationTimings;
+const {landingReveal} = animationTimings;
 
 const skillIcons: Record<string, IconType> = {
   openai: SiOpenai,
@@ -41,12 +41,12 @@ const landingRevealContainerStyle = {
 } as CSSProperties;
 
 function getLandingRevealStyle(delayMs: number): CSSProperties {
-  return { animationDelay: toMs(delayMs) };
+  return {animationDelay: toMs(delayMs)};
 }
 
-export function HomeHeroSection({ hero, contactSectionId }: HomeHeroSectionProps) {
+export function HomeHeroSection({hero, contactSectionId}: HomeHeroSectionProps) {
   return (
-    <section className="relative flex min-h-[calc(100vh-110px)] min-h-[calc(100svh-110px)] items-center justify-center pb-0">
+    <section className="relative flex min-h-[calc(100svh-110px)] min-h-[calc(100vh-110px)] items-center justify-center pb-0">
       <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
 
       <div
@@ -93,14 +93,14 @@ export function HomeHeroSection({ hero, contactSectionId }: HomeHeroSectionProps
             className="landing-reveal flex max-w-3xl flex-wrap gap-2.5"
             style={getLandingRevealStyle(landingReveal.delaysMs.skills)}
           >
-            {hero.skills.map(({ label, iconKey, color }) => {
+            {hero.skills.map(({label, iconKey, color}) => {
               const Icon = skillIcons[iconKey];
               return (
                 <span
                   key={label}
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--header-item-color)]/20 bg-[var(--ui-bg)]/60 px-4 py-1.5 text-sm font-medium text-[var(--bio-text-color)] backdrop-blur-sm"
                 >
-                  <span style={{ color }} className="flex shrink-0">
+                  <span style={{color}} className="flex shrink-0">
                     {Icon && <Icon className="h-4 w-4" />}
                   </span>
                   {label}
@@ -113,7 +113,9 @@ export function HomeHeroSection({ hero, contactSectionId }: HomeHeroSectionProps
             className="landing-reveal mt-8"
             style={getLandingRevealStyle(landingReveal.delaysMs.cta)}
           >
-            <p className={`${montserrat.className} mb-3 text-xs font-semibold tracking-[0.14em] text-[var(--header-item-color)]/85 sm:text-sm`}>
+            <p
+              className={`${montserrat.className} mb-3 text-xs font-semibold tracking-[0.14em] text-[var(--header-item-color)]/85 sm:text-sm`}
+            >
               {hero.statusLine}
             </p>
             <div className="flex flex-wrap items-center gap-3 sm:gap-4">
