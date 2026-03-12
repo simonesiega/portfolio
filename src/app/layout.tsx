@@ -5,7 +5,7 @@ import {appConfig} from "@/lib/config/app-config";
 import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
 import {getSiteUrl} from "@/lib/site-url";
-import {getThemeInitScript} from "@/lib/theme";
+import {themeInitScript} from "@/lib/theme-init";
 import {Header} from "@/components/layout/header";
 import "./globals.css";
 
@@ -48,7 +48,7 @@ export default function RootLayout({
     <html lang={metadataConfig.language} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <Script src="/runtime-init.js" strategy="beforeInteractive" />
-        <script dangerouslySetInnerHTML={{__html: getThemeInitScript()}} />
+        <script dangerouslySetInnerHTML={{__html: themeInitScript}} />
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
             defer

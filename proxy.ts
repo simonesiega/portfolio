@@ -1,4 +1,5 @@
 import {NextResponse, type NextRequest} from "next/server";
+import {themeInitScriptHash} from "./src/lib/theme-init";
 
 const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC;
 const isProduction = process.env.NODE_ENV === "production";
@@ -26,7 +27,11 @@ if (umamiScriptSrc) {
 }
 
 function createCspHeader() {
-  const scriptSrc = ["'self'", ...(umamiOrigin ? [umamiOrigin] : [])];
+  const scriptSrc = [
+    "'self'",
+    `'sha256-${themeInitScriptHash}'`,
+    ...(umamiOrigin ? [umamiOrigin] : []),
+  ];
   const connectSrc = ["'self'", ...(umamiOrigin ? [umamiOrigin] : []), ...cspConnectSrcExtra];
 
   if (!isProduction) {
