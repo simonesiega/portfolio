@@ -51,6 +51,11 @@ export function ScrollReveal({
         if (entry.isIntersecting) {
           el.classList.add("scroll-reveal--visible");
           if (once) observer.unobserve(el);
+          return;
+        }
+
+        if (!once) {
+          el.classList.remove("scroll-reveal--visible");
         }
       },
       {threshold, rootMargin: scrollRevealDefaults.rootMargin}

@@ -1,7 +1,5 @@
-"use client";
-
-import {useMemo} from "react";
 import {FaRegCopyright} from "react-icons/fa6";
+import {CurrentYear} from "@/components/layout/current-year";
 import {ThemeToggle} from "@/components/theme-toggle";
 import {montserrat} from "@/lib/fonts";
 import {appConfig} from "@/lib/config/app-config";
@@ -9,18 +7,15 @@ import {appConfig} from "@/lib/config/app-config";
 const {owner} = appConfig;
 
 export function PrimaryFooter() {
-  const currentYear = useMemo(() => new Date().getFullYear(), []);
-
   return (
     <footer className="flex w-full items-end justify-between pb-10 sm:pb-12">
       <div>
         <div className="flex items-center gap-2">
           <FaRegCopyright className="h-3.5 w-3.5 text-[var(--header-item-color)]" />
           <span
-            suppressHydrationWarning
             className={`${montserrat.className} text-xs tracking-[0.14em] text-[var(--header-item-color)] sm:text-sm`}
           >
-            {currentYear} {owner.copyrightName}
+            <CurrentYear /> {owner.copyrightName}
           </span>
         </div>
         <p

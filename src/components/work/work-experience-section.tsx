@@ -100,16 +100,16 @@ export function WorkExperienceItem({
             {experience.description}
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-2" aria-label={technologiesAriaLabel}>
+          <ul className="mt-6 flex flex-wrap gap-2" aria-label={technologiesAriaLabel}>
             {experience.technologies.map((technology) => (
-              <span
+              <li
                 key={technology}
                 className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2.5 py-1 text-[0.82rem] text-[var(--card-tag-color)]"
               >
                 {technology}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </article>
       </ScrollReveal>
     </li>
