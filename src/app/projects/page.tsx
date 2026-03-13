@@ -1,8 +1,9 @@
 import type {Metadata} from "next";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
+import {contentPageSeo} from "@/lib/config/site-routes";
 import {projectsText} from "@/lib/config/text/projects";
-import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
+import {createContentPageMetadata} from "@/lib/metadata";
 
 export default function ProjectsPage() {
   const {hero} = projectsText;
@@ -17,21 +18,10 @@ export default function ProjectsPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description: projectsText.hero.subtitle,
-  alternates: {
-    canonical: "/projects",
-  },
-  openGraph: {
-    ...sharedOpenGraph,
-    url: "/projects",
-    title: "Projects | Simone Siega",
-    description: projectsText.hero.subtitle,
-  },
-  twitter: {
-    ...sharedTwitter,
-    title: "Projects | Simone Siega",
-    description: projectsText.hero.subtitle,
-  },
-};
+const projectsSeo = contentPageSeo["/projects"];
+
+export const metadata: Metadata = createContentPageMetadata({
+  route: "/projects",
+  title: projectsSeo.title,
+  description: projectsSeo.description,
+});

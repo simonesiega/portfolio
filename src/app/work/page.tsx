@@ -2,45 +2,13 @@ import type {Metadata} from "next";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {WorkExperienceItem} from "@/components/work/work-experience-section";
 import {animationTimings} from "@/lib/animation/animation-timings";
+import {getOrderedWorkExperiences} from "@/lib/config/helpers/experience-order";
+import {contentPageSeo} from "@/lib/config/site-routes";
 import {workText} from "@/lib/config/text/work";
-import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
-
-function toMonthIndex(value: string) {
-  const match = value.match(/^(\d{4})-(\d{2})$/);
-
-  if (!match) {
-    return null;
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-
-  if (!Number.isFinite(year) || !Number.isFinite(month) || month < 1 || month > 12) {
-    return null;
-  }
-
-  return year * 12 + (month - 1);
-}
+import {createContentPageMetadata} from "@/lib/metadata";
 
 export default function WorkPage() {
-  const orderedWorkExperience = [...workText.experiences].sort((left, right) => {
-    const leftMonthIndex = toMonthIndex(left.sortStart);
-    const rightMonthIndex = toMonthIndex(right.sortStart);
-
-    if (leftMonthIndex === null && rightMonthIndex === null) {
-      return left.id.localeCompare(right.id);
-    }
-
-    if (leftMonthIndex === null) {
-      return 1;
-    }
-
-    if (rightMonthIndex === null) {
-      return -1;
-    }
-
-    return rightMonthIndex - leftMonthIndex;
-  });
+  const orderedWorkExperience = getOrderedWorkExperiences(workText.experiences);
 
   const {hero, sections, footer} = workText;
   const {routeReveal, workExperienceList} = animationTimings;
@@ -71,21 +39,10 @@ export default function WorkPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: "Work",
-  description: workText.hero.subtitle,
-  alternates: {
-    canonical: "/work",
-  },
-  openGraph: {
-    ...sharedOpenGraph,
-    url: "/work",
-    title: "Work | Simone Siega",
-    description: workText.hero.subtitle,
-  },
-  twitter: {
-    ...sharedTwitter,
-    title: "Work | Simone Siega",
-    description: workText.hero.subtitle,
-  },
-};
+const workSeo = contentPageSeo["/work"];
+
+export const metadata: Metadata = createContentPageMetadata({
+  route: "/work",
+  title: workSeo.title,
+  description: workSeo.description,
+});

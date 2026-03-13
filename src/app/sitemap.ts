@@ -1,14 +1,9 @@
 import type {MetadataRoute} from "next";
 import {execFileSync} from "node:child_process";
+import {appRouteFiles} from "@/lib/config/site-routes";
 import {getSiteOrigin} from "@/lib/site-url";
 
 const baseUrl = getSiteOrigin();
-
-const routeFiles = {
-  "/": "src/app/page.tsx",
-  "/projects": "src/app/projects/page.tsx",
-  "/work": "src/app/work/page.tsx",
-} as const;
 
 const gitLogEntrySeparator = "__SITEMAP_COMMIT__";
 
@@ -61,9 +56,9 @@ function getLastModifiedByFile(filePaths: readonly string[]) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModifiedByFile = getLastModifiedByFile(Object.values(routeFiles));
+  const lastModifiedByFile = getLastModifiedByFile(Object.values(appRouteFiles));
 
-  return Object.entries(routeFiles).map(([route, filePath]) => ({
+  return Object.entries(appRouteFiles).map(([route, filePath]) => ({
     url: `${baseUrl}${route}`,
     lastModified: lastModifiedByFile.get(filePath),
   }));

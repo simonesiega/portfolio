@@ -1,4 +1,6 @@
+import type {Metadata} from "next";
 import {appConfig} from "@/lib/config/app-config";
+import type {ContentPageRoute} from "@/lib/config/site-routes";
 
 const {
   metadata: {socialPreview},
@@ -27,6 +29,39 @@ export const sharedTwitter = {
   card: "summary_large_image",
   images: [socialPreviewImage.url],
 };
+
+type ContentPageMetadataInput = {
+  route: ContentPageRoute;
+  title: string;
+  description: string;
+};
+
+export function createContentPageMetadata({
+  route,
+  title,
+  description,
+}: ContentPageMetadataInput): Metadata {
+  const pageTitle = `${title} | ${owner.name}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: route,
+    },
+    openGraph: {
+      ...sharedOpenGraph,
+      url: route,
+      title: pageTitle,
+      description,
+    },
+    twitter: {
+      ...sharedTwitter,
+      title: pageTitle,
+      description,
+    },
+  };
+}
 
 export const socialPreviewText = {
   ownerName: owner.name,
