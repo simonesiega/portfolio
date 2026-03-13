@@ -1,18 +1,40 @@
+export const homeSkillIconKeys = [
+  "openai",
+  "oracle",
+  "python",
+  "react",
+  "typescript",
+  "postgresql",
+  "rust",
+  "flutter",
+  "docker",
+] as const;
+
+export type HomeSkillIconKey = (typeof homeSkillIconKeys)[number];
+
+type HomeHeroSkill = {
+  label: string;
+  iconKey: HomeSkillIconKey;
+  color: string;
+};
+
+const homeHeroSkills = [
+  {label: "AI / ML", iconKey: "openai", color: "#10a37f"},
+  {label: "Java", iconKey: "oracle", color: "#f89820"},
+  {label: "Python", iconKey: "python", color: "#3776ab"},
+  {label: "React / Next.js", iconKey: "react", color: "#61dafb"},
+  {label: "Database Systems", iconKey: "postgresql", color: "#336791"},
+  {label: "Rust", iconKey: "rust", color: "#dea584"},
+  {label: "Flutter", iconKey: "flutter", color: "#02569b"},
+] as const satisfies readonly HomeHeroSkill[];
+
 export const homeText = {
   hero: {
     heading: "Hi, I'm Simone Siega",
     tagline: "Full-stack developer building AI-powered products",
     locationLine: "📍 Venice, Italy · CS student '26",
     bio: "I build practical software — from full-stack applications to AI-driven systems — turning complex ideas into reliable, production-ready products.",
-    skills: [
-      {label: "AI / ML", iconKey: "openai", color: "#10a37f"},
-      {label: "Java", iconKey: "oracle", color: "#f89820"},
-      {label: "Python", iconKey: "python", color: "#3776ab"},
-      {label: "React / Next.js", iconKey: "react", color: "#61dafb"},
-      {label: "Database Systems", iconKey: "postgresql", color: "#336791"},
-      {label: "Rust", iconKey: "rust", color: "#dea584"},
-      {label: "Flutter", iconKey: "flutter", color: "#02569b"},
-    ],
+    skills: homeHeroSkills,
     statusLine: "Open to internships & collaborations",
     primaryCtaLabel: "Let's Talk",
     secondaryCtaLabel: "View Projects",

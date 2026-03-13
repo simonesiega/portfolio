@@ -15,7 +15,7 @@ import {
 import {ParticleNetwork} from "@/components/animation/particle-network";
 import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
-import type {HomeHero} from "@/lib/config/text/home";
+import type {HomeHero, HomeSkillIconKey} from "@/lib/config/text/home";
 
 type HomeHeroSectionProps = {
   hero: HomeHero;
@@ -24,7 +24,7 @@ type HomeHeroSectionProps = {
 
 const {landingReveal} = animationTimings;
 
-const skillIcons: Record<string, IconType> = {
+const skillIcons: Record<HomeSkillIconKey, IconType> = {
   openai: SiOpenai,
   oracle: SiOracle,
   python: SiPython,
@@ -101,7 +101,7 @@ export function HomeHeroSection({hero, contactSectionId}: HomeHeroSectionProps) 
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--header-item-color)]/20 bg-[var(--ui-bg)]/60 px-4 py-1.5 text-sm font-medium text-[var(--bio-text-color)] backdrop-blur-sm"
                 >
                   <span style={{color}} className="flex shrink-0">
-                    {Icon && <Icon className="h-4 w-4" />}
+                    <Icon className="h-4 w-4" />
                   </span>
                   {label}
                 </span>
