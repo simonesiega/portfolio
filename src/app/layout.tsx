@@ -6,8 +6,8 @@ import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
 import {getSiteUrl} from "@/lib/site-url";
 import {themeInitScript} from "@/lib/theme-init";
+import {ScrollToTopOnRouteChange} from "@/components/behavior/scroll/scroll-to-top-on-route-change";
 import {Header} from "@/components/layout/header";
-import {ScrollToTopOnRouteChange} from "@/components/layout/scroll-to-top-on-route-change";
 import "./globals.css";
 
 const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);

@@ -13,9 +13,9 @@ import {
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
 } from "react";
+import {beginRouteNavigationScrollMode} from "@/components/behavior/scroll/instant-scroll-reset";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
-import {instantScrollReset} from "@/lib/instant-scroll-reset";
 import type {HeaderLink} from "@/lib/config/app-config";
 
 type HeaderProps = {
@@ -151,9 +151,20 @@ export function Header({
   );
 
   const handleNavItemClick = useCallback(
-    (href: string) => {
+    (event: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
       if (href !== pathname) {
-        instantScrollReset();
+        beginRouteNavigationScrollMode();
       }
     },
     [pathname]
@@ -182,8 +193,9 @@ export function Header({
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => {
-                    handleNavItemClick(item.href);
+                  scroll={false}
+                  onClick={(event) => {
+                    handleNavItemClick(event, item.href);
                   }}
                   ref={(el: HTMLAnchorElement | null) => {
                     if (el) {

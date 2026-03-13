@@ -1,5 +1,5 @@
 import {FaRegCopyright} from "react-icons/fa6";
-import {CurrentYear} from "@/components/layout/current-year";
+import {CurrentYear} from "@/components/home/current-year";
 import {ThemeToggle} from "@/components/theme-toggle";
 import {montserrat} from "@/lib/fonts";
 import {appConfig} from "@/lib/config/app-config";

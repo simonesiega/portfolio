@@ -2,7 +2,11 @@
 
 import {useLayoutEffect, useRef} from "react";
 import {usePathname} from "next/navigation";
-import {instantScrollReset} from "@/lib/instant-scroll-reset";
+import {
+  beginRouteNavigationScrollMode,
+  resetScrollTopInstant,
+  restoreSmoothScrollMode,
+} from "@/components/behavior/scroll/instant-scroll-reset";
 
 export function ScrollToTopOnRouteChange() {
   const pathname = usePathname();
@@ -10,7 +14,13 @@ export function ScrollToTopOnRouteChange() {
 
   useLayoutEffect(() => {
     if (previousPathRef.current !== pathname) {
-      instantScrollReset();
+      beginRouteNavigationScrollMode();
+      resetScrollTopInstant();
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          restoreSmoothScrollMode();
+        });
+      });
       previousPathRef.current = pathname;
     }
   }, [pathname]);

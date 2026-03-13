@@ -1,7 +1,5 @@
 import type {Metadata} from "next";
-import {RouteReveal} from "@/components/animation/route-reveal";
-import {SecondaryPageHero} from "@/components/layout/secondary-page-hero";
-import {SecondaryFooter} from "@/components/layout/secondary-footer";
+import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {WorkExperienceItem} from "@/components/work/work-experience-section";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {workText} from "@/lib/config/text/work";
@@ -48,43 +46,28 @@ export default function WorkPage() {
   const {routeReveal, workExperienceList} = animationTimings;
 
   return (
-    <div className="overflow-x-clip">
-      <div className="mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
-        <div className="mx-auto max-w-5xl px-6">
-          <SecondaryPageHero
-            sectionId={hero.sectionId}
-            eyebrow={hero.eyebrow}
-            title={hero.title}
-            subtitle={hero.subtitle}
-          />
-
-          <section aria-label={sections.experienceAriaLabel} className="pb-24 sm:pb-24">
-            <ol className="relative ml-2 border-l border-[var(--card-border)]">
-              {orderedWorkExperience.map((experience, index) => (
-                <WorkExperienceItem
-                  key={experience.id}
-                  experience={experience}
-                  showDivider={index > 0}
-                  revealDelayMs={workExperienceList.item.delayMs}
-                  revealDurationMs={workExperienceList.item.durationMs}
-                  revealThreshold={workExperienceList.item.threshold}
-                  technologiesAriaLabel={sections.technologiesAriaLabel}
-                />
-              ))}
-            </ol>
-          </section>
-        </div>
-
-        <RouteReveal
-          variant="fade-in"
-          duration={routeReveal.durationMs}
-          threshold={routeReveal.threshold}
-          className="mt-auto"
-        >
-          <SecondaryFooter legalDisclaimerLine={footer.legalDisclaimerLine} />
-        </RouteReveal>
-      </div>
-    </div>
+    <SecondaryPageLayout
+      hero={hero}
+      routeRevealDurationMs={routeReveal.durationMs}
+      routeRevealThreshold={routeReveal.threshold}
+      footerLegalDisclaimerLine={footer.legalDisclaimerLine}
+    >
+      <section aria-label={sections.experienceAriaLabel} className="pb-24 sm:pb-24">
+        <ol className="relative ml-2 border-l border-[var(--card-border)]">
+          {orderedWorkExperience.map((experience, index) => (
+            <WorkExperienceItem
+              key={experience.id}
+              experience={experience}
+              showDivider={index > 0}
+              revealDelayMs={workExperienceList.item.delayMs}
+              revealDurationMs={workExperienceList.item.durationMs}
+              revealThreshold={workExperienceList.item.threshold}
+              technologiesAriaLabel={sections.technologiesAriaLabel}
+            />
+          ))}
+        </ol>
+      </section>
+    </SecondaryPageLayout>
   );
 }
 

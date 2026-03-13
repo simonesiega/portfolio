@@ -4,7 +4,7 @@ import {CurrentlyBuildingSection} from "@/components/home/currently-building-sec
 import {HomeHeroSection} from "@/components/home/hero-section";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
-import {PrimaryFooter} from "@/components/layout/primary-footer";
+import {PrimaryFooter} from "@/components/home/primary-footer";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {homeText} from "@/lib/config/text/home";
