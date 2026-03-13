@@ -15,6 +15,7 @@ import {
 } from "react";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
+import {instantScrollReset} from "@/lib/instant-scroll-reset";
 import type {HeaderLink} from "@/lib/config/app-config";
 
 type HeaderProps = {
@@ -149,6 +150,15 @@ export function Header({
     [homeHref, pathname]
   );
 
+  const handleNavItemClick = useCallback(
+    (href: string) => {
+      if (href !== pathname) {
+        instantScrollReset();
+      }
+    },
+    [pathname]
+  );
+
   return (
     <header
       className={`${montserrat.className} flex h-24 w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)] sm:h-28 sm:gap-12 sm:px-0`}
@@ -172,6 +182,9 @@ export function Header({
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => {
+                    handleNavItemClick(item.href);
+                  }}
                   ref={(el: HTMLAnchorElement | null) => {
                     if (el) {
                       itemRefs.current.set(item.href, el);

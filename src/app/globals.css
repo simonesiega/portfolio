@@ -52,8 +52,15 @@
   --network-dust-rgb: 39, 39, 42;
 }
 
-html {
+html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
+}
+
+html[data-scroll-behavior="auto"] {
+  scroll-behavior: auto;
+}
+
+html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scrollbar-gutter: stable both-edges;

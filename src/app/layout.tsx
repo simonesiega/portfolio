@@ -7,6 +7,7 @@ import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
 import {getSiteUrl} from "@/lib/site-url";
 import {themeInitScript} from "@/lib/theme-init";
 import {Header} from "@/components/layout/header";
+import {ScrollToTopOnRouteChange} from "@/components/layout/scroll-to-top-on-route-change";
 import "./globals.css";
 
 const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);
@@ -65,6 +66,7 @@ export default function RootLayout({
           } as React.CSSProperties
         }
       >
+        <ScrollToTopOnRouteChange />
         <div className="fixed inset-x-0 top-0 z-50">
           <div className="mx-auto w-full max-w-[90rem] px-0 sm:px-8">
             <Header
