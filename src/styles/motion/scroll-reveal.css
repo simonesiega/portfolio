@@ -1,0 +1,30 @@
+.scroll-reveal {
+  will-change: transform, opacity, filter;
+  transition-property: transform, opacity, filter;
+  transition-duration: var(--sr-duration, 700ms);
+  transition-delay: var(--sr-delay, 0ms);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js .scroll-reveal--fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(4px);
+}
+
+html.js .scroll-reveal--fade-in {
+  opacity: 0;
+  filter: blur(4px);
+}
+
+html.js .scroll-reveal--scale-up {
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(4px);
+}
+
+html.js .scroll-reveal--visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+  filter: blur(0);
+}

@@ -1,0 +1,22 @@
+html[data-scroll-behavior="smooth"] {
+  scroll-behavior: smooth;
+}
+
+html[data-scroll-behavior="auto"] {
+  scroll-behavior: auto;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-gutter: stable both-edges;
+}
+
+body {
+  background: var(--ui-bg);
+  color: var(--ui-fg);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  transition:
+    background-color var(--theme-transition-duration, 220ms) var(--theme-transition-easing, ease),
+    color var(--theme-transition-duration, 220ms) var(--theme-transition-easing, ease);
+}

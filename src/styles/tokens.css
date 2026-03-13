@@ -1,0 +1,51 @@
+:root {
+  --app-header-height: 6rem;
+  --ui-bg: #000000;
+  --ui-fg: #ffffff;
+  --ui-fg-muted: #d4d4d8;
+  --header-item-color: #a1a1aa;
+  --header-item-hover-color: #f5f5f5;
+  --bio-text-color: #d0d0d4;
+  --header-border-color: rgba(255, 255, 255, 0.2);
+  --header-overlay-bg: rgba(0, 0, 0, 0.72);
+  --cta-bg: #ffffff;
+  --cta-fg: #000000;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-hover-border: rgba(255, 255, 255, 0.22);
+  --card-tag-bg: rgba(255, 255, 255, 0.08);
+  --card-tag-color: #a1a1aa;
+  --work-item-hover-bg: rgba(255, 255, 255, 0.07);
+  --network-point-rgb: 245, 245, 245;
+  --network-link-rgb: 245, 245, 245;
+  --network-dust-rgb: 255, 255, 255;
+}
+
+@theme inline {
+  --color-background: var(--ui-bg);
+  --color-foreground: var(--ui-fg);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root[data-theme="light"] {
+  --ui-bg: #ffffff;
+  --ui-fg: #000000;
+  --ui-fg-muted: #27272a;
+  --header-item-color: #52525b;
+  --header-item-hover-color: #09090b;
+  --bio-text-color: #3f3f46;
+  --header-border-color: rgba(0, 0, 0, 0.2);
+  --header-overlay-bg: rgba(255, 255, 255, 0.74);
+  --cta-bg: #000000;
+  --cta-fg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.1);
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-hover-border: rgba(0, 0, 0, 0.22);
+  --card-tag-bg: rgba(0, 0, 0, 0.06);
+  --card-tag-color: #52525b;
+  --work-item-hover-bg: rgba(0, 0, 0, 0.07);
+  --network-point-rgb: 24, 24, 27;
+  --network-link-rgb: 24, 24, 27;
+  --network-dust-rgb: 39, 39, 42;
+}
