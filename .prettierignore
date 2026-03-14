@@ -6,3 +6,5 @@ out
 package-lock.json
 public
 *.tsbuildinfo
+README.md
+docs/

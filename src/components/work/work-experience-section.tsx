@@ -80,7 +80,10 @@ export function WorkExperienceItem({
                   className={`${montserrat.className} mt-1.5 min-w-0 text-sm font-semibold tracking-tight text-[var(--header-item-color)] sm:text-base`}
                 >
                   {experience.role}
-                  <span> · {experience.companyType}</span>
+                  <span className="text-[var(--header-item-color)]/60">
+                    {" "}
+                    · {experience.companyType}
+                  </span>
                 </p>
               </div>
             </div>
@@ -97,10 +100,14 @@ export function WorkExperienceItem({
           </header>
 
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[var(--ui-fg-muted)] sm:text-base">
+            {experience.keyPhrase}
+          </p>
+
+          <p className="mt-7 max-w-2xl text-xs leading-relaxed text-[var(--ui-fg-muted)] sm:text-sm">
             {experience.description}
           </p>
 
-          <ul className="mt-6 flex flex-wrap gap-2" aria-label={technologiesAriaLabel}>
+          <ul className="mt-7 flex flex-wrap gap-2" aria-label={technologiesAriaLabel}>
             {experience.technologies.map((technology) => (
               <li
                 key={technology}
