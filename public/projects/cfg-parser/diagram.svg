@@ -1,0 +1,198 @@
+<svg width="1200" height="840" viewBox="0 0 1200 840" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CFG Parser architecture flow diagram">
+  <style>
+    :root {
+      --diagram-bg: #050505;
+      --diagram-panel: #0a0a0a;
+      --diagram-panel-soft: #080808;
+      --diagram-border: #1c1c1c;
+      --diagram-border-soft: #171717;
+      --diagram-text: #f5f5f5;
+      --diagram-text-soft: #a3a3a3;
+      --diagram-text-muted: #8a8a8a;
+      --diagram-body: #d0d0d0;
+      --diagram-mono: #d6d6d6;
+      --diagram-arrow: #5a5a5a;
+      --diagram-connector: #2a2a2a;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --diagram-bg: #ffffff;
+        --diagram-panel: #fafafa;
+        --diagram-panel-soft: #f5f5f5;
+        --diagram-border: #e5e5e5;
+        --diagram-border-soft: #dddddd;
+        --diagram-text: #111111;
+        --diagram-text-soft: #525252;
+        --diagram-text-muted: #737373;
+        --diagram-body: #262626;
+        --diagram-mono: #171717;
+        --diagram-arrow: #666666;
+        --diagram-connector: #bdbdbd;
+      }
+    }
+
+    .bg {
+      fill: var(--diagram-bg);
+    }
+
+    .panel {
+      fill: var(--diagram-panel);
+      stroke: var(--diagram-border);
+      stroke-width: 1.5;
+    }
+
+    .panel-soft {
+      fill: var(--diagram-panel-soft);
+      stroke: var(--diagram-border-soft);
+      stroke-width: 1.5;
+    }
+
+    .eyebrow {
+      font: 600 13px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.18em;
+      fill: var(--diagram-text-muted);
+    }
+
+    .title {
+      font: 800 34px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--diagram-text);
+    }
+
+    .subtitle {
+      font: 500 16px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--diagram-text-soft);
+    }
+
+    .box-subtitle {
+      font: 500 13px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--diagram-text-soft);
+    }
+
+    .box-title {
+      font: 700 19px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--diagram-text);
+    }
+
+    .box-text {
+      font: 500 13px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--diagram-body);
+    }
+
+    .box-text-soft {
+      font: 500 12px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--diagram-text-soft);
+    }
+
+    .mono {
+      font: 600 12px "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      fill: var(--diagram-mono);
+    }
+
+    .arrow {
+      stroke: var(--diagram-arrow);
+      stroke-width: 2;
+      marker-end: url(#arrowhead);
+    }
+
+    .connector {
+      stroke: var(--diagram-connector);
+      stroke-width: 1.5;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 8 5 L 0 10 z" fill="var(--diagram-arrow)"></path>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="840"></rect>
+
+  <!-- Header -->
+  <text x="600" y="60" text-anchor="middle" class="eyebrow">ARCHITECTURE</text>
+  <text x="600" y="105" text-anchor="middle" class="title">CFG Parser Flow</text>
+  <text x="600" y="135" text-anchor="middle" class="subtitle">Tokenization → Parsing → Evaluation</text>
+
+  <!-- Input -->
+  <rect x="380" y="180" width="440" height="96" rx="16" class="panel"></rect>
+  <text x="600" y="212" text-anchor="middle" class="box-subtitle">Raw input</text>
+  <text x="600" y="240" text-anchor="middle" class="box-title">Input Expression</text>
+  <text x="600" y="262" text-anchor="middle" class="mono">(3 + 5 * (2 - 3)^2) / (4 - 1) =</text>
+
+  <line x1="600" y1="276" x2="600" y2="324" class="arrow"></line>
+
+  <!-- Tokenizer -->
+  <rect x="360" y="324" width="480" height="118" rx="18" class="panel-soft"></rect>
+  <text x="600" y="363" text-anchor="middle" class="box-title">Tokenizer</text>
+  <text x="600" y="389" text-anchor="middle" class="box-text">Lexical analysis over raw text</text>
+  <text x="600" y="414" text-anchor="middle" class="box-text-soft">
+    Produces a typed token stream from numbers, operators, and symbols
+  </text>
+
+  <!-- Token stream -->
+  <rect x="868" y="348" width="206" height="70" rx="14" class="panel"></rect>
+  <text x="971" y="376" text-anchor="middle" class="box-subtitle">Output</text>
+  <text x="971" y="398" text-anchor="middle" class="mono">Vec&lt;Token&gt;</text>
+  <line x1="840" y1="383" x2="868" y2="383" class="connector"></line>
+
+  <line x1="600" y1="442" x2="600" y2="494" class="arrow"></line>
+
+  <!-- Parser -->
+  <rect x="336" y="494" width="528" height="142" rx="18" class="panel"></rect>
+  <text x="600" y="532" text-anchor="middle" class="box-title">Recursive-Descent Parser + Evaluator</text>
+  <text x="600" y="560" text-anchor="middle" class="box-text">
+    Consumes tokens according to CFG production rules
+  </text>
+  <text x="600" y="586" text-anchor="middle" class="box-text">
+    Evaluation is performed during traversal
+  </text>
+  <text x="600" y="610" text-anchor="middle" class="box-text-soft">
+    Results are computed directly without building an intermediate AST
+  </text>
+
+<!-- Grammar -->
+<rect x="90" y="486" width="220" height="238" rx="18" class="panel-soft" />
+<text x="200" y="522" text-anchor="middle" class="box-title">Grammar Layers</text>
+
+<text x="128" y="558" class="mono">F</text>
+<text x="156" y="558" class="box-text">→ formula (=)</text>
+
+<text x="128" y="588" class="mono">E</text>
+<text x="156" y="588" class="box-text">→ addition / subtraction</text>
+
+<text x="128" y="618" class="mono">P</text>
+<text x="156" y="618" class="box-text">→ product / implicit mult</text>
+
+<text x="128" y="648" class="mono">U</text>
+<text x="156" y="648" class="box-text">→ exponentiation / root</text>
+
+<text x="128" y="678" class="mono">B</text>
+<text x="156" y="678" class="box-text">→ number / grouping</text>
+<text x="156" y="696" class="box-text">  unary minus</text>
+
+  <line x1="310" y1="570" x2="336" y2="570" class="connector"></line>
+
+  <!-- Error model -->
+  <rect x="890" y="486" width="220" height="238" rx="18" class="panel-soft"></rect>
+  <text x="1000" y="522" text-anchor="middle" class="box-title">Error Model</text>
+
+  <text x="1000" y="562" text-anchor="middle" class="mono">TokenError</text>
+  <text x="1000" y="580" text-anchor="middle" class="box-text-soft">Lexical and token failures</text>
+
+  <text x="1000" y="618" text-anchor="middle" class="mono">MathError</text>
+  <text x="1000" y="636" text-anchor="middle" class="box-text-soft">Invalid arithmetic states</text>
+
+  <text x="1000" y="674" text-anchor="middle" class="mono">CalcError</text>
+  <text x="1000" y="692" text-anchor="middle" class="box-text-soft">Unified public error type</text>
+
+  <line x1="864" y1="570" x2="890" y2="570" class="connector"></line>
+
+  <!-- Result -->
+  <line x1="600" y1="636" x2="600" y2="698" class="arrow"></line>
+
+  <rect x="410" y="698" width="380" height="94" rx="16" class="panel"></rect>
+  <text x="600" y="732" text-anchor="middle" class="box-subtitle">Public output</text>
+  <text x="600" y="758" text-anchor="middle" class="box-title">Final Result</text>
+  <text x="600" y="780" text-anchor="middle" class="mono">Ok(f64) or CalcError</text>
+</svg>

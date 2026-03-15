@@ -80,9 +80,11 @@ function createInitialState(): ParticleNetworkState {
  * - viewport/theme/reduced-motion synchronization
  * - interaction listeners and cleanup
  */
-export function useParticleNetwork() {
+export function useParticleNetwork(options?: {motionScale?: number; disablePointer?: boolean}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<ParticleNetworkState>(createInitialState());
+  const motionScale = Math.max(0, options?.motionScale ?? 1);
+  const disablePointer = options?.disablePointer ?? false;
 
   // The main effect sets up the canvas and engine, and cleans up on unmount.
   useEffect(() => {
@@ -237,7 +239,7 @@ export function useParticleNetwork() {
       }
 
       // Clamp dt to prevent simulation explosions after tab pauses or jank spikes.
-      const dt = Math.min(elapsed / 1000, 0.05);
+      const dt = Math.min(elapsed / 1000, 0.05) * motionScale;
       state.previousTime = time;
 
       drawFrame({
@@ -376,8 +378,12 @@ export function useParticleNetwork() {
     });
 
     reducedMotionMedia.addEventListener("change", handleReducedMotionChange);
-    window.addEventListener("pointermove", handlePointerMove, {passive: true});
-    window.addEventListener("pointerleave", clearPointer);
+
+    // Pointer events are listened to at the window level to capture interactions even when the pointer moves outside the canvas during fast movement, which improves the responsiveness and feel of the effect. The coordinates are mapped to canvas-local space inside the handler.
+    if (!disablePointer) {
+      window.addEventListener("pointermove", handlePointerMove, {passive: true});
+      window.addEventListener("pointerleave", clearPointer);
+    }
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("scroll", syncBoundsOnNextFrame, {passive: true});
 
@@ -398,14 +404,18 @@ export function useParticleNetwork() {
       visibilityObserver.disconnect();
       themeObserver.disconnect();
       reducedMotionMedia.removeEventListener("change", handleReducedMotionChange);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerleave", clearPointer);
+
+      // Remove pointer listeners to avoid leaks and unintended interactions after unmount, especially if the component is used on multiple pages. Since these are global listeners, it's important to clean them up properly.
+      if (!disablePointer) {
+        window.removeEventListener("pointermove", handlePointerMove);
+        window.removeEventListener("pointerleave", clearPointer);
+      }
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("scroll", syncBoundsOnNextFrame);
       window.cancelAnimationFrame(state.boundsAnimationFrame);
       state.boundsAnimationFrame = 0;
     };
-  }, []);
+  }, [disablePointer, motionScale]);
 
   return canvasRef;
 }
