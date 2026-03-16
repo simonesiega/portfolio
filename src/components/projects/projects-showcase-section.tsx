@@ -1,18 +1,24 @@
+import Link from "next/link";
 import {FiArrowUpRight, FiGithub, FiMail} from "react-icons/fi";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
-import type {ProjectsPageProject} from "@/lib/config/text/projects";
+import {getProjectCaseStudyHref, type ProjectsPageProject} from "@/lib/config/text/projects";
 
 type ProjectsShowcaseSectionProps = {
   projects: readonly ProjectsPageProject[];
   projectsAriaLabel: string;
   technologiesAriaLabel: string;
   openCaseStudyLabel: string;
+  statusLabel: string;
+  mailSubjectPrefix: string;
+  mailAriaLabelPrefix: string;
+  githubAriaLabelPrefix: string;
+  githubAriaLabelSuffix: string;
 };
 
-function getProjectInfoMailHref(projectTitle: string) {
-  const subject = encodeURIComponent(`Info request - ${projectTitle}`);
+function getProjectInfoMailHref(projectTitle: string, mailSubjectPrefix: string) {
+  const subject = encodeURIComponent(`${mailSubjectPrefix} - ${projectTitle}`);
   return `mailto:simonesiega1@gmail.com?subject=${subject}`;
 }
 
@@ -35,6 +41,11 @@ export function ProjectsShowcaseSection({
   projectsAriaLabel,
   technologiesAriaLabel,
   openCaseStudyLabel,
+  statusLabel,
+  mailSubjectPrefix,
+  mailAriaLabelPrefix,
+  githubAriaLabelPrefix,
+  githubAriaLabelSuffix,
 }: ProjectsShowcaseSectionProps) {
   const {projectsShowcaseList} = animationTimings;
 
@@ -61,8 +72,8 @@ export function ProjectsShowcaseSection({
 
                   <div className="flex items-center gap-1.5">
                     <a
-                      href={getProjectInfoMailHref(project.title)}
-                      aria-label={`Send email for ${project.title}`}
+                      href={getProjectInfoMailHref(project.title, mailSubjectPrefix)}
+                      aria-label={`${mailAriaLabelPrefix} ${project.title}`}
                       className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)]"
                     >
                       <FiMail className="h-3 w-3" />
@@ -72,7 +83,7 @@ export function ProjectsShowcaseSection({
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Open ${project.title} repository on GitHub`}
+                      aria-label={`${githubAriaLabelPrefix} ${project.title} ${githubAriaLabelSuffix}`}
                       className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)]"
                     >
                       <FiGithub className="h-3 w-3" />
@@ -81,14 +92,14 @@ export function ProjectsShowcaseSection({
                 </header>
 
                 <p className="mt-2 text-sm tracking-wide text-[var(--header-item-color)] sm:text-base">
-                  <span>Status: </span>
+                  <span>{statusLabel}: </span>
                   <span
                     aria-hidden="true"
                     className={`relative -top-px mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle ${getStatusDotClassName(project.status)}`}
                   />
                   <span>{project.status}</span>
                   <span className="mx-2 text-[var(--header-item-color)]/50">|</span>
-                  <span>{project.developmentYear}</span>
+                  <span>{project.developmentPeriod}</span>
                 </p>
 
                 <p className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--ui-fg-muted)] sm:text-lg">
@@ -106,15 +117,16 @@ export function ProjectsShowcaseSection({
                   ))}
                 </ul>
 
-                <button
-                  type="button"
+                <Link
+                  href={getProjectCaseStudyHref(project.slug)}
+                  scroll={false}
                   className={`${montserrat.className} group/case-study mt-5 inline-flex items-center gap-1 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-all duration-300`}
                 >
                   <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover/case-study:after:scale-x-100">
                     {openCaseStudyLabel}
                   </span>
                   <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover/case-study:translate-x-0.5 group-hover/case-study:-translate-y-0.5" />
-                </button>
+                </Link>
               </article>
             </ScrollReveal>
           </li>

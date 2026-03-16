@@ -5,11 +5,20 @@ import {montserrat} from "@/lib/fonts";
 type SecondaryPageHeroProps = {
   sectionId: string;
   eyebrow: string;
+  eyebrowClassName?: string;
+  eyebrowUppercase?: boolean;
   title: string;
-  subtitle: string;
+  subtitle?: string;
 };
 
-export function SecondaryPageHero({sectionId, eyebrow, title, subtitle}: SecondaryPageHeroProps) {
+export function SecondaryPageHero({
+  sectionId,
+  eyebrow,
+  eyebrowClassName,
+  eyebrowUppercase = true,
+  title,
+  subtitle,
+}: SecondaryPageHeroProps) {
   const {secondaryPageHero} = animationTimings;
 
   return (
@@ -19,7 +28,7 @@ export function SecondaryPageHero({sectionId, eyebrow, title, subtitle}: Seconda
     >
       <ScrollReveal variant="fade-in" duration={secondaryPageHero.eyebrow.durationMs}>
         <p
-          className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] uppercase`}
+          className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${eyebrowUppercase ? "uppercase" : "normal-case"} ${eyebrowClassName ?? ""}`}
         >
           {eyebrow}
         </p>
@@ -38,17 +47,19 @@ export function SecondaryPageHero({sectionId, eyebrow, title, subtitle}: Seconda
         </h1>
       </ScrollReveal>
 
-      <ScrollReveal
-        variant="fade-up"
-        delay={secondaryPageHero.subtitle.delayMs}
-        duration={secondaryPageHero.subtitle.durationMs}
-      >
-        <p
-          className={`${montserrat.className} max-w-3xl text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
+      {subtitle ? (
+        <ScrollReveal
+          variant="fade-up"
+          delay={secondaryPageHero.subtitle.delayMs}
+          duration={secondaryPageHero.subtitle.durationMs}
         >
-          {subtitle}
-        </p>
-      </ScrollReveal>
+          <p
+            className={`${montserrat.className} max-w-3xl text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
+          >
+            {subtitle}
+          </p>
+        </ScrollReveal>
+      ) : null}
     </section>
   );
 }

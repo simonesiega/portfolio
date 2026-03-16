@@ -30,6 +30,11 @@ export default function ProjectsPage() {
             projectsAriaLabel={sections.projectsAriaLabel}
             technologiesAriaLabel={sections.technologiesAriaLabel}
             openCaseStudyLabel={sections.openCaseStudyLabel}
+            statusLabel={sections.statusLabel}
+            mailSubjectPrefix={sections.mailSubjectPrefix}
+            mailAriaLabelPrefix={sections.mailAriaLabelPrefix}
+            githubAriaLabelPrefix={sections.githubAriaLabelPrefix}
+            githubAriaLabelSuffix={sections.githubAriaLabelSuffix}
           />
         </SecondaryPageLayout>
       </div>

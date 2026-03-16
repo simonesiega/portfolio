@@ -7,8 +7,10 @@ type SecondaryPageLayoutProps = {
   hero: {
     sectionId: string;
     eyebrow: string;
+    eyebrowClassName?: string;
+    eyebrowUppercase?: boolean;
     title: string;
-    subtitle: string;
+    subtitle?: string;
   };
   routeRevealDurationMs: number;
   routeRevealThreshold: number;
@@ -30,6 +32,8 @@ export function SecondaryPageLayout({
           <SecondaryPageHero
             sectionId={hero.sectionId}
             eyebrow={hero.eyebrow}
+            eyebrowClassName={hero.eyebrowClassName}
+            eyebrowUppercase={hero.eyebrowUppercase}
             title={hero.title}
             subtitle={hero.subtitle}
           />
