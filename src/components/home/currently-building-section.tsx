@@ -38,14 +38,14 @@ export function CurrentlyBuildingSection({currentlyBuilding}: CurrentlyBuildingS
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={project.ariaLabel}
-                className="group flex h-full flex-col justify-between rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 backdrop-blur-sm transition duration-300 hover:scale-[1.01] hover:border-[var(--card-hover-border)]"
+                className="group flex h-full flex-col justify-between rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 backdrop-blur-sm transition duration-300 hover:scale-[1.01] hover:border-[var(--card-hover-border)] focus-visible:border-[var(--card-hover-border)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
               >
                 <div>
                   <div className="flex items-center justify-between">
                     <h3 className={`${montserrat.className} text-lg font-bold sm:text-xl`}>
                       {project.title}
                     </h3>
-                    <FiArrowUpRight className="h-4 w-4 shrink-0 text-[var(--header-item-color)] opacity-50 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
+                    <FiArrowUpRight className="h-4 w-4 shrink-0 text-[var(--header-item-color)] opacity-50 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5 group-focus-visible:opacity-100" />
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-[var(--header-item-color)] sm:text-base">
                     {project.description}

@@ -74,14 +74,20 @@ export function ThemeToggle() {
     selectedPreference === themePreference.system
       ? `${themePreference.system} (${resolvedMode})`
       : selectedPreference;
+  const isSystemSelected = selectedPreference === themePreference.system;
+  const isManualThemeSelected = selectedPreference !== themePreference.system;
+  const manualThemeLabel = selectedPreference === themePreference.light ? "light" : "dark";
+  const toggleGroupLabel = "Theme preference selector";
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4" role="radiogroup" aria-label={toggleGroupLabel}>
       <button
         type="button"
         onClick={handleSystemMode}
         aria-label={`${appConfig.theme.labels.useSystem}. Current mode: ${currentModeLabel}.`}
-        aria-pressed={selectedPreference === themePreference.system}
+        role="radio"
+        aria-checked={isSystemSelected}
+        aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
         <FiMonitor className={iconSizeClass} />
@@ -90,8 +96,10 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={handleToggle}
-        aria-label={`${appConfig.theme.labels.toggleTheme}. Current mode: ${currentModeLabel}.`}
-        aria-pressed={selectedPreference !== themePreference.system}
+        aria-label={`${appConfig.theme.labels.toggleTheme}. Current mode: ${currentModeLabel}. Manual selection: ${manualThemeLabel}.`}
+        role="radio"
+        aria-checked={isManualThemeSelected}
+        aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
         <span className={`relative ${wrapperSizeClass}`}>
@@ -104,7 +112,7 @@ export function ThemeToggle() {
         </span>
       </button>
 
-      <span className="sr-only" aria-live="polite">
+      <span id="theme-status" className="sr-only" aria-live="polite">
         Theme mode: {currentModeLabel}
       </span>
     </div>

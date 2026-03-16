@@ -62,7 +62,7 @@ export function ContactSection({
         >
           <a
             href={`mailto:${email}`}
-            className="mt-3 inline-flex text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] sm:text-xl"
+            className="mt-3 inline-flex rounded-sm text-lg font-medium text-[var(--ui-fg)] underline underline-offset-8 transition-colors hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset sm:text-xl"
           >
             {email}
           </a>
@@ -73,7 +73,7 @@ export function ContactSection({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={socialLabels.github}
-              className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)]"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
             >
               <FaGithub className="h-6 w-6" />
             </a>
@@ -87,7 +87,7 @@ export function ContactSection({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={socialLabels.linkedin}
-              className="inline-flex items-center justify-center text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)]"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
             >
               <FaLinkedinIn className="h-6 w-6" />
             </a>

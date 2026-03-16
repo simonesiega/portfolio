@@ -80,9 +80,9 @@ export function ProjectsShowcaseSection({
                     <a
                       href={getProjectInfoMailHref(project.title, mailSubjectPrefix, contactEmail)}
                       aria-label={`${mailAriaLabelPrefix} ${project.title}`}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)]"
+                      className="group/icon inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
                     >
-                      <FiMail className="h-3 w-3" />
+                      <FiMail className="h-3 w-3 transition-transform duration-300 group-hover/icon:scale-110 group-focus-visible/icon:scale-110" />
                     </a>
 
                     <a
@@ -90,9 +90,9 @@ export function ProjectsShowcaseSection({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${githubAriaLabelPrefix} ${project.title} ${githubAriaLabelSuffix}`}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)]"
+                      className="group/icon inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
                     >
-                      <FiGithub className="h-3 w-3" />
+                      <FiGithub className="h-3 w-3 transition-transform duration-300 group-hover/icon:scale-110 group-focus-visible/icon:scale-110" />
                     </a>
                   </div>
                 </header>
@@ -126,12 +126,12 @@ export function ProjectsShowcaseSection({
                 <Link
                   href={getProjectCaseStudyHref(project.slug)}
                   scroll={false}
-                  className={`${montserrat.className} group/case-study mt-5 inline-flex items-center gap-1 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-all duration-300`}
+                  className={`${montserrat.className} group/case-study mt-5 inline-flex items-center gap-1 rounded-sm text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-all duration-300 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]`}
                 >
-                  <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover/case-study:after:scale-x-100">
+                  <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover/case-study:after:scale-x-100 group-focus-visible/case-study:after:scale-x-100">
                     {openCaseStudyLabel}
                   </span>
-                  <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover/case-study:translate-x-0.5 group-hover/case-study:-translate-y-0.5" />
+                  <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover/case-study:translate-x-0.5 group-hover/case-study:-translate-y-0.5 group-focus-visible/case-study:translate-x-0.5 group-focus-visible/case-study:-translate-y-0.5" />
                 </Link>
               </article>
             </ScrollReveal>
