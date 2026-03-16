@@ -40,7 +40,6 @@ export function Header({
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
-  const previousPathRef = useRef(pathname);
   const [indicator, setIndicator] = useState<{
     left: number;
     width: number;
@@ -48,14 +47,32 @@ export function Header({
   const [indicatorMotion, setIndicatorMotion] = useState<"none" | "spawn" | "slide">("none");
   const [brandBounceActive, setBrandBounceActive] = useState(false);
 
-  const navHrefs = useMemo<Set<string>>(
-    () => new Set(navItems.map((item) => item.href)),
+  const resolveActiveNavHref = useCallback(
+    (path: string) => {
+      const exactMatch = navItems.find((item) => item.href === path);
+
+      if (exactMatch) {
+        return exactMatch.href;
+      }
+
+      const parentMatch = navItems
+        .filter((item) => path.startsWith(`${item.href}/`))
+        .sort((left, right) => right.href.length - left.href.length)[0];
+
+      return parentMatch?.href ?? null;
+    },
     [navItems]
   );
 
+  const activeNavHref = useMemo(
+    () => resolveActiveNavHref(pathname),
+    [pathname, resolveActiveNavHref]
+  );
+  const previousActiveNavHrefRef = useRef<string | null>(activeNavHref);
+
   const measureIndicator = useCallback(() => {
     const container = containerRef.current;
-    const activeEl = itemRefs.current.get(pathname);
+    const activeEl = activeNavHref ? itemRefs.current.get(activeNavHref) : null;
 
     if (!container || !activeEl) {
       return null;
@@ -65,38 +82,36 @@ export function Header({
       left: activeEl.offsetLeft,
       width: activeEl.offsetWidth,
     };
-  }, [pathname]);
+  }, [activeNavHref]);
 
   useLayoutEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
-      const previousPath = previousPathRef.current;
-      const currentIsNav = navHrefs.has(pathname);
-      const previousIsNav = navHrefs.has(previousPath);
+      const previousActiveNavHref = previousActiveNavHrefRef.current;
       const nextIndicator = measureIndicator();
 
-      if (!currentIsNav || !nextIndicator) {
+      if (!activeNavHref || !nextIndicator) {
         setIndicatorMotion("none");
         setIndicator(null);
-        previousPathRef.current = pathname;
+        previousActiveNavHrefRef.current = activeNavHref;
         return;
       }
 
-      if (!previousIsNav) {
+      if (!previousActiveNavHref) {
         setIndicatorMotion("spawn");
-      } else if (previousPath !== pathname) {
+      } else if (previousActiveNavHref !== activeNavHref) {
         setIndicatorMotion("slide");
       } else {
         setIndicatorMotion("none");
       }
 
       setIndicator(nextIndicator);
-      previousPathRef.current = pathname;
+      previousActiveNavHrefRef.current = activeNavHref;
     });
 
     return () => {
       window.cancelAnimationFrame(frameId);
     };
-  }, [measureIndicator, navHrefs, pathname]);
+  }, [activeNavHref, measureIndicator]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -188,7 +203,7 @@ export function Header({
         <div className="flex items-center gap-4 sm:gap-6">
           <div ref={containerRef} className="relative flex items-center gap-4 sm:gap-6">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = activeNavHref === item.href;
               return (
                 <Link
                   key={item.href}
