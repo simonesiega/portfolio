@@ -9,6 +9,7 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {
   getProjectBySlug,
   getProjectCaseStudyDiagramSrc,
+  getProjectCaseStudyDiagramThemeClass,
   getProjectCaseStudySeo,
   projectsText,
 } from "@/lib/config/text/projects";
@@ -58,6 +59,12 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
   const caseStudySections = project.caseStudy.sections;
   const linksSection = caseStudySections.find((section) => section.id === "links");
   const contentSections = caseStudySections.filter((section) => section.id !== "links");
+  const diagramThemeClass = getProjectCaseStudyDiagramThemeClass(project.slug);
+  const diagramImageClassName = ["project-diagram-image", "h-auto", "w-full", "rounded-xl"];
+
+  if (diagramThemeClass) {
+    diagramImageClassName.push(diagramThemeClass);
+  }
 
   return (
     <SecondaryPageLayout
@@ -161,7 +168,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                     alt={project.caseStudy.diagramAlt}
                     width={1600}
                     height={900}
-                    className="project-diagram-image h-auto w-full rounded-xl"
+                    className={diagramImageClassName.join(" ")}
                     priority
                   />
                 </div>

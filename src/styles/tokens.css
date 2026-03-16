@@ -1,4 +1,5 @@
-:root {
+:root,
+:root[data-theme="dark"] {
   --app-header-height: 6rem;
   --ui-bg: #000000;
   --ui-fg: #ffffff;

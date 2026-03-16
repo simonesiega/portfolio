@@ -7,6 +7,6 @@
 @import "../styles/components/header-motion.css";
 @import "../styles/accessibility/reduced-motion.css";
 
-:root[data-theme="light"] .project-diagram-image {
-  filter: invert(1) hue-rotate(180deg);
+:root[data-theme="light"] .project-diagram-image--dark-source {
+  filter: invert(1);
 }

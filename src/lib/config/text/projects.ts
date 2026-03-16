@@ -24,6 +24,7 @@ export type ProjectsPageProject = {
       value: string;
     }[];
     diagramAlt: string;
+    diagramRenderingMode?: "auto" | "dark-source";
     sections: readonly ProjectCaseStudySection[];
   };
 };
@@ -134,6 +135,7 @@ export const projectsText = {
           },
         ],
         diagramAlt: "CFG Parser architecture diagram",
+        diagramRenderingMode: "dark-source",
         sections: [
           {
             id: "overview",
@@ -232,6 +234,20 @@ export function getProjectCaseStudyHref(projectSlug: string) {
 
 export function getProjectCaseStudyDiagramSrc(projectSlug: string) {
   return `/projects/${projectSlug}/diagram.svg`;
+}
+
+export function getProjectCaseStudyDiagramThemeClass(projectSlug: string) {
+  const project = getProjectBySlug(projectSlug);
+
+  if (!project) {
+    return "";
+  }
+
+  if (project.caseStudy.diagramRenderingMode === "dark-source") {
+    return "project-diagram-image--dark-source";
+  }
+
+  return "";
 }
 
 export function getProjectCaseStudySeo(projectSlug: string) {

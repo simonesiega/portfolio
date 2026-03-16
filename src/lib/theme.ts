@@ -33,7 +33,7 @@ export function applyThemePreference(preference: ThemePreference) {
     return;
   }
 
-  document.documentElement.removeAttribute(attributeName);
+  document.documentElement.setAttribute(attributeName, themePreference.dark);
 }
 
 export function applySystemTheme() {
@@ -48,7 +48,7 @@ export function applySystemTheme() {
     return;
   }
 
-  document.documentElement.removeAttribute(attributeName);
+  document.documentElement.setAttribute(attributeName, themePreference.dark);
 }
 
 export function getStoredThemePreference() {
