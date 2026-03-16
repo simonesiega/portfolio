@@ -2,16 +2,21 @@ type ProjectCaseStudyBaseSection = {
   id: string;
   heading: string;
   content: string;
-  points?: readonly string[];
+};
+
+export type ProjectCaseStudyLink = {
+  label: string;
+  url: string;
 };
 
 export type ProjectCaseStudyContentSection = ProjectCaseStudyBaseSection & {
   kind: "content";
+  points?: readonly string[];
 };
 
 export type ProjectCaseStudyLinksSection = ProjectCaseStudyBaseSection & {
   kind: "links";
-  urls: readonly string[];
+  links: readonly ProjectCaseStudyLink[];
 };
 
 export type ProjectCaseStudySection = ProjectCaseStudyContentSection | ProjectCaseStudyLinksSection;
@@ -236,15 +241,20 @@ export const projectsText = {
             heading: "Links",
             content:
               "Additional resources for exploring the project, including the source repository and detailed technical documentation.",
-            points: [
-              "GitHub Repository — Full source code and project history.",
-              "Technical Documentation — Architecture explanations and grammar specifications.",
-              "Project README — Project overview, usage examples, and setup instructions.",
-            ],
-            urls: [
-              "https://github.com/simonesiega-academics/cfg-parser",
-              "https://github.com/simonesiega-academics/cfg-parser/tree/master/docs",
-              "https://github.com/simonesiega-academics/cfg-parser/blob/master/README.md",
+            links: [
+              {
+                label: "GitHub Repository — Full source code and project history.",
+                url: "https://github.com/simonesiega-academics/cfg-parser",
+              },
+              {
+                label:
+                  "Technical Documentation — Architecture explanations and grammar specifications.",
+                url: "https://github.com/simonesiega-academics/cfg-parser/tree/master/docs",
+              },
+              {
+                label: "Project README — Project overview, usage examples, and setup instructions.",
+                url: "https://github.com/simonesiega-academics/cfg-parser/blob/master/README.md",
+              },
             ],
           },
         ],

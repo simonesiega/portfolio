@@ -185,17 +185,17 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             <p className="max-w-3xl text-base leading-relaxed text-[var(--ui-fg-muted)] sm:text-lg">
               {linksSection?.content}
             </p>
-            {linksSection?.urls?.length ? (
-              <ul className="space-y-2 text-[var(--ui-fg-muted)]">
-                {linksSection.urls.map((url, index) => (
-                  <li key={url}>
+            {linksSection?.links.length ? (
+              <ul className="space-y-2 text-[var(--ui-fg)]">
+                {linksSection.links.map((link) => (
+                  <li key={link.url}>
                     <a
-                      href={url}
+                      href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-1 text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]"
+                      className="group inline-flex items-center gap-1 font-medium text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]"
                     >
-                      {linksSection.points?.[index] ?? url}
+                      {link.label}
                       <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>
                   </li>
