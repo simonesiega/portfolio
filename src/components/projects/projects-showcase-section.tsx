@@ -2,6 +2,7 @@ import Link from "next/link";
 import {FiArrowUpRight, FiGithub, FiMail} from "react-icons/fi";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
+import {appConfig} from "@/lib/config/app-config";
 import {montserrat} from "@/lib/fonts";
 import {getProjectCaseStudyHref, type ProjectsPageProject} from "@/lib/config/text/projects";
 
@@ -17,9 +18,13 @@ type ProjectsShowcaseSectionProps = {
   githubAriaLabelSuffix: string;
 };
 
-function getProjectInfoMailHref(projectTitle: string, mailSubjectPrefix: string) {
+function getProjectInfoMailHref(
+  projectTitle: string,
+  mailSubjectPrefix: string,
+  contactEmail: string
+) {
   const subject = encodeURIComponent(`${mailSubjectPrefix} - ${projectTitle}`);
-  return `mailto:simonesiega1@gmail.com?subject=${subject}`;
+  return `mailto:${contactEmail}?subject=${subject}`;
 }
 
 function getStatusDotClassName(status: string) {
@@ -48,6 +53,7 @@ export function ProjectsShowcaseSection({
   githubAriaLabelSuffix,
 }: ProjectsShowcaseSectionProps) {
   const {projectsShowcaseList} = animationTimings;
+  const contactEmail = appConfig.contact.email;
 
   return (
     <section aria-label={projectsAriaLabel} className="pb-24 sm:pb-24">
@@ -72,7 +78,7 @@ export function ProjectsShowcaseSection({
 
                   <div className="flex items-center gap-1.5">
                     <a
-                      href={getProjectInfoMailHref(project.title, mailSubjectPrefix)}
+                      href={getProjectInfoMailHref(project.title, mailSubjectPrefix, contactEmail)}
                       aria-label={`${mailAriaLabelPrefix} ${project.title}`}
                       className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)]"
                     >
