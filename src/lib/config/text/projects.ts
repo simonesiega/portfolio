@@ -1,10 +1,32 @@
-export type ProjectCaseStudySection = {
+type ProjectCaseStudyBaseSection = {
   id: string;
   heading: string;
   content: string;
   points?: readonly string[];
-  urls?: readonly string[];
 };
+
+export type ProjectCaseStudyContentSection = ProjectCaseStudyBaseSection & {
+  kind: "content";
+};
+
+export type ProjectCaseStudyLinksSection = ProjectCaseStudyBaseSection & {
+  kind: "links";
+  urls: readonly string[];
+};
+
+export type ProjectCaseStudySection = ProjectCaseStudyContentSection | ProjectCaseStudyLinksSection;
+
+export function isProjectCaseStudyLinksSection(
+  section: ProjectCaseStudySection
+): section is ProjectCaseStudyLinksSection {
+  return section.kind === "links";
+}
+
+export function isProjectCaseStudyContentSection(
+  section: ProjectCaseStudySection
+): section is ProjectCaseStudyContentSection {
+  return section.kind === "content";
+}
 
 export type ProjectsPageProject = {
   id: string;
@@ -138,30 +160,35 @@ export const projectsText = {
         diagramRenderingMode: "dark-source",
         sections: [
           {
+            kind: "content",
             id: "overview",
             heading: "Overview",
             content:
               "CFG Parser is a command-line project that parses and evaluates arithmetic expressions using a context-free grammar.\n\nThe project was developed as my first hands-on exploration of both Rust and context-free grammars. Rust was chosen for its strong guarantees around memory safety, performance, and low-level control, making it well suited for building reliable systems-oriented tooling.",
           },
           {
+            kind: "content",
             id: "goal",
             heading: "Goal",
             content:
               "The objective was to transform raw user input into well-structured arithmetic expressions while preserving operator precedence and providing clear feedback for invalid syntax. The project focuses on building a predictable parsing flow where each stage of the pipeline has a clear responsibility.",
           },
           {
+            kind: "content",
             id: "technical-approach",
             heading: "Technical Approach",
             content:
               "The system separates tokenization from parsing so each stage remains testable, predictable, and easy to reason about. Input expressions are first converted into a stream of tokens, which are then consumed by grammar-driven parsing rules that evaluate the expression in a controlled and deterministic manner.",
           },
           {
+            kind: "content",
             id: "architecture",
             heading: "Architecture",
             content:
               "The application follows a simple linear pipeline: input handling, tokenization, parsing, evaluation, and formatted output. Each component operates independently, which keeps dependencies minimal and allows individual stages to be debugged or extended without affecting the rest of the system.",
           },
           {
+            kind: "content",
             id: "key-decisions",
             heading: "Key Decisions",
             content:
@@ -173,6 +200,7 @@ export const projectsText = {
             ],
           },
           {
+            kind: "content",
             id: "challenges",
             heading: "Challenges",
             content:
@@ -184,12 +212,14 @@ export const projectsText = {
             ],
           },
           {
+            kind: "content",
             id: "what-i-learned",
             heading: "What I Learned",
             content:
               "Building this project provided a practical introduction to Rust and reinforced core concepts of grammar-driven software design. It also highlighted how explicit parsing stages and clear module boundaries significantly improve maintainability, testing, and debugging in systems-oriented applications.",
           },
           {
+            kind: "content",
             id: "future-improvements",
             heading: "Future Improvements",
             content:
@@ -201,6 +231,7 @@ export const projectsText = {
             ],
           },
           {
+            kind: "links",
             id: "links",
             heading: "Links",
             content:

@@ -11,6 +11,8 @@ import {
   getProjectCaseStudyDiagramSrc,
   getProjectCaseStudyDiagramThemeClass,
   getProjectCaseStudySeo,
+  isProjectCaseStudyContentSection,
+  isProjectCaseStudyLinksSection,
   projectsText,
 } from "@/lib/config/text/projects";
 import {montserrat} from "@/lib/fonts";
@@ -57,8 +59,8 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
 
   const {routeReveal} = animationTimings;
   const caseStudySections = project.caseStudy.sections;
-  const linksSection = caseStudySections.find((section) => section.id === "links");
-  const contentSections = caseStudySections.filter((section) => section.id !== "links");
+  const linksSection = caseStudySections.find(isProjectCaseStudyLinksSection);
+  const contentSections = caseStudySections.filter(isProjectCaseStudyContentSection);
   const diagramThemeClass = getProjectCaseStudyDiagramThemeClass(project.slug);
   const diagramImageClassName = ["project-diagram-image", "h-auto", "w-full", "rounded-xl"];
 
