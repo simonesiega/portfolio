@@ -16,6 +16,7 @@ export const themeStorageKey = appConfig.theme.storageKey;
 export const appRoutes = [
   "/",
   "/projects",
+  "/work",
   ...projectsText.projects.map((project) => getProjectCaseStudyRoute(project.slug)),
 ];
 
