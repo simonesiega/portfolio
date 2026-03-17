@@ -1,5 +1,6 @@
 import type {MetadataRoute} from "next";
 import {execFileSync} from "node:child_process";
+import {statSync} from "node:fs";
 import {appRouteFiles} from "@/lib/config/site-routes";
 import {getSiteOrigin} from "@/lib/site-url";
 
@@ -55,11 +56,28 @@ function getLastModifiedByFile(filePaths: readonly string[]) {
   return lastModifiedByFile;
 }
 
+function getLastModifiedByFileStats(filePaths: readonly string[]) {
+  const lastModifiedByFile = new Map<string, string>();
+
+  for (const filePath of filePaths) {
+    try {
+      const fileStats = statSync(filePath);
+      lastModifiedByFile.set(filePath, fileStats.mtime.toISOString());
+    } catch {
+      continue;
+    }
+  }
+
+  return lastModifiedByFile;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModifiedByFile = getLastModifiedByFile(Object.values(appRouteFiles));
+  const routeFiles = Object.values(appRouteFiles);
+  const lastModifiedByGit = getLastModifiedByFile(routeFiles);
+  const lastModifiedByStats = getLastModifiedByFileStats(routeFiles);
 
   return Object.entries(appRouteFiles).map(([route, filePath]) => ({
     url: `${baseUrl}${route}`,
-    lastModified: lastModifiedByFile.get(filePath),
+    lastModified: lastModifiedByGit.get(filePath) ?? lastModifiedByStats.get(filePath),
   }));
 }
