@@ -15,6 +15,7 @@ import {
 
 const prefersLightMediaQuery = getPrefersLightMediaQuery();
 const fallbackThemePreference: ThemePreference = themePreference.dark;
+const themeControlsLabel = "Theme controls";
 
 export function ThemeToggle() {
   const [selectedPreference, setSelectedPreference] =
@@ -54,10 +55,6 @@ export function ThemeToggle() {
     };
   }, []);
 
-  function handleSystemMode() {
-    handleSelectPreference(themePreference.system);
-  }
-
   function handleToggle() {
     const isCurrentlyLight = isLightThemeActive();
     if (isCurrentlyLight) {
@@ -75,18 +72,15 @@ export function ThemeToggle() {
       ? `${themePreference.system} (${resolvedMode})`
       : selectedPreference;
   const isSystemSelected = selectedPreference === themePreference.system;
-  const isManualThemeSelected = selectedPreference !== themePreference.system;
   const manualThemeLabel = selectedPreference === themePreference.light ? "light" : "dark";
-  const toggleGroupLabel = "Theme preference selector";
 
   return (
-    <div className="flex items-center gap-4" role="radiogroup" aria-label={toggleGroupLabel}>
+    <div className="flex items-center gap-4" role="group" aria-label={themeControlsLabel}>
       <button
         type="button"
-        onClick={handleSystemMode}
+        onClick={() => handleSelectPreference(themePreference.system)}
+        aria-pressed={isSystemSelected}
         aria-label={`${appConfig.theme.labels.useSystem}. Current mode: ${currentModeLabel}.`}
-        role="radio"
-        aria-checked={isSystemSelected}
         aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
@@ -97,8 +91,6 @@ export function ThemeToggle() {
         type="button"
         onClick={handleToggle}
         aria-label={`${appConfig.theme.labels.toggleTheme}. Current mode: ${currentModeLabel}. Manual selection: ${manualThemeLabel}.`}
-        role="radio"
-        aria-checked={isManualThemeSelected}
         aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >

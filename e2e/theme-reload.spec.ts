@@ -4,27 +4,23 @@ import {appRoutes, themeStorageKey} from "./helpers/projects-fixtures";
 test("theme preference persists after reload", async ({page}) => {
   await page.goto("/");
 
-  const themeRadiogroup = page.getByRole("radiogroup", {
-    name: /theme preference selector/i,
+  const themeControls = page.getByRole("group", {
+    name: /theme controls/i,
   });
-  await expect(themeRadiogroup).toBeVisible();
+  await expect(themeControls).toBeVisible();
 
   await expect(
-    page.getByRole("radio", {
+    page.getByRole("button", {
       name: /use system color theme/i,
     })
-  ).toHaveAttribute("aria-checked", "false");
-  await expect(
-    page.getByRole("radio", {
-      name: /toggle color theme/i,
-    })
-  ).toHaveAttribute("aria-checked", "true");
+  ).toHaveAttribute("aria-pressed", "false");
 
-  const toggleThemeButton = page.getByRole("radio", {
+  const toggleThemeButton = page.getByRole("button", {
     name: /toggle color theme/i,
   });
 
   await toggleThemeButton.click();
+
   await expect.poll(async () => page.locator("html").getAttribute("data-theme")).toBe("light");
 
   await page.reload();
