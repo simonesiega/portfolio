@@ -1,0 +1,75 @@
+{
+  "keyPhrase": "Grammar-driven CLI parser in Rust that tokenizes, parses, and evaluates arithmetic expressions through a recursive-descent pipeline.",
+  "caseStudy": {
+    "summary": "Rust-based command-line parser that transforms raw arithmetic input into validated expression evaluation through a staged tokenizer-parser-evaluator pipeline with readable diagnostics.",
+    "sections": {
+      "overview": {
+        "heading": "Overview",
+        "content": "CFG Parser is a command-line project built to parse and evaluate arithmetic expressions through a grammar-based pipeline. Rather than treating expression evaluation as a single operation, the project models it as a sequence of explicit stages so each transformation can be reasoned about, verified, and refined independently.\n\nIt was developed as an early hands-on exploration of both Rust and context-free grammars. Rust was chosen for the level of control it provides over program structure, memory safety, and data flow, making it a strong fit for building deterministic systems-style tooling."
+      },
+      "goal": {
+        "heading": "Goal",
+        "content": "The goal was to transform raw user input into a valid arithmetic representation while preserving operator precedence and rejecting malformed syntax before evaluation. A central objective was to keep each stage of the pipeline responsible for a single concern, from lexical analysis to final result computation."
+      },
+      "technicalApproach": {
+        "heading": "Technical Approach",
+        "content": "The implementation separates tokenization, parsing, and evaluation into distinct stages so each part can be developed, tested, and debugged in isolation. Input is first converted into a token stream, then consumed by recursive-descent grammar rules that encode precedence and guide evaluation in a controlled and predictable way."
+      },
+      "architecture": {
+        "heading": "Architecture",
+        "content": "The application follows a linear pipeline composed of input handling, tokenization, parsing, evaluation, and formatted output. Treating each phase as an explicit boundary made it easier to inspect intermediate states, isolate parser failures, and evolve the grammar without tightly coupling unrelated parts of the system."
+      },
+      "keyDecisions": {
+        "heading": "Key Decisions",
+        "content": "The project favors explicit parsing stages and readable control flow over compact abstractions. That decision made the parser easier to trace, adapt, and extend while keeping the grammar understandable as the implementation evolved.",
+        "points": [
+          "Keep tokenizer and parser separate so lexical and syntactic concerns remain isolated.",
+          "Represent grammar rules explicitly through recursive-descent functions to make precedence handling easier to inspect and debug.",
+          "Design CLI output to surface concise diagnostics and fail early on invalid input."
+        ]
+      },
+      "challenges": {
+        "heading": "Challenges",
+        "content": "One of the main challenges was rejecting malformed expressions without allowing invalid state to propagate through the pipeline. This required defensive checks around token consumption, controlled parser branches, and error paths that remained understandable from the user side.",
+        "points": [
+          "Handle unexpected symbols and incomplete expressions without triggering cascading parser failures.",
+          "Prevent invalid parse states from reaching the evaluation stage.",
+          "Keep diagnostics useful and readable without exposing unnecessary internal complexity."
+        ]
+      },
+      "proof": {
+        "heading": "Proof of Implementation",
+        "content": "The repository exposes the parser through measurable implementation details, making its grammar structure, evaluation flow, validation model, and supported expression handling visible beyond a high-level description.",
+        "points": [
+          "5 documented grammar layers: F, E, P, U, B.",
+          "8 recursive-descent methods mapped directly to grammar rules.",
+          "3 structured error categories: TokenError, MathError, and CalcError.",
+          "7 token/parsing error variants and 8 math error variants implemented in code.",
+          "Support for signed numeric input, decimal numbers, nested parentheses, implicit multiplication, exponentiation, and n-th root evaluation."
+        ]
+      },
+      "whatILearned": {
+        "heading": "What I Learned",
+        "content": "Building this project strengthened my understanding of parser construction as a design problem, not just an implementation task. It gave me practical experience with recursive-descent parsing, grammar decomposition, and Rust-based tooling where correctness, control flow, and module boundaries all play a central role."
+      },
+      "futureImprovements": {
+        "heading": "Future Improvements",
+        "content": "Future iterations could push the project beyond basic arithmetic into a richer grammar and a more expressive parsing toolchain.",
+        "points": [
+          "Add support for functions such as sin, cos, and tan as first-class grammar constructs.",
+          "Allow symbolic variables rather than limiting expressions to numeric-only input.",
+          "Extend the parser toward equation handling and broader validation rules."
+        ]
+      },
+      "links": {
+        "heading": "Links",
+        "content": "Additional resources for exploring the project, including the source repository and technical documentation.",
+        "labels": [
+          "GitHub Repository - Full source code and project history.",
+          "Technical Documentation - Architecture notes and grammar specifications.",
+          "Project README - Overview, usage examples, and setup instructions."
+        ]
+      }
+    }
+  }
+}

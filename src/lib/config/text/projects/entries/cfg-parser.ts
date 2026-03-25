@@ -1,4 +1,61 @@
+import cfgParserContent from "../content/cfg-parser.json";
 import type {ProjectsPageProject} from "../types";
+
+type CfgParserContent = {
+  keyPhrase: string;
+  caseStudy: {
+    summary: string;
+    sections: {
+      overview: {
+        heading: string;
+        content: string;
+      };
+      goal: {
+        heading: string;
+        content: string;
+      };
+      technicalApproach: {
+        heading: string;
+        content: string;
+      };
+      architecture: {
+        heading: string;
+        content: string;
+      };
+      keyDecisions: {
+        heading: string;
+        content: string;
+        points: string[];
+      };
+      challenges: {
+        heading: string;
+        content: string;
+        points: string[];
+      };
+      proof: {
+        heading: string;
+        content: string;
+        points: string[];
+      };
+      whatILearned: {
+        heading: string;
+        content: string;
+      };
+      futureImprovements: {
+        heading: string;
+        content: string;
+        points: string[];
+      };
+      links: {
+        heading: string;
+        content: string;
+        labels: [string, string, string];
+      };
+    };
+  };
+};
+
+const content = cfgParserContent as CfgParserContent;
 
 export const cfgParserProject = {
   id: "cfg-parser",
@@ -7,12 +64,10 @@ export const cfgParserProject = {
   githubUrl: "https://github.com/simonesiega-academics/cfg-parser.git",
   status: "Completed",
   developmentPeriod: "2025",
-  keyPhrase:
-    "Grammar-driven CLI parser in Rust that tokenizes, parses, and evaluates arithmetic expressions through a recursive-descent pipeline.",
+  keyPhrase: content.keyPhrase,
   technologies: ["Rust", "CLI", "Parsing", "Context-Free Grammar", "Tokenization"],
   caseStudy: {
-    summary:
-      "Rust-based command-line parser that transforms raw arithmetic input into validated expression evaluation through a staged tokenizer-parser-evaluator pipeline with readable diagnostics.",
+    summary: content.caseStudy.summary,
     readTimeMinutes: 5,
     quickFacts: [
       {
@@ -42,105 +97,77 @@ export const cfgParserProject = {
       {
         kind: "content",
         id: "overview",
-        heading: "Overview",
-        content:
-          "CFG Parser is a command-line project built to parse and evaluate arithmetic expressions through a grammar-based pipeline. Rather than treating expression evaluation as a single operation, the project models it as a sequence of explicit stages so each transformation can be reasoned about, verified, and refined independently.\n\nIt was developed as an early hands-on exploration of both Rust and context-free grammars. Rust was chosen for the level of control it provides over program structure, memory safety, and data flow, making it a strong fit for building deterministic systems-style tooling.",
+        heading: content.caseStudy.sections.overview.heading,
+        content: content.caseStudy.sections.overview.content,
       },
       {
         kind: "content",
         id: "goal",
-        heading: "Goal",
-        content:
-          "The goal was to transform raw user input into a valid arithmetic representation while preserving operator precedence and rejecting malformed syntax before evaluation. A central objective was to keep each stage of the pipeline responsible for a single concern, from lexical analysis to final result computation.",
+        heading: content.caseStudy.sections.goal.heading,
+        content: content.caseStudy.sections.goal.content,
       },
       {
         kind: "content",
         id: "technical-approach",
-        heading: "Technical Approach",
-        content:
-          "The implementation separates tokenization, parsing, and evaluation into distinct stages so each part can be developed, tested, and debugged in isolation. Input is first converted into a token stream, then consumed by recursive-descent grammar rules that encode precedence and guide evaluation in a controlled and predictable way.",
+        heading: content.caseStudy.sections.technicalApproach.heading,
+        content: content.caseStudy.sections.technicalApproach.content,
       },
       {
         kind: "content",
         id: "architecture",
-        heading: "Architecture",
-        content:
-          "The application follows a linear pipeline composed of input handling, tokenization, parsing, evaluation, and formatted output. Treating each phase as an explicit boundary made it easier to inspect intermediate states, isolate parser failures, and evolve the grammar without tightly coupling unrelated parts of the system.",
+        heading: content.caseStudy.sections.architecture.heading,
+        content: content.caseStudy.sections.architecture.content,
       },
       {
         kind: "content",
         id: "key-decisions",
-        heading: "Key Decisions",
-        content:
-          "The project favors explicit parsing stages and readable control flow over compact abstractions. That decision made the parser easier to trace, adapt, and extend while keeping the grammar understandable as the implementation evolved.",
-        points: [
-          "Keep tokenizer and parser separate so lexical and syntactic concerns remain isolated.",
-          "Represent grammar rules explicitly through recursive-descent functions to make precedence handling easier to inspect and debug.",
-          "Design CLI output to surface concise diagnostics and fail early on invalid input.",
-        ],
+        heading: content.caseStudy.sections.keyDecisions.heading,
+        content: content.caseStudy.sections.keyDecisions.content,
+        points: content.caseStudy.sections.keyDecisions.points,
       },
       {
         kind: "content",
         id: "challenges",
-        heading: "Challenges",
-        content:
-          "One of the main challenges was rejecting malformed expressions without allowing invalid state to propagate through the pipeline. This required defensive checks around token consumption, controlled parser branches, and error paths that remained understandable from the user side.",
-        points: [
-          "Handle unexpected symbols and incomplete expressions without triggering cascading parser failures.",
-          "Prevent invalid parse states from reaching the evaluation stage.",
-          "Keep diagnostics useful and readable without exposing unnecessary internal complexity.",
-        ],
+        heading: content.caseStudy.sections.challenges.heading,
+        content: content.caseStudy.sections.challenges.content,
+        points: content.caseStudy.sections.challenges.points,
       },
       {
         kind: "content",
         id: "proof",
-        heading: "Proof of Implementation",
-        content:
-          "The repository exposes the parser through measurable implementation details, making its grammar structure, evaluation flow, validation model, and supported expression handling visible beyond a high-level description.",
-        points: [
-          "5 documented grammar layers: F, E, P, U, B.",
-          "8 recursive-descent methods mapped directly to grammar rules.",
-          "3 structured error categories: TokenError, MathError, and CalcError.",
-          "7 token/parsing error variants and 8 math error variants implemented in code.",
-          "Support for signed numeric input, decimal numbers, nested parentheses, implicit multiplication, exponentiation, and n-th root evaluation.",
-        ],
+        heading: content.caseStudy.sections.proof.heading,
+        content: content.caseStudy.sections.proof.content,
+        points: content.caseStudy.sections.proof.points,
       },
       {
         kind: "content",
         id: "what-i-learned",
-        heading: "What I Learned",
-        content:
-          "Building this project strengthened my understanding of parser construction as a design problem, not just an implementation task. It gave me practical experience with recursive-descent parsing, grammar decomposition, and Rust-based tooling where correctness, control flow, and module boundaries all play a central role.",
+        heading: content.caseStudy.sections.whatILearned.heading,
+        content: content.caseStudy.sections.whatILearned.content,
       },
       {
         kind: "content",
         id: "future-improvements",
-        heading: "Future Improvements",
-        content:
-          "Future iterations could push the project beyond basic arithmetic into a richer grammar and a more expressive parsing toolchain.",
-        points: [
-          "Add support for functions such as sin, cos, and tan as first-class grammar constructs.",
-          "Allow symbolic variables rather than limiting expressions to numeric-only input.",
-          "Extend the parser toward equation handling and broader validation rules.",
-        ],
+        heading: content.caseStudy.sections.futureImprovements.heading,
+        content: content.caseStudy.sections.futureImprovements.content,
+        points: content.caseStudy.sections.futureImprovements.points,
       },
       {
         kind: "links",
         id: "links",
-        heading: "Links",
-        content:
-          "Additional resources for exploring the project, including the source repository and technical documentation.",
+        heading: content.caseStudy.sections.links.heading,
+        content: content.caseStudy.sections.links.content,
         links: [
           {
-            label: "GitHub Repository — Full source code and project history.",
+            label: content.caseStudy.sections.links.labels[0],
             url: "https://github.com/simonesiega-academics/cfg-parser",
           },
           {
-            label: "Technical Documentation — Architecture notes and grammar specifications.",
+            label: content.caseStudy.sections.links.labels[1],
             url: "https://github.com/simonesiega-academics/cfg-parser/tree/master/docs",
           },
           {
-            label: "Project README — Overview, usage examples, and setup instructions.",
+            label: content.caseStudy.sections.links.labels[2],
             url: "https://github.com/simonesiega-academics/cfg-parser/blob/master/README.md",
           },
         ],
