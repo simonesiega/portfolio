@@ -32,8 +32,8 @@ export const cfgParserProject = {
         value: "Tokenizer -> Parser -> Evaluator",
       },
       {
-        label: "Focus",
-        value: "Grammar-driven expression parsing",
+        label: "Expression Support",
+        value: "8 operator/forms",
       },
     ],
     diagramAlt: "CFG Parser architecture diagram",
@@ -89,6 +89,20 @@ export const cfgParserProject = {
           "Handle unexpected symbols and incomplete expressions without triggering cascading parser failures.",
           "Prevent invalid parse states from reaching the evaluation stage.",
           "Keep diagnostics useful and readable without exposing unnecessary internal complexity.",
+        ],
+      },
+      {
+        kind: "content",
+        id: "proof",
+        heading: "Proof of Implementation",
+        content:
+          "The repository exposes the parser through measurable implementation details, making its grammar structure, evaluation flow, validation model, and supported expression handling visible beyond a high-level description.",
+        points: [
+          "5 documented grammar layers: F, E, P, U, B.",
+          "8 recursive-descent methods mapped directly to grammar rules.",
+          "3 structured error categories: TokenError, MathError, and CalcError.",
+          "7 token/parsing error variants and 8 math error variants implemented in code.",
+          "Support for signed numeric input, decimal numbers, nested parentheses, implicit multiplication, exponentiation, and n-th root evaluation.",
         ],
       },
       {
