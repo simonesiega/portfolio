@@ -1,4 +1,4 @@
-import type { ProjectsPageProject } from "../types";
+import type {ProjectsPageProject} from "../types";
 
 export const cfgParserProject = {
   id: "cfg-parser",
@@ -122,8 +122,7 @@ export const cfgParserProject = {
             url: "https://github.com/simonesiega-academics/cfg-parser",
           },
           {
-            label:
-              "Technical Documentation — Architecture notes and grammar specifications.",
+            label: "Technical Documentation — Architecture notes and grammar specifications.",
             url: "https://github.com/simonesiega-academics/cfg-parser/tree/master/docs",
           },
           {
