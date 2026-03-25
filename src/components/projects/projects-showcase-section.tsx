@@ -80,9 +80,9 @@ export function ProjectsShowcaseSection({
                     <a
                       href={getProjectInfoMailHref(project.title, mailSubjectPrefix, contactEmail)}
                       aria-label={`${mailAriaLabelPrefix} ${project.title}`}
-                      className="group/icon inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
                     >
-                      <FiMail className="h-3 w-3 transition-transform duration-300 group-hover/icon:scale-110 group-focus-visible/icon:scale-110" />
+                      <FiMail className="h-3.5 w-3.5" />
                     </a>
 
                     <a
@@ -90,9 +90,9 @@ export function ProjectsShowcaseSection({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${githubAriaLabelPrefix} ${project.title} ${githubAriaLabelSuffix}`}
-                      className="group/icon inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
                     >
-                      <FiGithub className="h-3 w-3 transition-transform duration-300 group-hover/icon:scale-110 group-focus-visible/icon:scale-110" />
+                      <FiGithub className="h-3.5 w-3.5" />
                     </a>
                   </div>
                 </header>

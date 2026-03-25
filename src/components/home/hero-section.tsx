@@ -2,6 +2,7 @@ import type {CSSProperties} from "react";
 import Link from "next/link";
 import type {IconType} from "react-icons";
 import {FaJava} from "react-icons/fa6";
+import {FiDownload, FiMail} from "react-icons/fi";
 import {
   SiOpenai,
   SiPython,
@@ -14,6 +15,7 @@ import {
 } from "react-icons/si";
 import {ParticleNetwork} from "@/components/animation/particle-network";
 import {animationTimings, toMs} from "@/lib/animation/animation-timings";
+import {appConfig} from "@/lib/config/app-config";
 import {montserrat} from "@/lib/fonts";
 import type {HomeHero, HomeSkillIconKey} from "@/lib/config/text/home";
 
@@ -45,6 +47,8 @@ function getLandingRevealStyle(delayMs: number): CSSProperties {
 }
 
 export function HomeHeroSection({hero, contactSectionId}: HomeHeroSectionProps) {
+  const emailHref = `mailto:${appConfig.contact.email}`;
+
   return (
     <section className="relative flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] items-center justify-center pb-0">
       <ParticleNetwork className="pointer-events-none absolute top-0 bottom-[-20%] left-1/2 w-screen -translate-x-1/2 [mask-image:linear-gradient(to_bottom,black_0%,black_76%,transparent_100%)]" />
@@ -74,12 +78,31 @@ export function HomeHeroSection({hero, contactSectionId}: HomeHeroSectionProps) 
         >
           {hero.tagline}
         </p>
-        <p
-          className="landing-reveal mt-1.5 text-sm tracking-wide text-[var(--header-item-color)] sm:text-base"
+        <div
+          className="landing-reveal mt-1.5 flex flex-wrap items-center gap-3 text-sm tracking-wide text-[var(--header-item-color)] sm:text-base"
           style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
         >
-          {hero.locationLine}
-        </p>
+          <p className="leading-none sm:leading-none">{hero.locationLine}</p>
+
+          <div className="flex items-center gap-2 self-center">
+            <a
+              href={emailHref}
+              aria-label={`Email ${appConfig.contact.email}`}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+            >
+              <FiMail className="h-4 w-4" />
+            </a>
+
+            <button
+              type="button"
+              aria-label="Download CV"
+              disabled
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)]/75 text-[var(--header-item-color)]/65 backdrop-blur-sm focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--header-item-color)]/65 focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+            >
+              <FiDownload className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
 
         <p
           className="landing-reveal mt-6 max-w-2xl text-[var(--bio-text-color)] sm:text-lg"
