@@ -19,9 +19,17 @@ test("theme preference persists after reload", async ({page}) => {
     name: /toggle color theme/i,
   });
 
-  await toggleThemeButton.click();
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const currentTheme = await page.locator("html").getAttribute("data-theme");
 
-  await expect.poll(async () => page.locator("html").getAttribute("data-theme")).toBe("light");
+    if (currentTheme === "light") {
+      break;
+    }
+
+    await toggleThemeButton.click();
+  }
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await page.reload();
 

@@ -1,9 +1,9 @@
 import type {CSSProperties} from "react";
 import Link from "next/link";
 import type {IconType} from "react-icons";
+import {FaJava} from "react-icons/fa6";
 import {
   SiOpenai,
-  SiOracle,
   SiPython,
   SiReact,
   SiRust,
@@ -26,7 +26,7 @@ const {landingReveal} = animationTimings;
 
 const skillIcons: Record<HomeSkillIconKey, IconType> = {
   openai: SiOpenai,
-  oracle: SiOracle,
+  oracle: FaJava,
   python: SiPython,
   react: SiReact,
   typescript: SiTypescript,
