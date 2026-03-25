@@ -1,7 +1,7 @@
 <h1 align="center">Simone Siega — Portfolio</h1>
 
 <p align="center">
-Personal portfolio and project hub showcasing my software engineering work and systems exploration.
+Personal portfolio website showcasing my work, projects, and technical interests.
 </p>
 
 <p align="center">
@@ -21,31 +21,15 @@ Personal portfolio and project hub showcasing my software engineering work and s
 
 I am **Simone Siega**, a software developer and computer science student based in **Venice, Italy**.
 
-This repository contains the source code for my personal portfolio website and serves as the **public entry point to my work**.  
-The site presents selected projects, experiments, and professional experience, with a focus on **systems-oriented engineering**, **backend development**, and **practical software architecture**.
+This repository contains the source code for my personal portfolio website, designed as the main place to explore my work. The site brings together selected projects, experiments, and professional experience, with a focus on **systems-oriented engineering**, **backend development**, and **practical software architecture**.
 
-The portfolio is intentionally minimal and focused: projects and technical work are explored on the website itself, while this repository contains the implementation of the portfolio website.
+## What the portfolio includes
 
-## ⚙️ Technical Focus
+- Selected software projects and technical experiments  
+- Professional experience and development work  
+- The technical direction of my work across systems, backend engineering, and software architecture
 
-My current areas of interest include:
-
-- Backend and systems-oriented software engineering  
-- AI-powered applications and local-first architectures  
-- Developer tools and workflow-focused software  
-- Full-stack product development
-
-## Selected Projects
-
-A few examples of projects currently featured in the portfolio:
-
-**🍳 AI Culinary Assistant**  
-Voice-driven cooking assistant that structures recipes, transcribes instructions in real time, and guides users through preparation steps.
-
-**🤖 AI Companion**  
-Local-first AI assistant supporting chat, voice interaction, and document Q&A using on-device models and retrieval workflows.
-
-More projects and detailed descriptions are available on the portfolio website:
+Explore the portfolio here:
 
 - [Projects](https://simonesiega.com/projects)
 - [Work](https://simonesiega.com/work)
@@ -59,13 +43,13 @@ npm run dev
 
 Then open:
 
-```
+```bash
 http://localhost:3000
 ```
 
 Optional: copy `.env.example` to `.env.local` to configure analytics and site settings.
 
-## 🧑‍💻 Contact 
+## 🧑‍💻 Contact
 
 - Website: https://simonesiega.com  
 - GitHub: https://github.com/simonesiega  
@@ -75,5 +59,4 @@ Optional: copy `.env.example` to `.env.local` to configure analytics and site se
 
 This project is licensed under the **MIT License**.
 
-See the full license text in the [LICENSE](LICENSE) file or read it here:  
-https://opensource.org/licenses/MIT
+See [LICENSE](LICENSE) for details.
