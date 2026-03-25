@@ -80,11 +80,16 @@ function createInitialState(): ParticleNetworkState {
  * - viewport/theme/reduced-motion synchronization
  * - interaction listeners and cleanup
  */
-export function useParticleNetwork(options?: {motionScale?: number; disablePointer?: boolean}) {
+export function useParticleNetwork(options?: {
+  motionScale?: number;
+  disablePointer?: boolean;
+  staticMode?: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<ParticleNetworkState>(createInitialState());
   const motionScale = Math.max(0, options?.motionScale ?? 1);
   const disablePointer = options?.disablePointer ?? false;
+  const staticMode = options?.staticMode ?? false;
 
   // The main effect sets up the canvas and engine, and cleans up on unmount.
   useEffect(() => {
@@ -204,9 +209,9 @@ export function useParticleNetwork(options?: {motionScale?: number; disablePoint
       state.dustParticles = Array.from({length: dustCount}, () => spawnDustParticle(width, height));
     };
 
-    // The engine runs only when visible and in a foreground tab.
+    // Determines if the animation loop should be running based on visibility, motion preference, and static mode.
     const shouldRunAnimation = () =>
-      state.isCanvasVisible && !document.hidden && !state.reducedMotion;
+      !staticMode && state.isCanvasVisible && !document.hidden && !state.reducedMotion;
 
     // Renders a single static frame without starting the loop, used for reduced-motion mode and after theme changes.
     const renderStaticFrame = () => {
@@ -313,6 +318,13 @@ export function useParticleNetwork(options?: {motionScale?: number; disablePoint
         return;
       }
 
+      // If static mode is enabled, render a static frame on preference change without starting the loop, since animation is not desired in that mode.
+      if (staticMode) {
+        stopAnimation();
+        renderStaticFrame();
+        return;
+      }
+
       // On enabling motion, reset timeline to avoid huge first delta and start the loop.
       startAnimation();
     };
@@ -363,6 +375,13 @@ export function useParticleNetwork(options?: {motionScale?: number; disablePoint
 
         // On re-entry, refresh bounds before resuming interaction/rendering.
         syncCanvasBounds();
+
+        // If static mode is enabled, render a static frame when the canvas becomes visible without starting the loop, since animation is not desired in that mode.
+        if (staticMode) {
+          renderStaticFrame();
+          return;
+        }
+
         startAnimation();
       },
       // Treat barely visible canvas as visible to avoid frequent thrashing.
@@ -391,11 +410,16 @@ export function useParticleNetwork(options?: {motionScale?: number; disablePoint
     syncNetworkColors();
     initParticles();
 
-    // If reduced motion is preferred, render a single static frame to show the effect without starting the animation loop.
-    if (state.reducedMotion) {
+    // If reduced motion is preferred or static mode is enabled, render a single static frame without starting the animation loop.
+    if (state.reducedMotion || staticMode) {
       renderStaticFrame();
+      stopAnimation();
     }
-    startAnimation();
+
+    // Otherwise, start the loop to animate the particles.
+    else {
+      startAnimation();
+    }
 
     // Full teardown to avoid leaking observers/listeners between route changes.
     return () => {
@@ -415,7 +439,7 @@ export function useParticleNetwork(options?: {motionScale?: number; disablePoint
       window.cancelAnimationFrame(state.boundsAnimationFrame);
       state.boundsAnimationFrame = 0;
     };
-  }, [disablePointer, motionScale]);
+  }, [disablePointer, motionScale, staticMode]);
 
   return canvasRef;
 }

@@ -9,6 +9,7 @@ type ParticleNetworkProps = {
   className?: string;
   motionScale?: number;
   disablePointer?: boolean;
+  staticMode?: boolean;
 };
 
 /**
@@ -16,8 +17,13 @@ type ParticleNetworkProps = {
  *
  * All simulation lifecycle and rendering logic live inside `useParticleNetwork`.
  */
-export function ParticleNetwork({className, motionScale, disablePointer}: ParticleNetworkProps) {
-  const canvasRef = useParticleNetwork({motionScale, disablePointer});
+export function ParticleNetwork({
+  className,
+  motionScale,
+  disablePointer,
+  staticMode,
+}: ParticleNetworkProps) {
+  const canvasRef = useParticleNetwork({motionScale, disablePointer, staticMode});
 
   return (
     // Decorative visual layer only; no semantic content for assistive tech.
