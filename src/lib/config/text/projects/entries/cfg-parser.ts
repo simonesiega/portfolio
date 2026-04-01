@@ -61,7 +61,7 @@ export const cfgParserProject = {
   id: "cfg-parser",
   slug: "cfg-parser",
   title: "CFG Parser",
-  githubUrl: "https://github.com/simonesiega-academics/cfg-parser.git",
+  githubUrl: "https://github.com/simonesiega/cfg-parser.git",
   status: "Completed",
   developmentPeriod: "2025",
   keyPhrase: content.keyPhrase,
@@ -160,15 +160,15 @@ export const cfgParserProject = {
         links: [
           {
             label: content.caseStudy.sections.links.labels[0],
-            url: "https://github.com/simonesiega-academics/cfg-parser",
+            url: "https://github.com/simonesiega/cfg-parser",
           },
           {
             label: content.caseStudy.sections.links.labels[1],
-            url: "https://github.com/simonesiega-academics/cfg-parser/tree/master/docs",
+            url: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
           },
           {
             label: content.caseStudy.sections.links.labels[2],
-            url: "https://github.com/simonesiega-academics/cfg-parser/blob/master/README.md",
+            url: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
           },
         ],
       },
