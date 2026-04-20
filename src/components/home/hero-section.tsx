@@ -1,18 +1,8 @@
 import type {CSSProperties} from "react";
 import Link from "next/link";
 import type {IconType} from "react-icons";
-import {FaJava} from "react-icons/fa6";
-import {FiDownload, FiMail} from "react-icons/fi";
-import {
-  SiOpenai,
-  SiPython,
-  SiReact,
-  SiRust,
-  SiFlutter,
-  SiPostgresql,
-  SiTypescript,
-  SiDocker,
-} from "react-icons/si";
+import {FiDownload, FiMail, FiServer, FiTerminal} from "react-icons/fi";
+import {SiOpenai, SiPython, SiRust, SiPostgresql} from "react-icons/si";
 import {ParticleNetwork} from "@/components/animation/particle-network";
 import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
@@ -28,14 +18,11 @@ const {landingReveal} = animationTimings;
 
 const skillIcons: Record<HomeSkillIconKey, IconType> = {
   openai: SiOpenai,
-  oracle: FaJava,
+  server: FiServer,
+  terminal: FiTerminal,
   python: SiPython,
-  react: SiReact,
-  typescript: SiTypescript,
   postgresql: SiPostgresql,
   rust: SiRust,
-  flutter: SiFlutter,
-  docker: SiDocker,
 };
 
 const landingRevealContainerStyle = {
@@ -79,7 +66,7 @@ export function HomeHeroSection({hero, contactSectionId}: HomeHeroSectionProps) 
           {hero.tagline}
         </p>
         <div
-          className="landing-reveal mt-1.5 flex flex-wrap items-center gap-3 text-sm tracking-wide text-[var(--header-item-color)] sm:text-base"
+          className="landing-reveal mt-3 flex flex-wrap items-center gap-3"
           style={getLandingRevealStyle(landingReveal.delaysMs.tagline)}
         >
           <p className="leading-none sm:leading-none">{hero.locationLine}</p>
@@ -108,7 +95,25 @@ export function HomeHeroSection({hero, contactSectionId}: HomeHeroSectionProps) 
           className="landing-reveal mt-6 max-w-2xl text-[var(--bio-text-color)] sm:text-lg"
           style={getLandingRevealStyle(landingReveal.delaysMs.bio)}
         >
-          {hero.bio}
+          <span className="font-light">
+            {hero.educationLine.map((segment) =>
+              "href" in segment ? (
+                <a
+                  key={`${segment.text}-${segment.href}`}
+                  href={segment.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-current underline-offset-2 transition-colors duration-300 hover:text-[var(--ui-fg)] focus-visible:text-[var(--ui-fg)] focus-visible:outline-none"
+                >
+                  {segment.text}
+                </a>
+              ) : (
+                <span key={segment.text}>{segment.text}</span>
+              )
+            )}
+          </span>
+          <span aria-hidden="true" className="block h-[4px]" />
+          <span>{hero.bio}</span>
         </p>
 
         <div className="mt-8">
