@@ -52,22 +52,15 @@ export const homeText = {
   currentlyBuilding: {
     id: "currently-building",
     title: "Currently building",
-    subtitle: "Projects and experiments I'm actively shipping.",
+    subtitle: "Projects I'm actively building and refining.",
     projects: [
       {
-        title: "AI Culinary Assistant",
+        title: "PromptLab",
         description:
-          "Voice-first cooking assistant that turns recipes into structured data, transcribes in real time, and reads steps back while you cook.",
-        tags: [
-          "Python",
-          "Voice Assistant",
-          "Database",
-          "Ollama",
-          "Speech Recognition",
-          "Text-to-speech",
-        ],
-        href: "https://github.com/simonesiega-academics/culinary-ai-assistant",
-        ariaLabel: "View AI Culinary Assistant on GitHub",
+          "Python CLI for model-aware prompt optimization, built to turn vague prompts into clearer, more structured instructions across models, tasks, and output styles.",
+        tags: ["Python", "CLI", "Developer Tools", "Prompt Engineering", "LLMs"],
+        href: "https://github.com/simonesiega/promptlab",
+        ariaLabel: "View PromptLab on GitHub",
       },
       {
         title: "TapTune",
