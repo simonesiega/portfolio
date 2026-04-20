@@ -75,10 +75,10 @@ export const homeText = {
 
   contactSection: {
     id: "contact",
-    eyebrow: "Interested in building AI products?",
-    title: "Let's build something great together.",
+    eyebrow: "Interested in working together?",
+    title: "Let’s talk about systems and ideas.",
     description:
-      "Have an idea, a product to improve, or a team that needs design and engineering working side by side? I'd love to hear from you.",
+      "If you're building something interesting — or looking for help on backend systems, developer tools, or product-focused software — I'd be happy to connect.",
     statusLine: "Open to internships, collaborations, and selected freelance work.",
     responseTime: "I usually reply within 24–48 hours.",
   },
