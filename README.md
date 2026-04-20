@@ -15,7 +15,7 @@ Personal portfolio website showcasing my work, projects, and technical interests
 </p>
 
 ## 🚀 Preview
-![Homepage animation and theme toggle](docs/gif/home_animation.gif)
+![Homepage animation and theme toggle](docs/gif/home-animation.gif)
 
 ## About
 
@@ -47,7 +47,7 @@ Then open:
 http://localhost:3000
 ```
 
-Optional: copy `.env.example` to `.env.local` to configure analytics and site settings.
+Optional: copy `.env.example` to `.env` to configure analytics and site settings.
 
 ## 🧑‍💻 Contact
 
