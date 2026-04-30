@@ -84,7 +84,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
         variant="fade-up"
         delay={animationTimings.projectsShowcaseList.item.delayMs}
         duration={animationTimings.projectsShowcaseList.item.durationMs}
-        threshold={animationTimings.projectsShowcaseList.item.threshold}
+        threshold={0}
       >
         <Link
           href="/projects"
@@ -103,7 +103,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
           animationTimings.projectsShowcaseList.item.stepDelayMs
         }
         duration={animationTimings.projectsShowcaseList.item.durationMs}
-        threshold={animationTimings.projectsShowcaseList.item.threshold}
+        threshold={0}
         className="pb-24"
       >
         <article className="space-y-10 pt-6 sm:space-y-12 sm:pt-8">

@@ -62,13 +62,13 @@ export function WorkExperienceItem({
 
               <div className="min-w-0">
                 <h2
-                  className={`${montserrat.className} min-w-0 text-base font-bold tracking-tight text-[var(--ui-fg)] sm:text-lg`}
+                  className={`${montserrat.className} min-w-0 text-[1.1rem] font-bold tracking-tight text-[var(--ui-fg)] sm:text-lg`}
                 >
                   {experience.company}
                 </h2>
 
                 <p
-                  className={`${montserrat.className} mt-1 min-w-0 text-xs font-semibold tracking-tight text-[var(--header-item-color)] sm:text-sm`}
+                  className={`${montserrat.className} mt-1 min-w-0 text-[0.86rem] font-semibold tracking-tight text-[var(--header-item-color)] sm:text-sm`}
                 >
                   {experience.role}
                   <span className="text-[var(--header-item-color)]/60">
@@ -80,17 +80,17 @@ export function WorkExperienceItem({
             </div>
 
             <div className="mt-2.5 text-left sm:mt-0 sm:shrink-0 sm:text-right">
-              <p className="text-sm text-[var(--ui-fg-muted)] sm:text-[0.95rem]">
+              <p className="text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[0.95rem]">
                 {experience.dateRange}
               </p>
 
-              <p className="mt-1 text-sm tracking-wide text-[var(--header-item-color)] sm:text-[0.95rem]">
+              <p className="mt-1 text-[0.98rem] tracking-wide text-[var(--header-item-color)] sm:text-[0.95rem]">
                 {experience.location}
               </p>
             </div>
           </header>
 
-          <p className="mt-3.5 max-w-2xl text-xs leading-relaxed text-[var(--ui-fg-muted)] sm:text-sm">
+          <p className="mt-3.5 max-w-2xl text-[0.88rem] leading-relaxed text-[var(--ui-fg-muted)] sm:text-sm">
             {experience.description}
           </p>
 
@@ -98,7 +98,7 @@ export function WorkExperienceItem({
             {experience.technologies.map((technology) => (
               <li
                 key={technology}
-                className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2 py-0.5 text-[0.74rem] text-[var(--card-tag-color)]"
+                className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2 py-0.5 text-[0.82rem] text-[var(--card-tag-color)]"
               >
                 {technology}
               </li>

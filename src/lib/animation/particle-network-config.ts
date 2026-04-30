@@ -23,7 +23,7 @@ export const particleNetworkConfig = {
     },
     motion: {
       maxSpeed: 34,
-      randomDrift: 0.75,
+      randomDrift: 3,
       velocityDamping: 0.996,
       respawnRatePerSecond: 0.03,
       lifetimeMin: 14,
