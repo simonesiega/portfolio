@@ -187,7 +187,7 @@ export function Header({
 
   return (
     <header
-      className={`${montserrat.className} flex h-24 w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)] sm:h-28 sm:gap-12 sm:px-0`}
+      className={`${montserrat.className} flex h-24 w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)] sm:h-20 sm:gap-12 sm:px-0`}
     >
       <Link
         href={homeHref}

@@ -5,7 +5,6 @@ import type {WorkPageExperience} from "@/lib/config/text/work";
 
 type WorkExperienceItemProps = {
   experience: WorkPageExperience;
-  showDivider: boolean;
   revealDelayMs: number;
   revealDurationMs: number;
   revealThreshold: number;
@@ -22,24 +21,16 @@ function getCompanyInitials(company: string) {
 
 export function WorkExperienceItem({
   experience,
-  showDivider,
   revealDelayMs,
   revealDurationMs,
   revealThreshold,
   technologiesAriaLabel,
 }: WorkExperienceItemProps) {
   return (
-    <li className="group relative py-8 pl-8 sm:py-9 sm:pl-10">
-      {showDivider && (
-        <div
-          aria-hidden="true"
-          className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-[var(--card-border)] to-transparent"
-        />
-      )}
-
+    <li className="group relative py-4 pl-7 sm:py-5 sm:pl-9">
       <span
         aria-hidden="true"
-        className="absolute top-20 left-0 h-3 w-3 -translate-x-1/2 rounded-full border border-[var(--header-item-color)]/45 bg-[var(--ui-bg)] transition-colors duration-300 group-hover:border-[var(--ui-fg)]/80 group-hover:bg-[var(--ui-fg)]/80"
+        className="absolute top-16 left-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-[var(--header-item-color)]/45 bg-[var(--ui-bg)] transition-colors duration-300 group-hover:border-[var(--ui-fg)]/80 group-hover:bg-[var(--ui-fg)]/80"
       />
 
       <ScrollReveal
@@ -48,21 +39,21 @@ export function WorkExperienceItem({
         duration={revealDurationMs}
         threshold={revealThreshold}
       >
-        <article className="-mx-2 rounded-2xl border border-transparent px-2 py-4 transition-colors duration-300 hover:bg-[var(--work-item-hover-bg)]">
+        <article className="-mx-1 rounded-xl border border-transparent px-1 py-3 transition-colors duration-300 hover:bg-[var(--work-item-hover-bg)] sm:px-2">
           <header className="sm:flex sm:items-start sm:justify-between sm:gap-6">
-            <div className="flex min-w-0 items-start gap-4">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden">
+            <div className="flex min-w-0 items-start gap-3.5">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden">
                 {experience.logoSrc ? (
                   <Image
                     src={experience.logoSrc}
                     alt={experience.logoAlt}
-                    width={62}
-                    height={62}
+                    width={52}
+                    height={52}
                     className="h-full w-full object-contain"
                   />
                 ) : (
                   <span
-                    className={`${montserrat.className} text-xs font-semibold tracking-[0.08em] text-[var(--header-item-color)]`}
+                    className={`${montserrat.className} text-[0.7rem] font-semibold tracking-[0.08em] text-[var(--header-item-color)]`}
                   >
                     {getCompanyInitials(experience.company)}
                   </span>
@@ -71,13 +62,13 @@ export function WorkExperienceItem({
 
               <div className="min-w-0">
                 <h2
-                  className={`${montserrat.className} min-w-0 text-xl font-bold tracking-tight text-[var(--ui-fg)] sm:text-2xl`}
+                  className={`${montserrat.className} min-w-0 text-base font-bold tracking-tight text-[var(--ui-fg)] sm:text-lg`}
                 >
                   {experience.company}
                 </h2>
 
                 <p
-                  className={`${montserrat.className} mt-1.5 min-w-0 text-sm font-semibold tracking-tight text-[var(--header-item-color)] sm:text-base`}
+                  className={`${montserrat.className} mt-1 min-w-0 text-xs font-semibold tracking-tight text-[var(--header-item-color)] sm:text-sm`}
                 >
                   {experience.role}
                   <span className="text-[var(--header-item-color)]/60">
@@ -88,30 +79,26 @@ export function WorkExperienceItem({
               </div>
             </div>
 
-            <div className="mt-3 text-left sm:mt-0 sm:shrink-0 sm:text-right">
-              <p className="text-sm text-[var(--ui-fg-muted)] sm:text-base">
+            <div className="mt-2.5 text-left sm:mt-0 sm:shrink-0 sm:text-right">
+              <p className="text-sm text-[var(--ui-fg-muted)] sm:text-[0.95rem]">
                 {experience.dateRange}
               </p>
 
-              <p className="mt-1 text-xs tracking-wide text-[var(--header-item-color)] sm:text-sm">
+              <p className="mt-1 text-sm tracking-wide text-[var(--header-item-color)] sm:text-[0.95rem]">
                 {experience.location}
               </p>
             </div>
           </header>
 
-          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[var(--ui-fg-muted)] sm:text-base">
-            {experience.keyPhrase}
-          </p>
-
-          <p className="mt-7 max-w-2xl text-xs leading-relaxed text-[var(--ui-fg-muted)] sm:text-sm">
+          <p className="mt-3.5 max-w-2xl text-xs leading-relaxed text-[var(--ui-fg-muted)] sm:text-sm">
             {experience.description}
           </p>
 
-          <ul className="mt-7 flex flex-wrap gap-2" aria-label={technologiesAriaLabel}>
+          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={technologiesAriaLabel}>
             {experience.technologies.map((technology) => (
               <li
                 key={technology}
-                className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2.5 py-1 text-[0.82rem] text-[var(--card-tag-color)]"
+                className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2 py-0.5 text-[0.74rem] text-[var(--card-tag-color)]"
               >
                 {technology}
               </li>

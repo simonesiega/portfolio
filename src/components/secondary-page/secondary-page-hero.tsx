@@ -9,6 +9,7 @@ type SecondaryPageHeroProps = {
   eyebrowUppercase?: boolean;
   title: string;
   subtitle?: string;
+  compact?: boolean;
 };
 
 export function SecondaryPageHero({
@@ -18,13 +19,14 @@ export function SecondaryPageHero({
   eyebrowUppercase = true,
   title,
   subtitle,
+  compact = false,
 }: SecondaryPageHeroProps) {
   const {secondaryPageHero} = animationTimings;
 
   return (
     <section
       aria-labelledby={sectionId}
-      className="max-w-3xl space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"
+      className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"}`}
     >
       <ScrollReveal variant="fade-in" duration={secondaryPageHero.eyebrow.durationMs}>
         <p
@@ -41,7 +43,7 @@ export function SecondaryPageHero({
       >
         <h1
           id={sectionId}
-          className={`${montserrat.className} text-4xl font-extrabold tracking-tight sm:text-6xl`}
+          className={`${montserrat.className} font-extrabold tracking-tight ${compact ? "text-xl sm:text-3xl" : "text-4xl sm:text-6xl"}`}
         >
           {title}
         </h1>
@@ -54,7 +56,7 @@ export function SecondaryPageHero({
           duration={secondaryPageHero.subtitle.durationMs}
         >
           <p
-            className={`${montserrat.className} max-w-3xl text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
+            className={`${montserrat.className} max-w-3xl font-medium tracking-tight ${compact ? "text-xs text-[var(--header-item-color)]/80 sm:text-sm" : "text-xl text-[var(--ui-fg-muted)] sm:text-2xl"}`}
           >
             {subtitle}
           </p>

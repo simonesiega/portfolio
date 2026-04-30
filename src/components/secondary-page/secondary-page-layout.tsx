@@ -15,6 +15,7 @@ type SecondaryPageLayoutProps = {
   routeRevealDurationMs: number;
   routeRevealThreshold: number;
   footerLegalDisclaimerLine?: string;
+  compactHero?: boolean;
   children?: ReactNode;
 };
 
@@ -23,6 +24,7 @@ export function SecondaryPageLayout({
   routeRevealDurationMs,
   routeRevealThreshold,
   footerLegalDisclaimerLine,
+  compactHero = false,
   children,
 }: SecondaryPageLayoutProps) {
   return (
@@ -36,6 +38,7 @@ export function SecondaryPageLayout({
             eyebrowUppercase={hero.eyebrowUppercase}
             title={hero.title}
             subtitle={hero.subtitle}
+            compact={compactHero}
           />
           {children}
         </div>

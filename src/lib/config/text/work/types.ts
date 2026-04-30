@@ -8,7 +8,6 @@ export type WorkPageExperience = {
   company: string;
   companyType: string;
   location: string;
-  keyPhrase: string;
   description: string;
   technologies: readonly string[];
 };

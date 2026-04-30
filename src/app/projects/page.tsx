@@ -24,6 +24,7 @@ export default function ProjectsPage() {
           hero={hero}
           routeRevealDurationMs={routeReveal.durationMs}
           routeRevealThreshold={routeReveal.threshold}
+          compactHero
         >
           <ProjectsShowcaseSection
             projects={projects}

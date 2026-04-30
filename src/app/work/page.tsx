@@ -19,14 +19,14 @@ export default function WorkPage() {
       routeRevealDurationMs={routeReveal.durationMs}
       routeRevealThreshold={routeReveal.threshold}
       footerLegalDisclaimerLine={footer.legalDisclaimerLine}
+      compactHero
     >
-      <section aria-label={sections.experienceAriaLabel} className="pb-24 sm:pb-24">
+      <section aria-label={sections.experienceAriaLabel} className="pb-20">
         <ol className="relative ml-2 border-l border-[var(--card-border)]">
-          {orderedWorkExperience.map((experience, index) => (
+          {orderedWorkExperience.map((experience) => (
             <WorkExperienceItem
               key={experience.id}
               experience={experience}
-              showDivider={index > 0}
               revealDelayMs={workExperienceList.item.delayMs}
               revealDurationMs={workExperienceList.item.durationMs}
               revealThreshold={workExperienceList.item.threshold}

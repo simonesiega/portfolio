@@ -32,7 +32,6 @@ describe("work text model", () => {
       expect(experience.company.trim().length).toBeGreaterThan(0);
       expect(experience.companyType.trim().length).toBeGreaterThan(0);
       expect(experience.location.trim().length).toBeGreaterThan(0);
-      expect(experience.keyPhrase.trim().length).toBeGreaterThan(0);
       expect(experience.description.trim().length).toBeGreaterThan(0);
 
       expect(experienceIds.has(experience.id), `Duplicate experience id: ${experience.id}`).toBe(
