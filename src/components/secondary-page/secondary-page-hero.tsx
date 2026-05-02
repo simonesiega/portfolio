@@ -7,8 +7,13 @@ type SecondaryPageHeroProps = {
   eyebrow: string;
   eyebrowClassName?: string;
   eyebrowUppercase?: boolean;
+  eyebrowDelayMs?: number;
   title: string;
+  titleClassName?: string;
+  titleDelayMs?: number;
   subtitle?: string;
+  subtitleClassName?: string;
+  subtitleDelayMs?: number;
   compact?: boolean;
 };
 
@@ -17,8 +22,13 @@ export function SecondaryPageHero({
   eyebrow,
   eyebrowClassName,
   eyebrowUppercase = true,
+  eyebrowDelayMs,
   title,
+  titleClassName,
+  titleDelayMs,
   subtitle,
+  subtitleClassName,
+  subtitleDelayMs,
   compact = false,
 }: SecondaryPageHeroProps) {
   const {secondaryPageHero} = animationTimings;
@@ -28,7 +38,11 @@ export function SecondaryPageHero({
       aria-labelledby={sectionId}
       className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"}`}
     >
-      <ScrollReveal variant="fade-in" duration={secondaryPageHero.eyebrow.durationMs}>
+      <ScrollReveal
+        variant="fade-in"
+        delay={eyebrowDelayMs}
+        duration={secondaryPageHero.eyebrow.durationMs}
+      >
         <p
           className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${eyebrowUppercase ? "uppercase" : "normal-case"} ${eyebrowClassName ?? ""}`}
         >
@@ -38,12 +52,12 @@ export function SecondaryPageHero({
 
       <ScrollReveal
         variant="fade-up"
-        delay={secondaryPageHero.title.delayMs}
+        delay={titleDelayMs ?? secondaryPageHero.title.delayMs}
         duration={secondaryPageHero.title.durationMs}
       >
         <h1
           id={sectionId}
-          className={`${montserrat.className} font-extrabold tracking-tight ${compact ? "text-xl sm:text-3xl" : "text-4xl sm:text-6xl"}`}
+          className={`${montserrat.className} font-extrabold tracking-tight ${compact ? "text-xl sm:text-3xl" : "text-4xl sm:text-6xl"} ${titleClassName ?? ""}`}
         >
           {title}
         </h1>
@@ -52,11 +66,12 @@ export function SecondaryPageHero({
       {subtitle ? (
         <ScrollReveal
           variant="fade-up"
-          delay={secondaryPageHero.subtitle.delayMs}
+          delay={subtitleDelayMs ?? secondaryPageHero.subtitle.delayMs}
           duration={secondaryPageHero.subtitle.durationMs}
+          className={compact ? "pt-1 sm:pt-1.5" : ""}
         >
           <p
-            className={`${montserrat.className} max-w-3xl font-medium tracking-tight ${compact ? "text-xs text-[var(--header-item-color)]/80 sm:text-sm" : "text-xl text-[var(--ui-fg-muted)] sm:text-2xl"}`}
+            className={`${montserrat.className} max-w-3xl font-medium tracking-tight ${compact ? "text-xs text-[var(--header-item-color)]/80 sm:text-sm" : "text-xl text-[var(--ui-fg-muted)] sm:text-2xl"} ${subtitleClassName ?? ""}`}
           >
             {subtitle}
           </p>

@@ -157,7 +157,8 @@ describe("projects text model", () => {
 
           const linkUrls = new Set<string>();
           for (const link of section.links) {
-            expect(link.label.trim().length).toBeGreaterThan(0);
+            expect(link.title.trim().length).toBeGreaterThan(0);
+            expect(link.description.trim().length).toBeGreaterThan(0);
             expect(() => new URL(link.url)).not.toThrow();
             expect(linkUrls.has(link.url), `Duplicate link url in links section: ${link.url}`).toBe(
               false

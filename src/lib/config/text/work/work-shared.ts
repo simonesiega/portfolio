@@ -4,7 +4,8 @@ export const workHero = {
   sectionId: "work-heading",
   eyebrow: "WORK",
   title: "Professional Experience",
-  subtitle: "Internships and professional roles across real-world software projects.",
+  subtitle:
+    "Selected work experiences across internships, contract roles, and real-world software projects.",
 } as const satisfies WorkText["hero"];
 
 export const workSections = {

@@ -5,7 +5,8 @@ type ProjectCaseStudyBaseSection = {
 };
 
 export type ProjectCaseStudyLink = {
-  label: string;
+  title: string;
+  description: string;
   url: string;
 };
 
@@ -51,6 +52,7 @@ export type ProjectsPageProject = {
       value: string;
     }[];
     diagramAlt: string;
+    diagramCaption: string;
     diagramRenderingMode?: "auto" | "dark-source";
     sections: readonly ProjectCaseStudySection[];
   };

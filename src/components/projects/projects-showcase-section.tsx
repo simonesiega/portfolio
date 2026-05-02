@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {FiArrowUpRight, FiGithub, FiMail} from "react-icons/fi";
+import {FiGithub, FiMail} from "react-icons/fi";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
@@ -56,7 +56,7 @@ export function ProjectsShowcaseSection({
   const contactEmail = appConfig.contact.email;
 
   return (
-    <section aria-label={projectsAriaLabel} className="pt-0.5 pb-14">
+    <section aria-label={projectsAriaLabel} className="pt-3 pb-14 sm:pt-4">
       <ul className="space-y-4 sm:space-y-3">
         {projects.map((project, index) => (
           <li key={project.id}>
@@ -68,7 +68,13 @@ export function ProjectsShowcaseSection({
               duration={projectsShowcaseList.item.durationMs}
               threshold={projectsShowcaseList.item.threshold}
             >
-              <article className="group rounded-xl border-2 border-[var(--project-card-border)] bg-[var(--project-card-bg)] px-4 pt-4 pb-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--project-card-hover-border)] hover:bg-[var(--project-card-hover-bg)] sm:px-5 sm:pt-[1.125rem] sm:pb-2.5">
+              <article className="group relative rounded-xl border-2 border-[var(--project-card-border)] bg-[var(--project-card-bg)] px-4 pt-2 pb-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--project-card-hover-border)] hover:bg-[var(--project-card-hover-bg)] sm:px-5 sm:pt-2.5 sm:pb-2.5">
+                <Link
+                  href={getProjectCaseStudyHref(project.slug)}
+                  scroll={false}
+                  aria-label={`${openCaseStudyLabel} ${project.title}`}
+                  className="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
+                />
                 <header className="flex flex-wrap items-center gap-2">
                   <h2
                     className={`${montserrat.className} text-lg font-bold tracking-tight sm:text-xl`}
@@ -76,11 +82,11 @@ export function ProjectsShowcaseSection({
                     {project.title}
                   </h2>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="relative z-20 ml-auto flex items-center gap-1.5">
                     <a
                       href={getProjectInfoMailHref(project.title, mailSubjectPrefix, contactEmail)}
                       aria-label={`${mailAriaLabelPrefix} ${project.title}`}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[color-mix(in_srgb,var(--header-item-color)_68%,white)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
                     >
                       <FiMail className="h-3 w-3" />
                     </a>
@@ -90,7 +96,7 @@ export function ProjectsShowcaseSection({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${githubAriaLabelPrefix} ${project.title} ${githubAriaLabelSuffix}`}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[color-mix(in_srgb,var(--header-item-color)_68%,white)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
                     >
                       <FiGithub className="h-3 w-3" />
                     </a>
@@ -108,11 +114,14 @@ export function ProjectsShowcaseSection({
                   <span>{project.developmentPeriod}</span>
                 </p>
 
-                <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-[var(--ui-fg-muted)] sm:text-[0.95rem]">
+                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[var(--ui-fg-muted)] sm:mt-2.5 sm:text-[0.95rem]">
                   {project.keyPhrase}
                 </p>
 
-                <ul className="mt-1.5 flex flex-wrap gap-1.5" aria-label={technologiesAriaLabel}>
+                <ul
+                  className="mt-1.5 mb-0.5 flex flex-wrap gap-1.5"
+                  aria-label={technologiesAriaLabel}
+                >
                   {project.technologies.map((technology) => (
                     <li
                       key={technology}
@@ -122,17 +131,6 @@ export function ProjectsShowcaseSection({
                     </li>
                   ))}
                 </ul>
-
-                <Link
-                  href={getProjectCaseStudyHref(project.slug)}
-                  scroll={false}
-                  className={`${montserrat.className} group/case-study mt-[0.9375rem] inline-flex items-center gap-1 rounded-sm text-[0.7rem] font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-all duration-300 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)] sm:text-xs`}
-                >
-                  <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover/case-study:after:scale-x-100 group-focus-visible/case-study:after:scale-x-100">
-                    {openCaseStudyLabel}
-                  </span>
-                  <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover/case-study:translate-x-0.5 group-hover/case-study:-translate-y-0.5 group-focus-visible/case-study:translate-x-0.5 group-focus-visible/case-study:-translate-y-0.5" />
-                </Link>
               </article>
             </ScrollReveal>
           </li>

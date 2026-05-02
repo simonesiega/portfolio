@@ -5,6 +5,7 @@ type CfgParserContent = {
   keyPhrase: string;
   caseStudy: {
     summary: string;
+    diagramCaption: string;
     sections: {
       overview: {
         heading: string;
@@ -49,7 +50,11 @@ type CfgParserContent = {
       links: {
         heading: string;
         content: string;
-        labels: [string, string, string];
+        items: [
+          {title: string; description: string},
+          {title: string; description: string},
+          {title: string; description: string},
+        ];
       };
     };
   };
@@ -68,7 +73,7 @@ export const cfgParserProject = {
   technologies: ["Rust", "CLI", "Parsing", "Context-Free Grammar", "Tokenization"],
   caseStudy: {
     summary: content.caseStudy.summary,
-    readTimeMinutes: 5,
+    readTimeMinutes: 6,
     quickFacts: [
       {
         label: "Language",
@@ -84,14 +89,15 @@ export const cfgParserProject = {
       },
       {
         label: "Architecture",
-        value: "Tokenizer -> Parser -> Evaluator",
+        value: "Tokenizer -> Parser/Evaluator",
       },
       {
-        label: "Expression Support",
-        value: "8 operator/forms",
+        label: "Supported syntax",
+        value: "8 operators/forms",
       },
     ],
     diagramAlt: "CFG Parser architecture diagram",
+    diagramCaption: content.caseStudy.diagramCaption,
     diagramRenderingMode: "dark-source",
     sections: [
       {
@@ -159,15 +165,18 @@ export const cfgParserProject = {
         content: content.caseStudy.sections.links.content,
         links: [
           {
-            label: content.caseStudy.sections.links.labels[0],
+            title: content.caseStudy.sections.links.items[0].title,
+            description: content.caseStudy.sections.links.items[0].description,
             url: "https://github.com/simonesiega/cfg-parser",
           },
           {
-            label: content.caseStudy.sections.links.labels[1],
+            title: content.caseStudy.sections.links.items[1].title,
+            description: content.caseStudy.sections.links.items[1].description,
             url: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
           },
           {
-            label: content.caseStudy.sections.links.labels[2],
+            title: content.caseStudy.sections.links.items[2].title,
+            description: content.caseStudy.sections.links.items[2].description,
             url: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
           },
         ],

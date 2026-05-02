@@ -18,7 +18,7 @@ test.describe("project case study links", () => {
       await expect(page.getByRole("heading", {name: linksSection.heading})).toBeVisible();
 
       for (const link of linksSection.links) {
-        const anchor = page.getByRole("link", {name: link.label});
+        const anchor = page.getByRole("link", {name: link.description});
         await expect(anchor).toHaveAttribute("href", link.url);
       }
     });

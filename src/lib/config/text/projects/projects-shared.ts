@@ -4,7 +4,8 @@ export const projectsHero = {
   sectionId: "projects-heading",
   eyebrow: "PROJECTS",
   title: "Personal Projects",
-  subtitle: "Independent and academic software projects built alongside my studies.",
+  subtitle:
+    "Selected software projects built to explore systems, tools, and practical engineering problems.",
 } as const satisfies ProjectsText["hero"];
 
 export const projectsSections = {
@@ -30,6 +31,6 @@ export const projectsCaseStudyPage = {
   eyebrow: "CASE STUDY",
   minReadSuffix: "min read",
   backToProjectsLabel: "Back to projects",
-  githubLabel: "GitHub",
+  githubLabel: "View on GitHub",
   demoLabel: "Demo",
 } as const satisfies ProjectsText["caseStudyPage"];
