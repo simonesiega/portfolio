@@ -8,6 +8,7 @@ export const dacosSrlExperience = {
   dateRange: "May 2025 – Jun 2025",
   role: "Software Developer Intern",
   company: "Dacos SRL",
+  companyUrl: null,
   companyType: "Internship",
   location: "📍 Venice, Italy",
   description:

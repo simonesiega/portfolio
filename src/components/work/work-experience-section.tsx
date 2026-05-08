@@ -1,4 +1,5 @@
 import Image from "next/image";
+import {FiArrowUpRight} from "react-icons/fi";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {montserrat} from "@/lib/fonts";
 import type {WorkPageExperience} from "@/lib/config/text/work";
@@ -64,7 +65,20 @@ export function WorkExperienceItem({
                 <h2
                   className={`${montserrat.className} min-w-0 text-[1.1rem] font-bold tracking-tight text-[var(--ui-fg)] sm:text-lg`}
                 >
-                  {experience.company}
+                  {experience.companyUrl ? (
+                    <a
+                      href={experience.companyUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group/company-link relative inline-flex items-baseline gap-1 rounded-sm pb-0.5 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
+                    >
+                      <span>{experience.company}</span>
+                      <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/company-link:translate-x-0.5 group-hover/company-link:-translate-y-0.5 group-focus-visible/company-link:translate-x-0.5 group-focus-visible/company-link:-translate-y-0.5" />
+                      <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/company-link:scale-x-100 group-focus-visible/company-link:scale-x-100" />
+                    </a>
+                  ) : (
+                    experience.company
+                  )}
                 </h2>
 
                 <p

@@ -8,6 +8,7 @@ export const novaideaExperience = {
   dateRange: "Feb 2026 – Present",
   role: "Full-Stack Developer",
   company: "Novaidea",
+  companyUrl: "https://www.newartvanguard.com/",
   companyType: "Contractor",
   location: "🌍 Remote",
   description:
