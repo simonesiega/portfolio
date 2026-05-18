@@ -57,10 +57,14 @@ export const homeText = {
     education: {
       label: "EDUCATION",
       items: [
-        {school: "I.T.I.S. C. Zuccante", href: "#", description: "Final-year IT student"},
+        {
+          school: "I.T.I.S. C. Zuccante",
+          href: "https://www.itiszuccante.edu.it/",
+          description: "Final-year IT student",
+        },
         {
           school: "University of Padua",
-          href: "#",
+          href: "https://www.unipd.it/",
           description: "Incoming Computer Engineering student",
         },
       ] as const satisfies readonly HomeIntroEducationItem[],
