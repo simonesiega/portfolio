@@ -12,7 +12,8 @@ import "./globals.css";
 
 const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);
 const metadataBase = getSiteUrl();
-const {owner, navigation, social, metadata: metadataConfig, analytics, layout} = appConfig;
+const headerHeightFallback = "5.5rem";
+const {owner, navigation, social, metadata: metadataConfig, analytics} = appConfig;
 
 export const metadata: Metadata = {
   metadataBase,
@@ -59,7 +60,7 @@ export default function RootLayout({
         ) : null}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased [--app-header-height:6rem] [--theme-transition-easing:cubic-bezier(0.22,1,0.36,1)] sm:[--app-header-height:7rem]`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased [--app-header-height:5.5rem] [--theme-transition-easing:cubic-bezier(0.22,1,0.36,1)] sm:[--app-header-height:6.5rem]`}
         style={
           {
             "--theme-transition-duration": themeTransitionDuration,
@@ -82,7 +83,7 @@ export default function RootLayout({
         </div>
         <main
           className="flex flex-1 flex-col"
-          style={{paddingTop: `var(--app-header-height, ${layout.headerHeightFallback})`}}
+          style={{paddingTop: `var(--app-header-height, ${headerHeightFallback})`}}
         >
           {children}
         </main>

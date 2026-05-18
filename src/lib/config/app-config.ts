@@ -13,7 +13,7 @@ export const appConfig = {
       role: "Software Engineer",
       supportingLine: "Venice, Italy",
       description: "Selected projects, engineering work, and systems experiments.",
-      highlights: ["Backend", "AI Systems", "Dev tools"],
+      highlights: ["Projects", "Work", "About"],
       footerLabel: "Portfolio",
     },
   },
@@ -53,10 +53,6 @@ export const appConfig = {
   contact: {
     email: "simonesiega1@gmail.com",
     availabilityLine: "Available for internships & collaborations",
-  },
-
-  layout: {
-    headerHeightFallback: "6rem",
   },
 
   theme: {

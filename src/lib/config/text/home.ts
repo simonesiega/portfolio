@@ -1,89 +1,127 @@
-export const homeSkillIconKeys = [
-  "openai",
-  "server",
-  "terminal",
-  "python",
-  "postgresql",
-  "rust",
-] as const;
+export const homeIntroSocialIconKeys = ["x", "instagram", "github", "linkedin"] as const;
 
-export type HomeSkillIconKey = (typeof homeSkillIconKeys)[number];
+export type HomeIntroSocialIconKey = (typeof homeIntroSocialIconKeys)[number];
 
-type HomeHeroSkill = {
+type HomeIntroSocialLink = {
+  icon: HomeIntroSocialIconKey;
   label: string;
-  iconKey: HomeSkillIconKey;
-  color: string;
+  href: string;
 };
 
-type HomeHeroLineSegment = {
-  text: string;
-  href?: string;
+type HomeIntroEducationItem = {
+  school: string;
+  href: string;
+  description: string;
 };
 
-const homeHeroSkills = [
-  {label: "AI Systems", iconKey: "openai", color: "#10a37f"},
-  {label: "Backend", iconKey: "server", color: "#94a3b8"},
-  {label: "Developer Tools", iconKey: "terminal", color: "#94a3b8"},
-  {label: "Databases", iconKey: "postgresql", color: "#336791"},
-  {label: "Python", iconKey: "python", color: "#3776ab"},
-  {label: "Rust", iconKey: "rust", color: "#dea584"},
-] as const satisfies readonly HomeHeroSkill[];
+type HomeIntroProjectItem = {
+  title: string;
+  href: string;
+  description: string;
+};
+
+type HomeIntroWorkItem = {
+  title: string;
+  description: string;
+  dateRange: string;
+  imageSrc: string;
+  imageAlt: string;
+};
+
+type HomeIntroAboutImage = {
+  label: string;
+  src: string;
+  alt: string;
+};
 
 export const homeText = {
-  hero: {
-    heading: "Hi, I'm Simone Siega",
-    tagline: "Building AI systems, backend software, and developer tools",
-    locationLine: "📍 Venice, Italy",
-    educationLine: [
-      {text: "Final-year IT student at "},
-      {text: "Zuccante", href: "https://www.zuccante.it/"},
-      {text: ", starting Computer Engineering at the "},
-      {text: "University of Padua", href: "https://www.unipd.it/"},
-      {text: " next year."},
-    ] as const satisfies readonly HomeHeroLineSegment[],
-    bio: "I work on practical software with a focus on clean architecture, reliable backend systems, and thoughtful developer tooling.",
-    skills: homeHeroSkills,
-    statusLine: "Open to internships and collaborations",
-    primaryCtaLabel: "Let's Talk",
-    secondaryCtaLabel: "View Projects",
-    secondaryCtaHref: "/projects",
-  },
+  intro: {
+    profileImage: {
+      src: "/landing/pfp.png",
+      alt: "Simone Siega",
+    },
+    name: "Simone Siega",
 
-  currentlyBuilding: {
-    id: "currently-building",
-    title: "Currently building",
-    subtitle: "Projects I'm actively building and refining.",
-    projects: [
-      {
-        title: "PromptLab",
-        description:
-          "Python CLI for model-aware prompt optimization, built to turn vague prompts into clearer, more structured instructions across models, tasks, and output styles.",
-        tags: ["Python", "CLI", "Developer Tools", "Prompt Engineering", "LLMs"],
-        href: "https://github.com/simonesiega/promptlab",
-        ariaLabel: "View PromptLab on GitHub",
-      },
-      {
-        title: "TapTune",
-        description:
-          "Android companion app for instant Spotify handoff between nearby devices — built to share Spotify content in seconds, without links, contacts, or setup.",
-        tags: ["Kotlin", "Android", "Jetpack Compose", "Spotify", "Nearby Sharing"],
-        href: "https://github.com/simonesiega/taptune",
-        ariaLabel: "View TapTune on GitHub",
-      },
+    bioLines: [
+      "Final-year IT student based in Venice, Italy.",
+      "Building AI systems, backend software, and developer tools.",
     ],
-  },
 
-  contactSection: {
-    id: "contact",
-    eyebrow: "Interested in working together?",
-    title: "Let’s talk about systems and ideas.",
-    description:
-      "If you're building something interesting — or looking for help on backend systems, developer tools, or product-focused software — I'd be happy to connect.",
-    statusLine: "Open to internships, collaborations, and selected freelance work.",
-    responseTime: "I usually reply within 24–48 hours.",
+    socialLinks: [
+      {icon: "x", label: "X / Twitter", href: "https://x.com/simonesiega_"},
+      {icon: "instagram", label: "Instagram", href: "https://www.instagram.com/_simonesiiega_/"},
+      {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
+      {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
+    ] as const satisfies readonly HomeIntroSocialLink[],
+
+    education: {
+      label: "EDUCATION",
+      items: [
+        {school: "I.T.I.S. C. Zuccante", href: "#", description: "Final-year IT student"},
+        {
+          school: "University of Padua",
+          href: "#",
+          description: "Incoming Computer Engineering student",
+        },
+      ] as const satisfies readonly HomeIntroEducationItem[],
+    },
+    projects: {
+      label: "PROJECTS",
+      linkLabel: "PROJECTS →",
+      seeAllHref: "/projects",
+      items: [
+        {
+          title: "CFG Parser",
+          href: "/projects/cfg-parser",
+          description: "Rust library for parsing context-free grammars",
+        },
+      ] as const satisfies readonly HomeIntroProjectItem[],
+    },
+    works: {
+      label: "WORKS",
+      linkLabel: "WORKS →",
+      seeAllHref: "/work",
+      items: [
+        {
+          title: "Novaidea",
+          description: "Full-stack web development",
+          dateRange: "2026",
+          imageSrc: "/work/logos/Novaidea.jpg",
+          imageAlt: "Novaidea logo",
+        },
+        {
+          title: "Dacos S.r.l.",
+          description: "Software development internship",
+          dateRange: "2025",
+          imageSrc: "/work/logos/Dacos.png",
+          imageAlt: "Dacos logo",
+        },
+      ] as const satisfies readonly HomeIntroWorkItem[],
+    },
+    about: {
+      label: "ABOUT ME",
+      description:
+        "Outside code, I’m usually on mountain trails, training in the gym, or studying computer science and mathematics.",
+      images: [
+        {
+          label: "Mountains",
+          src: "/landing/about/snow.jpg",
+          alt: "Mountain trails in the Dolomites",
+        },
+        {
+          label: "Gym",
+          src: "/landing/about/gym.png",
+          alt: "Minimal gym training illustration",
+        },
+        {
+          label: "CS & Math",
+          src: "/landing/about/cs-math.png",
+          alt: "Minimal computer science and mathematics illustration",
+        },
+      ] as const satisfies readonly HomeIntroAboutImage[],
+      closingLine: "These keep me balanced, focused, and curious.",
+    },
   },
 } as const;
 
-export type HomeHero = (typeof homeText)["hero"];
-export type HomeCurrentlyBuilding = (typeof homeText)["currentlyBuilding"];
-export type HomeContactSection = (typeof homeText)["contactSection"];
+export type HomeIntro = (typeof homeText)["intro"];

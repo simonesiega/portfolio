@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 @import "../styles/base.css";
-@import "../styles/motion/landing-reveal.css";
 @import "../styles/motion/scroll-reveal.css";
+@import "../styles/components/home-intro.css";
 @import "../styles/components/theme-toggle.css";
 @import "../styles/components/header-motion.css";
 @import "../styles/accessibility/reduced-motion.css";

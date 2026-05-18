@@ -17,12 +17,6 @@ html.js .scroll-reveal--fade-in {
   filter: blur(4px);
 }
 
-html.js .scroll-reveal--scale-up {
-  opacity: 0;
-  transform: scale(0.92);
-  filter: blur(4px);
-}
-
 html.js .scroll-reveal--visible {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);

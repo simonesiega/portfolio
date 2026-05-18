@@ -3,7 +3,7 @@
 import {useRef, useEffect, type ReactNode, type CSSProperties} from "react";
 import {animationTimings} from "@/lib/animation/animation-timings";
 
-type Variant = "fade-up" | "fade-in" | "scale-up";
+type Variant = "fade-up" | "fade-in";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -12,8 +12,6 @@ interface ScrollRevealProps {
   duration?: number;
   threshold?: number;
   className?: string;
-  as?: keyof HTMLElementTagNameMap;
-  once?: boolean;
   style?: CSSProperties;
 }
 
@@ -24,12 +22,10 @@ export function ScrollReveal({
   duration = animationTimings.scrollRevealDefaults.durationMs,
   threshold = animationTimings.scrollRevealDefaults.threshold,
   className = "",
-  as: Tag = "div",
-  once = true,
   style,
 }: ScrollRevealProps) {
   const {scrollRevealDefaults} = animationTimings;
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -50,12 +46,8 @@ export function ScrollReveal({
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add("scroll-reveal--visible");
-          if (once) observer.unobserve(el);
+          observer.unobserve(el);
           return;
-        }
-
-        if (!once) {
-          el.classList.remove("scroll-reveal--visible");
         }
       },
       {threshold, rootMargin: scrollRevealDefaults.rootMargin}
@@ -63,7 +55,7 @@ export function ScrollReveal({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold, once, scrollRevealDefaults.reducedMotionQuery, scrollRevealDefaults.rootMargin]);
+  }, [threshold, scrollRevealDefaults.reducedMotionQuery, scrollRevealDefaults.rootMargin]);
 
   const combinedStyle: CSSProperties = {
     ...style,
@@ -71,15 +63,13 @@ export function ScrollReveal({
     "--sr-duration": `${duration}ms`,
   } as CSSProperties;
 
-  const Element = Tag as React.ElementType;
-
   return (
-    <Element
+    <div
       ref={ref}
       className={`scroll-reveal scroll-reveal--${variant} ${className}`}
       style={combinedStyle}
     >
       {children}
-    </Element>
+    </div>
   );
 }

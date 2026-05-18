@@ -11,44 +11,6 @@ export const animationTimings = {
     threshold: 0.05,
   },
 
-  landingReveal: {
-    durationMs: 760,
-    delaysMs: {
-      heading: 180,
-      tagline: 340,
-      bio: 480,
-      skills: 620,
-      cta: 760,
-    },
-  },
-
-  homePage: {
-    divider: {
-      durationMs: 600,
-    },
-  },
-
-  homeCurrentlyBuilding: {
-    cards: {
-      durationMs: 800,
-      stepDelayMs: 150,
-    },
-  },
-
-  homeContactSection: {
-    heading: {
-      durationMs: 800,
-    },
-    description: {
-      delayMs: 120,
-      durationMs: 800,
-    },
-    actions: {
-      delayMs: 240,
-      durationMs: 800,
-    },
-  },
-
   secondaryPageHero: {
     eyebrow: {
       durationMs: 760,

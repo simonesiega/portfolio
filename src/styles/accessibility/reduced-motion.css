@@ -16,13 +16,6 @@
     transition: none !important;
   }
 
-  .landing-reveal {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    animation: none;
-  }
-
   .scroll-reveal {
     opacity: 1 !important;
     transform: none !important;

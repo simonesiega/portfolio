@@ -1,6 +1,6 @@
 :root,
 :root[data-theme="dark"] {
-  --app-header-height: 6rem;
+  --app-header-height: 5.5rem;
   --ui-bg: #000000;
   --ui-fg: #ffffff;
   --ui-fg-muted: #d4d4d8;
