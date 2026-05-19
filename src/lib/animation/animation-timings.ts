@@ -11,6 +11,37 @@ export const animationTimings = {
     threshold: 0.05,
   },
 
+  homeIntro: {
+    hero: {
+      image: {
+        delayMs: 80,
+        durationMs: 900,
+        threshold: 0.05,
+      },
+      name: {
+        delayMs: 170,
+        durationMs: 900,
+        threshold: 0.05,
+      },
+      bio: {
+        delayMs: 260,
+        durationMs: 980,
+        threshold: 0.05,
+      },
+      social: {
+        delayMs: 360,
+        durationMs: 900,
+        threshold: 0.05,
+      },
+    },
+    section: {
+      delayMs: 120,
+      initialViewportDelayMs: 560,
+      durationMs: 860,
+      threshold: 0.12,
+    },
+  },
+
   secondaryPageHero: {
     eyebrow: {
       durationMs: 760,

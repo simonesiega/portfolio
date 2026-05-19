@@ -105,10 +105,10 @@ export const homeText = {
     about: {
       label: "ABOUT ME",
       description:
-        "Outside code, I’m usually on mountain trails, training in the gym, or studying computer science and mathematics.",
+        "Beyond software engineering, I split my time between mountain trails, strength training, and deepening my knowledge of computer science and mathematics.",
       images: [
         {
-          label: "Mountains",
+          label: "Mountain",
           src: "/landing/about/snow.jpg",
           alt: "Mountain trails in the Dolomites",
         },
@@ -123,7 +123,7 @@ export const homeText = {
           alt: "Minimal computer science and mathematics illustration",
         },
       ] as const satisfies readonly HomeIntroAboutImage[],
-      closingLine: "These keep me balanced, focused, and curious.",
+      closingLine: "A quiet balance of nature, discipline, and technical curiosity.",
     },
   },
 } as const;

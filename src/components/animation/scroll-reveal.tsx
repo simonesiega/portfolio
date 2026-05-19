@@ -9,6 +9,7 @@ interface ScrollRevealProps {
   children: ReactNode;
   variant?: Variant;
   delay?: number;
+  initialViewportDelay?: number;
   duration?: number;
   threshold?: number;
   className?: string;
@@ -19,6 +20,7 @@ export function ScrollReveal({
   children,
   variant = "fade-up",
   delay = 0,
+  initialViewportDelay,
   duration = animationTimings.scrollRevealDefaults.durationMs,
   threshold = animationTimings.scrollRevealDefaults.threshold,
   className = "",
@@ -42,9 +44,15 @@ export function ScrollReveal({
       return;
     }
 
+    const initialScrollY = window.scrollY;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          if (initialViewportDelay !== undefined && window.scrollY === initialScrollY) {
+            el.style.setProperty("--sr-delay", `${initialViewportDelay}ms`);
+          }
+
           el.classList.add("scroll-reveal--visible");
           observer.unobserve(el);
           return;
@@ -55,7 +63,12 @@ export function ScrollReveal({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold, scrollRevealDefaults.reducedMotionQuery, scrollRevealDefaults.rootMargin]);
+  }, [
+    initialViewportDelay,
+    threshold,
+    scrollRevealDefaults.reducedMotionQuery,
+    scrollRevealDefaults.rootMargin,
+  ]);
 
   const combinedStyle: CSSProperties = {
     ...style,
