@@ -14,6 +14,7 @@ type SecondaryPageHeroProps = {
   subtitle?: string;
   subtitleClassName?: string;
   subtitleDelayMs?: number;
+  className?: string;
   compact?: boolean;
 };
 
@@ -29,6 +30,7 @@ export function SecondaryPageHero({
   subtitle,
   subtitleClassName,
   subtitleDelayMs,
+  className,
   compact = false,
 }: SecondaryPageHeroProps) {
   const {secondaryPageHero} = animationTimings;
@@ -36,19 +38,21 @@ export function SecondaryPageHero({
   return (
     <section
       aria-labelledby={sectionId}
-      className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"}`}
+      className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"} ${className ?? ""}`}
     >
-      <ScrollReveal
-        variant="fade-in"
-        delay={eyebrowDelayMs}
-        duration={secondaryPageHero.eyebrow.durationMs}
-      >
-        <p
-          className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${eyebrowUppercase ? "uppercase" : "normal-case"} ${eyebrowClassName ?? ""}`}
+      {eyebrow ? (
+        <ScrollReveal
+          variant="fade-in"
+          delay={eyebrowDelayMs}
+          duration={secondaryPageHero.eyebrow.durationMs}
         >
-          {eyebrow}
-        </p>
-      </ScrollReveal>
+          <p
+            className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${eyebrowUppercase ? "uppercase" : "normal-case"} ${eyebrowClassName ?? ""}`}
+          >
+            {eyebrow}
+          </p>
+        </ScrollReveal>
+      ) : null}
 
       <ScrollReveal
         variant="fade-up"

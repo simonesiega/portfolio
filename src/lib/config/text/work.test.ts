@@ -6,12 +6,12 @@ const sortStartPattern = /^\d{4}-(0[1-9]|1[0-2])$/;
 describe("work text model", () => {
   it("keeps shared page copy complete", () => {
     expect(workText.hero.sectionId.trim().length).toBeGreaterThan(0);
-    expect(workText.hero.eyebrow.trim().length).toBeGreaterThan(0);
+    expect(typeof workText.hero.eyebrow).toBe("string");
     expect(workText.hero.title.trim().length).toBeGreaterThan(0);
     expect(workText.hero.subtitle.trim().length).toBeGreaterThan(0);
 
     expect(workText.sections.experienceAriaLabel.trim().length).toBeGreaterThan(0);
-    expect(workText.sections.technologiesAriaLabel.trim().length).toBeGreaterThan(0);
+    expect(workText.sections.tagsAriaLabel.trim().length).toBeGreaterThan(0);
 
     expect(workText.footer.legalDisclaimerLine.trim().length).toBeGreaterThan(0);
   });
@@ -24,9 +24,17 @@ describe("work text model", () => {
     for (const experience of workText.experiences) {
       expect(experience.id.trim().length).toBeGreaterThan(0);
       expect(experience.sortStart).toMatch(sortStartPattern);
-      expect(experience.logoSrc.trim().length).toBeGreaterThan(0);
-      expect(experience.logoSrc.startsWith("/work/logos/")).toBe(true);
-      expect(experience.logoAlt.trim().length).toBeGreaterThan(0);
+      const imageSrc = experience.imageSrc?.trim();
+
+      expect(experience.imageSrc === null || typeof experience.imageSrc === "string").toBe(true);
+      expect(!imageSrc || experience.imageAlt.trim().length > 0).toBe(true);
+      expect(experience.imageCaption === null || experience.imageCaption.trim().length > 0).toBe(
+        true
+      );
+      expect(experience.imageZoom).toBeGreaterThan(0);
+      expect(experience.imagePosition.trim().length).toBeGreaterThan(0);
+      expect(experience.logoSrc === null || experience.logoSrc.trim().length > 0).toBe(true);
+      expect(experience.logoSrc === null || experience.logoAlt.trim().length > 0).toBe(true);
       expect(experience.dateRange.trim().length).toBeGreaterThan(0);
       expect(experience.role.trim().length).toBeGreaterThan(0);
       expect(experience.company.trim().length).toBeGreaterThan(0);
@@ -40,11 +48,12 @@ describe("work text model", () => {
       );
       experienceIds.add(experience.id);
 
-      expect(experience.technologies.length).toBeGreaterThan(0);
-      expect(new Set(experience.technologies).size).toBe(experience.technologies.length);
+      expect(experience.tags.length).toBeGreaterThan(0);
+      expect(new Set(experience.tags.map((tag) => tag.label)).size).toBe(experience.tags.length);
 
-      for (const technology of experience.technologies) {
-        expect(technology.trim().length).toBeGreaterThan(0);
+      for (const tag of experience.tags) {
+        expect(tag.label.trim().length).toBeGreaterThan(0);
+        expect(!("href" in tag) || tag.href.trim().length > 0).toBe(true);
       }
     }
   });

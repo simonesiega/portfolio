@@ -1,123 +1,122 @@
 import Image from "next/image";
-import {FiArrowUpRight} from "react-icons/fi";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
-import {montserrat} from "@/lib/fonts";
 import type {WorkPageExperience} from "@/lib/config/text/work";
 
-type WorkExperienceItemProps = {
+type WorkExperienceCardProps = {
   experience: WorkPageExperience;
   revealDelayMs: number;
   revealDurationMs: number;
   revealThreshold: number;
-  technologiesAriaLabel: string;
+  tagsAriaLabel: string;
 };
 
-function getCompanyInitials(company: string) {
-  const words = company.trim().split(/\s+/);
-  return words
-    .slice(0, 2)
-    .map((word) => word.charAt(0).toUpperCase())
-    .join("");
-}
-
-export function WorkExperienceItem({
+export function WorkExperienceCard({
   experience,
   revealDelayMs,
   revealDurationMs,
   revealThreshold,
-  technologiesAriaLabel,
-}: WorkExperienceItemProps) {
-  return (
-    <li className="group relative py-4 pl-7 sm:py-5 sm:pl-9">
-      <span
-        aria-hidden="true"
-        className="absolute top-16 left-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-[var(--header-item-color)]/45 bg-[var(--ui-bg)] transition-colors duration-300 group-hover:border-[var(--ui-fg)]/80 group-hover:bg-[var(--ui-fg)]/80"
-      />
+  tagsAriaLabel,
+}: WorkExperienceCardProps) {
+  const imageSrc = experience.imageSrc?.trim();
+  const imageCaption = experience.imageCaption?.trim();
 
+  return (
+    <li>
       <ScrollReveal
         variant="fade-up"
         delay={revealDelayMs}
         duration={revealDurationMs}
         threshold={revealThreshold}
       >
-        <article className="-mx-1 rounded-xl border border-transparent px-1 py-3 transition-colors duration-300 hover:bg-[var(--work-item-hover-bg)] sm:px-2">
-          <header className="sm:flex sm:items-start sm:justify-between sm:gap-6">
-            <div className="flex min-w-0 items-start gap-3.5">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden">
-                {experience.logoSrc ? (
-                  <Image
-                    src={experience.logoSrc}
-                    alt={experience.logoAlt}
-                    width={52}
-                    height={52}
-                    className="h-full w-full object-contain"
-                  />
-                ) : (
-                  <span
-                    className={`${montserrat.className} text-[0.7rem] font-semibold tracking-[0.08em] text-[var(--header-item-color)]`}
-                  >
-                    {getCompanyInitials(experience.company)}
-                  </span>
-                )}
+        <article>
+          <header className="flex items-start gap-3.5">
+            {experience.logoSrc ? (
+              <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[var(--card-border)] bg-[color-mix(in_srgb,var(--ui-fg)_4%,transparent)]">
+                <Image
+                  src={experience.logoSrc}
+                  alt={experience.logoAlt}
+                  width={44}
+                  height={44}
+                  className="h-full w-full object-cover"
+                />
               </div>
+            ) : null}
 
-              <div className="min-w-0">
-                <h2
-                  className={`${montserrat.className} min-w-0 text-[1.1rem] font-bold tracking-tight text-[var(--ui-fg)] sm:text-lg`}
-                >
-                  {experience.companyUrl ? (
-                    <a
-                      href={experience.companyUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group/company-link relative inline-flex items-baseline gap-1 rounded-sm pb-0.5 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
-                    >
-                      <span>{experience.company}</span>
-                      <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/company-link:translate-x-0.5 group-hover/company-link:-translate-y-0.5 group-focus-visible/company-link:translate-x-0.5 group-focus-visible/company-link:-translate-y-0.5" />
-                      <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/company-link:scale-x-100 group-focus-visible/company-link:scale-x-100" />
-                    </a>
-                  ) : (
-                    experience.company
-                  )}
-                </h2>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[0.98rem] leading-relaxed font-semibold text-[var(--ui-fg)] sm:text-[1.02rem]">
+                {experience.company}
+              </h2>
 
-                <p
-                  className={`${montserrat.className} mt-1 min-w-0 text-[0.86rem] font-semibold tracking-tight text-[var(--header-item-color)] sm:text-sm`}
-                >
+              <div className="mt-1 grid gap-y-0.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-4">
+                <p className="text-[0.9rem] leading-relaxed text-[var(--header-item-color)] sm:text-[0.94rem]">
                   {experience.role}
-                  <span className="text-[var(--header-item-color)]/60">
-                    {" "}
-                    · {experience.companyType}
-                  </span>
+                </p>
+
+                <p className="text-[0.82rem] font-medium tracking-[0.035em] text-[var(--header-item-color)]/72 sm:text-right sm:text-[0.86rem]">
+                  {experience.dateRange}
                 </p>
               </div>
             </div>
-
-            <div className="mt-2.5 text-left sm:mt-0 sm:shrink-0 sm:text-right">
-              <p className="text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[0.95rem]">
-                {experience.dateRange}
-              </p>
-
-              <p className="mt-1 text-[0.98rem] tracking-wide text-[var(--header-item-color)] sm:text-[0.95rem]">
-                {experience.location}
-              </p>
-            </div>
           </header>
 
-          <p className="mt-3.5 max-w-2xl text-[0.88rem] leading-relaxed text-[var(--ui-fg-muted)] sm:text-sm">
-            {experience.description}
-          </p>
+          <div>
+            <p className="mt-4 text-[0.9rem] leading-relaxed text-[var(--header-item-color)] sm:text-[0.94rem]">
+              {experience.description}
+            </p>
 
-          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={technologiesAriaLabel}>
-            {experience.technologies.map((technology) => (
-              <li
-                key={technology}
-                className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2 py-0.5 text-[0.82rem] text-[var(--card-tag-color)]"
-              >
-                {technology}
-              </li>
-            ))}
-          </ul>
+            <ul
+              className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.76rem] leading-relaxed font-medium text-[var(--header-item-color)]/82 sm:text-[0.8rem]"
+              aria-label={tagsAriaLabel}
+            >
+              {experience.tags.map((tag, index) => (
+                <li
+                  key={`${experience.id}-${tag.label}`}
+                  className="inline-flex items-center gap-x-2"
+                >
+                  {index > 0 ? <span aria-hidden="true">·</span> : null}
+                  {tag.href ? (
+                    <a
+                      href={tag.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-sm text-[var(--ui-fg)] underline-offset-4 transition-colors duration-300 hover:underline focus-visible:underline focus-visible:outline-none"
+                    >
+                      {tag.label}
+                    </a>
+                  ) : (
+                    <span>{tag.label}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            {imageSrc || imageCaption ? (
+              <figure className="mt-7">
+                {imageSrc ? (
+                  <div className="relative min-h-[15rem] overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[color-mix(in_srgb,var(--ui-fg)_4%,transparent)] shadow-[0_20px_70px_rgba(0,0,0,0.08)] sm:min-h-[18rem]">
+                    <Image
+                      src={imageSrc}
+                      alt={experience.imageAlt}
+                      fill
+                      quality={100}
+                      unoptimized
+                      sizes="(min-width: 640px) 576px, calc(100vw - 3.5rem)"
+                      className="object-cover"
+                      style={{
+                        objectPosition: experience.imagePosition,
+                        transform: `scale(${experience.imageZoom})`,
+                      }}
+                    />
+                  </div>
+                ) : null}
+                {imageCaption ? (
+                  <figcaption className="mt-2 text-left text-[0.68rem] leading-relaxed font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
+                    {imageCaption}
+                  </figcaption>
+                ) : null}
+              </figure>
+            ) : null}
+          </div>
         </article>
       </ScrollReveal>
     </li>

@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {ParticleNetwork} from "@/components/animation/particle-network";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
-import {WorkExperienceItem} from "@/components/work/work-experience-section";
+import {WorkExperienceCard} from "@/components/work/work-experience-section";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {getOrderedWorkExperiences} from "@/lib/config/helpers/experience-order";
 import {contentPageSeo} from "@/lib/config/site-routes";
@@ -24,22 +24,32 @@ export default function WorkPage() {
 
       <div className="relative z-10">
         <SecondaryPageLayout
-          hero={hero}
+          hero={{
+            ...hero,
+            className: "mx-auto w-full max-w-[36rem] pr-3 sm:pr-5",
+            titleClassName:
+              "text-[0.5rem] leading-tight font-bold tracking-[0.14em] text-[var(--ui-fg)]/95",
+            subtitleClassName:
+              "max-w-full text-[0.9rem] leading-relaxed font-normal tracking-normal text-[var(--header-item-color)] sm:text-[0.94rem]",
+          }}
           routeRevealDurationMs={routeReveal.durationMs}
           routeRevealThreshold={routeReveal.threshold}
           footerLegalDisclaimerLine={footer.legalDisclaimerLine}
           compactHero
         >
-          <section aria-label={sections.experienceAriaLabel} className="pb-20">
-            <ol className="relative ml-2 border-l border-[var(--card-border)]">
+          <section
+            aria-label={sections.experienceAriaLabel}
+            className="mx-auto w-full max-w-[36rem] pt-5 pr-3 pb-20 sm:pt-7 sm:pr-5"
+          >
+            <ol className="space-y-16 sm:space-y-20">
               {orderedWorkExperience.map((experience) => (
-                <WorkExperienceItem
+                <WorkExperienceCard
                   key={experience.id}
                   experience={experience}
                   revealDelayMs={workExperienceList.item.delayMs}
                   revealDurationMs={workExperienceList.item.durationMs}
                   revealThreshold={workExperienceList.item.threshold}
-                  technologiesAriaLabel={sections.technologiesAriaLabel}
+                  tagsAriaLabel={sections.tagsAriaLabel}
                 />
               ))}
             </ol>

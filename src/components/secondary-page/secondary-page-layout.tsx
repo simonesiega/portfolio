@@ -16,6 +16,7 @@ type SecondaryPageLayoutProps = {
     subtitle?: string;
     subtitleClassName?: string;
     subtitleDelayMs?: number;
+    className?: string;
   };
   routeRevealDurationMs: number;
   routeRevealThreshold: number;
@@ -51,6 +52,7 @@ export function SecondaryPageLayout({
             subtitle={hero.subtitle}
             subtitleClassName={hero.subtitleClassName}
             subtitleDelayMs={hero.subtitleDelayMs}
+            className={hero.className}
             compact={compactHero}
           />
           {children}

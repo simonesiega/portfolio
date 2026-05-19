@@ -2,15 +2,14 @@ import type {WorkText} from "./types";
 
 export const workHero = {
   sectionId: "work-heading",
-  eyebrow: "WORK",
-  title: "Professional Experience",
-  subtitle:
-    "Selected work experiences across internships, contract roles, and real-world software projects.",
+  eyebrow: "",
+  title: "Selected Work",
+  subtitle: "Real-world projects, internships, and contract work.",
 } as const satisfies WorkText["hero"];
 
 export const workSections = {
   experienceAriaLabel: "Selected experience",
-  technologiesAriaLabel: "Technologies used",
+  tagsAriaLabel: "Experience tags",
 } as const satisfies WorkText["sections"];
 
 export const workFooter = {

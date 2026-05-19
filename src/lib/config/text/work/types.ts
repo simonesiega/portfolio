@@ -1,7 +1,17 @@
+export type WorkPageExperienceTag = {
+  label: string;
+  href?: string;
+};
+
 export type WorkPageExperience = {
   id: string;
   sortStart: string;
-  logoSrc: string;
+  imageSrc: string | null;
+  imageAlt: string;
+  imageCaption: string | null;
+  imageZoom: number;
+  imagePosition: string;
+  logoSrc: string | null;
   logoAlt: string;
   dateRange: string;
   role: string;
@@ -10,7 +20,7 @@ export type WorkPageExperience = {
   companyType: string;
   location: string;
   description: string;
-  technologies: readonly string[];
+  tags: readonly WorkPageExperienceTag[];
 };
 
 export type WorkText = {
@@ -22,7 +32,7 @@ export type WorkText = {
   };
   sections: {
     experienceAriaLabel: string;
-    technologiesAriaLabel: string;
+    tagsAriaLabel: string;
   };
   footer: {
     legalDisclaimerLine: string;
