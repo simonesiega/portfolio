@@ -40,6 +40,7 @@ export function Header({
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const labelRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
   const [indicator, setIndicator] = useState<{
     left: number;
     width: number;
@@ -72,15 +73,18 @@ export function Header({
 
   const measureIndicator = useCallback(() => {
     const container = containerRef.current;
-    const activeEl = activeNavHref ? itemRefs.current.get(activeNavHref) : null;
+    const activeEl = activeNavHref ? labelRefs.current.get(activeNavHref) : null;
 
     if (!container || !activeEl) {
       return null;
     }
 
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = activeEl.getBoundingClientRect();
+
     return {
-      left: activeEl.offsetLeft,
-      width: activeEl.offsetWidth,
+      left: activeRect.left - containerRect.left,
+      width: activeRect.width,
     };
   }, [activeNavHref]);
 
@@ -227,7 +231,18 @@ export function Header({
                       : "text-[var(--header-item-color)] hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)]"
                   }`}
                 >
-                  {item.label}
+                  <span
+                    ref={(el: HTMLSpanElement | null) => {
+                      if (el) {
+                        labelRefs.current.set(item.href, el);
+                        return;
+                      }
+
+                      labelRefs.current.delete(item.href);
+                    }}
+                  >
+                    {item.label}
+                  </span>
                 </Link>
               );
             })}
@@ -235,14 +250,12 @@ export function Header({
             <span
               className={`pointer-events-none absolute -bottom-1 h-px ${
                 indicatorMotion === "slide"
-                  ? "transition-[transform,opacity] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  ? "transition-[transform,width,opacity] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   : ""
-              } left-0 w-px origin-left will-change-transform`}
+              } left-0 origin-left will-change-transform`}
               style={{
-                transform: `translate3d(${indicator?.left ?? 0}px, 0, 0) scaleX(${Math.max(
-                  indicator?.width ?? 0,
-                  1
-                )})`,
+                transform: `translate3d(${indicator?.left ?? 0}px, 0, 0)`,
+                width: `${Math.max(indicator?.width ?? 0, 1)}px`,
                 opacity: indicator ? 1 : 0,
               }}
             >
