@@ -1,6 +1,9 @@
 import Image from "next/image";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {mediaConfig} from "@/lib/config/media";
 import type {WorkPageExperience} from "@/lib/config/text/work";
+
+const {work: workMedia} = mediaConfig;
 
 type WorkExperienceCardProps = {
   experience: WorkPageExperience;
@@ -35,8 +38,8 @@ export function WorkExperienceCard({
                 <Image
                   src={experience.logoSrc}
                   alt={experience.logoAlt}
-                  width={44}
-                  height={44}
+                  width={workMedia.logo.width}
+                  height={workMedia.logo.height}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -98,9 +101,9 @@ export function WorkExperienceCard({
                       src={imageSrc}
                       alt={experience.imageAlt}
                       fill
-                      quality={100}
-                      unoptimized
-                      sizes="(min-width: 640px) 576px, calc(100vw - 3.5rem)"
+                      quality={workMedia.showcaseImage.quality}
+                      unoptimized={workMedia.showcaseImage.unoptimized}
+                      sizes={workMedia.showcaseImage.sizes}
                       className="object-cover"
                       style={{
                         objectPosition: experience.imagePosition,

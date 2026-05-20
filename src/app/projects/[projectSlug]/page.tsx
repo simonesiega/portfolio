@@ -6,6 +6,7 @@ import {FiArrowLeft, FiArrowUpRight} from "react-icons/fi";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
+import {mediaConfig} from "@/lib/config/media";
 import {
   getProjectBySlug,
   getProjectCaseStudyDiagramSrc,
@@ -58,6 +59,8 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
   }
 
   const {routeReveal} = animationTimings;
+  const {projectCaseStudy} = animationTimings;
+  const {caseStudyDiagram} = mediaConfig.projects;
   const caseStudySections = project.caseStudy.sections;
   const linksSection = caseStudySections.find(isProjectCaseStudyLinksSection);
   const contentSections = caseStudySections.filter(isProjectCaseStudyContentSection);
@@ -73,9 +76,9 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
       beforeHero={
         <RouteReveal
           variant="fade-up"
-          delay={60}
+          delay={projectCaseStudy.backLink.delayMs}
           duration={animationTimings.projectsShowcaseList.item.durationMs}
-          threshold={0}
+          threshold={projectCaseStudy.backLink.threshold}
         >
           <Link
             href="/projects"
@@ -92,13 +95,13 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
         eyebrow: `${projectsText.caseStudyPage.eyebrow} · ${project.caseStudy.readTimeMinutes} ${projectsText.caseStudyPage.minReadSuffix.toUpperCase()}`,
         eyebrowClassName: "opacity-80",
         eyebrowUppercase: false,
-        eyebrowDelayMs: 160,
+        eyebrowDelayMs: projectCaseStudy.hero.eyebrowDelayMs,
         title: project.title,
         titleClassName: "text-2xl sm:text-[2.25rem]",
-        titleDelayMs: 260,
+        titleDelayMs: projectCaseStudy.hero.titleDelayMs,
         subtitle: project.caseStudy.summary,
         subtitleClassName: "text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[1.08rem]",
-        subtitleDelayMs: 360,
+        subtitleDelayMs: projectCaseStudy.hero.subtitleDelayMs,
       }}
       routeRevealDurationMs={routeReveal.durationMs}
       routeRevealThreshold={routeReveal.threshold}
@@ -111,11 +114,14 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
           animationTimings.projectsShowcaseList.item.stepDelayMs
         }
         duration={animationTimings.projectsShowcaseList.item.durationMs}
-        threshold={0}
+        threshold={projectCaseStudy.content.threshold}
         className="pb-24"
       >
         <article className="space-y-8 pt-4 sm:space-y-10 sm:pt-5">
-          <section aria-label="Project summary" className="space-y-4">
+          <section
+            aria-label={projectsText.caseStudyPage.projectSummaryAriaLabel}
+            className="space-y-4"
+          >
             <ul className="space-y-2 text-sm sm:text-base">
               {project.caseStudy.quickFacts.map((fact) => (
                 <li
@@ -183,10 +189,10 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                     <Image
                       src={getProjectCaseStudyDiagramSrc(project.slug)}
                       alt={project.caseStudy.diagramAlt}
-                      width={1600}
-                      height={900}
+                      width={caseStudyDiagram.width}
+                      height={caseStudyDiagram.height}
                       className={diagramImageClassName.join(" ")}
-                      priority
+                      priority={caseStudyDiagram.priority}
                     />
                   </div>
                   <figcaption className="text-xs text-[var(--header-item-color)]/80 sm:text-sm">
@@ -197,11 +203,14 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             </section>
           ))}
 
-          <section aria-label={linksSection?.heading ?? "Links"} className="space-y-1.5">
+          <section
+            aria-label={linksSection?.heading ?? projectsText.caseStudyPage.linksFallbackHeading}
+            className="space-y-1.5"
+          >
             <h2
               className={`${montserrat.className} text-[1.22rem] font-bold tracking-tight sm:text-[1.45rem]`}
             >
-              {linksSection?.heading ?? "Links"}
+              {linksSection?.heading ?? projectsText.caseStudyPage.linksFallbackHeading}
             </h2>
             <p
               className={`${montserrat.className} max-w-3xl text-[0.92rem] leading-relaxed text-[var(--ui-fg-muted)] sm:text-[0.98rem]`}

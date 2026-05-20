@@ -47,6 +47,8 @@ describe("projects text model", () => {
     expect(projectsText.caseStudyPage.backToProjectsLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.githubLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.demoLabel.trim().length).toBeGreaterThan(0);
+    expect(projectsText.caseStudyPage.projectSummaryAriaLabel.trim().length).toBeGreaterThan(0);
+    expect(projectsText.caseStudyPage.linksFallbackHeading.trim().length).toBeGreaterThan(0);
   });
 
   it("keeps project identity unique and helper lookups aligned", () => {

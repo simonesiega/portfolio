@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {FiMonitor, FiMoon, FiSun} from "react-icons/fi";
+import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {
   applyThemePreference,
@@ -15,7 +16,7 @@ import {
 
 const prefersLightMediaQuery = getPrefersLightMediaQuery();
 const fallbackThemePreference: ThemePreference = themePreference.dark;
-const themeControlsLabel = "Theme controls";
+const {labels: themeLabels} = appConfig.theme;
 
 export function ThemeToggle() {
   const [selectedPreference, setSelectedPreference] =
@@ -36,7 +37,10 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(prefersLightMediaQuery);
-    const syncOnMount = window.setTimeout(syncThemeState, 0);
+    const syncOnMount = window.setTimeout(
+      syncThemeState,
+      animationTimings.themeTransition.syncDelayMs
+    );
 
     function handleSystemThemeChange() {
       if (getStoredThemePreference() !== themePreference.system) {
@@ -75,12 +79,12 @@ export function ThemeToggle() {
   const manualThemeLabel = selectedPreference === themePreference.light ? "light" : "dark";
 
   return (
-    <div className="flex items-center gap-4" role="group" aria-label={themeControlsLabel}>
+    <div className="flex items-center gap-4" role="group" aria-label={themeLabels.controls}>
       <button
         type="button"
         onClick={() => handleSelectPreference(themePreference.system)}
         aria-pressed={isSystemSelected}
-        aria-label={`${appConfig.theme.labels.useSystem}. Current mode: ${currentModeLabel}.`}
+        aria-label={`${themeLabels.useSystem}. ${themeLabels.currentModePrefix}: ${currentModeLabel}.`}
         aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
@@ -90,7 +94,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={handleToggle}
-        aria-label={`${appConfig.theme.labels.toggleTheme}. Current mode: ${currentModeLabel}. Manual selection: ${manualThemeLabel}.`}
+        aria-label={`${themeLabels.toggleTheme}. ${themeLabels.currentModePrefix}: ${currentModeLabel}. ${themeLabels.manualSelectionPrefix}: ${manualThemeLabel}.`}
         aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
@@ -105,7 +109,7 @@ export function ThemeToggle() {
       </button>
 
       <span id="theme-status" className="sr-only" aria-live="polite">
-        Theme mode: {currentModeLabel}
+        {themeLabels.statusPrefix}: {currentModeLabel}
       </span>
     </div>
   );

@@ -8,11 +8,13 @@ import {RouteReveal} from "@/components/animation/route-reveal";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {PrimaryFooter} from "@/components/home/primary-footer";
 import {animationTimings} from "@/lib/animation/animation-timings";
+import {mediaConfig} from "@/lib/config/media";
 import {homeText, type HomeIntroSocialIconKey} from "@/lib/config/text/home";
 import {montserrat} from "@/lib/fonts";
 
 const {homeIntro, routeReveal} = animationTimings;
 const {intro} = homeText;
+const {home: homeMedia} = mediaConfig;
 
 const socialIcons: Record<HomeIntroSocialIconKey, IconType> = {
   x: FaXTwitter,
@@ -45,9 +47,9 @@ export default function Home() {
               <Image
                 src={intro.profileImage.src}
                 alt={intro.profileImage.alt}
-                width={60}
-                height={60}
-                priority
+                width={homeMedia.profileImage.width}
+                height={homeMedia.profileImage.height}
+                priority={homeMedia.profileImage.priority}
                 className="h-[60px] w-[60px] rounded-full object-cover"
               />
             </RouteReveal>
@@ -197,8 +199,8 @@ export default function Home() {
                       <Image
                         src={item.imageSrc}
                         alt={item.imageAlt}
-                        width={22}
-                        height={22}
+                        width={homeMedia.workLogo.width}
+                        height={homeMedia.workLogo.height}
                         className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"
                       />
                       <p className="min-w-0">
@@ -247,9 +249,11 @@ export default function Home() {
                       <Image
                         src={image.src}
                         alt={image.alt}
-                        width={180}
-                        height={220}
-                        loading={index === 0 ? "eager" : "lazy"}
+                        width={homeMedia.aboutImage.width}
+                        height={homeMedia.aboutImage.height}
+                        loading={
+                          homeMedia.aboutImage.eagerFirstImage && index === 0 ? "eager" : "lazy"
+                        }
                         className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
                       />
                       <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">

@@ -87,6 +87,8 @@ export type ProjectsText = {
     backToProjectsLabel: string;
     githubLabel: string;
     demoLabel: string;
+    projectSummaryAriaLabel: string;
+    linksFallbackHeading: string;
   };
   projects: readonly ProjectsPageProject[];
 };

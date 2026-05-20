@@ -39,7 +39,6 @@ export function Header({
 }: HeaderProps) {
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
   const labelRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
   const [indicator, setIndicator] = useState<{
     left: number;
@@ -215,14 +214,6 @@ export function Header({
                   scroll={false}
                   onClick={(event) => {
                     handleNavItemClick(event, item.href);
-                  }}
-                  ref={(el: HTMLAnchorElement | null) => {
-                    if (el) {
-                      itemRefs.current.set(item.href, el);
-                      return;
-                    }
-
-                    itemRefs.current.delete(item.href);
                   }}
                   aria-current={isActive ? "page" : undefined}
                   className={`text-lg font-medium no-underline transition-colors duration-300 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)] sm:text-xl ${

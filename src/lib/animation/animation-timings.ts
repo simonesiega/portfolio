@@ -80,8 +80,24 @@ export const animationTimings = {
     },
   },
 
+  projectCaseStudy: {
+    backLink: {
+      delayMs: 60,
+      threshold: 0,
+    },
+    hero: {
+      eyebrowDelayMs: 160,
+      titleDelayMs: 260,
+      subtitleDelayMs: 360,
+    },
+    content: {
+      threshold: 0,
+    },
+  },
+
   themeTransition: {
     durationMs: 1000,
+    syncDelayMs: 0,
   },
 } as const;
 

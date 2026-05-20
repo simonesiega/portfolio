@@ -62,6 +62,10 @@ export const appConfig = {
     labels: {
       useSystem: "Use system color theme",
       toggleTheme: "Toggle color theme",
+      controls: "Theme controls",
+      currentModePrefix: "Current mode",
+      manualSelectionPrefix: "Manual selection",
+      statusPrefix: "Theme mode",
     },
   },
 } as const;
