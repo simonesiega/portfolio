@@ -40,6 +40,13 @@ export const animationTimings = {
       durationMs: 860,
       threshold: 0.12,
     },
+    aboutImages: {
+      threshold: 0.28,
+    },
+    aboutClosingLine: {
+      delayMs: 180,
+      threshold: 0.45,
+    },
   },
 
   secondaryPageHero: {

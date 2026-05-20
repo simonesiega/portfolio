@@ -13,6 +13,20 @@ export function ScrollToTopOnRouteChange() {
   const previousPathRef = useRef(pathname);
 
   useLayoutEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    beginRouteNavigationScrollMode();
+    window.requestAnimationFrame(() => {
+      resetScrollTopInstant();
+      window.requestAnimationFrame(() => {
+        restoreSmoothScrollMode();
+      });
+    });
+  }, []);
+
+  useLayoutEffect(() => {
     if (previousPathRef.current !== pathname) {
       beginRouteNavigationScrollMode();
       resetScrollTopInstant();

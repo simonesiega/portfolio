@@ -237,25 +237,40 @@ export default function Home() {
 
               <div className="mt-5 grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">
                 {intro.about.images.map((image, index) => (
-                  <figure key={image.label}>
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      width={180}
-                      height={220}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
-                    />
-                    <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
-                      {image.label}
-                    </figcaption>
-                  </figure>
+                  <ScrollReveal
+                    key={image.label}
+                    variant="fade-up"
+                    duration={homeIntro.section.durationMs}
+                    threshold={homeIntro.aboutImages.threshold}
+                  >
+                    <figure>
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        width={180}
+                        height={220}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
+                      />
+                      <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
+                        {image.label}
+                      </figcaption>
+                    </figure>
+                  </ScrollReveal>
                 ))}
               </div>
 
-              <p className="mt-4 text-[0.78rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-[0.82rem]">
-                {intro.about.closingLine}
-              </p>
+              <ScrollReveal
+                variant="fade-up"
+                delay={homeIntro.aboutClosingLine.delayMs}
+                duration={homeIntro.section.durationMs}
+                threshold={homeIntro.aboutClosingLine.threshold}
+                className="mt-4"
+              >
+                <p className="text-[0.78rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-[0.82rem]">
+                  {intro.about.closingLine}
+                </p>
+              </ScrollReveal>
             </ScrollReveal>
           </section>
 
