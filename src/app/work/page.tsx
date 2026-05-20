@@ -28,7 +28,7 @@ export default function WorkPage() {
             ...hero,
             className: "mx-auto w-full max-w-[36rem] pr-3 sm:pr-5",
             titleClassName:
-              "text-[0.5rem] leading-tight font-bold tracking-[0.14em] text-[var(--ui-fg)]/95",
+              "text-[clamp(1.35rem,8vw,2rem)] leading-tight font-bold tracking-[0.08em] text-[var(--ui-fg)]/95 sm:text-[2.25rem]",
             subtitleClassName:
               "max-w-full text-[0.9rem] leading-relaxed font-normal tracking-normal text-[var(--header-item-color)] sm:text-[0.94rem]",
           }}
