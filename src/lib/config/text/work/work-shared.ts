@@ -2,7 +2,6 @@ import type {WorkText} from "./types";
 
 export const workHero = {
   sectionId: "work-heading",
-  eyebrow: "",
   title: "Selected Work",
   subtitle: "Real-world projects, internships, and contract work.",
 } as const satisfies WorkText["hero"];

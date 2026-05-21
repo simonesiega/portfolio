@@ -4,10 +4,10 @@ import {montserrat} from "@/lib/fonts";
 
 type SecondaryPageHeroProps = {
   sectionId: string;
-  eyebrow: string;
-  eyebrowClassName?: string;
-  eyebrowUppercase?: boolean;
-  eyebrowDelayMs?: number;
+  metaLabel?: string;
+  metaLabelClassName?: string;
+  metaLabelUppercase?: boolean;
+  metaLabelDelayMs?: number;
   title: string;
   titleClassName?: string;
   titleDelayMs?: number;
@@ -20,10 +20,10 @@ type SecondaryPageHeroProps = {
 
 export function SecondaryPageHero({
   sectionId,
-  eyebrow,
-  eyebrowClassName,
-  eyebrowUppercase = true,
-  eyebrowDelayMs,
+  metaLabel = "",
+  metaLabelClassName,
+  metaLabelUppercase = true,
+  metaLabelDelayMs,
   title,
   titleClassName,
   titleDelayMs,
@@ -40,16 +40,16 @@ export function SecondaryPageHero({
       aria-labelledby={sectionId}
       className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"} ${className ?? ""}`}
     >
-      {eyebrow ? (
+      {metaLabel ? (
         <ScrollReveal
-          variant="fade-in"
-          delay={eyebrowDelayMs}
-          duration={secondaryPageHero.eyebrow.durationMs}
+          variant="fade-up"
+          delay={metaLabelDelayMs}
+          duration={secondaryPageHero.metaLabel.durationMs}
         >
           <p
-            className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${eyebrowUppercase ? "uppercase" : "normal-case"} ${eyebrowClassName ?? ""}`}
+            className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${metaLabelUppercase ? "uppercase" : "normal-case"} ${metaLabelClassName ?? ""}`}
           >
-            {eyebrow}
+            {metaLabel}
           </p>
         </ScrollReveal>
       ) : null}

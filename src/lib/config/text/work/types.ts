@@ -26,7 +26,6 @@ export type WorkPageExperience = {
 export type WorkText = {
   hero: {
     sectionId: string;
-    eyebrow: string;
     title: string;
     subtitle: string;
   };

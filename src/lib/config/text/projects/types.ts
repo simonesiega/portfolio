@@ -61,7 +61,6 @@ export type ProjectsPageProject = {
 export type ProjectsText = {
   hero: {
     sectionId: string;
-    eyebrow: string;
     title: string;
     subtitle: string;
   };
@@ -84,7 +83,6 @@ export type ProjectsText = {
     caseStudyFallbackDescription: string;
   };
   caseStudyPage: {
-    eyebrow: string;
     minReadSuffix: string;
     backToProjectsLabel: string;
     githubLabel: string;

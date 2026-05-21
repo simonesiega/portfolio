@@ -2,7 +2,6 @@ import type {ProjectsText} from "./types";
 
 export const projectsHero = {
   sectionId: "projects-heading",
-  eyebrow: "",
   title: "Selected Projects",
   subtitle:
     "A curated selection of software projects focused on systems, developer tools, and practical engineering.",
@@ -30,7 +29,6 @@ export const projectsSeo = {
 } as const satisfies ProjectsText["seo"];
 
 export const projectsCaseStudyPage = {
-  eyebrow: "CASE STUDY",
   minReadSuffix: "min read",
   backToProjectsLabel: "Back to projects",
   githubLabel: "View on GitHub",

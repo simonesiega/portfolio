@@ -6,10 +6,10 @@ import {SecondaryPageHero} from "@/components/secondary-page/secondary-page-hero
 type SecondaryPageLayoutProps = {
   hero: {
     sectionId: string;
-    eyebrow: string;
-    eyebrowClassName?: string;
-    eyebrowUppercase?: boolean;
-    eyebrowDelayMs?: number;
+    metaLabel?: string;
+    metaLabelClassName?: string;
+    metaLabelUppercase?: boolean;
+    metaLabelDelayMs?: number;
     title: string;
     titleClassName?: string;
     titleDelayMs?: number;
@@ -42,10 +42,10 @@ export function SecondaryPageLayout({
           {beforeHero}
           <SecondaryPageHero
             sectionId={hero.sectionId}
-            eyebrow={hero.eyebrow}
-            eyebrowClassName={hero.eyebrowClassName}
-            eyebrowUppercase={hero.eyebrowUppercase}
-            eyebrowDelayMs={hero.eyebrowDelayMs}
+            metaLabel={hero.metaLabel}
+            metaLabelClassName={hero.metaLabelClassName}
+            metaLabelUppercase={hero.metaLabelUppercase}
+            metaLabelDelayMs={hero.metaLabelDelayMs}
             title={hero.title}
             titleClassName={hero.titleClassName}
             titleDelayMs={hero.titleDelayMs}

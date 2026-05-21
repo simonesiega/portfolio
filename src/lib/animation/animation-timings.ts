@@ -50,7 +50,7 @@ export const animationTimings = {
   },
 
   secondaryPageHero: {
-    eyebrow: {
+    metaLabel: {
       durationMs: 760,
     },
     title: {
@@ -86,7 +86,7 @@ export const animationTimings = {
       threshold: 0,
     },
     hero: {
-      eyebrowDelayMs: 160,
+      metaLabelDelayMs: 160,
       titleDelayMs: 260,
       subtitleDelayMs: 360,
     },

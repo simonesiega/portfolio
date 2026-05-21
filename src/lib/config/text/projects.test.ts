@@ -24,7 +24,6 @@ const expectedCaseStudySectionOrder = [
 describe("projects text model", () => {
   it("keeps shared page copy complete", () => {
     expect(projectsText.hero.sectionId.trim().length).toBeGreaterThan(0);
-    expect(projectsText.hero.eyebrow).toBeDefined();
     expect(projectsText.hero.title.trim().length).toBeGreaterThan(0);
     expect(projectsText.hero.subtitle.trim().length).toBeGreaterThan(0);
 
@@ -44,7 +43,6 @@ describe("projects text model", () => {
     expect(projectsText.seo.caseStudyFallbackTitle.trim().length).toBeGreaterThan(0);
     expect(projectsText.seo.caseStudyFallbackDescription.trim().length).toBeGreaterThan(0);
 
-    expect(projectsText.caseStudyPage.eyebrow.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.minReadSuffix.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.backToProjectsLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.githubLabel.trim().length).toBeGreaterThan(0);

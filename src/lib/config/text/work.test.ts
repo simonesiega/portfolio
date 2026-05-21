@@ -6,7 +6,6 @@ const sortStartPattern = /^\d{4}-(0[1-9]|1[0-2])$/;
 describe("work text model", () => {
   it("keeps shared page copy complete", () => {
     expect(workText.hero.sectionId.trim().length).toBeGreaterThan(0);
-    expect(typeof workText.hero.eyebrow).toBe("string");
     expect(workText.hero.title.trim().length).toBeGreaterThan(0);
     expect(workText.hero.subtitle.trim().length).toBeGreaterThan(0);
 

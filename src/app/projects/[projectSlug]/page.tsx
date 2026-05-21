@@ -92,10 +92,10 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
       }
       hero={{
         sectionId: `${project.slug}-case-study-heading`,
-        eyebrow: `${projectsText.caseStudyPage.eyebrow} · ${project.caseStudy.readTimeMinutes} ${projectsText.caseStudyPage.minReadSuffix.toUpperCase()}`,
-        eyebrowClassName: "opacity-80",
-        eyebrowUppercase: false,
-        eyebrowDelayMs: projectCaseStudy.hero.eyebrowDelayMs,
+        metaLabel: `${project.caseStudy.readTimeMinutes} ${projectsText.caseStudyPage.minReadSuffix}`,
+        metaLabelClassName: "opacity-80",
+        metaLabelUppercase: false,
+        metaLabelDelayMs: projectCaseStudy.hero.metaLabelDelayMs,
         title: project.title,
         titleClassName: "text-2xl sm:text-[2.25rem]",
         titleDelayMs: projectCaseStudy.hero.titleDelayMs,
