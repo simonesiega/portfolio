@@ -1,17 +1,15 @@
 import Link from "next/link";
-import {FiArrowUpRight, FiGithub, FiLinkedin, FiMail} from "react-icons/fi";
 import {ParticleNetwork} from "@/components/animation/particle-network";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {SecondaryFooter} from "@/components/secondary-page/secondary-footer";
 import {animationTimings} from "@/lib/animation/animation-timings";
-import {appConfig} from "@/lib/config/app-config";
 import {systemText} from "@/lib/config/text/system";
 import {montserrat} from "@/lib/fonts";
 
 export default function NotFoundPage() {
   const {routeReveal, projectsShowcaseList} = animationTimings;
   const {notFoundPage} = systemText;
-  const {social, contact} = appConfig;
+  const {actions} = notFoundPage.body;
 
   return (
     <div className="relative overflow-x-clip">
@@ -34,94 +32,62 @@ export default function NotFoundPage() {
             aria-labelledby={notFoundPage.hero.sectionId}
             className="mx-auto w-full max-w-[60rem] px-6"
           >
-            <div className="max-w-2xl space-y-6 sm:space-y-7">
+            <div className="mx-auto w-full max-w-[36rem] space-y-5 pr-3 sm:space-y-6 sm:pr-5">
               <p
-                className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] uppercase`}
+                className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)]`}
               >
                 {notFoundPage.hero.eyebrow}
               </p>
 
               <h1
                 id={notFoundPage.hero.sectionId}
-                className={`${montserrat.className} text-4xl font-extrabold tracking-tight sm:text-6xl`}
+                className={`${montserrat.className} text-[clamp(1.9rem,8vw,3rem)] leading-tight font-bold tracking-[-0.03em] text-[var(--ui-fg)] sm:text-[3.25rem]`}
               >
                 {notFoundPage.hero.title}
               </h1>
 
               <p
-                className={`${montserrat.className} max-w-3xl text-xl font-semibold tracking-tight text-[var(--ui-fg-muted)] sm:text-2xl`}
+                className={`${montserrat.className} max-w-[31rem] text-[0.94rem] leading-relaxed text-[var(--header-item-color)] sm:text-[1rem]`}
               >
                 {notFoundPage.hero.subtitle}
               </p>
 
-              <p className="max-w-3xl text-base leading-relaxed text-[var(--ui-fg-muted)] sm:text-lg">
-                {notFoundPage.body.description}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-2 pt-1 sm:gap-3">
+              <nav
+                aria-label="Not found routes"
+                className={`${montserrat.className} flex items-center gap-2 pt-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:text-[0.96rem]`}
+              >
                 <Link
-                  href={notFoundPage.body.actions.backHomeHref}
+                  href={actions.backHomeHref}
                   scroll={false}
-                  className={`${montserrat.className} group inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--card-border)] bg-transparent px-4.5 py-2 text-sm font-semibold tracking-[0.08em] text-[var(--ui-fg)] transition-all duration-300 hover:border-[var(--card-hover-border)] hover:bg-[var(--card-bg)] hover:text-[var(--header-item-hover-color)] focus-visible:border-[var(--card-hover-border)] focus-visible:bg-[var(--card-bg)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]`}
+                  className="underline-offset-[3px] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] hover:underline focus-visible:text-[var(--header-item-hover-color)] focus-visible:underline focus-visible:outline-none"
                 >
-                  <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100">
-                    {notFoundPage.body.actions.backHomeLabel}
-                  </span>
-                  <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5" />
+                  {actions.backHomeLabel}
                 </Link>
 
-                <Link
-                  href={notFoundPage.body.actions.openProjectsHref}
-                  scroll={false}
-                  className={`${montserrat.className} group inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--card-border)] bg-transparent px-4.5 py-2 text-sm font-semibold tracking-[0.08em] text-[var(--ui-fg)] transition-all duration-300 hover:border-[var(--card-hover-border)] hover:bg-[var(--card-bg)] hover:text-[var(--header-item-hover-color)] focus-visible:border-[var(--card-hover-border)] focus-visible:bg-[var(--card-bg)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]`}
-                >
-                  <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100">
-                    {notFoundPage.body.actions.openProjectsLabel}
-                  </span>
-                  <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5" />
-                </Link>
+                <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
+                  ·
+                </span>
 
                 <Link
-                  href={notFoundPage.body.actions.openWorkHref}
+                  href={actions.openProjectsHref}
                   scroll={false}
-                  className={`${montserrat.className} group inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--card-border)] bg-transparent px-4.5 py-2 text-sm font-semibold tracking-[0.08em] text-[var(--ui-fg)] transition-all duration-300 hover:border-[var(--card-hover-border)] hover:bg-[var(--card-bg)] hover:text-[var(--header-item-hover-color)] focus-visible:border-[var(--card-hover-border)] focus-visible:bg-[var(--card-bg)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]`}
+                  className="underline-offset-[3px] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] hover:underline focus-visible:text-[var(--header-item-hover-color)] focus-visible:underline focus-visible:outline-none"
                 >
-                  <span className="relative inline-block after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:content-[''] group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100">
-                    {notFoundPage.body.actions.openWorkLabel}
-                  </span>
-                  <FiArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5" />
+                  {actions.openProjectsLabel}
                 </Link>
-              </div>
 
-              <div className="flex items-center gap-2 pt-3 sm:pt-4">
-                <a
-                  href={social.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.labels.github}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
-                >
-                  <FiGithub className="h-3.5 w-3.5" />
-                </a>
+                <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
+                  ·
+                </span>
 
-                <a
-                  href={social.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.labels.linkedin}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+                <Link
+                  href={actions.openWorkHref}
+                  scroll={false}
+                  className="underline-offset-[3px] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] hover:underline focus-visible:text-[var(--header-item-hover-color)] focus-visible:underline focus-visible:outline-none"
                 >
-                  <FiLinkedin className="h-3.5 w-3.5" />
-                </a>
-
-                <a
-                  href={`mailto:${contact.email}`}
-                  aria-label={`Email ${contact.email}`}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--header-item-color)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
-                >
-                  <FiMail className="h-3.5 w-3.5" />
-                </a>
-              </div>
+                  {actions.openWorkLabel}
+                </Link>
+              </nav>
             </div>
           </section>
         </RouteReveal>

@@ -50,7 +50,9 @@ export default function RootLayout({
     <html lang={metadataConfig.language} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <Script src="/runtime-init.js" strategy="beforeInteractive" />
-        <script dangerouslySetInnerHTML={{__html: themeInitScript}} />
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
             defer

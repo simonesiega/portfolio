@@ -2,19 +2,17 @@ export const systemText = {
   notFoundPage: {
     hero: {
       sectionId: "not-found-heading",
-      eyebrow: "Error 404",
-      title: "Route not found",
-      subtitle: "This route is not part of the current portfolio map.",
+      eyebrow: "404",
+      title: "Page not found",
+      subtitle: "The page you're looking for is not part of the current portfolio.",
     },
     body: {
-      description:
-        "The link may be outdated, moved, or mistyped. Use one of the routes below to continue browsing.",
       actions: {
-        backHomeLabel: "Go home",
+        backHomeLabel: "Home",
         backHomeHref: "/",
-        openProjectsLabel: "Explore projects",
+        openProjectsLabel: "Projects",
         openProjectsHref: "/projects",
-        openWorkLabel: "View work",
+        openWorkLabel: "Work",
         openWorkHref: "/work",
       },
     },
