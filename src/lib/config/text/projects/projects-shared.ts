@@ -2,10 +2,10 @@ import type {ProjectsText} from "./types";
 
 export const projectsHero = {
   sectionId: "projects-heading",
-  eyebrow: "PROJECTS",
-  title: "Personal Projects",
+  eyebrow: "",
+  title: "Selected Projects",
   subtitle:
-    "Selected software projects built to explore systems, tools, and practical engineering problems.",
+    "A curated selection of software projects focused on systems, developer tools, and practical engineering.",
 } as const satisfies ProjectsText["hero"];
 
 export const projectsSections = {
@@ -17,6 +17,8 @@ export const projectsSections = {
   mailAriaLabelPrefix: "Send email for",
   githubAriaLabelPrefix: "Open",
   githubAriaLabelSuffix: "repository on GitHub",
+  githubLinkLabel: "GitHub",
+  askLinkLabel: "Ask",
 } as const satisfies ProjectsText["sections"];
 
 export const projectsSeo = {

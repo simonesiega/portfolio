@@ -24,7 +24,7 @@ const expectedCaseStudySectionOrder = [
 describe("projects text model", () => {
   it("keeps shared page copy complete", () => {
     expect(projectsText.hero.sectionId.trim().length).toBeGreaterThan(0);
-    expect(projectsText.hero.eyebrow.trim().length).toBeGreaterThan(0);
+    expect(projectsText.hero.eyebrow).toBeDefined();
     expect(projectsText.hero.title.trim().length).toBeGreaterThan(0);
     expect(projectsText.hero.subtitle.trim().length).toBeGreaterThan(0);
 
@@ -36,6 +36,8 @@ describe("projects text model", () => {
     expect(projectsText.sections.mailAriaLabelPrefix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.githubAriaLabelPrefix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.githubAriaLabelSuffix.trim().length).toBeGreaterThan(0);
+    expect(projectsText.sections.githubLinkLabel.trim().length).toBeGreaterThan(0);
+    expect(projectsText.sections.askLinkLabel.trim().length).toBeGreaterThan(0);
 
     expect(projectsText.seo.projectsPageTitle.trim().length).toBeGreaterThan(0);
     expect(projectsText.seo.caseStudyTitleSuffix.trim().length).toBeGreaterThan(0);

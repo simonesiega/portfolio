@@ -21,7 +21,14 @@ export default function ProjectsPage() {
 
       <div className="relative z-10">
         <SecondaryPageLayout
-          hero={hero}
+          hero={{
+            ...hero,
+            className: "mx-auto w-full max-w-[36rem] pr-3 sm:pr-5",
+            titleClassName:
+              "text-[clamp(1.35rem,8vw,2rem)] leading-tight font-bold tracking-[0.08em] text-[var(--ui-fg)]/95 sm:text-[2.25rem]",
+            subtitleClassName:
+              "max-w-full text-[0.9rem] leading-relaxed font-normal tracking-normal text-[var(--header-item-color)] sm:text-[0.94rem]",
+          }}
           routeRevealDurationMs={routeReveal.durationMs}
           routeRevealThreshold={routeReveal.threshold}
           compactHero
@@ -29,13 +36,13 @@ export default function ProjectsPage() {
           <ProjectsShowcaseSection
             projects={projects}
             projectsAriaLabel={sections.projectsAriaLabel}
-            technologiesAriaLabel={sections.technologiesAriaLabel}
             openCaseStudyLabel={sections.openCaseStudyLabel}
-            statusLabel={sections.statusLabel}
             mailSubjectPrefix={sections.mailSubjectPrefix}
             mailAriaLabelPrefix={sections.mailAriaLabelPrefix}
             githubAriaLabelPrefix={sections.githubAriaLabelPrefix}
             githubAriaLabelSuffix={sections.githubAriaLabelSuffix}
+            githubLinkLabel={sections.githubLinkLabel}
+            askLinkLabel={sections.askLinkLabel}
           />
         </SecondaryPageLayout>
       </div>

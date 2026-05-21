@@ -74,6 +74,8 @@ export type ProjectsText = {
     mailAriaLabelPrefix: string;
     githubAriaLabelPrefix: string;
     githubAriaLabelSuffix: string;
+    githubLinkLabel: string;
+    askLinkLabel: string;
   };
   seo: {
     projectsPageTitle: string;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {FiGithub, FiMail} from "react-icons/fi";
+import {InstantRouteLink} from "@/components/behavior/scroll/instant-route-link";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
@@ -9,13 +9,13 @@ import {getProjectCaseStudyHref, type ProjectsPageProject} from "@/lib/config/te
 type ProjectsShowcaseSectionProps = {
   projects: readonly ProjectsPageProject[];
   projectsAriaLabel: string;
-  technologiesAriaLabel: string;
   openCaseStudyLabel: string;
-  statusLabel: string;
   mailSubjectPrefix: string;
   mailAriaLabelPrefix: string;
   githubAriaLabelPrefix: string;
   githubAriaLabelSuffix: string;
+  githubLinkLabel: string;
+  askLinkLabel: string;
 };
 
 function getProjectInfoMailHref(
@@ -27,110 +27,88 @@ function getProjectInfoMailHref(
   return `mailto:${contactEmail}?subject=${subject}`;
 }
 
-function getStatusDotClassName(status: string) {
-  const normalizedStatus = status.trim().toLowerCase();
-
-  if (normalizedStatus === "completed" || normalizedStatus === "finished") {
-    return "bg-emerald-500";
-  }
-
-  if (normalizedStatus === "in progress") {
-    return "bg-orange-400";
-  }
-
-  return "bg-[var(--header-item-color)]";
-}
-
 export function ProjectsShowcaseSection({
   projects,
   projectsAriaLabel,
-  technologiesAriaLabel,
   openCaseStudyLabel,
-  statusLabel,
   mailSubjectPrefix,
   mailAriaLabelPrefix,
   githubAriaLabelPrefix,
   githubAriaLabelSuffix,
+  githubLinkLabel,
+  askLinkLabel,
 }: ProjectsShowcaseSectionProps) {
   const {projectsShowcaseList} = animationTimings;
   const contactEmail = appConfig.contact.email;
 
   return (
-    <section aria-label={projectsAriaLabel} className="pt-3 pb-14 sm:pt-4">
-      <ul className="space-y-4 sm:space-y-3">
-        {projects.map((project, index) => (
+    <section
+      aria-label={projectsAriaLabel}
+      className="mx-auto w-full max-w-[36rem] pt-5 pr-3 pb-20 sm:pt-7 sm:pr-5"
+    >
+      <ul className="space-y-7 sm:space-y-8">
+        {projects.map((project) => (
           <li key={project.id}>
             <ScrollReveal
               variant="fade-up"
-              delay={
-                projectsShowcaseList.item.delayMs + index * projectsShowcaseList.item.stepDelayMs
-              }
+              delay={projectsShowcaseList.item.delayMs}
               duration={projectsShowcaseList.item.durationMs}
               threshold={projectsShowcaseList.item.threshold}
             >
-              <article className="group relative rounded-xl border-2 border-[var(--project-card-border)] bg-[var(--project-card-bg)] px-4 pt-2 pb-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--project-card-hover-border)] hover:bg-[var(--project-card-hover-bg)] sm:px-5 sm:pt-2.5 sm:pb-2.5">
-                <Link
-                  href={getProjectCaseStudyHref(project.slug)}
-                  scroll={false}
-                  aria-label={`${openCaseStudyLabel} ${project.title}`}
-                  className="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
+              <article className="project-showcase-item group relative pl-5 sm:pl-6">
+                <span
+                  aria-hidden={true}
+                  className="project-showcase-item-line absolute top-1 bottom-1 left-0 block w-px"
                 />
-                <header className="flex flex-wrap items-center gap-2">
-                  <h2
-                    className={`${montserrat.className} text-lg font-bold tracking-tight sm:text-xl`}
+                <header className="grid max-w-[34rem] grid-cols-[minmax(0,1fr)_auto] items-start gap-x-5 gap-y-2 text-[0.98rem] leading-relaxed sm:text-[1.02rem]">
+                  <div className="min-w-0">
+                    <h2 className="min-w-0">
+                      <InstantRouteLink
+                        href={getProjectCaseStudyHref(project.slug)}
+                        aria-label={`${openCaseStudyLabel} ${project.title}`}
+                        className="rounded-sm font-semibold text-[var(--ui-fg)] transition-colors duration-300 hover:text-[#2563eb] focus-visible:text-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
+                      >
+                        {project.title}
+                      </InstantRouteLink>
+                    </h2>
+                  </div>
+
+                  <div
+                    className={`${montserrat.className} flex shrink-0 items-center justify-end gap-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:text-[0.96rem]`}
                   >
-                    {project.title}
-                  </h2>
-
-                  <div className="relative z-20 ml-auto flex items-center gap-1.5">
-                    <a
-                      href={getProjectInfoMailHref(project.title, mailSubjectPrefix, contactEmail)}
-                      aria-label={`${mailAriaLabelPrefix} ${project.title}`}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[color-mix(in_srgb,var(--header-item-color)_68%,white)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
-                    >
-                      <FiMail className="h-3 w-3" />
-                    </a>
-
-                    <a
+                    <Link
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${githubAriaLabelPrefix} ${project.title} ${githubAriaLabelSuffix}`}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] text-[color-mix(in_srgb,var(--header-item-color)_68%,white)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--card-hover-border)] hover:text-[var(--ui-fg)] focus-visible:border-[var(--card-hover-border)] focus-visible:text-[var(--ui-fg)] focus-visible:ring-2 focus-visible:ring-[var(--ui-fg)] focus-visible:outline-none focus-visible:ring-inset"
+                      className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none"
                     >
-                      <FiGithub className="h-3 w-3" />
+                      {githubLinkLabel}
+                    </Link>
+
+                    <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
+                      ·
+                    </span>
+
+                    <a
+                      href={getProjectInfoMailHref(project.title, mailSubjectPrefix, contactEmail)}
+                      aria-label={`${mailAriaLabelPrefix} ${project.title}`}
+                      className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none"
+                    >
+                      {askLinkLabel}
                     </a>
+
+                    <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
+                      ·
+                    </span>
+
+                    <p>{project.developmentPeriod}</p>
                   </div>
                 </header>
 
-                <p className="mt-1.5 text-[0.74rem] tracking-wide text-[var(--header-item-color)] sm:text-[0.82rem]">
-                  <span>{statusLabel}: </span>
-                  <span
-                    aria-hidden="true"
-                    className={`relative -top-px mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle ${getStatusDotClassName(project.status)}`}
-                  />
-                  <span>{project.status}</span>
-                  <span className="mx-2 text-[var(--header-item-color)]/50">|</span>
-                  <span>{project.developmentPeriod}</span>
-                </p>
-
-                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[var(--ui-fg-muted)] sm:mt-2.5 sm:text-[0.95rem]">
+                <p className="mt-2 max-w-[31rem] text-[0.9rem] leading-relaxed text-[var(--header-item-color)] sm:text-[0.94rem]">
                   {project.keyPhrase}
                 </p>
-
-                <ul
-                  className="mt-1.5 mb-0.5 flex flex-wrap gap-1.5"
-                  aria-label={technologiesAriaLabel}
-                >
-                  {project.technologies.map((technology) => (
-                    <li
-                      key={technology}
-                      className="inline-flex items-center rounded-md border border-[var(--card-border)] bg-[var(--card-bg)] px-2 py-0.5 text-[0.68rem] text-[var(--card-tag-color)]"
-                    >
-                      {technology}
-                    </li>
-                  ))}
-                </ul>
               </article>
             </ScrollReveal>
           </li>

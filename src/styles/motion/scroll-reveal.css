@@ -22,3 +22,52 @@ html.js .scroll-reveal--visible {
   transform: translateY(0) translateX(0) scale(1);
   filter: blur(0);
 }
+
+:root,
+:root[data-theme="dark"] {
+  --project-line-color: color-mix(in srgb, var(--header-item-color) 54%, transparent);
+  --project-line-hover-color: color-mix(in srgb, var(--header-item-color) 58%, white);
+  --project-line-opacity: 0.5;
+  --project-line-hover-opacity: 1;
+}
+
+:root[data-theme="light"] {
+  --project-line-color: color-mix(in srgb, var(--header-item-color) 38%, transparent);
+  --project-line-hover-color: color-mix(in srgb, var(--header-item-color) 72%, black);
+  --project-line-opacity: 0.36;
+  --project-line-hover-opacity: 0.82;
+}
+
+.project-showcase-item-line {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--project-line-color) 14%,
+    var(--project-line-color) 86%,
+    transparent
+  );
+  opacity: var(--project-line-opacity);
+  transform: scaleY(0);
+  transform-origin: top;
+  animation: project-line-draw 960ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 420ms;
+  transition: opacity 260ms ease;
+}
+
+.project-showcase-item:hover .project-showcase-item-line,
+.project-showcase-item:focus-within .project-showcase-item-line {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--project-line-hover-color) 14%,
+    var(--project-line-hover-color) 86%,
+    transparent
+  );
+  opacity: var(--project-line-hover-opacity);
+}
+
+@keyframes project-line-draw {
+  to {
+    transform: scaleY(1);
+  }
+}
