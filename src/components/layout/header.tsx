@@ -190,7 +190,7 @@ export function Header({
 
   return (
     <header
-      className={`${montserrat.className} flex h-[5.5rem] w-full items-center justify-between gap-8 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)] sm:h-[4.5rem] sm:gap-12 sm:px-0`}
+      className={`${montserrat.className} flex h-[5.5rem] w-full items-center justify-between gap-4 border-b border-[var(--header-border-color)] bg-[var(--header-overlay-bg)] px-4 backdrop-blur-md transition-[background-color,border-color] duration-[var(--theme-transition-duration)] ease-[var(--theme-transition-easing)] sm:h-[4.5rem] sm:gap-12 sm:px-0`}
     >
       <Link
         href={homeHref}
@@ -202,9 +202,12 @@ export function Header({
         <span className="inline-block">{ownerName}</span>
       </Link>
 
-      <nav aria-label={navAriaLabel} className="ml-6 sm:ml-10">
-        <div className="flex items-center gap-4 sm:gap-6">
-          <div ref={containerRef} className="relative flex items-center gap-4 sm:gap-6">
+      <nav aria-label={navAriaLabel} className="ml-auto">
+        <div className="flex items-center gap-3 min-[390px]:gap-4 sm:gap-6">
+          <div
+            ref={containerRef}
+            className="relative flex items-center gap-3 min-[390px]:gap-4 sm:gap-6"
+          >
             {navItems.map((item) => {
               const isActive = activeNavHref === item.href;
               return (
@@ -258,13 +261,15 @@ export function Header({
             </span>
           </div>
 
-          <SocialIconLink href={githubUrl} label={socialLabels.github}>
-            <FaGithub className="h-6 w-6" />
-          </SocialIconLink>
+          <div className="hidden items-center gap-4 min-[390px]:flex sm:gap-6">
+            <SocialIconLink href={githubUrl} label={socialLabels.github}>
+              <FaGithub className="h-6 w-6" />
+            </SocialIconLink>
 
-          <SocialIconLink href={linkedinUrl} label={socialLabels.linkedin}>
-            <FaLinkedinIn className="h-6 w-6" />
-          </SocialIconLink>
+            <SocialIconLink href={linkedinUrl} label={socialLabels.linkedin}>
+              <FaLinkedinIn className="h-6 w-6" />
+            </SocialIconLink>
+          </div>
         </div>
       </nav>
     </header>
