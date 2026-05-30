@@ -47,7 +47,19 @@ Then open:
 http://localhost:3000
 ```
 
-Optional: copy `.env.example` to `.env` to configure analytics and site settings.
+Optional: copy `.env.example` to `.env` to configure analytics, canonical URL generation, and CSP/security-header behavior.
+
+## Production
+
+The Docker image uses Next.js standalone output and runs as a non-root `nextjs` user on port `3000`.
+
+Runtime configuration is handled with environment variables:
+
+- `NEXT_PUBLIC_SITE_URL` or `SITE_URL`: canonical site origin used by metadata, sitemap, and robots.
+- `NEXT_PUBLIC_UMAMI_ENABLED`, `NEXT_PUBLIC_UMAMI_SCRIPT_SRC`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID`: optional Umami analytics.
+- `CSP_MODE`: `off`, `report-only`, or `enforce`; production defaults to `enforce` when unset.
+- `CSP_REPORT_URI`: optional CSP report endpoint.
+- `CSP_CONNECT_SRC_EXTRA`: optional space-separated extra `connect-src` origins.
 
 ## 🧑‍💻 Contact
 

@@ -53,7 +53,7 @@ export default function NotFoundPage() {
               </p>
 
               <nav
-                aria-label="Not found routes"
+                aria-label={notFoundPage.body.navigationAriaLabel}
                 className={`${montserrat.className} flex items-center gap-2 pt-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:text-[0.96rem]`}
               >
                 <Link

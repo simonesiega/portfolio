@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {InstantRouteLink} from "@/components/behavior/scroll/instant-route-link";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
@@ -76,7 +75,7 @@ export function ProjectsShowcaseSection({
                   <div
                     className={`${montserrat.className} flex shrink-0 items-center justify-end gap-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:text-[0.96rem]`}
                   >
-                    <Link
+                    <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -84,7 +83,7 @@ export function ProjectsShowcaseSection({
                       className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none"
                     >
                       {githubLinkLabel}
-                    </Link>
+                    </a>
 
                     <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
                       ·

@@ -9,6 +9,7 @@ describe("system text model", () => {
     expect(notFoundPage.hero.eyebrow.trim().length).toBeGreaterThan(0);
     expect(notFoundPage.hero.title.trim().length).toBeGreaterThan(0);
     expect(notFoundPage.hero.subtitle.trim().length).toBeGreaterThan(0);
+    expect(notFoundPage.body.navigationAriaLabel.trim().length).toBeGreaterThan(0);
 
     expect(notFoundPage.body.actions.backHomeLabel.trim().length).toBeGreaterThan(0);
     expect(notFoundPage.body.actions.backHomeHref.startsWith("/")).toBe(true);

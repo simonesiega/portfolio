@@ -81,7 +81,7 @@ export function WorkExperienceCard({
                     <a
                       href={tag.href}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="rounded-sm text-[var(--ui-fg)] underline-offset-4 transition-colors duration-300 hover:underline focus-visible:underline focus-visible:outline-none"
                     >
                       {tag.label}

@@ -9,9 +9,7 @@ export const projectsHero = {
 
 export const projectsSections = {
   projectsAriaLabel: "Selected personal projects",
-  technologiesAriaLabel: "Technologies used",
   openCaseStudyLabel: "Open case study",
-  statusLabel: "Status",
   mailSubjectPrefix: "Info request",
   mailAriaLabelPrefix: "Send email for",
   githubAriaLabelPrefix: "Open",

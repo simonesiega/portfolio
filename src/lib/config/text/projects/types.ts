@@ -66,9 +66,7 @@ export type ProjectsText = {
   };
   sections: {
     projectsAriaLabel: string;
-    technologiesAriaLabel: string;
     openCaseStudyLabel: string;
-    statusLabel: string;
     mailSubjectPrefix: string;
     mailAriaLabelPrefix: string;
     githubAriaLabelPrefix: string;

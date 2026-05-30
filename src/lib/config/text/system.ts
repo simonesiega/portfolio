@@ -7,6 +7,7 @@ export const systemText = {
       subtitle: "The page you're looking for is not part of the current portfolio.",
     },
     body: {
+      navigationAriaLabel: "Not found routes",
       actions: {
         backHomeLabel: "Home",
         backHomeHref: "/",

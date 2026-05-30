@@ -28,9 +28,7 @@ describe("projects text model", () => {
     expect(projectsText.hero.subtitle.trim().length).toBeGreaterThan(0);
 
     expect(projectsText.sections.projectsAriaLabel.trim().length).toBeGreaterThan(0);
-    expect(projectsText.sections.technologiesAriaLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.openCaseStudyLabel.trim().length).toBeGreaterThan(0);
-    expect(projectsText.sections.statusLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.mailSubjectPrefix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.mailAriaLabelPrefix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.githubAriaLabelPrefix.trim().length).toBeGreaterThan(0);
