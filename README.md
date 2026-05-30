@@ -15,7 +15,10 @@ Personal portfolio website showcasing my work, projects, and technical interests
 </p>
 
 ## 🚀 Preview
-![Homepage animation and theme toggle](docs/gif/home-animation.gif)
+
+<p align="center">
+  <img src="docs/gif/home-animation.gif" alt="Homepage animation and theme toggle" />
+</p>
 
 ## About
 
