@@ -5,6 +5,7 @@ import {SecondaryFooter} from "@/components/secondary-page/secondary-footer";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {systemText} from "@/lib/config/text/system";
 import {montserrat} from "@/lib/fonts";
+import {pageColumnClassName, pageContentClassName, pageFrameClassName} from "@/lib/layout-classes";
 
 export default function NotFoundPage() {
   const {routeReveal, projectsShowcaseList} = animationTimings;
@@ -20,7 +21,7 @@ export default function NotFoundPage() {
         staticMode
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
+      <div className={`relative z-10 ${pageFrameClassName}`}>
         <RouteReveal
           variant="fade-up"
           delay={projectsShowcaseList.item.delayMs}
@@ -28,11 +29,8 @@ export default function NotFoundPage() {
           threshold={projectsShowcaseList.item.threshold}
           className="my-auto w-full"
         >
-          <section
-            aria-labelledby={notFoundPage.hero.sectionId}
-            className="mx-auto w-full max-w-[60rem] px-6"
-          >
-            <div className="mx-auto w-full max-w-[36rem] space-y-5 pr-3 sm:space-y-6 sm:pr-5">
+          <section aria-labelledby={notFoundPage.hero.sectionId} className={pageContentClassName}>
+            <div className={`${pageColumnClassName} space-y-5 sm:space-y-6`}>
               <p
                 className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)]`}
               >

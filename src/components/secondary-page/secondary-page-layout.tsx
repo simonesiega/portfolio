@@ -2,6 +2,7 @@ import type {ReactNode} from "react";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {SecondaryFooter} from "@/components/secondary-page/secondary-footer";
 import {SecondaryPageHero} from "@/components/secondary-page/secondary-page-hero";
+import {pageContentClassName, pageFrameClassName} from "@/lib/layout-classes";
 
 type SecondaryPageLayoutProps = {
   hero: {
@@ -37,8 +38,8 @@ export function SecondaryPageLayout({
 }: SecondaryPageLayoutProps) {
   return (
     <div className="overflow-x-clip">
-      <div className="mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
-        <div className="mx-auto w-full max-w-[60rem] px-6">
+      <div className={pageFrameClassName}>
+        <div className={pageContentClassName}>
           {beforeHero}
           <SecondaryPageHero
             sectionId={hero.sectionId}

@@ -5,6 +5,7 @@ import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-la
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {contentPageSeo} from "@/lib/config/site-routes";
 import {projectsText} from "@/lib/config/text/projects";
+import {pageColumnClassName} from "@/lib/layout-classes";
 import {createContentPageMetadata} from "@/lib/metadata";
 
 export default function ProjectsPage() {
@@ -23,7 +24,7 @@ export default function ProjectsPage() {
         <SecondaryPageLayout
           hero={{
             ...hero,
-            className: "mx-auto w-full max-w-[36rem] pr-3 sm:pr-5",
+            className: pageColumnClassName,
             titleClassName:
               "text-[clamp(1.35rem,8vw,2rem)] leading-tight font-bold tracking-[0.08em] text-[var(--ui-fg)]/95 sm:text-[2.25rem]",
             subtitleClassName:

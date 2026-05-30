@@ -9,6 +9,7 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {systemText} from "@/lib/config/text/system";
 import {montserrat} from "@/lib/fonts";
+import {pageContentClassName, pageFrameClassName} from "@/lib/layout-classes";
 
 type ErrorPageProps = {
   error: Error & {digest?: string};
@@ -30,7 +31,7 @@ export default function ErrorPage({error, reset}: ErrorPageProps) {
         staticMode
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
+      <div className={`relative z-10 ${pageFrameClassName}`}>
         <RouteReveal
           variant="fade-up"
           delay={projectsShowcaseList.item.delayMs}
@@ -38,10 +39,7 @@ export default function ErrorPage({error, reset}: ErrorPageProps) {
           threshold={projectsShowcaseList.item.threshold}
           className="my-auto w-full"
         >
-          <section
-            aria-labelledby={errorPage.hero.sectionId}
-            className="mx-auto w-full max-w-[60rem] px-6"
-          >
+          <section aria-labelledby={errorPage.hero.sectionId} className={pageContentClassName}>
             <div className="max-w-2xl space-y-6 sm:space-y-7">
               <p
                 className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] uppercase`}

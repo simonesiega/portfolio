@@ -4,6 +4,7 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {montserrat} from "@/lib/fonts";
 import {getProjectCaseStudyHref, type ProjectsPageProject} from "@/lib/config/text/projects";
+import {pageColumnClassName} from "@/lib/layout-classes";
 
 type ProjectsShowcaseSectionProps = {
   projects: readonly ProjectsPageProject[];
@@ -41,10 +42,7 @@ export function ProjectsShowcaseSection({
   const contactEmail = appConfig.contact.email;
 
   return (
-    <section
-      aria-label={projectsAriaLabel}
-      className="mx-auto w-full max-w-[36rem] pt-5 pr-3 pb-20 sm:pt-7 sm:pr-5"
-    >
+    <section aria-label={projectsAriaLabel} className={`${pageColumnClassName} pt-5 pb-20 sm:pt-7`}>
       <ul className="space-y-7 sm:space-y-8">
         {projects.map((project) => (
           <li key={project.id}>

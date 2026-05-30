@@ -11,6 +11,7 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {mediaConfig} from "@/lib/config/media";
 import {homeText, type HomeIntroSocialIconKey} from "@/lib/config/text/home";
 import {montserrat} from "@/lib/fonts";
+import {pageColumnClassName, pageContentClassName, pageFrameClassName} from "@/lib/layout-classes";
 
 const {homeIntro, routeReveal} = animationTimings;
 const {intro} = homeText;
@@ -35,9 +36,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="relative overflow-x-clip">
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--app-header-height,6rem))] min-h-[calc(100vh-var(--app-header-height,6rem))] w-full max-w-[90rem] flex-col px-4 sm:px-8">
-        <div className="mx-auto flex min-h-full w-full max-w-[60rem] flex-1 flex-col px-6">
-          <section className="w-full max-w-[34rem] pt-10 pb-24 sm:pt-8 sm:pb-28 lg:ml-[15%] lg:pt-10 xl:ml-[18%]">
+      <div className={`relative z-10 ${pageFrameClassName}`}>
+        <div className={`${pageContentClassName} flex min-h-full flex-1 flex-col`}>
+          <section className={`${pageColumnClassName} pt-10 pb-24 sm:pt-8 sm:pb-28 lg:pt-10`}>
             <RouteReveal
               variant="fade-up"
               delay={homeIntro.hero.image.delayMs}

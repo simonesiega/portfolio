@@ -6,6 +6,7 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {getOrderedWorkExperiences} from "@/lib/config/helpers/experience-order";
 import {contentPageSeo} from "@/lib/config/site-routes";
 import {workText} from "@/lib/config/text/work";
+import {pageColumnClassName} from "@/lib/layout-classes";
 import {createContentPageMetadata} from "@/lib/metadata";
 
 export default function WorkPage() {
@@ -26,7 +27,7 @@ export default function WorkPage() {
         <SecondaryPageLayout
           hero={{
             ...hero,
-            className: "mx-auto w-full max-w-[36rem] pr-3 sm:pr-5",
+            className: pageColumnClassName,
             titleClassName:
               "text-[clamp(1.35rem,8vw,2rem)] leading-tight font-bold tracking-[0.08em] text-[var(--ui-fg)]/95 sm:text-[2.25rem]",
             subtitleClassName:
@@ -39,7 +40,7 @@ export default function WorkPage() {
         >
           <section
             aria-label={sections.experienceAriaLabel}
-            className="mx-auto w-full max-w-[36rem] pt-5 pr-3 pb-20 sm:pt-7 sm:pr-5"
+            className={`${pageColumnClassName} pt-5 pb-20 sm:pt-7`}
           >
             <ol className="space-y-16 sm:space-y-20">
               {orderedWorkExperience.map((experience) => (
