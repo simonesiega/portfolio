@@ -1,15 +1,14 @@
 import type {Metadata} from "next";
-import Image from "next/image";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {FiArrowLeft, FiArrowUpRight} from "react-icons/fi";
 import {RouteReveal} from "@/components/animation/route-reveal";
+import {ProjectImageGallery} from "@/components/projects/project-image-gallery";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {mediaConfig} from "@/lib/config/media";
 import {
   getProjectBySlug,
-  getProjectCaseStudyDiagramSrc,
   getProjectCaseStudyDiagramThemeClass,
   getProjectCaseStudySeo,
   isProjectCaseStudyContentSection,
@@ -60,12 +59,13 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
 
   const {routeReveal} = animationTimings;
   const {projectCaseStudy} = animationTimings;
-  const {caseStudyDiagram} = mediaConfig.projects;
+  const {caseStudyGallery} = mediaConfig.projects;
   const caseStudySections = project.caseStudy.sections;
   const linksSection = caseStudySections.find(isProjectCaseStudyLinksSection);
   const contentSections = caseStudySections.filter(isProjectCaseStudyContentSection);
   const diagramThemeClass = getProjectCaseStudyDiagramThemeClass(project.slug);
-  const diagramImageClassName = ["project-diagram-image", "h-auto", "w-full", "rounded-xl"];
+  const diagramImageClassName = ["project-diagram-image", "h-full", "w-full", "object-contain"];
+  const githubUrl = project.githubUrl.trim();
 
   if (diagramThemeClass) {
     diagramImageClassName.push(diagramThemeClass);
@@ -136,26 +136,29 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
               ))}
             </ul>
             <div className="flex flex-wrap items-center gap-4 pt-1">
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${montserrat.className} group inline-flex items-center gap-1.5 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
-              >
-                {projectsText.caseStudyPage.githubLabel}
-                <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-              {project.demoUrl ? (
+              {githubUrl ? (
                 <a
-                  href={project.demoUrl}
+                  href={githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${montserrat.className} group inline-flex items-center gap-1.5 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
                 >
-                  {projectsText.caseStudyPage.demoLabel}
+                  {projectsText.caseStudyPage.githubLabel}
                   <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               ) : null}
+              {project.demoUrls?.map((demo) => (
+                <a
+                  key={demo.href}
+                  href={demo.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${montserrat.className} group inline-flex items-center gap-1.5 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
+                >
+                  {demo.label}
+                  <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              ))}
             </div>
           </section>
 
@@ -183,22 +186,13 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                 </ul>
               ) : null}
 
-              {section.id === "architecture" ? (
-                <figure className="space-y-2">
-                  <div className="overflow-hidden rounded-2xl">
-                    <Image
-                      src={getProjectCaseStudyDiagramSrc(project.slug)}
-                      alt={project.caseStudy.diagramAlt}
-                      width={caseStudyDiagram.width}
-                      height={caseStudyDiagram.height}
-                      className={diagramImageClassName.join(" ")}
-                      priority={caseStudyDiagram.priority}
-                    />
-                  </div>
-                  <figcaption className="text-xs text-[var(--header-item-color)]/80 sm:text-sm">
-                    {project.caseStudy.diagramCaption}
-                  </figcaption>
-                </figure>
+              {section.id === "architecture" && project.caseStudy.gallery?.length ? (
+                <ProjectImageGallery
+                  images={project.caseStudy.gallery}
+                  imageClassName={diagramImageClassName.join(" ")}
+                  width={caseStudyGallery.width}
+                  height={caseStudyGallery.height}
+                />
               ) : null}
             </section>
           ))}

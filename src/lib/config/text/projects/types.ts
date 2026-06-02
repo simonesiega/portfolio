@@ -10,6 +10,19 @@ export type ProjectCaseStudyLink = {
   url: string;
 };
 
+export type ProjectCaseStudyGalleryItem = {
+  src: string;
+  alt: string;
+  caption?: string;
+  href?: string | null;
+  renderingMode?: "auto" | "dark-source";
+};
+
+export type ProjectDemoLink = {
+  label: string;
+  href: string;
+};
+
 export type ProjectCaseStudyContentSection = ProjectCaseStudyBaseSection & {
   kind: "content";
   points?: readonly string[];
@@ -40,11 +53,9 @@ export type ProjectsPageProject = {
   title: string;
   pinned: boolean;
   githubUrl: string;
-  demoUrl?: string;
-  status: string;
+  demoUrls?: readonly ProjectDemoLink[];
   developmentPeriod: string;
   keyPhrase: string;
-  technologies: readonly string[];
   caseStudy: {
     summary: string;
     readTimeMinutes: number;
@@ -52,9 +63,7 @@ export type ProjectsPageProject = {
       label: string;
       value: string;
     }[];
-    diagramAlt: string;
-    diagramCaption: string;
-    diagramRenderingMode?: "auto" | "dark-source";
+    gallery?: readonly ProjectCaseStudyGalleryItem[];
     sections: readonly ProjectCaseStudySection[];
   };
 };
@@ -86,7 +95,6 @@ export type ProjectsText = {
     minReadSuffix: string;
     backToProjectsLabel: string;
     githubLabel: string;
-    demoLabel: string;
     projectSummaryAriaLabel: string;
     linksFallbackHeading: string;
   };

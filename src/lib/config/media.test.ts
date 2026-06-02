@@ -8,7 +8,7 @@ describe("media config", () => {
       mediaConfig.home.workLogo,
       mediaConfig.home.aboutImage,
       mediaConfig.work.logo,
-      mediaConfig.projects.caseStudyDiagram,
+      mediaConfig.projects.caseStudyGallery,
     ];
 
     for (const dimensions of dimensionPairs) {
@@ -20,6 +20,5 @@ describe("media config", () => {
   it("keeps optimized image settings valid", () => {
     expect(mediaConfig.home.profileImage.priority).toBe(true);
     expect(mediaConfig.home.aboutImage.eagerFirstImage).toBe(true);
-    expect(mediaConfig.projects.caseStudyDiagram.priority).toBe(true);
   });
 });

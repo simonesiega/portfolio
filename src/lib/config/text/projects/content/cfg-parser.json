@@ -2,7 +2,9 @@
   "keyPhrase": "Grammar-driven Rust CLI parser that tokenizes, parses, and evaluates arithmetic expressions through a recursive-descent pipeline.",
   "caseStudy": {
     "summary": "Rust-based command-line parser that turns raw arithmetic input into validated numeric results through a tokenizer and recursive-descent parser/evaluator.",
-    "diagramCaption": "High-level parser architecture, from tokenization to recursive-descent parsing/evaluation, including grammar layers and structured error handling.",
+    "galleryCaptions": [
+      "High-level parser architecture, from tokenization to recursive-descent parsing/evaluation, including grammar layers and structured error handling."
+    ],
     "sections": {
       "overview": {
         "heading": "Overview",

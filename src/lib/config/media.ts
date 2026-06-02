@@ -22,10 +22,9 @@ export const mediaConfig = {
     },
   },
   projects: {
-    caseStudyDiagram: {
+    caseStudyGallery: {
       width: 1600,
       height: 900,
-      priority: true,
     },
   },
 } as const;

@@ -1,11 +1,11 @@
 import {describe, expect, it} from "vitest";
 import {
   getProjectBySlug,
-  getProjectCaseStudyDiagramSrc,
   getProjectCaseStudyDiagramThemeClass,
   getProjectCaseStudyHref,
   getProjectCaseStudySeo,
   projectsText,
+  type ProjectsPageProject,
 } from "./projects";
 
 const expectedCaseStudySectionOrder = [
@@ -20,6 +20,8 @@ const expectedCaseStudySectionOrder = [
   "future-improvements",
   "links",
 ] as const;
+
+const projects = projectsText.projects as readonly ProjectsPageProject[];
 
 describe("projects text model", () => {
   it("keeps shared page copy complete", () => {
@@ -45,7 +47,6 @@ describe("projects text model", () => {
     expect(projectsText.caseStudyPage.minReadSuffix.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.backToProjectsLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.githubLabel.trim().length).toBeGreaterThan(0);
-    expect(projectsText.caseStudyPage.demoLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.projectSummaryAriaLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.linksFallbackHeading.trim().length).toBeGreaterThan(0);
   });
@@ -54,19 +55,33 @@ describe("projects text model", () => {
     const projectIds = new Set<string>();
     const projectSlugs = new Set<string>();
 
-    expect(projectsText.projects.length).toBeGreaterThan(0);
+    expect(projects.length).toBeGreaterThan(0);
 
-    for (const project of projectsText.projects) {
+    for (const project of projects) {
       expect(project.id.trim().length).toBeGreaterThan(0);
       expect(project.slug.trim().length).toBeGreaterThan(0);
       expect(project.title.trim().length).toBeGreaterThan(0);
       expect(typeof project.pinned).toBe("boolean");
-      expect(project.status.trim().length).toBeGreaterThan(0);
       expect(project.developmentPeriod.trim().length).toBeGreaterThan(0);
       expect(project.keyPhrase.trim().length).toBeGreaterThan(0);
-      expect(() => new URL(project.githubUrl)).not.toThrow();
-      expect(project.technologies.length).toBeGreaterThan(0);
-      expect(new Set(project.technologies).size).toBe(project.technologies.length);
+      expect(
+        project.githubUrl.trim() === "" ||
+          (() => {
+            new URL(project.githubUrl);
+            return true;
+          })()
+      ).toBe(true);
+      if (project.demoUrls) {
+        expect(project.demoUrls.length).toBeGreaterThan(0);
+        expect(new Set(project.demoUrls.map((demo) => demo.href)).size).toBe(
+          project.demoUrls.length
+        );
+
+        for (const demo of project.demoUrls) {
+          expect(demo.label.trim().length).toBeGreaterThan(0);
+          expect(() => new URL(demo.href)).not.toThrow();
+        }
+      }
 
       expect(projectIds.has(project.id), `Duplicate project id: ${project.id}`).toBe(false);
       expect(projectSlugs.has(project.slug), `Duplicate project slug: ${project.slug}`).toBe(false);
@@ -76,16 +91,15 @@ describe("projects text model", () => {
 
       expect(getProjectBySlug(project.slug)?.id).toBe(project.id);
       expect(getProjectCaseStudyHref(project.slug)).toBe(`/projects/${project.slug}`);
-      expect(getProjectCaseStudyDiagramSrc(project.slug)).toBe(
-        `/projects/${project.slug}/diagram.svg`
-      );
 
       const seo = getProjectCaseStudySeo(project.slug);
 
       expect(seo.title).toBe(`${project.title} ${projectsText.seo.caseStudyTitleSuffix}`);
       expect(seo.description).toBe(project.caseStudy.summary);
 
-      if (project.caseStudy.diagramRenderingMode === "dark-source") {
+      const renderingMode = project.caseStudy.gallery?.[0]?.renderingMode;
+
+      if (renderingMode === "dark-source") {
         expect(getProjectCaseStudyDiagramThemeClass(project.slug)).toBe(
           "project-diagram-image--dark-source"
         );
@@ -104,14 +118,43 @@ describe("projects text model", () => {
   });
 
   it("enforces full case-study structure, order, and content quality", () => {
-    for (const project of projectsText.projects) {
+    for (const project of projects) {
       const {caseStudy} = project;
 
       expect(caseStudy.summary.trim().length).toBeGreaterThan(0);
       expect(caseStudy.readTimeMinutes).toBeGreaterThan(0);
-      expect(caseStudy.diagramAlt.trim().length).toBeGreaterThan(0);
       expect(caseStudy.quickFacts.length).toBeGreaterThan(0);
       expect(caseStudy.sections.length).toBe(expectedCaseStudySectionOrder.length);
+
+      if (caseStudy.gallery) {
+        expect(caseStudy.gallery.length).toBeGreaterThan(0);
+
+        const gallerySources = new Set<string>();
+        const galleryCaptions = new Set<string>();
+        for (const image of caseStudy.gallery) {
+          expect(image.src.trim().length).toBeGreaterThan(0);
+          expect(image.alt.trim().length).toBeGreaterThan(0);
+          expect(gallerySources.has(image.src), `Duplicate gallery image: ${image.src}`).toBe(
+            false
+          );
+          gallerySources.add(image.src);
+
+          expect(image.caption?.trim().length).toBeGreaterThan(0);
+
+          if (image.caption) {
+            expect(
+              galleryCaptions.has(image.caption),
+              `Duplicate gallery caption: ${image.caption}`
+            ).toBe(false);
+            galleryCaptions.add(image.caption);
+          }
+
+          const href = image.href;
+          if (href !== undefined && href !== null) {
+            expect(() => new URL(href)).not.toThrow();
+          }
+        }
+      }
 
       const quickFactLabels = new Set<string>();
       for (const quickFact of caseStudy.quickFacts) {
@@ -175,13 +218,13 @@ describe("projects text model", () => {
   });
 
   it("keeps pinned projects before regular projects", () => {
-    const firstRegularProjectIndex = projectsText.projects.findIndex((project) => !project.pinned);
+    const firstRegularProjectIndex = projects.findIndex((project) => !project.pinned);
 
     if (firstRegularProjectIndex === -1) {
       return;
     }
 
-    const pinnedProjectAfterRegular = projectsText.projects
+    const pinnedProjectAfterRegular = projects
       .slice(firstRegularProjectIndex + 1)
       .find((project) => project.pinned);
 

@@ -1,7 +1,7 @@
-import cfgParserContent from "../content/cfg-parser.json";
+import firstClientProjectsContent from "../content/first-client-projects.json";
 import type {ProjectsPageProject} from "../types";
 
-type CfgParserContent = {
+type firstClientProjectsContent = {
   keyPhrase: string;
   caseStudy: {
     summary: string;
@@ -56,47 +56,58 @@ type CfgParserContent = {
   };
 };
 
-const content = cfgParserContent as CfgParserContent;
+const content = firstClientProjectsContent as firstClientProjectsContent;
 
-export const cfgParserProject = {
-  id: "cfg-parser",
-  slug: "cfg-parser",
-  title: "CFG Parser",
-  pinned: false,
-  githubUrl: "https://github.com/simonesiega/cfg-parser.git",
-  developmentPeriod: "2025",
+export const firstClientProjects = {
+  id: "first-client-projects",
+  slug: "first-client-projects",
+  title: "First Client Websites",
+  pinned: true,
+  githubUrl: "",
+  demoUrls: [
+    {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
+    {label: "Arsenale Moto", href: "https://arsenale-moto.simonesiega.dev/"},
+  ],
+  developmentPeriod: "2026",
   keyPhrase: content.keyPhrase,
   caseStudy: {
     summary: content.caseStudy.summary,
-    readTimeMinutes: 6,
+    readTimeMinutes: 7,
     quickFacts: [
       {
-        label: "Language",
-        value: "Rust",
+        label: "Context",
+        value: "Real client work developed during studies",
       },
       {
-        label: "Type",
-        value: "CLI tool",
+        label: "Project type",
+        value: "Existing site + new build",
       },
       {
-        label: "Parser",
-        value: "Recursive descent",
+        label: "Delivery",
+        value: "Live production websites",
       },
       {
-        label: "Architecture",
-        value: "Tokenizer -> Parser/Evaluator",
+        label: "Responsibilities",
+        value: "Requests, CMS, backend, deployment, maintenance",
       },
       {
-        label: "Supported syntax",
-        value: "8 operators/forms",
+        label: "Codebase",
+        value: "Private client repositories",
       },
     ],
     gallery: [
       {
-        src: "/projects/cfg-parser/diagram.svg",
-        alt: "CFG Parser architecture diagram",
+        src: "/projects/first-client-projects/NewArtVanguard.png",
+        alt: "New Art Vanguard coming soon page",
         caption: content.caseStudy.galleryCaptions[0],
-        href: "https://github.com/simonesiega/cfg-parser",
+        href: "https://www.newartvanguard.com/",
+        renderingMode: "dark-source",
+      },
+      {
+        src: "/projects/first-client-projects/ArsenaleMoto.png",
+        alt: "Arsenale Moto landing page",
+        caption: content.caseStudy.galleryCaptions[1],
+        href: "https://arsenale-moto.simonesiega.dev/",
         renderingMode: "dark-source",
       },
     ],
@@ -168,17 +179,12 @@ export const cfgParserProject = {
           {
             title: content.caseStudy.sections.links.items[0].title,
             description: content.caseStudy.sections.links.items[0].description,
-            url: "https://github.com/simonesiega/cfg-parser",
+            url: "https://www.newartvanguard.com/",
           },
           {
             title: content.caseStudy.sections.links.items[1].title,
             description: content.caseStudy.sections.links.items[1].description,
-            url: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
-          },
-          {
-            title: content.caseStudy.sections.links.items[2].title,
-            description: content.caseStudy.sections.links.items[2].description,
-            url: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
+            url: "https://arsenale-moto.simonesiega.dev/",
           },
         ],
       },

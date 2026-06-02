@@ -10,9 +10,11 @@ export {
   isProjectCaseStudyContentSection,
   isProjectCaseStudyLinksSection,
   type ProjectCaseStudyContentSection,
+  type ProjectCaseStudyGalleryItem,
   type ProjectCaseStudyLink,
   type ProjectCaseStudyLinksSection,
   type ProjectCaseStudySection,
+  type ProjectDemoLink,
   type ProjectsPageProject,
 } from "./projects/types";
 
@@ -34,10 +36,6 @@ export function getProjectCaseStudyHref(projectSlug: string) {
   return `/projects/${projectSlug}`;
 }
 
-export function getProjectCaseStudyDiagramSrc(projectSlug: string) {
-  return `/projects/${projectSlug}/diagram.svg`;
-}
-
 export function getProjectCaseStudyDiagramThemeClass(projectSlug: string) {
   const project = getProjectBySlug(projectSlug);
 
@@ -45,7 +43,9 @@ export function getProjectCaseStudyDiagramThemeClass(projectSlug: string) {
     return "";
   }
 
-  if (project.caseStudy.diagramRenderingMode === "dark-source") {
+  const renderingMode = project.caseStudy.gallery?.[0]?.renderingMode;
+
+  if (renderingMode === "dark-source") {
     return "project-diagram-image--dark-source";
   }
 
