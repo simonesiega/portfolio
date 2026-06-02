@@ -16,6 +16,7 @@ export const projectsSections = {
   githubAriaLabelSuffix: "repository on GitHub",
   githubLinkLabel: "GitHub",
   askLinkLabel: "Ask",
+  pinnedLabel: "Pinned",
 } as const satisfies ProjectsText["sections"];
 
 export const projectsSeo = {

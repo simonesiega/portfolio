@@ -38,6 +38,7 @@ export type ProjectsPageProject = {
   id: string;
   slug: string;
   title: string;
+  pinned: boolean;
   githubUrl: string;
   demoUrl?: string;
   status: string;
@@ -73,6 +74,7 @@ export type ProjectsText = {
     githubAriaLabelSuffix: string;
     githubLinkLabel: string;
     askLinkLabel: string;
+    pinnedLabel: string;
   };
   seo: {
     projectsPageTitle: string;

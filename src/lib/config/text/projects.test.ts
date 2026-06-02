@@ -35,6 +35,7 @@ describe("projects text model", () => {
     expect(projectsText.sections.githubAriaLabelSuffix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.githubLinkLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.askLinkLabel.trim().length).toBeGreaterThan(0);
+    expect(projectsText.sections.pinnedLabel.trim().length).toBeGreaterThan(0);
 
     expect(projectsText.seo.projectsPageTitle.trim().length).toBeGreaterThan(0);
     expect(projectsText.seo.caseStudyTitleSuffix.trim().length).toBeGreaterThan(0);
@@ -59,6 +60,7 @@ describe("projects text model", () => {
       expect(project.id.trim().length).toBeGreaterThan(0);
       expect(project.slug.trim().length).toBeGreaterThan(0);
       expect(project.title.trim().length).toBeGreaterThan(0);
+      expect(typeof project.pinned).toBe("boolean");
       expect(project.status.trim().length).toBeGreaterThan(0);
       expect(project.developmentPeriod.trim().length).toBeGreaterThan(0);
       expect(project.keyPhrase.trim().length).toBeGreaterThan(0);
@@ -170,5 +172,19 @@ describe("projects text model", () => {
 
       expect(linksSectionsCount).toBe(1);
     }
+  });
+
+  it("keeps pinned projects before regular projects", () => {
+    const firstRegularProjectIndex = projectsText.projects.findIndex((project) => !project.pinned);
+
+    if (firstRegularProjectIndex === -1) {
+      return;
+    }
+
+    const pinnedProjectAfterRegular = projectsText.projects
+      .slice(firstRegularProjectIndex + 1)
+      .find((project) => project.pinned);
+
+    expect(pinnedProjectAfterRegular).toBeUndefined();
   });
 });

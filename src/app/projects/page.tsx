@@ -44,6 +44,7 @@ export default function ProjectsPage() {
             githubAriaLabelSuffix={sections.githubAriaLabelSuffix}
             githubLinkLabel={sections.githubLinkLabel}
             askLinkLabel={sections.askLinkLabel}
+            pinnedLabel={sections.pinnedLabel}
           />
         </SecondaryPageLayout>
       </div>

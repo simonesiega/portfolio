@@ -16,6 +16,7 @@ type ProjectsShowcaseSectionProps = {
   githubAriaLabelSuffix: string;
   githubLinkLabel: string;
   askLinkLabel: string;
+  pinnedLabel: string;
 };
 
 function getProjectInfoMailHref(
@@ -37,6 +38,7 @@ export function ProjectsShowcaseSection({
   githubAriaLabelSuffix,
   githubLinkLabel,
   askLinkLabel,
+  pinnedLabel,
 }: ProjectsShowcaseSectionProps) {
   const {projectsShowcaseList} = animationTimings;
   const contactEmail = appConfig.contact.email;
@@ -73,6 +75,18 @@ export function ProjectsShowcaseSection({
                   <div
                     className={`${montserrat.className} flex shrink-0 items-center justify-end gap-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:text-[0.96rem]`}
                   >
+                    {project.pinned ? (
+                      <>
+                        <span className="rounded-sm transition-colors duration-300 group-focus-within:text-[var(--ui-fg)] group-hover:text-[var(--ui-fg)]">
+                          {pinnedLabel}
+                        </span>
+
+                        <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
+                          ·
+                        </span>
+                      </>
+                    ) : null}
+
                     <a
                       href={project.githubUrl}
                       target="_blank"
