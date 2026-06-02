@@ -79,6 +79,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
           delay={projectCaseStudy.backLink.delayMs}
           duration={animationTimings.projectsShowcaseList.item.durationMs}
           threshold={projectCaseStudy.backLink.threshold}
+          className="mx-auto w-full max-w-[44rem]"
         >
           <Link
             href="/projects"
@@ -102,6 +103,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
         subtitle: project.caseStudy.summary,
         subtitleClassName: "text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[1.08rem]",
         subtitleDelayMs: projectCaseStudy.hero.subtitleDelayMs,
+        className: "mx-auto w-full max-w-[44rem]",
       }}
       routeRevealDurationMs={routeReveal.durationMs}
       routeRevealThreshold={routeReveal.threshold}
@@ -115,7 +117,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
         }
         duration={animationTimings.projectsShowcaseList.item.durationMs}
         threshold={projectCaseStudy.content.threshold}
-        className="pb-24"
+        className="mx-auto w-full max-w-[44rem] pb-24"
       >
         <article className="space-y-8 pt-4 sm:space-y-10 sm:pt-5">
           <section
