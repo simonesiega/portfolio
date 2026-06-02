@@ -42,7 +42,7 @@ export default function WorkPage() {
             aria-label={sections.experienceAriaLabel}
             className={`${pageColumnClassName} pt-5 pb-20 sm:pt-7`}
           >
-            <ol className="space-y-16 sm:space-y-20">
+            <ol className="space-y-10 sm:space-y-12">
               {orderedWorkExperience.map((experience) => (
                 <WorkExperienceCard
                   key={experience.id}

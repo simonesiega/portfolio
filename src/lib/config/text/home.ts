@@ -87,11 +87,18 @@ export const homeText = {
       seeAllHref: "/work",
       items: [
         {
-          title: "Novaidea",
+          title: "Arsenale Moto",
           description: "Full-stack web development",
           dateRange: "2026",
-          imageSrc: "/work/logos/Novaidea.jpg",
-          imageAlt: "Novaidea logo",
+          imageSrc: "/work/logos/Arsenale.png",
+          imageAlt: "Arsenale Moto logo",
+        },
+        {
+          title: "New Art Vanguard",
+          description: "Full-stack web development",
+          dateRange: "2026",
+          imageSrc: "/work/logos/NewArtVanguard.webp",
+          imageAlt: "New Art Vanguard logo",
         },
         {
           title: "Dacos S.r.l.",
