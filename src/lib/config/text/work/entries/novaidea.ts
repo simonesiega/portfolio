@@ -12,11 +12,11 @@ export const novaideaExperience = {
   companyType: "Contractor",
   location: "Remote",
   description:
-    "Owned the end-to-end delivery of requested updates for Novaidea’s production website, implementing new pages and content changes across the frontend and backend while improving codebase structure and maintainability.",
+    "Handled end-to-end updates for Novaidea’s production website, implementing new pages and content changes across the frontend and backend while improving codebase structure and maintainability.",
   tags: [
     {label: "Contractor"},
     {label: "Remote"},
-    {label: "Production website"},
+    {label: "Client website"},
     {label: "Frontend/backend"},
     {label: "Website ↗", href: "https://www.newartvanguard.com/"},
   ],
