@@ -23,15 +23,6 @@ describe("work text model", () => {
     for (const experience of workText.experiences) {
       expect(experience.id.trim().length).toBeGreaterThan(0);
       expect(experience.sortStart).toMatch(sortStartPattern);
-      const imageSrc = experience.imageSrc?.trim();
-
-      expect(experience.imageSrc === null || typeof experience.imageSrc === "string").toBe(true);
-      expect(!imageSrc || experience.imageAlt.trim().length > 0).toBe(true);
-      expect(experience.imageCaption === null || experience.imageCaption.trim().length > 0).toBe(
-        true
-      );
-      expect(experience.imageZoom).toBeGreaterThan(0);
-      expect(experience.imagePosition.trim().length).toBeGreaterThan(0);
       expect(experience.logoSrc === null || experience.logoSrc.trim().length > 0).toBe(true);
       expect(experience.logoSrc === null || experience.logoAlt.trim().length > 0).toBe(true);
       expect(experience.dateRange.trim().length).toBeGreaterThan(0);

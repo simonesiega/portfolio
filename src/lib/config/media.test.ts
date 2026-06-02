@@ -20,9 +20,6 @@ describe("media config", () => {
   it("keeps optimized image settings valid", () => {
     expect(mediaConfig.home.profileImage.priority).toBe(true);
     expect(mediaConfig.home.aboutImage.eagerFirstImage).toBe(true);
-    expect(mediaConfig.work.showcaseImage.quality).toBeGreaterThan(0);
-    expect(mediaConfig.work.showcaseImage.quality).toBeLessThanOrEqual(100);
-    expect(mediaConfig.work.showcaseImage.sizes.trim().length).toBeGreaterThan(0);
     expect(mediaConfig.projects.caseStudyDiagram.priority).toBe(true);
   });
 });

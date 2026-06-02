@@ -6,11 +6,6 @@ export type WorkPageExperienceTag = {
 export type WorkPageExperience = {
   id: string;
   sortStart: string;
-  imageSrc: string | null;
-  imageAlt: string;
-  imageCaption: string | null;
-  imageZoom: number;
-  imagePosition: string;
   logoSrc: string | null;
   logoAlt: string;
   dateRange: string;

@@ -20,9 +20,6 @@ export function WorkExperienceCard({
   revealThreshold,
   tagsAriaLabel,
 }: WorkExperienceCardProps) {
-  const imageSrc = experience.imageSrc?.trim();
-  const imageCaption = experience.imageCaption?.trim();
-
   return (
     <li>
       <ScrollReveal
@@ -92,33 +89,6 @@ export function WorkExperienceCard({
                 </li>
               ))}
             </ul>
-
-            {imageSrc || imageCaption ? (
-              <figure className="mt-7">
-                {imageSrc ? (
-                  <div className="relative min-h-[15rem] overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[color-mix(in_srgb,var(--ui-fg)_4%,transparent)] shadow-[0_20px_70px_rgba(0,0,0,0.08)] sm:min-h-[18rem]">
-                    <Image
-                      src={imageSrc}
-                      alt={experience.imageAlt}
-                      fill
-                      quality={workMedia.showcaseImage.quality}
-                      unoptimized={workMedia.showcaseImage.unoptimized}
-                      sizes={workMedia.showcaseImage.sizes}
-                      className="object-cover"
-                      style={{
-                        objectPosition: experience.imagePosition,
-                        transform: `scale(${experience.imageZoom})`,
-                      }}
-                    />
-                  </div>
-                ) : null}
-                {imageCaption ? (
-                  <figcaption className="mt-2 text-left text-[0.68rem] leading-relaxed font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
-                    {imageCaption}
-                  </figcaption>
-                ) : null}
-              </figure>
-            ) : null}
           </div>
         </article>
       </ScrollReveal>

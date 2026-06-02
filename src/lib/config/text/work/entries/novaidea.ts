@@ -3,11 +3,6 @@ import type {WorkPageExperience} from "../types";
 export const novaideaExperience = {
   id: "novaidea",
   sortStart: "2026-02",
-  imageSrc: "/work/sites/NewArtVanguard.png",
-  imageAlt: "Novaidea website preview",
-  imageCaption: "Novaidea coming soon page — built as part of my work on the production website.",
-  imageZoom: 1.25,
-  imagePosition: "top center",
   logoSrc: "/work/logos/Novaidea.jpg",
   logoAlt: "Novaidea logo",
   dateRange: "Feb 2026 — May 2026",

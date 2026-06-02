@@ -3,11 +3,6 @@ import type {WorkPageExperience} from "../types";
 export const dacosSrlExperience = {
   id: "dacos-srl",
   sortStart: "2025-05",
-  imageSrc: "",
-  imageAlt: "",
-  imageCaption: "Private internship project — preview not publicly available.",
-  imageZoom: 1,
-  imagePosition: "center",
   logoSrc: "/work/logos/Dacos.png",
   logoAlt: "Dacos SRL logo",
   dateRange: "May 2025 — Jun 2025",
