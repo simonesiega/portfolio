@@ -14,6 +14,7 @@ export type ProjectCaseStudyGalleryItem = {
   src: string;
   alt: string;
   caption?: string;
+  thumbnailDescription?: string;
   href?: string | null;
   renderingMode?: "auto" | "dark-source";
 };

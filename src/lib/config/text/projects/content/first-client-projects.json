@@ -6,6 +6,10 @@
       "New Art Vanguard coming soon page, representing production work on an existing client website using HTML, CSS, JavaScript, PHP, Docker, and Git.",
       "Arsenale Moto landing page, representing a client website built from scratch with TypeScript, Strapi CMS configuration, Resend form handling, and deployment work."
     ],
+    "galleryThumbnailDescriptions": [
+      "New Art Vanguard coming soon page.",
+      "Arsenale Moto landing page."
+    ],
     "sections": {
       "overview": {
         "heading": "Overview",

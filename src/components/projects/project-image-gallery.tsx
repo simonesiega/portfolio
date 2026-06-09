@@ -62,13 +62,14 @@ export function ProjectImageGallery({
         <div className="grid grid-cols-4 gap-2 sm:grid-cols-6" aria-label="Project image previews">
           {images.map((image, index) => {
             const isSelected = index === selectedIndex;
+            const imageDescription = image.thumbnailDescription || image.caption || image.alt;
 
             return (
               <button
                 key={image.src}
                 type="button"
                 onClick={() => setSelectedIndex(index)}
-                aria-label={`Show image ${index + 1}`}
+                aria-label={`Show image ${index + 1}: ${imageDescription}`}
                 aria-pressed={isSelected}
                 className={`overflow-hidden rounded-lg border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)] ${
                   isSelected

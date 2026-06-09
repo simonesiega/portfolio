@@ -6,6 +6,7 @@ type firstClientProjectsContent = {
   caseStudy: {
     summary: string;
     galleryCaptions: string[];
+    galleryThumbnailDescriptions: string[];
     sections: {
       overview: {
         heading: string;
@@ -100,6 +101,7 @@ export const firstClientProjects = {
         src: "/projects/first-client-projects/NewArtVanguard.png",
         alt: "New Art Vanguard coming soon page",
         caption: content.caseStudy.galleryCaptions[0],
+        thumbnailDescription: content.caseStudy.galleryThumbnailDescriptions[0],
         href: "https://www.newartvanguard.com/",
         renderingMode: "dark-source",
       },
@@ -107,6 +109,7 @@ export const firstClientProjects = {
         src: "/projects/first-client-projects/ArsenaleMoto.png",
         alt: "Arsenale Moto landing page",
         caption: content.caseStudy.galleryCaptions[1],
+        thumbnailDescription: content.caseStudy.galleryThumbnailDescriptions[1],
         href: "https://arsenale-moto.simonesiega.dev/",
         renderingMode: "dark-source",
       },
