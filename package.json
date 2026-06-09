@@ -2,19 +2,17 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.3.14",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
     "start": "next start",
-    "format": "prettier --write .",
-    "format:staged": "lint-staged",
-    "format:check": "prettier --check .",
-    "lint": "eslint .",
+    "build": "next build",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "prepare": "husky"
+    "lint": "eslint .",
+    "prettier": "prettier --check .",
+    "format": "prettier --write .",
+    "check": "bun run prettier && bun run lint && bun run typecheck && bun run build",
+    "ci": "bun run check"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
