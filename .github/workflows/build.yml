@@ -35,3 +35,5 @@ jobs:
 
       - name: Build
         run: bun run build
+        env:
+          SITE_URL: https://simonesiega.com

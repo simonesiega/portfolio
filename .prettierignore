@@ -3,7 +3,6 @@ build
 coverage
 node_modules
 out
-package-lock.json
 public
 *.tsbuildinfo
 README.md

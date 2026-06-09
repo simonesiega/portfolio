@@ -40,8 +40,8 @@ Explore the portfolio here:
 ## Running Locally
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Then open:
@@ -51,6 +51,12 @@ http://localhost:3000
 ```
 
 Optional: copy `.env.example` to `.env` to configure analytics, canonical URL generation, and CSP/security-header behavior.
+
+Production builds require `NEXT_PUBLIC_SITE_URL` or `SITE_URL` so metadata, robots, and sitemap URLs are generated from an explicit origin. For local verification, run:
+
+```bash
+bun run check
+```
 
 ## Production
 
