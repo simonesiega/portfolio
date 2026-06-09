@@ -20,7 +20,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "bun run dev -- --port 3100",
+    command: "bun run test:e2e:server",
     url: "http://127.0.0.1:3100",
     reuseExistingServer: false,
     timeout: 120_000,

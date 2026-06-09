@@ -14,6 +14,7 @@
     "format:check": "bun run prettier",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:e2e:server": "bun run build:local && SITE_URL=https://simonesiega.com next start --port 3100",
     "test:e2e": "playwright test",
     "check": "bun run prettier && bun run lint && bun run typecheck && bun run build:local",
     "ci": "bun run check"
