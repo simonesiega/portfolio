@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {headers} from "next/headers";
 import Script from "next/script";
 import {geistMono, geistSans} from "@/lib/fonts";
 import {appConfig} from "@/lib/config/app-config";
@@ -41,20 +42,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   return (
     <html lang={metadataConfig.language} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        <Script src="/runtime-init.js" strategy="beforeInteractive" />
-        <Script id="theme-init" strategy="beforeInteractive">
+        <Script nonce={nonce} src="/runtime-init.js" strategy="beforeInteractive" />
+        <Script nonce={nonce} id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
         </Script>
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
+            nonce={nonce}
             defer
             src={analytics.umami.scriptSrc}
             data-website-id={analytics.umami.websiteId}

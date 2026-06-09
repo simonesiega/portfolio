@@ -1,5 +1,4 @@
 import {NextResponse, type NextRequest} from "next/server";
-import {themeInitScriptHash} from "./src/lib/theme-init";
 
 const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC;
 const isProduction = process.env.NODE_ENV === "production";
@@ -26,12 +25,14 @@ if (umamiScriptSrc) {
   }
 }
 
-function createCspHeader() {
-  const scriptSrc = [
-    "'self'",
-    `'sha256-${themeInitScriptHash}'`,
-    ...(umamiOrigin ? [umamiOrigin] : []),
-  ];
+function createNonce() {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  return btoa(String.fromCharCode(...bytes));
+}
+
+function createCspHeader(nonce: string) {
+  const scriptSrc = ["'self'", `'nonce-${nonce}'`, ...(umamiOrigin ? [umamiOrigin] : [])];
   const connectSrc = ["'self'", ...(umamiOrigin ? [umamiOrigin] : []), ...cspConnectSrcExtra];
 
   if (!isProduction) {
@@ -74,12 +75,20 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const response = NextResponse.next();
+  const nonce = createNonce();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 
   if (cspMode === "enforce") {
-    response.headers.set("Content-Security-Policy", createCspHeader());
+    response.headers.set("Content-Security-Policy", createCspHeader(nonce));
   } else if (cspMode === "report-only") {
-    response.headers.set("Content-Security-Policy-Report-Only", createCspHeader());
+    response.headers.set("Content-Security-Policy-Report-Only", createCspHeader(nonce));
   }
 
   if (cspReportUri) {
