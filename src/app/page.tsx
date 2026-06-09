@@ -75,8 +75,9 @@ export default function Home() {
               threshold={homeIntro.hero.bio.threshold}
             >
               <p className="mt-5 max-w-[33rem] text-[1.26rem] leading-[1.18] font-semibold tracking-[-0.005em] text-[color-mix(in_srgb,var(--header-item-color)_82%,#6f7f95)] sm:text-[1.36rem]">
-                {intro.bioLines.map((line) => (
+                {intro.bioLines.map((line, index) => (
                   <span key={line} className="block">
+                    {index > 0 ? " " : null}
                     {line}
                   </span>
                 ))}

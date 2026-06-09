@@ -87,8 +87,8 @@ export const homeText = {
       ] as const satisfies readonly HomeIntroProjectItem[],
     },
     works: {
-      label: "WORKS",
-      linkLabel: "WORKS →",
+      label: "WORK",
+      linkLabel: "WORK →",
       seeAllHref: "/work",
       items: [
         {
