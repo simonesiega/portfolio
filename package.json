@@ -10,7 +10,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "prettier": "prettier --check .",
+    "format:check": "bun run prettier",
     "format": "prettier --write .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
     "check": "bun run prettier && bun run lint && bun run typecheck && bun run build",
     "ci": "bun run check"
   },

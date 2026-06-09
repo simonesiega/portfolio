@@ -75,6 +75,11 @@ export const homeText = {
       seeAllHref: "/projects",
       items: [
         {
+          title: "Client Websites",
+          href: "/projects/first-client-projects",
+          description: "Websites built and delivered for real clients",
+        },
+        {
           title: "CFG Parser",
           href: "/projects/cfg-parser",
           description: "Rust library for parsing context-free grammars",
