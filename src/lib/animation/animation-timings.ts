@@ -65,7 +65,8 @@ export const animationTimings = {
 
   workExperienceList: {
     item: {
-      delayMs: 300,
+      delayMs: 520,
+      stepDelayMs: 240,
       durationMs: 980,
       threshold: 0.1,
     },
@@ -73,8 +74,8 @@ export const animationTimings = {
 
   projectsShowcaseList: {
     item: {
-      delayMs: 300,
-      stepDelayMs: 140,
+      delayMs: 520,
+      stepDelayMs: 240,
       durationMs: 980,
       threshold: 0.1,
     },

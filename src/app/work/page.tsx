@@ -39,11 +39,17 @@ export default function WorkPage() {
             className={`${pageColumnClassName} pt-5 pb-20 sm:pt-7`}
           >
             <ol className="space-y-10 sm:space-y-12">
-              {orderedWorkExperience.map((experience) => (
+              {orderedWorkExperience.map((experience, index) => (
                 <WorkExperienceCard
                   key={experience.id}
                   experience={experience}
-                  revealDelayMs={workExperienceList.item.delayMs}
+                  revealDelayMs={
+                    workExperienceList.item.delayMs +
+                    (index % 2) * workExperienceList.item.stepDelayMs
+                  }
+                  revealInitialViewportDelayMs={
+                    workExperienceList.item.delayMs + index * workExperienceList.item.stepDelayMs
+                  }
                   revealDurationMs={workExperienceList.item.durationMs}
                   revealThreshold={workExperienceList.item.threshold}
                   tagsAriaLabel={sections.tagsAriaLabel}

@@ -46,14 +46,19 @@ export function ProjectsShowcaseSection({
   return (
     <section aria-label={projectsAriaLabel} className={`${pageColumnClassName} pt-5 pb-20 sm:pt-7`}>
       <ul className="space-y-7 sm:space-y-8">
-        {projects.map((project) => {
+        {projects.map((project, index) => {
           const githubUrl = project.githubUrl.trim();
+          const revealDelay =
+            projectsShowcaseList.item.delayMs + (index % 2) * projectsShowcaseList.item.stepDelayMs;
+          const initialViewportDelay =
+            projectsShowcaseList.item.delayMs + index * projectsShowcaseList.item.stepDelayMs;
 
           return (
             <li key={project.id}>
               <ScrollReveal
                 variant="fade-up"
-                delay={projectsShowcaseList.item.delayMs}
+                delay={revealDelay}
+                initialViewportDelay={initialViewportDelay}
                 duration={projectsShowcaseList.item.durationMs}
                 threshold={projectsShowcaseList.item.threshold}
               >

@@ -45,6 +45,7 @@ describe("animation timings", () => {
   });
 
   it("keeps standalone delays valid", () => {
+    expect(animationTimings.workExperienceList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectsShowcaseList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectCaseStudy.hero.metaLabelDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectCaseStudy.hero.titleDelayMs).toBeGreaterThanOrEqual(0);

@@ -8,6 +8,7 @@ const {work: workMedia} = mediaConfig;
 type WorkExperienceCardProps = {
   experience: WorkPageExperience;
   revealDelayMs: number;
+  revealInitialViewportDelayMs?: number;
   revealDurationMs: number;
   revealThreshold: number;
   tagsAriaLabel: string;
@@ -16,6 +17,7 @@ type WorkExperienceCardProps = {
 export function WorkExperienceCard({
   experience,
   revealDelayMs,
+  revealInitialViewportDelayMs,
   revealDurationMs,
   revealThreshold,
   tagsAriaLabel,
@@ -25,6 +27,7 @@ export function WorkExperienceCard({
       <ScrollReveal
         variant="fade-up"
         delay={revealDelayMs}
+        initialViewportDelay={revealInitialViewportDelayMs}
         duration={revealDurationMs}
         threshold={revealThreshold}
       >
