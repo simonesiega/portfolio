@@ -5,18 +5,19 @@
   "packageManager": "bun@1.3.14",
   "scripts": {
     "dev": "next dev",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "build": "next build",
     "build:local": "SITE_URL=https://simonesiega.com bun run build",
+    "build:standalone:local": "bun run build:local && bun -e \"const fs = require('node:fs'); fs.cpSync('public', '.next/standalone/public', {recursive: true, force: true}); fs.cpSync('.next/static', '.next/standalone/.next/static', {recursive: true, force: true});\"",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "prettier": "prettier --check .",
     "format:check": "bun run prettier",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:e2e:server": "bun run build:local && SITE_URL=https://simonesiega.com next start --port 3100",
+    "test:e2e:server": "bun run build:standalone:local && SITE_URL=https://simonesiega.com HOSTNAME=127.0.0.1 PORT=3100 node .next/standalone/server.js",
     "test:e2e": "playwright test",
-    "check": "bun run prettier && bun run lint && bun run typecheck && bun run build:local",
+    "check": "bun run format:check && bun run lint && bun run typecheck && bun run build:local",
     "ci": "bun run check"
   },
   "lint-staged": {
@@ -30,7 +31,8 @@
     "next": "16.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

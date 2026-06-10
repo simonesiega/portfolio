@@ -9,12 +9,8 @@ import type {ProjectsPageProject, ProjectsText} from "./projects/types";
 export {
   isProjectCaseStudyContentSection,
   isProjectCaseStudyLinksSection,
-  type ProjectCaseStudyContentSection,
   type ProjectCaseStudyGalleryItem,
-  type ProjectCaseStudyLink,
   type ProjectCaseStudyLinksSection,
-  type ProjectCaseStudySection,
-  type ProjectDemoLink,
   type ProjectsPageProject,
 } from "./projects/types";
 

@@ -1,4 +1,4 @@
-export type WorkPageExperienceTag = {
+type WorkPageExperienceTag = {
   label: string;
   href?: string;
 };

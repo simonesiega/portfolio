@@ -56,7 +56,13 @@ export function getStoredThemePreference() {
     return null;
   }
 
-  const storedPreference = window.localStorage.getItem(storageKey);
+  let storedPreference: string | null = null;
+
+  try {
+    storedPreference = window.localStorage.getItem(storageKey);
+  } catch {
+    return null;
+  }
 
   if (storedPreference === themePreference.dark) {
     return themePreference.dark;
@@ -78,7 +84,9 @@ export function setStoredThemePreference(preference: ThemePreference) {
     return;
   }
 
-  window.localStorage.setItem(storageKey, preference);
+  try {
+    window.localStorage.setItem(storageKey, preference);
+  } catch {}
 }
 
 export function getPrefersLightMediaQuery() {

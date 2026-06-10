@@ -1,5 +1,4 @@
 import Link from "next/link";
-import {ParticleNetwork} from "@/components/animation/particle-network";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {SecondaryFooter} from "@/components/secondary-page/secondary-footer";
 import {animationTimings} from "@/lib/animation/animation-timings";
@@ -14,13 +13,6 @@ export default function NotFoundPage() {
 
   return (
     <div className="relative overflow-x-clip">
-      <ParticleNetwork
-        className="pointer-events-none absolute inset-0 hidden opacity-20 xl:block"
-        motionScale={0}
-        disablePointer
-        staticMode
-      />
-
       <div className={`relative z-10 ${pageFrameClassName}`}>
         <RouteReveal
           variant="fade-up"

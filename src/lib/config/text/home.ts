@@ -37,7 +37,7 @@ type HomeIntroAboutImage = {
 export const homeText = {
   intro: {
     profileImage: {
-      src: "/landing/pfp.png",
+      src: "/landing/pfp.webp",
       alt: "Simone Siega",
     },
     name: "Simone Siega",
@@ -121,17 +121,17 @@ export const homeText = {
       images: [
         {
           label: "Mountain",
-          src: "/landing/about/snow.jpg",
+          src: "/landing/about/snow.webp",
           alt: "Mountain trails in the Dolomites",
         },
         {
           label: "Gym",
-          src: "/landing/about/gym.png",
+          src: "/landing/about/gym.webp",
           alt: "Minimal gym training illustration",
         },
         {
           label: "CS & Math",
-          src: "/landing/about/cs-math.png",
+          src: "/landing/about/cs-math.webp",
           alt: "Minimal computer science and mathematics illustration",
         },
       ] as const satisfies readonly HomeIntroAboutImage[],
@@ -139,5 +139,3 @@ export const homeText = {
     },
   },
 } as const;
-
-export type HomeIntro = (typeof homeText)["intro"];

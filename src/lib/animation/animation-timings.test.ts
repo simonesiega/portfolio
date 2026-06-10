@@ -13,6 +13,9 @@ describe("animation timings", () => {
       animationTimings.homeIntro.section,
       animationTimings.homeIntro.aboutImages,
       animationTimings.homeIntro.aboutClosingLine,
+      animationTimings.secondaryPageHero.metaLabel,
+      animationTimings.secondaryPageHero.title,
+      animationTimings.secondaryPageHero.subtitle,
       animationTimings.workExperienceList.item,
       animationTimings.projectsShowcaseList.item,
       animationTimings.projectCaseStudy.backLink,
@@ -39,5 +42,13 @@ describe("animation timings", () => {
     expect(toMs(animationTimings.themeTransition.durationMs)).toBe(
       `${animationTimings.themeTransition.durationMs}ms`
     );
+  });
+
+  it("keeps standalone delays valid", () => {
+    expect(animationTimings.projectsShowcaseList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
+    expect(animationTimings.projectCaseStudy.hero.metaLabelDelayMs).toBeGreaterThanOrEqual(0);
+    expect(animationTimings.projectCaseStudy.hero.titleDelayMs).toBeGreaterThanOrEqual(0);
+    expect(animationTimings.projectCaseStudy.hero.subtitleDelayMs).toBeGreaterThanOrEqual(0);
+    expect(animationTimings.themeTransition.syncDelayMs).toBeGreaterThanOrEqual(0);
   });
 });

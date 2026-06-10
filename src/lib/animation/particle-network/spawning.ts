@@ -5,51 +5,30 @@ import {
   randomGaussian,
   randomInt,
 } from "@/lib/animation/particle-network/math";
-import type {
-  DustParticle,
-  Particle,
-  Point,
-  PointerState,
-} from "@/lib/animation/particle-network/types";
+import type {DustParticle, Particle, Point} from "@/lib/animation/particle-network/types";
 
-const {pointer: pointerConfig, motion, spawning, dust} = particleNetworkConfig.particleNetwork;
+const {motion, spawning, dust} = particleNetworkConfig.particleNetwork;
 
 /**
  * Creates a new primary particle.
  *
- * Spawn strategy can be biased toward:
- * - pointer neighborhood (when interactive respawn is enabled), or
- * - one of several gaussian clusters to avoid visually uniform distribution.
+ * Spawn strategy can be biased toward one of several gaussian clusters to avoid
+ * a visually uniform distribution.
  */
 export function spawnParticle({
   width,
   height,
   centers,
-  pointer,
-  pointerBias,
 }: {
   width: number;
   height: number;
   centers: Point[];
-  pointer: PointerState;
-  pointerBias: boolean;
 }): Particle {
   let x = Math.random() * width;
   let y = Math.random() * height;
 
-  // Pointer-biased respawn creates a more interactive feel by keeping new particles within the area of influence, especially after bursts of pointer-driven respawns. Clustered respawn creates visually interesting denser areas that still have some randomness due to the gaussian spread, and prevents the scene from feeling too uniform or grid-like.
-  const shouldSpawnNearPointer =
-    pointerBias && pointer.active && Math.random() < spawning.nearPointerSpawnChance;
-
-  // Clustered spawn is only attempted if not spawning near the pointer, to maintain a balance between interaction and visual interest. If centers are defined but clustered spawn isn't chosen, particles will spawn uniformly, which can help fill in gaps and keep the distribution from feeling too rigid.
-  const shouldSpawnInCluster =
-    !shouldSpawnNearPointer && Math.random() < spawning.clusteredSpawnChance;
-
-  if (shouldSpawnNearPointer) {
-    // Pointer-biased respawn keeps interaction reactive after bursts.
-    x = pointer.x + randomGaussian() * pointerConfig.spawnRadius;
-    y = pointer.y + randomGaussian() * pointerConfig.spawnRadius;
-  } else if (shouldSpawnInCluster && centers.length > 0) {
+  // Clustered spawn creates denser visual islands while uniform fallback fills gaps.
+  if (Math.random() < spawning.clusteredSpawnChance && centers.length > 0) {
     const center = centers[randomInt(0, centers.length - 1)];
     // Gaussian spread around cluster center creates denser visual islands.
     const sigma = Math.min(width, height) * spawning.clusterSigmaFactor;

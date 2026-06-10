@@ -14,12 +14,6 @@ export const particleNetworkConfig = {
     },
     links: {
       baseDistance: 118,
-      pointerDistance: 170,
-    },
-    pointer: {
-      radius: 190,
-      spawnRadius: 130,
-      strength: 140,
     },
     motion: {
       maxSpeed: 34,
@@ -43,7 +37,6 @@ export const particleNetworkConfig = {
     spawning: {
       clusterCenterCountMin: 3,
       clusterCenterCountMax: 6,
-      nearPointerSpawnChance: 0.58,
       clusteredSpawnChance: 0.3,
       clusterSigmaFactor: 0.18,
       speedMin: 6,

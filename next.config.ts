@@ -4,6 +4,9 @@ import type {NextConfig} from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   output: "standalone",
+  outputFileTracingIncludes: {
+    "/*": ["./node_modules/@img/sharp-*/lib/*"],
+  },
   turbopack: {
     root: path.resolve(__dirname),
   },

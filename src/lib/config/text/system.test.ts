@@ -26,9 +26,7 @@ describe("system text model", () => {
     expect(errorPage.hero.eyebrow.trim().length).toBeGreaterThan(0);
     expect(errorPage.hero.title.trim().length).toBeGreaterThan(0);
     expect(errorPage.hero.subtitle.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.description.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.diagnosticsLabel.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.diagnosticsFallbackValue.trim().length).toBeGreaterThan(0);
+    expect(errorPage.body.navigationAriaLabel.trim().length).toBeGreaterThan(0);
 
     expect(errorPage.body.actions.retryLabel.trim().length).toBeGreaterThan(0);
     expect(errorPage.body.actions.backHomeLabel.trim().length).toBeGreaterThan(0);

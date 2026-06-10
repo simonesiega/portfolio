@@ -28,15 +28,6 @@ export type DustParticle = {
 };
 
 /**
- * Normalized pointer state in canvas-local coordinates.
- */
-export type PointerState = {
-  x: number;
-  y: number;
-  active: boolean;
-};
-
-/**
  * Simple 2D point used for clustered spawn centers.
  */
 export type Point = {
@@ -51,16 +42,4 @@ export type NetworkColors = {
   pointRgb: string;
   linkRgb: string;
   dustRgb: string;
-};
-
-/**
- * Cached canvas bounds in viewport coordinates.
- *
- * Used to convert global pointer events into canvas-local positions.
- */
-export type CanvasBounds = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
 };

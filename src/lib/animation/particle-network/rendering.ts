@@ -1,15 +1,13 @@
 import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
-import {distanceToPointerSquared} from "@/lib/animation/particle-network/math";
 import {updateDustParticles, updateParticles} from "@/lib/animation/particle-network/physics";
 import type {
   DustParticle,
   NetworkColors,
   Particle,
   Point,
-  PointerState,
 } from "@/lib/animation/particle-network/types";
 
-const {links, pointer: pointerConfig} = particleNetworkConfig.particleNetwork;
+const {links} = particleNetworkConfig.particleNetwork;
 
 /**
  * Executes one full visual frame:
@@ -24,8 +22,6 @@ export function drawFrame({
   dt,
   particles,
   dustParticles,
-  pointer,
-  reducedMotion,
   centers,
   colors,
 }: {
@@ -35,8 +31,6 @@ export function drawFrame({
   dt: number;
   particles: Particle[];
   dustParticles: DustParticle[];
-  pointer: PointerState;
-  reducedMotion: boolean;
   centers: Point[];
   colors: NetworkColors;
 }) {
@@ -47,14 +41,12 @@ export function drawFrame({
     width,
     height,
     dt,
-    pointer,
-    reducedMotion,
     centers,
   });
   updateDustParticles({dustParticles, width, height, dt});
 
-  drawLinks({context, particles, pointer, colors});
-  drawPoints({context, particles, pointer, colors});
+  drawLinks({context, particles, colors});
+  drawPoints({context, particles, colors});
   drawDust({context, dustParticles, colors});
 }
 
@@ -66,16 +58,14 @@ export function drawFrame({
 function drawLinks({
   context,
   particles,
-  pointer,
   colors,
 }: {
   context: CanvasRenderingContext2D;
   particles: Particle[];
-  pointer: PointerState;
   colors: NetworkColors;
 }) {
-  const cellSize = links.pointerDistance;
-  // Grid cell size tied to max interactive link distance.
+  const cellSize = links.baseDistance;
+  // Grid cell size tied to max link distance.
   const grid = buildSpatialGrid(particles, cellSize);
 
   for (let index = 0; index < particles.length; index += 1) {
@@ -97,15 +87,7 @@ function drawLinks({
           }
 
           const neighbor = particles[neighborIndex];
-          const nearPointer =
-            pointer.active &&
-            (distanceToPointerSquared(particle, pointer) <
-              pointerConfig.radius * pointerConfig.radius ||
-              distanceToPointerSquared(neighbor, pointer) <
-                pointerConfig.radius * pointerConfig.radius);
-
-          // Expand link radius near pointer for stronger local feedback.
-          const linkDistance = nearPointer ? links.pointerDistance : links.baseDistance;
+          const linkDistance = links.baseDistance;
           const linkDistanceSquared = linkDistance * linkDistance;
 
           const dx = particle.x - neighbor.x;
@@ -118,9 +100,8 @@ function drawLinks({
 
           const distance = Math.sqrt(distanceSquared);
           const alphaBase = 1 - distance / linkDistance;
-          const alphaBoost = nearPointer ? 1.35 : 1;
           // Keep line intensity proportional to normalized proximity.
-          const alpha = alphaBase * alphaBoost;
+          const alpha = alphaBase;
 
           context.strokeStyle = `rgba(${colors.linkRgb},${alpha * 0.2})`;
           context.lineWidth = 0.3 + alpha * 0.85;
@@ -136,26 +117,19 @@ function drawLinks({
 
 /**
  * Draws particle glow and core dot.
- * Pointer proximity increases contrast and opacity.
  */
 function drawPoints({
   context,
   particles,
-  pointer,
   colors,
 }: {
   context: CanvasRenderingContext2D;
   particles: Particle[];
-  pointer: PointerState;
   colors: NetworkColors;
 }) {
   for (const particle of particles) {
-    const nearPointer =
-      pointer.active &&
-      distanceToPointerSquared(particle, pointer) < pointerConfig.radius * pointerConfig.radius;
-
-    const glowAlpha = nearPointer ? 0.3 : 0.18;
-    const dotAlpha = nearPointer ? 0.95 : 0.58 + particle.depth * 0.32;
+    const glowAlpha = 0.18;
+    const dotAlpha = 0.58 + particle.depth * 0.32;
 
     context.fillStyle = `rgba(${colors.pointRgb},${glowAlpha * particle.depth})`;
     context.beginPath();
@@ -181,7 +155,6 @@ function drawDust({
   dustParticles: DustParticle[];
   colors: NetworkColors;
 }) {
-  // Dust particles are drawn with a simple filled circle, with alpha based on their individual alpha property and a shared RGB color from the theme. They don't interact with the pointer and have a subtle presence to add depth and visual interest to the background without distracting from the main particle network.
   for (const particle of dustParticles) {
     context.fillStyle = `rgba(${colors.dustRgb},${particle.alpha})`;
     context.beginPath();
@@ -203,7 +176,7 @@ function buildSpatialGrid(particles: Particle[], cellSize: number) {
     const cellY = Math.floor(particle.y / cellSize);
     const key = `${cellX},${cellY}`;
 
-    // Lazily allocate only occupied cells. This keeps memory usage down, especially since many cells may be empty in a sparse distribution. It also simplifies the logic for adding particles to cells, as we don't need to pre-initialize a large grid structure.
+    // Lazily allocate only occupied cells to keep memory usage low.
     if (!grid.has(key)) {
       grid.set(key, []);
     }

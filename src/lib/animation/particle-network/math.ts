@@ -1,14 +1,3 @@
-import type {Particle, PointerState} from "@/lib/animation/particle-network/types";
-
-/**
- * Returns squared pointer distance to avoid unnecessary square roots.
- */
-export function distanceToPointerSquared(particle: Particle, pointer: PointerState) {
-  const dx = particle.x - pointer.x;
-  const dy = particle.y - pointer.y;
-  return dx * dx + dy * dy;
-}
-
 /**
  * Uniform random number in [min, max).
  */

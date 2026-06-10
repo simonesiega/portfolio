@@ -17,11 +17,7 @@ export default function WorkPage() {
 
   return (
     <div className="relative overflow-x-clip">
-      <ParticleNetwork
-        className="pointer-events-none absolute inset-0 hidden [mask-image:linear-gradient(to_right,black_0%,black_16%,rgba(0,0,0,0.3)_32%,rgba(0,0,0,0.3)_68%,black_84%,black_100%)] opacity-25 xl:block"
-        motionScale={0.2}
-        disablePointer
-      />
+      <ParticleNetwork className="pointer-events-none absolute inset-0 hidden [mask-image:linear-gradient(to_right,black_0%,black_16%,rgba(0,0,0,0.3)_32%,rgba(0,0,0,0.3)_68%,black_84%,black_100%)] opacity-25 xl:block" />
 
       <div className="relative z-10">
         <SecondaryPageLayout

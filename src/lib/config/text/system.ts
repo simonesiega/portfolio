@@ -26,21 +26,16 @@ export const systemText = {
       subtitle: "An unexpected issue interrupted this page.",
     },
     body: {
-      description:
-        "Transient runtime issues can happen during navigation. You can retry this route or jump back to a stable section of the portfolio.",
-      diagnosticsLabel: "Reference",
-      diagnosticsFallbackValue: "1941754757",
+      navigationAriaLabel: "Error recovery routes",
       actions: {
         retryLabel: "Try again",
-        backHomeLabel: "Back to home",
+        backHomeLabel: "Home",
         backHomeHref: "/",
-        openProjectsLabel: "Open projects",
+        openProjectsLabel: "Projects",
         openProjectsHref: "/projects",
-        openWorkLabel: "View work",
+        openWorkLabel: "Work",
         openWorkHref: "/work",
       },
     },
   },
 } as const;
-
-export type SystemText = typeof systemText;
