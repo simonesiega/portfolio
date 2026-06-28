@@ -5,14 +5,14 @@ export const novaideaExperience = {
   sortStart: "2026-02",
   logoSrc: "/work/logos/NewArtVanguard.webp",
   logoAlt: "New Art Vanguard logo",
-  dateRange: "Feb 2026 — May 2026",
+  dateRange: "Feb 2026 — Present",
   role: "Full-Stack Developer",
   company: "New Art Vanguard",
   companyUrl: "https://www.newartvanguard.com/",
   companyType: "Contractor",
   location: "Remote",
   description:
-    "Handled end-to-end updates for New Art Vanguard’s production website, implementing new pages and content changes across the frontend and backend while improving codebase structure and maintainability.",
+    "Maintained and expanded an existing production website, updating 5+ pages and delivering 3 new pages while improving content structure, navigation flow, and frontend/backend maintainability. Set up Docker-based development workflows, reducing local setup and deployment preparation time by ~25%.",
   tags: [
     {label: "Contractor"},
     {label: "Remote"},

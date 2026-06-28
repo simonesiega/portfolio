@@ -12,7 +12,7 @@ export const arsenalemotoExperience = {
   companyType: "Contractor",
   location: "Remote",
   description:
-    "Built and deployed the website from scratch as the sole developer, covering the TypeScript frontend, Strapi CMS configuration, admin panel deployment, and Resend-powered motorcycle valuation form. Worked from design references provided by the design team while implementing additional pages and interface refinements.",
+    "Built and deployed a custom client website from scratch, including 6 public pages, a Strapi CMS, and a private admin workflow for managing 30+ motorcycle listings. Integrated a Resend-powered valuation form and handled production deployment on a client VPS, including domain setup, environment variables, and server-side services.",
   tags: [
     {label: "Contractor"},
     {label: "Remote"},

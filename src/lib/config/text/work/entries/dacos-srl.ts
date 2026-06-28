@@ -4,15 +4,15 @@ export const dacosSrlExperience = {
   id: "dacos-srl",
   sortStart: "2025-05",
   logoSrc: "/work/logos/Dacos.png",
-  logoAlt: "Dacos SRL logo",
+  logoAlt: "Dacos S.r.l. logo",
   dateRange: "May 2025 — Jun 2025",
   role: "Software Developer Intern",
-  company: "Dacos SRL",
+  company: "Dacos S.r.l.",
   companyUrl: null,
   companyType: "Internship",
   location: "Venice, Italy",
   description:
-    "Built a Vue.js e-commerce prototype for technology products during my internship, with a focus on structured frontend development, reusable components, routing, state management, and basic backend integration.",
+    "Developed a Vue.js e-commerce prototype for technology products during my internship, working on reusable components, routing, state management, structured product data, and basic backend integration. Added real-time data handling and overload protection to improve stability during product interactions.",
   tags: [
     {label: "Internship"},
     {label: "Venice, Italy"},
