@@ -43,8 +43,8 @@ export const homeText = {
     name: "Simone Siega",
 
     bioLines: [
-      "Final-year IT student based in Venice, Italy.",
-      "Building AI systems, backend software, and developer tools.",
+      "Computer Engineering student in Venice, Italy.",
+      "Building backend software and production-ready websites, with a growing interest in AI systems.",
     ],
 
     socialLinks: [
@@ -58,14 +58,14 @@ export const homeText = {
       label: "EDUCATION",
       items: [
         {
-          school: "I.T.I.S. C. Zuccante",
-          href: "https://www.itiszuccante.edu.it/",
-          description: "Final-year IT student",
-        },
-        {
           school: "University of Padua",
           href: "https://www.unipd.it/",
-          description: "Incoming Computer Engineering student",
+          description: "First-year B.Sc. Computer Engineering student",
+        },
+        {
+          school: "I.T.I.S. C. Zuccante",
+          href: "https://www.itiszuccante.edu.it/",
+          description: "Technical Diploma in Computer Science, 100/100 with honors",
         },
       ] as const satisfies readonly HomeIntroEducationItem[],
     },
@@ -77,12 +77,12 @@ export const homeText = {
         {
           title: "Client Websites",
           href: "/projects/first-client-projects",
-          description: "Websites built and delivered for real clients",
+          description: "Two real client websites built and deployed during high school",
         },
         {
           title: "CFG Parser",
           href: "/projects/cfg-parser",
-          description: "Rust library for parsing context-free grammars",
+          description: "Rust CLI tool for grammar-driven expression parsing and evaluation",
         },
       ] as const satisfies readonly HomeIntroProjectItem[],
     },
@@ -93,14 +93,14 @@ export const homeText = {
       items: [
         {
           title: "Arsenale Moto",
-          description: "Full-stack web development",
+          description: "Website & CMS development",
           dateRange: "2026",
           imageSrc: "/work/logos/Arsenale.png",
           imageAlt: "Arsenale Moto logo",
         },
         {
           title: "New Art Vanguard",
-          description: "Full-stack web development",
+          description: "Website development & maintenance",
           dateRange: "2026",
           imageSrc: "/work/logos/NewArtVanguard.webp",
           imageAlt: "New Art Vanguard logo",
@@ -117,7 +117,7 @@ export const homeText = {
     about: {
       label: "ABOUT ME",
       description:
-        "Beyond software engineering, I split my time between mountain trails, strength training, and deepening my knowledge of computer science and mathematics.",
+        "Outside software development, I spend time on mountain trails, strength training, and studying computer science and mathematics. I’m drawn to activities that require patience, discipline, and long-term improvement.",
       images: [
         {
           label: "Mountain",
@@ -135,7 +135,6 @@ export const homeText = {
           alt: "Minimal computer science and mathematics illustration",
         },
       ] as const satisfies readonly HomeIntroAboutImage[],
-      closingLine: "A quiet balance of nature, discipline, and technical curiosity.",
     },
   },
 } as const;

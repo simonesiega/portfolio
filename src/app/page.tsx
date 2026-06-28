@@ -38,7 +38,7 @@ export default function Home() {
     <div className="relative overflow-x-clip">
       <div className={`relative z-10 ${pageFrameClassName}`}>
         <div className={`${pageContentClassName} flex min-h-full flex-1 flex-col`}>
-          <section className={`${pageColumnClassName} pt-10 pb-24 sm:pt-8 sm:pb-28 lg:pt-10`}>
+          <section className={`${pageColumnClassName} pt-10 pb-12 sm:pt-8 sm:pb-16 lg:pt-10`}>
             <RouteReveal
               variant="fade-up"
               delay={homeIntro.hero.image.delayMs}
@@ -265,18 +265,6 @@ export default function Home() {
                   </ScrollReveal>
                 ))}
               </div>
-
-              <ScrollReveal
-                variant="fade-up"
-                delay={homeIntro.aboutClosingLine.delayMs}
-                duration={homeIntro.section.durationMs}
-                threshold={homeIntro.aboutClosingLine.threshold}
-                className="mt-4"
-              >
-                <p className="text-[0.78rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-[0.82rem]">
-                  {intro.about.closingLine}
-                </p>
-              </ScrollReveal>
             </ScrollReveal>
           </section>
 
