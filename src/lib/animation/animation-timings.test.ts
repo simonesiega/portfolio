@@ -11,8 +11,6 @@ describe("animation timings", () => {
       animationTimings.homeIntro.hero.bio,
       animationTimings.homeIntro.hero.social,
       animationTimings.homeIntro.section,
-      animationTimings.homeIntro.aboutImages,
-      animationTimings.homeIntro.aboutClosingLine,
       animationTimings.secondaryPageHero.metaLabel,
       animationTimings.secondaryPageHero.title,
       animationTimings.secondaryPageHero.subtitle,
@@ -45,6 +43,7 @@ describe("animation timings", () => {
   });
 
   it("keeps standalone delays valid", () => {
+    expect(animationTimings.homeIntro.section.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.workExperienceList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectsShowcaseList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectCaseStudy.hero.metaLabelDelayMs).toBeGreaterThanOrEqual(0);

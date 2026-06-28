@@ -34,6 +34,11 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const getSectionRevealDelayMs = (index: number) =>
+    homeIntro.section.delayMs + index * homeIntro.section.stepDelayMs;
+  const getSectionInitialViewportDelayMs = (index: number) =>
+    homeIntro.section.initialViewportDelayMs + index * homeIntro.section.stepDelayMs;
+
   return (
     <div className="relative overflow-x-clip">
       <div className={`relative z-10 ${pageFrameClassName}`}>
@@ -109,11 +114,11 @@ export default function Home() {
 
             <ScrollReveal
               variant="fade-up"
-              delay={homeIntro.section.delayMs}
-              initialViewportDelay={homeIntro.section.initialViewportDelayMs}
+              delay={getSectionRevealDelayMs(0)}
+              initialViewportDelay={getSectionInitialViewportDelayMs(0)}
               duration={homeIntro.section.durationMs}
               threshold={homeIntro.section.threshold}
-              className="mt-18 sm:mt-20"
+              className="mt-12 sm:mt-14"
             >
               <div className="flex items-center gap-5">
                 <h2
@@ -123,7 +128,7 @@ export default function Home() {
                 </h2>
               </div>
 
-              <div className="mt-5 space-y-3">
+              <div className="mt-4 space-y-2.5">
                 {intro.education.items.map((item) => (
                   <p key={item.school} className="text-[0.98rem] leading-relaxed sm:text-[1.02rem]">
                     <a
@@ -145,11 +150,11 @@ export default function Home() {
 
             <ScrollReveal
               variant="fade-up"
-              delay={homeIntro.section.delayMs}
-              initialViewportDelay={homeIntro.section.initialViewportDelayMs}
+              delay={getSectionRevealDelayMs(1)}
+              initialViewportDelay={getSectionInitialViewportDelayMs(1)}
               duration={homeIntro.section.durationMs}
               threshold={homeIntro.section.threshold}
-              className="mt-16 sm:mt-18"
+              className="mt-10 sm:mt-12"
             >
               <InstantRouteLink
                 href={intro.projects.seeAllHref}
@@ -158,7 +163,7 @@ export default function Home() {
                 {intro.projects.linkLabel}
               </InstantRouteLink>
 
-              <div className="mt-5 space-y-3">
+              <div className="mt-4 space-y-2.5">
                 {intro.projects.items.map((item) => (
                   <p key={item.title} className="text-[0.98rem] leading-relaxed sm:text-[1.02rem]">
                     <InstantRouteLink
@@ -178,11 +183,11 @@ export default function Home() {
 
             <ScrollReveal
               variant="fade-up"
-              delay={homeIntro.section.delayMs}
-              initialViewportDelay={homeIntro.section.initialViewportDelayMs}
+              delay={getSectionRevealDelayMs(2)}
+              initialViewportDelay={getSectionInitialViewportDelayMs(2)}
               duration={homeIntro.section.durationMs}
               threshold={homeIntro.section.threshold}
-              className="mt-16 sm:mt-18"
+              className="mt-10 sm:mt-12"
             >
               <InstantRouteLink
                 href={intro.works.seeAllHref}
@@ -191,7 +196,7 @@ export default function Home() {
                 {intro.works.linkLabel}
               </InstantRouteLink>
 
-              <div className="mt-5 space-y-3">
+              <div className="mt-4 space-y-2.5">
                 {intro.works.items.map((item) => (
                   <div
                     key={item.title}
@@ -223,11 +228,11 @@ export default function Home() {
 
             <ScrollReveal
               variant="fade-up"
-              delay={homeIntro.section.delayMs}
-              initialViewportDelay={homeIntro.section.initialViewportDelayMs}
+              delay={getSectionRevealDelayMs(3)}
+              initialViewportDelay={getSectionInitialViewportDelayMs(3)}
               duration={homeIntro.section.durationMs}
               threshold={homeIntro.section.threshold}
-              className="mt-16 sm:mt-18"
+              className="mt-10 sm:mt-12"
             >
               <h2
                 className={`${montserrat.className} text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/72`}
@@ -238,31 +243,33 @@ export default function Home() {
               <p className="mt-2.5 max-w-full text-[0.9rem] leading-relaxed text-[var(--header-item-color)] sm:text-[0.94rem]">
                 {intro.about.description}
               </p>
+            </ScrollReveal>
 
-              <div className="mt-5 grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">
+            <ScrollReveal
+              variant="fade-up"
+              delay={getSectionRevealDelayMs(3) + 120}
+              initialViewportDelay={getSectionInitialViewportDelayMs(3) + 120}
+              duration={homeIntro.section.durationMs}
+              threshold={homeIntro.section.threshold}
+              className="mt-4"
+            >
+              <div className="grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">
                 {intro.about.images.map((image, index) => (
-                  <ScrollReveal
-                    key={image.label}
-                    variant="fade-up"
-                    duration={homeIntro.section.durationMs}
-                    threshold={homeIntro.aboutImages.threshold}
-                  >
-                    <figure>
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        width={homeMedia.aboutImage.width}
-                        height={homeMedia.aboutImage.height}
-                        loading={
-                          homeMedia.aboutImage.eagerFirstImage && index === 0 ? "eager" : "lazy"
-                        }
-                        className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
-                      />
-                      <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
-                        {image.label}
-                      </figcaption>
-                    </figure>
-                  </ScrollReveal>
+                  <figure key={image.label}>
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={homeMedia.aboutImage.width}
+                      height={homeMedia.aboutImage.height}
+                      loading={
+                        homeMedia.aboutImage.eagerFirstImage && index === 0 ? "eager" : "lazy"
+                      }
+                      className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
+                    />
+                    <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
+                      {image.label}
+                    </figcaption>
+                  </figure>
                 ))}
               </div>
             </ScrollReveal>
