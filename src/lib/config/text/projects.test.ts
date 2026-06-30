@@ -8,19 +8,6 @@ import {
   type ProjectsPageProject,
 } from "./projects";
 
-const expectedCaseStudySectionOrder = [
-  "overview",
-  "goal",
-  "technical-approach",
-  "architecture",
-  "key-decisions",
-  "challenges",
-  "proof",
-  "what-i-learned",
-  "future-improvements",
-  "links",
-] as const;
-
 const projects = projectsText.projects as readonly ProjectsPageProject[];
 
 describe("projects text model", () => {
@@ -95,7 +82,7 @@ describe("projects text model", () => {
       const seo = getProjectCaseStudySeo(project.slug);
 
       expect(seo.title).toBe(`${project.title} ${projectsText.seo.caseStudyTitleSuffix}`);
-      expect(seo.description).toBe(project.caseStudy.summary);
+      expect(seo.description).toBe(project.keyPhrase);
 
       const renderingMode = project.caseStudy.gallery?.[0]?.renderingMode;
 
@@ -117,14 +104,14 @@ describe("projects text model", () => {
     expect(fallbackSeo.description).toBe(projectsText.seo.caseStudyFallbackDescription);
   });
 
-  it("enforces full case-study structure, order, and content quality", () => {
+  it("enforces complete case-study metadata and MDX content", () => {
     for (const project of projects) {
       const {caseStudy} = project;
 
-      expect(caseStudy.summary.trim().length).toBeGreaterThan(0);
       expect(caseStudy.readTimeMinutes).toBeGreaterThan(0);
       expect(caseStudy.quickFacts.length).toBeGreaterThan(0);
-      expect(caseStudy.sections.length).toBe(expectedCaseStudySectionOrder.length);
+      expect(caseStudy.contentLinks.length).toBeGreaterThan(0);
+      expect(typeof caseStudy.Content).toBe("function");
 
       if (caseStudy.gallery) {
         expect(caseStudy.gallery.length).toBeGreaterThan(0);
@@ -167,53 +154,16 @@ describe("projects text model", () => {
         quickFactLabels.add(quickFact.label);
       }
 
-      const sectionIds = caseStudy.sections.map((section) => section.id);
-      const uniqueSectionIds = new Set<string>();
-      let linksSectionsCount = 0;
-
-      expect(sectionIds).toEqual(expectedCaseStudySectionOrder);
-
-      for (const section of caseStudy.sections) {
-        expect(section.id.trim().length).toBeGreaterThan(0);
-        expect(section.heading.trim().length).toBeGreaterThan(0);
-        expect(section.content.trim().length).toBeGreaterThan(0);
-        expect(uniqueSectionIds.has(section.id), `Duplicate section id: ${section.id}`).toBe(false);
-
-        uniqueSectionIds.add(section.id);
-
-        if (section.kind === "content") {
-          if ("points" in section && section.points) {
-            expect(section.points.length).toBeGreaterThan(0);
-
-            for (const point of section.points) {
-              expect(point.trim().length).toBeGreaterThan(0);
-            }
-          }
-
-          if (section.id === "proof") {
-            expect(
-              "points" in section && section.points ? section.points.length : 0
-            ).toBeGreaterThan(0);
-          }
-        } else {
-          linksSectionsCount += 1;
-          expect(section.id).toBe("links");
-          expect(section.links.length).toBeGreaterThan(0);
-
-          const linkUrls = new Set<string>();
-          for (const link of section.links) {
-            expect(link.title.trim().length).toBeGreaterThan(0);
-            expect(link.description.trim().length).toBeGreaterThan(0);
-            expect(() => new URL(link.url)).not.toThrow();
-            expect(linkUrls.has(link.url), `Duplicate link url in links section: ${link.url}`).toBe(
-              false
-            );
-            linkUrls.add(link.url);
-          }
-        }
+      const contentLinkLabels = new Set<string>();
+      for (const link of caseStudy.contentLinks) {
+        expect(link.label.trim().length).toBeGreaterThan(0);
+        expect(() => new URL(link.href)).not.toThrow();
+        expect(
+          contentLinkLabels.has(link.label),
+          `Duplicate content link label: ${link.label}`
+        ).toBe(false);
+        contentLinkLabels.add(link.label);
       }
-
-      expect(linksSectionsCount).toBe(1);
     }
   });
 

@@ -12,7 +12,7 @@ export const dacosSrlExperience = {
   companyType: "Internship",
   location: "Venice, Italy",
   description:
-    "Developed a Vue.js e-commerce prototype for technology products during my internship, working on reusable components, routing, state management, structured product data, and basic backend integration. Added real-time data handling and overload protection to improve stability during product interactions.",
+    "Developed a Vue.js e-commerce prototype for 100+ technology products, using reusable components, routing, state management, and structured data integration. Tested core shopping flows for up to 20 concurrent users and added rate-limited data handling to reduce repeated requests during product interactions.",
   tags: [
     {label: "Internship"},
     {label: "Venice, Italy"},

@@ -4,7 +4,7 @@ export const projectsHero = {
   sectionId: "projects-heading",
   title: "Selected Projects",
   subtitle:
-    "A curated selection of software projects focused on systems, developer tools, and practical engineering.",
+    "A curated selection of systems work, client delivery, and practical engineering projects.",
 } as const satisfies ProjectsText["hero"];
 
 export const projectsSections = {

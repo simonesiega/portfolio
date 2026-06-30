@@ -7,10 +7,8 @@ import {
 import {projects} from "./projects/project-entries";
 import type {ProjectsPageProject, ProjectsText} from "./projects/types";
 export {
-  isProjectCaseStudyContentSection,
-  isProjectCaseStudyLinksSection,
+  type ProjectCaseStudyContentLink,
   type ProjectCaseStudyGalleryItem,
-  type ProjectCaseStudyLinksSection,
   type ProjectsPageProject,
 } from "./projects/types";
 
@@ -60,6 +58,6 @@ export function getProjectCaseStudySeo(projectSlug: string) {
 
   return {
     title: `${project.title} ${projectsText.seo.caseStudyTitleSuffix}`,
-    description: project.caseStudy.summary,
+    description: project.keyPhrase,
   };
 }

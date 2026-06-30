@@ -1,25 +1,26 @@
 import {expect, test} from "@playwright/test";
 import {
-  allProjectsHaveLinksSection,
+  allProjectsHaveContentLinks,
   getProjectCaseStudyRoute,
-  projectsWithLinksSections,
+  projectContentLinksHeading,
+  projectsWithContentLinks,
 } from "./helpers/projects-fixtures";
 
-test.describe("project case study links", () => {
-  test("every project defines a links section", () => {
-    expect(projectsWithLinksSections.length).toBeGreaterThan(0);
-    expect(allProjectsHaveLinksSection).toBe(true);
+test.describe("project case study content links", () => {
+  test("every project defines content links", () => {
+    expect(projectsWithContentLinks.length).toBeGreaterThan(0);
+    expect(allProjectsHaveContentLinks).toBe(true);
   });
 
-  for (const {project, linksSection} of projectsWithLinksSections) {
-    test(`${project.slug} renders all configured links`, async ({page}) => {
+  for (const {project, contentLinks} of projectsWithContentLinks) {
+    test(`${project.slug} renders all configured content links`, async ({page}) => {
       await page.goto(getProjectCaseStudyRoute(project.slug));
 
-      await expect(page.getByRole("heading", {name: linksSection.heading})).toBeVisible();
+      await expect(page.getByRole("heading", {name: projectContentLinksHeading})).toBeVisible();
 
-      for (const link of linksSection.links) {
-        const anchor = page.getByRole("link", {name: link.description});
-        await expect(anchor).toHaveAttribute("href", link.url);
+      for (const link of contentLinks) {
+        const anchor = page.getByRole("link", {name: link.label});
+        await expect(anchor).toHaveAttribute("href", link.href);
       }
     });
   }

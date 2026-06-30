@@ -1,0 +1,129 @@
+export const keyPhrase =
+  "Rust CLI expression parser built with a custom tokenizer, recursive-descent parser, precedence handling, and structured errors.";
+
+export const galleryCaptions = [
+  "How input moves through tokenization, recursive-descent parsing, implicit multiplication, evaluation, and error handling.",
+];
+
+## Overview
+
+**Stack:** Rust · Recursive-descent parser · CLI · Docker · Structured error handling
+
+CFG Parser started from a small question: what actually happens between typing `1 + 2 * 3 =` and getting `Result: 7.000`?
+
+A calculator can be implemented as a set of ad hoc string checks, but that approach hides the rules that make an expression valid.
+
+I wanted the opposite. I wanted the code to show _why_ the result is correct: how the input becomes tokens, how those tokens move through the parser, how precedence is respected, and where invalid input gets rejected before it can produce an incorrect result.
+
+So CFG Parser became a Rust command-line expression parser. It does not delegate tokenization, grammar traversal, precedence handling, evaluation, or error paths to an existing evaluator.
+
+The arithmetic was the simple part. The interesting part was defining the small language around it: which inputs should be accepted, which ones should fail, and which layer of the parser should be responsible for each decision.
+
+## Goal
+
+The goal was to make grammar feel practical instead of theoretical.
+
+A rule like `E -> P E'` is easy to write on paper, but it becomes more interesting when it has to become control flow, function boundaries, and error handling. I wanted the implementation to stay close enough to the grammar that each layer had a clear job.
+
+That meant not hiding the language behind a parser generator. A parser generator would have been a valid choice, but it would also have skipped the part I wanted to learn most: how the parser actually walks the expression and decides what comes next.
+
+The result is a small parser where the path is traceable: scan the input, emit tokens, walk the grammar, apply precedence, evaluate the expression, and stop with either a formatted numeric result or a structured error.
+
+## Technical Approach
+
+I split the implementation into two phases because malformed characters and invalid grammar are not the same problem.
+
+The tokenizer runs first. It scans the raw string and emits tokens for numbers, operators, parentheses, and the final `=` delimiter. If the input contains a bad symbol or a malformed number, it fails there, before the parser starts making grammar decisions.
+
+Then the recursive-descent parser consumes those tokens. Each parsing function owns one level of precedence, so the code follows the same shape as the language:
+
+1. Additive expressions handle `+` and `-`.
+2. Product expressions handle `*`, `/`, and constrained implicit multiplication.
+3. Exponent and root expressions handle right-associative power/root behavior.
+4. Base expressions handle numbers, unary minus, and parenthesized expressions.
+
+This is the part I like most about the project. Precedence is not fixed later with a random condition somewhere. It is built into the shape of the parser.
+
+I also evaluate during parsing. For this version, that is enough because the language only needs a final numeric answer. If the project later needs transformations, richer diagnostics, delayed evaluation, variables, or reusable expressions, that is where an AST would become worth introducing.
+
+Right-associative exponent and root operators come from the recursive structure of the exponent/root layer. A chain such as `2^3^2` is evaluated as `2^(3^2)`, not `(2^3)^2`, because the parser resolves the next exponent/root expression before completing the current one.
+
+## Architecture
+
+The parser structure mirrors the grammar. That makes bugs easier to place.
+
+If precedence is wrong, I know which parser function to inspect. If implicit multiplication accepts too much, the product expression logic is the right place to fix it, because that is where the parser has enough token context to understand neighboring values.
+
+That mattered for expressions like `2(3 + 4)`.
+
+At first glance, implicit multiplication looks like something the tokenizer could handle. But the tokenizer should only identify symbols. It should not decide that a number followed by a parenthesis means multiplication, because that is a grammar decision, not a lexical one.
+
+So implicit multiplication stays in the parser. That keeps the tokenizer simple and keeps grammar context in the code that actually understands it.
+
+That separation prevented the project from becoming a long list of string checks. The tokenizer identifies what exists. The parser decides whether those tokens form a valid expression. The evaluator returns the numeric result while the parser still has the structure in front of it.
+
+## Challenges
+
+The hard cases were not the obvious arithmetic ones. `1 + 2 * 3 =` proves precedence, but inputs like `2(3 + 4)` and `(1 + 2)(3 + 4)` are where the parser becomes more interesting: some adjacent tokens imply multiplication, while others should still be rejected.
+
+So the parser had to accept useful shorthand without guessing too much. It needed to reject incomplete expressions instead of returning partial results, keep exponentiation and roots right-associative, reject invalid real-number operations, and classify failures correctly.
+
+That distinction became important. Invalid numbers, unexpected tokens, invalid operators, and unmatched parentheses are syntax/token problems. Division by zero, overflow/underflow, invalid exponentiation, and even roots of negative values are semantic math problems.
+
+## What Shipped
+
+The CLI can evaluate plain arithmetic, nested parentheses, unary minus, exponentiation, nth roots, and implicit multiplication. The accepted language is intentionally explicit: expressions end with `=`, and invalid input fails before it can produce an incorrect result.
+
+The useful cases are the ones that combine features without relying on special-case string handling:
+
+- `1 + 2 * 3 =` returns `Result: 7.000`, showing that multiplication is evaluated before addition.
+- `2(3 + 1) =` is parsed as implicit multiplication.
+- `(1 + 2)(3 + 4) =` is interpreted as `(1 + 2) * (3 + 4)` and returns `21`.
+- `(.12)(1*9/2.3) =` is interpreted as `0.12 * (9 / 2.3)` and returns approximately `0.469565`.
+- `27 $ 3 =` computes a cube root.
+- `4^2 $ 2 =` is evaluated as `(4^2)^(1/2)` and returns `4`.
+
+Invalid cases are handled deliberately too:
+
+- `2 + =` fails because the right operand is missing.
+- `2 * (3 + 4` fails because the closing parenthesis is missing.
+- `5 5 =` fails because consecutive numbers are ambiguous.
+- `2 ^ =` and `27 $ =` fail before evaluation because the operand after the operator is missing.
+
+## Engineering Proof
+
+I treated inspectability as part of the deliverable, not as an afterthought.
+
+The repository includes a README with Rust and Docker commands, plus dedicated documentation for the grammar, architecture, Docker usage, and contribution notes.
+
+The project can be inspected and run in a few predictable ways:
+
+- Locally with Rust, using <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">cargo run</code>.
+- With Docker, using <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">docker build -t cfgparser .</code> and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">docker run --rm cfgparser</code>.
+- With custom input, either as a CLI argument or through <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">CFGPARSER_INPUT</code>.
+
+The documented error model also separates token, syntax, and math failures, so the expected behavior can be reviewed without reading the full parser source.
+
+## What I Learned
+
+This project made me more disciplined about the boundary between a clever implementation and a precise language definition.
+
+It is tempting to fix parser bugs by adding another condition somewhere. Sometimes that works for one input, but it usually makes the language less clear.
+
+The better fix is usually a sharper rule.
+
+Parser bugs are often design bugs. If the grammar is vague, the implementation becomes vague too. Once the language rule is clear, the code usually has a much clearer place to change.
+
+## Future Improvements
+
+If I continued expanding the parser, I would strengthen the foundation before adding more syntax. Function calls, variables, and assignments would each need clearer structure than immediate calculator-style evaluation, so the next useful step would be making the project easier to extend safely.
+
+- Split the Rust code into modules for tokens, tokenizer, parser, errors, CLI input, and tests.
+- Add a broader regression suite before changing the grammar.
+- Introduce an AST when the language needs transformations, richer diagnostics, or delayed evaluation.
+- Define function-call grammar before adding functions such as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">sin</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">cos</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">tan</code>, or <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">log</code>.
+- Publish versioned Docker images so the CLI is easier to try without cloning the repository.
+
+## Links
+
+The project can be inspected through the [GitHub repository](https://github.com/simonesiega/cfg-parser), [technical documentation](https://github.com/simonesiega/cfg-parser/tree/master/docs), and [README](https://github.com/simonesiega/cfg-parser/blob/master/README.md).

@@ -1,14 +1,13 @@
 import {appConfig} from "../../src/lib/config/app-config";
 import {
-  isProjectCaseStudyLinksSection,
   projectsText,
-  type ProjectCaseStudyLinksSection,
+  type ProjectCaseStudyContentLink,
   type ProjectsPageProject,
 } from "../../src/lib/config/text/projects";
 
-type ProjectWithLinksSection = {
+type ProjectWithContentLinks = {
   project: ProjectsPageProject;
-  linksSection: ProjectCaseStudyLinksSection;
+  contentLinks: readonly ProjectCaseStudyContentLink[];
 };
 
 export const themeStorageKey = appConfig.theme.storageKey;
@@ -20,18 +19,20 @@ export const appRoutes = [
   ...projectsText.projects.map((project) => getProjectCaseStudyRoute(project.slug)),
 ];
 
-export const projectsWithLinksSections = projectsText.projects.flatMap((project) => {
-  const linksSection = project.caseStudy.sections.find(isProjectCaseStudyLinksSection);
+export const projectContentLinksHeading = projectsText.caseStudyPage.linksFallbackHeading;
 
-  if (!linksSection) {
+export const projectsWithContentLinks = projectsText.projects.flatMap((project) => {
+  const {contentLinks} = project.caseStudy;
+
+  if (!contentLinks.length) {
     return [];
   }
 
-  return [{project, linksSection}] as ProjectWithLinksSection[];
+  return [{project, contentLinks}] as ProjectWithContentLinks[];
 });
 
-export const allProjectsHaveLinksSection =
-  projectsWithLinksSections.length === projectsText.projects.length;
+export const allProjectsHaveContentLinks =
+  projectsWithContentLinks.length === projectsText.projects.length;
 
 export function getProjectCaseStudyRoute(projectSlug: string) {
   return `/projects/${projectSlug}`;

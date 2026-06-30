@@ -49,8 +49,9 @@ html.js .scroll-reveal--visible {
   opacity: var(--project-line-opacity);
   transform: scaleY(0);
   transform-origin: top;
-  animation: project-line-draw 960ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: 420ms;
+  animation: project-line-draw calc(var(--sr-duration, 700ms) + 350ms)
+    cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--sr-delay, 0ms);
   transition: opacity 260ms ease;
 }
 

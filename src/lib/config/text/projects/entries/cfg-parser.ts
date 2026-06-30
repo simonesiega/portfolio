@@ -1,62 +1,5 @@
-import cfgParserContent from "../content/cfg-parser.json";
+import CaseStudyContent, {galleryCaptions, keyPhrase} from "../content/cfg-parser.mdx";
 import type {ProjectsPageProject} from "../types";
-
-type CfgParserContent = {
-  keyPhrase: string;
-  caseStudy: {
-    summary: string;
-    galleryCaptions: string[];
-    sections: {
-      overview: {
-        heading: string;
-        content: string;
-      };
-      goal: {
-        heading: string;
-        content: string;
-      };
-      technicalApproach: {
-        heading: string;
-        content: string;
-      };
-      architecture: {
-        heading: string;
-        content: string;
-      };
-      keyDecisions: {
-        heading: string;
-        content: string;
-        points: string[];
-      };
-      challenges: {
-        heading: string;
-        content: string;
-        points: string[];
-      };
-      proof: {
-        heading: string;
-        content: string;
-        points: string[];
-      };
-      whatILearned: {
-        heading: string;
-        content: string;
-      };
-      futureImprovements: {
-        heading: string;
-        content: string;
-        points: string[];
-      };
-      links: {
-        heading: string;
-        content: string;
-        items: {title: string; description: string}[];
-      };
-    };
-  };
-};
-
-const content = cfgParserContent as CfgParserContent;
 
 export const cfgParserProject = {
   id: "cfg-parser",
@@ -65,9 +8,8 @@ export const cfgParserProject = {
   pinned: false,
   githubUrl: "https://github.com/simonesiega/cfg-parser.git",
   developmentPeriod: "2025",
-  keyPhrase: content.keyPhrase,
+  keyPhrase,
   caseStudy: {
-    summary: content.caseStudy.summary,
     readTimeMinutes: 6,
     quickFacts: [
       {
@@ -95,93 +37,22 @@ export const cfgParserProject = {
       {
         src: "/projects/cfg-parser/diagram.svg",
         alt: "CFG Parser architecture diagram",
-        caption: content.caseStudy.galleryCaptions[0],
+        caption: galleryCaptions[0],
         href: "https://github.com/simonesiega/cfg-parser",
         renderingMode: "dark-source",
       },
     ],
-    sections: [
+    contentLinks: [
+      {label: "GitHub repository", href: "https://github.com/simonesiega/cfg-parser"},
       {
-        kind: "content",
-        id: "overview",
-        heading: content.caseStudy.sections.overview.heading,
-        content: content.caseStudy.sections.overview.content,
+        label: "technical documentation",
+        href: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
       },
       {
-        kind: "content",
-        id: "goal",
-        heading: content.caseStudy.sections.goal.heading,
-        content: content.caseStudy.sections.goal.content,
-      },
-      {
-        kind: "content",
-        id: "technical-approach",
-        heading: content.caseStudy.sections.technicalApproach.heading,
-        content: content.caseStudy.sections.technicalApproach.content,
-      },
-      {
-        kind: "content",
-        id: "architecture",
-        heading: content.caseStudy.sections.architecture.heading,
-        content: content.caseStudy.sections.architecture.content,
-      },
-      {
-        kind: "content",
-        id: "key-decisions",
-        heading: content.caseStudy.sections.keyDecisions.heading,
-        content: content.caseStudy.sections.keyDecisions.content,
-        points: content.caseStudy.sections.keyDecisions.points,
-      },
-      {
-        kind: "content",
-        id: "challenges",
-        heading: content.caseStudy.sections.challenges.heading,
-        content: content.caseStudy.sections.challenges.content,
-        points: content.caseStudy.sections.challenges.points,
-      },
-      {
-        kind: "content",
-        id: "proof",
-        heading: content.caseStudy.sections.proof.heading,
-        content: content.caseStudy.sections.proof.content,
-        points: content.caseStudy.sections.proof.points,
-      },
-      {
-        kind: "content",
-        id: "what-i-learned",
-        heading: content.caseStudy.sections.whatILearned.heading,
-        content: content.caseStudy.sections.whatILearned.content,
-      },
-      {
-        kind: "content",
-        id: "future-improvements",
-        heading: content.caseStudy.sections.futureImprovements.heading,
-        content: content.caseStudy.sections.futureImprovements.content,
-        points: content.caseStudy.sections.futureImprovements.points,
-      },
-      {
-        kind: "links",
-        id: "links",
-        heading: content.caseStudy.sections.links.heading,
-        content: content.caseStudy.sections.links.content,
-        links: [
-          {
-            title: content.caseStudy.sections.links.items[0].title,
-            description: content.caseStudy.sections.links.items[0].description,
-            url: "https://github.com/simonesiega/cfg-parser",
-          },
-          {
-            title: content.caseStudy.sections.links.items[1].title,
-            description: content.caseStudy.sections.links.items[1].description,
-            url: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
-          },
-          {
-            title: content.caseStudy.sections.links.items[2].title,
-            description: content.caseStudy.sections.links.items[2].description,
-            url: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
-          },
-        ],
+        label: "project README",
+        href: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
       },
     ],
+    Content: CaseStudyContent,
   },
 } as const satisfies ProjectsPageProject;

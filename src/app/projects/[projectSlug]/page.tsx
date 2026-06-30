@@ -11,11 +11,9 @@ import {
   getProjectBySlug,
   getProjectCaseStudyDiagramThemeClass,
   getProjectCaseStudySeo,
-  isProjectCaseStudyContentSection,
-  isProjectCaseStudyLinksSection,
   projectsText,
 } from "@/lib/config/text/projects";
-import {montserrat} from "@/lib/fonts";
+import {geistSans, montserrat} from "@/lib/fonts";
 import {createContentPageMetadata} from "@/lib/metadata";
 
 type ProjectCaseStudyPageProps = {
@@ -60,9 +58,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
   const {routeReveal} = animationTimings;
   const {projectCaseStudy} = animationTimings;
   const {caseStudyGallery} = mediaConfig.projects;
-  const caseStudySections = project.caseStudy.sections;
-  const linksSection = caseStudySections.find(isProjectCaseStudyLinksSection);
-  const contentSections = caseStudySections.filter(isProjectCaseStudyContentSection);
+  const CaseStudyContent = project.caseStudy.Content;
   const diagramThemeClass = getProjectCaseStudyDiagramThemeClass(project.slug);
   const diagramImageClassName = ["project-diagram-image", "h-full", "w-full", "object-contain"];
   const githubUrl = project.githubUrl.trim();
@@ -100,7 +96,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
         title: project.title,
         titleClassName: "text-2xl sm:text-[2.25rem]",
         titleDelayMs: projectCaseStudy.hero.titleDelayMs,
-        subtitle: project.caseStudy.summary,
+        subtitle: project.keyPhrase,
         subtitleClassName: "text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[1.08rem]",
         subtitleDelayMs: projectCaseStudy.hero.subtitleDelayMs,
         className: "mx-auto w-full max-w-[44rem]",
@@ -122,28 +118,30 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
         <article className="space-y-8 pt-4 sm:space-y-10 sm:pt-5">
           <section
             aria-label={projectsText.caseStudyPage.projectSummaryAriaLabel}
-            className="space-y-4"
+            className="space-y-3"
           >
-            <ul className="space-y-2 text-sm sm:text-base">
+            <ul className={`${geistSans.className} space-y-1.5 text-[0.84rem] sm:text-[0.92rem]`}>
               {project.caseStudy.quickFacts.map((fact) => (
                 <li
                   key={fact.label}
-                  className="grid grid-cols-[minmax(0,10rem)_minmax(0,1fr)] items-start gap-x-4"
+                  className="grid grid-cols-[minmax(0,8rem)_minmax(0,1fr)] items-start gap-x-3"
                 >
-                  <span className="text-[var(--header-item-color)]/70">{fact.label}</span>
-                  <span className="text-[color-mix(in_srgb,var(--header-item-color)_88%,var(--ui-fg))]">
+                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_48%,transparent)]">
+                    {fact.label}
+                  </span>
+                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_68%,transparent)]">
                     {fact.value}
                   </span>
                 </li>
               ))}
             </ul>
-            <div className="flex flex-wrap items-center gap-4 pt-1">
+            <div className="flex flex-wrap items-center gap-4 pt-0.5">
               {githubUrl ? (
                 <a
                   href={githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${montserrat.className} group inline-flex items-center gap-1.5 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
+                  className={`${geistSans.className} group inline-flex items-center gap-1.5 text-[0.84rem] font-medium text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
                 >
                   {projectsText.caseStudyPage.githubLabel}
                   <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -155,7 +153,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                   href={demo.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${montserrat.className} group inline-flex items-center gap-1.5 text-sm font-semibold tracking-[0.04em] text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
+                  className={`${geistSans.className} group inline-flex items-center gap-1.5 text-[0.84rem] font-medium text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
                 >
                   {demo.label}
                   <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -164,78 +162,18 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             </div>
           </section>
 
-          {contentSections.map((section) => (
-            <section key={section.id} aria-label={section.heading} className="space-y-1.5">
-              <h2
-                className={`${montserrat.className} text-[1.22rem] font-bold tracking-tight sm:text-[1.45rem]`}
-              >
-                {section.heading}
-              </h2>
-              <p
-                className={`${montserrat.className} max-w-3xl text-[0.92rem] leading-relaxed whitespace-pre-line text-[var(--ui-fg-muted)] sm:text-[0.98rem]`}
-              >
-                {section.content}
-              </p>
-              {section.points?.length ? (
-                <ul
-                  className={`${montserrat.className} list-disc space-y-2.5 pl-5 text-[0.92rem] text-[var(--ui-fg-muted)] marker:text-[var(--header-item-color)] sm:text-[0.98rem]`}
-                >
-                  {section.points.map((point) => (
-                    <li key={point} className="leading-relaxed">
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+          {project.caseStudy.gallery?.length ? (
+            <ProjectImageGallery
+              images={project.caseStudy.gallery}
+              imageClassName={diagramImageClassName.join(" ")}
+              width={caseStudyGallery.width}
+              height={caseStudyGallery.height}
+            />
+          ) : null}
 
-              {section.id === "architecture" && project.caseStudy.gallery?.length ? (
-                <ProjectImageGallery
-                  images={project.caseStudy.gallery}
-                  imageClassName={diagramImageClassName.join(" ")}
-                  width={caseStudyGallery.width}
-                  height={caseStudyGallery.height}
-                />
-              ) : null}
-            </section>
-          ))}
-
-          <section
-            aria-label={linksSection?.heading ?? projectsText.caseStudyPage.linksFallbackHeading}
-            className="space-y-1.5"
-          >
-            <h2
-              className={`${montserrat.className} text-[1.22rem] font-bold tracking-tight sm:text-[1.45rem]`}
-            >
-              {linksSection?.heading ?? projectsText.caseStudyPage.linksFallbackHeading}
-            </h2>
-            <p
-              className={`${montserrat.className} max-w-3xl text-[0.92rem] leading-relaxed text-[var(--ui-fg-muted)] sm:text-[0.98rem]`}
-            >
-              {linksSection?.content}
-            </p>
-            {linksSection?.links.length ? (
-              <ul className="space-y-4">
-                {linksSection.links.map((link) => (
-                  <li key={link.url} className="space-y-1.5">
-                    <p className="text-[0.92rem] text-[var(--ui-fg)] sm:text-[0.98rem]">
-                      {link.title}
-                    </p>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-block text-[0.88rem] text-[var(--header-item-color)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)] sm:text-[0.94rem]"
-                    >
-                      <span className="inline-flex items-center gap-1">
-                        {link.description}
-                        <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </section>
+          <div className="project-case-study-mdx">
+            <CaseStudyContent />
+          </div>
         </article>
       </RouteReveal>
     </SecondaryPageLayout>

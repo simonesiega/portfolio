@@ -1,0 +1,104 @@
+export const keyPhrase =
+  "Two client websites delivered during my final year of high school, covering existing-site maintenance, CMS workflows, form handling, VPS deployment, and maintainable handoff.";
+
+export const galleryCaptions = [
+  "New Art Vanguard page, representing maintenance and expansion work on an existing client website using HTML, CSS, JavaScript, PHP, Docker, and Git.",
+  "Arsenale Moto page, representing a custom client website built from scratch with TypeScript, CMS workflows, transactional emails, and VPS deployment.",
+];
+
+export const galleryThumbnailDescriptions = [
+  "New Art Vanguard website page.",
+  "Arsenale Moto landing page.",
+];
+
+## Overview
+
+**Stack:** TypeScript · Strapi CMS · Resend · VPS deployment · Docker · PHP · Git
+
+Client Web Delivery brings together two websites I delivered during my final year of high school: [New Art Vanguard](https://www.newartvanguard.com/) and [Arsenale Moto](https://arsenale-moto.simonesiega.dev/).
+
+They were different kinds of client work. New Art Vanguard was an existing website that needed controlled updates, new pages, responsive improvements, and a cleaner setup process. Arsenale Moto was a full build from scratch, where I owned the public website, CMS setup, valuation form, email delivery, and VPS deployment.
+
+That is where the experience became valuable. The work did not stop when the pages looked finished. The websites had to be understandable after delivery, editable without code, and reliable outside my local development environment.
+
+## Goal
+
+The goal was to deliver websites that clients could keep using after launch.
+
+For New Art Vanguard, that meant working safely inside an existing codebase with two teammates instead of forcing a rewrite. For Arsenale Moto, it meant taking the project from requirements to a running system by myself.
+
+## Technical Approach
+
+I treated the two projects differently because they had different constraints.
+
+### New Art Vanguard
+
+The existing site already had a structure, so I focused on controlled changes: updating 5+ pages, building 3 new pages, improving responsive UI sections, and keeping the work consistent with the rest of the site.
+
+I also helped introduce a Docker-based workflow for local setup and deployment preparation. That reduced repeated setup time from about 20 minutes to about 15 minutes and made the project less dependent on one person's machine.
+
+### Arsenale Moto
+
+Arsenale Moto needed editable content, not a static brochure. I built the public pages, configured the CMS model, and gave each motorcycle listing fields for details, pricing, specifications, images, and page content.
+
+That changed the client workflow from developer-mediated edits to direct CMS updates.
+
+I connected the valuation form to Resend with validation, anti-spam checks, formatted email templates, and domain configuration. In production, the form handled roughly 5–20 valuation requests per day.
+
+## Delivery Model
+
+The main difference was ownership.
+
+New Art Vanguard was team-based maintenance. My job was to add and adjust pages without breaking the existing site, coordinate changes with two teammates, and keep the setup understandable for future work.
+
+Arsenale Moto was end-to-end solo delivery. I owned the frontend, CMS configuration, form flow, environment variables, server-side services, domain setup, and VPS deployment path.
+
+That split mattered because the two projects measured success differently. New Art Vanguard needed safe changes inside an existing system. Arsenale Moto needed a complete path from client requirements to a live website the client could keep updating.
+
+## Challenges
+
+The difficult part was turning incomplete or changing requirements into websites that still had to be usable by non-developers.
+
+Some design references were unfinished. Some feedback came through messages. Some implementation details only became clear after trying to make the site practical for the client. That forced me to balance speed with maintainability: avoid unnecessary rewrites, keep responsive sections coherent, make CMS editing simple, and prepare launch details early.
+
+## What Shipped
+
+The concrete result was not just two live websites. It was two websites with measurable engineering and delivery work behind them:
+
+- 5+ existing pages updated and 3 new pages delivered for New Art Vanguard.
+- Reusable responsive sections improved visual consistency across the site.
+- Docker workflow improvements reduced repeated setup/preparation time by roughly 25%.
+- 6 public pages built for Arsenale Moto.
+- CMS editing configured for 30+ motorcycle listings.
+- 10+ editable fields per listing for details, pricing, specifications, images, and page content.
+- Resend email delivery configured with validation, anti-spam checks, formatted templates, domain setup, and production traffic of roughly 5–20 valuation requests per day.
+- Client VPS configured with environment variables, server-side services, and website/CMS runtime setup.
+
+## Engineering Proof
+
+I wanted the work to stay inspectable, runnable, and maintainable beyond the final handoff.
+
+For New Art Vanguard, that meant using Git for team coordination and documenting Docker setup so the project was not tied to one developer's machine. For Arsenale Moto, it meant replacing hard-coded content with CMS-managed listings, configuring transactional email for live client traffic, and preparing the runtime for both the website and CMS.
+
+The strongest proof was operational: the clients did not only receive finished pages. They received clear paths for content updates, lead handling, and future maintenance.
+
+## What I Learned
+
+These projects taught me that delivery is a separate engineering skill, not just the final step after implementation.
+
+In a personal project, I can change scope whenever I want. In client work, unclear scope becomes rework, missing documentation becomes handoff risk, and deployment is part of the product.
+
+The biggest change in how I think now is that I make maintenance visible earlier: who updates content, who owns credentials, who deploys changes, what happens after launch, and what must be documented before the project is truly finished.
+
+## Future Improvements
+
+For future client work, I would improve the process before touching the stack.
+
+- Define scope, content responsibilities, revision limits, and delivery expectations earlier.
+- Add clearer checkpoints before implementation goes too far past design approval.
+- Package CMS usage, deployment steps, form handling, credentials, environment variables, and backup responsibilities into one handoff document.
+- Agree on post-launch maintenance responsibilities before the website goes live.
+
+## Links
+
+The public sites are [New Art Vanguard](https://www.newartvanguard.com/) and [Arsenale Moto](https://arsenale-moto.simonesiega.dev/). Source code, repositories, CMS/admin panels, credentials, and private implementation details are not linked because they belong to the clients.

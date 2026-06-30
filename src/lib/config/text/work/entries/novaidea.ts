@@ -12,7 +12,7 @@ export const novaideaExperience = {
   companyType: "Contractor",
   location: "Remote",
   description:
-    "Maintained and expanded an existing production website, updating 5+ pages and delivering 3 new pages while improving content structure, navigation flow, and frontend/backend maintainability. Set up Docker-based development workflows, reducing local setup and deployment preparation time by ~25%.",
+    "Maintained and expanded an existing production website, updating 5+ pages and delivering 3 new pages while improving responsive structure, navigation flow, and maintainability. Helped introduce Docker-based workflows that reduced repeated setup and deployment preparation time by ~25%.",
   tags: [
     {label: "Contractor"},
     {label: "Remote"},

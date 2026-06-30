@@ -1,14 +1,4 @@
-type ProjectCaseStudyBaseSection = {
-  id: string;
-  heading: string;
-  content: string;
-};
-
-export type ProjectCaseStudyLink = {
-  title: string;
-  description: string;
-  url: string;
-};
+import type {ComponentType} from "react";
 
 export type ProjectCaseStudyGalleryItem = {
   src: string;
@@ -24,29 +14,10 @@ export type ProjectDemoLink = {
   href: string;
 };
 
-export type ProjectCaseStudyContentSection = ProjectCaseStudyBaseSection & {
-  kind: "content";
-  points?: readonly string[];
+export type ProjectCaseStudyContentLink = {
+  label: string;
+  href: string;
 };
-
-export type ProjectCaseStudyLinksSection = ProjectCaseStudyBaseSection & {
-  kind: "links";
-  links: readonly ProjectCaseStudyLink[];
-};
-
-export type ProjectCaseStudySection = ProjectCaseStudyContentSection | ProjectCaseStudyLinksSection;
-
-export function isProjectCaseStudyLinksSection(
-  section: ProjectCaseStudySection
-): section is ProjectCaseStudyLinksSection {
-  return section.kind === "links";
-}
-
-export function isProjectCaseStudyContentSection(
-  section: ProjectCaseStudySection
-): section is ProjectCaseStudyContentSection {
-  return section.kind === "content";
-}
 
 export type ProjectsPageProject = {
   id: string;
@@ -58,14 +29,14 @@ export type ProjectsPageProject = {
   developmentPeriod: string;
   keyPhrase: string;
   caseStudy: {
-    summary: string;
     readTimeMinutes: number;
     quickFacts: readonly {
       label: string;
       value: string;
     }[];
     gallery?: readonly ProjectCaseStudyGalleryItem[];
-    sections: readonly ProjectCaseStudySection[];
+    contentLinks: readonly ProjectCaseStudyContentLink[];
+    Content: ComponentType;
   };
 };
 

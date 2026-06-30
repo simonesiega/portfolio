@@ -35,8 +35,8 @@ export function ProjectImageGallery({
   );
 
   return (
-    <figure className="space-y-3">
-      <div className="w-full overflow-hidden rounded-2xl xl:w-[calc(100%+4rem)]">
+    <figure className="max-w-3xl space-y-2 pt-1">
+      <div className="w-full overflow-hidden rounded-xl">
         {selectedImage.href ? (
           <a
             href={selectedImage.href}
@@ -53,13 +53,16 @@ export function ProjectImageGallery({
       </div>
 
       {selectedImage.caption ? (
-        <figcaption className="text-xs text-[var(--header-item-color)]/80 sm:text-sm">
+        <figcaption className="text-xs leading-relaxed text-[color-mix(in_srgb,var(--ui-fg-muted)_55%,transparent)] sm:text-[0.82rem]">
           {selectedImage.caption}
         </figcaption>
       ) : null}
 
       {images.length > 1 ? (
-        <div className="grid grid-cols-4 gap-2 sm:grid-cols-6" aria-label="Project image previews">
+        <div
+          className="grid max-w-md grid-cols-4 gap-2 sm:grid-cols-6"
+          aria-label="Project image previews"
+        >
           {images.map((image, index) => {
             const isSelected = index === selectedIndex;
             const imageDescription = image.thumbnailDescription || image.caption || image.alt;

@@ -4,6 +4,8 @@
   --ui-bg: #000000;
   --ui-fg: #ffffff;
   --ui-fg-muted: #d4d4d8;
+  --mdx-body-color: #d4d4d8;
+  --mdx-strong-color: #ffffff;
   --header-item-color: #a1a1aa;
   --header-item-hover-color: #f5f5f5;
   --bio-text-color: #d0d0d4;
@@ -30,6 +32,8 @@
   --ui-bg: #ffffff;
   --ui-fg: #000000;
   --ui-fg-muted: #27272a;
+  --mdx-body-color: #52525b;
+  --mdx-strong-color: #000000;
   --header-item-color: #52525b;
   --header-item-hover-color: #09090b;
   --bio-text-color: #3f3f46;

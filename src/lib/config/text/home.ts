@@ -44,7 +44,7 @@ export const homeText = {
 
     bioLines: [
       "Computer Engineering student in Venice, Italy.",
-      "Building backend software and production-ready websites, with a growing interest in AI systems.",
+      "Building backend software and production-ready web systems, with a growing interest in AI engineering.",
     ],
 
     socialLinks: [
@@ -65,7 +65,7 @@ export const homeText = {
         {
           school: "I.T.I.S. C. Zuccante",
           href: "https://www.itiszuccante.edu.it/",
-          description: "Technical Diploma in Computer Science, 100/100 with honors",
+          description: "Technical Diploma in Computer Science, 2026, 100/100 with honors",
         },
       ] as const satisfies readonly HomeIntroEducationItem[],
     },
@@ -75,9 +75,9 @@ export const homeText = {
       seeAllHref: "/projects",
       items: [
         {
-          title: "Client Websites",
+          title: "Client Web Delivery",
           href: "/projects/first-client-projects",
-          description: "Two real client websites built and deployed during high school",
+          description: "Two production client websites delivered during high school",
         },
         {
           title: "CFG Parser",
