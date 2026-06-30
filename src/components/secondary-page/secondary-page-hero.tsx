@@ -1,3 +1,4 @@
+import type {ReactNode} from "react";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
@@ -8,14 +9,16 @@ type SecondaryPageHeroProps = {
   metaLabelClassName?: string;
   metaLabelUppercase?: boolean;
   metaLabelDelayMs?: number;
-  title: string;
+  title: ReactNode;
   titleClassName?: string;
   titleDelayMs?: number;
-  subtitle?: string;
+  subtitle?: ReactNode;
   subtitleClassName?: string;
   subtitleDelayMs?: number;
   className?: string;
   compact?: boolean;
+  animate?: boolean;
+  animateMetaLabel?: boolean;
 };
 
 export function SecondaryPageHero({
@@ -32,54 +35,76 @@ export function SecondaryPageHero({
   subtitleDelayMs,
   className,
   compact = false,
+  animate = true,
+  animateMetaLabel = animate,
 }: SecondaryPageHeroProps) {
   const {secondaryPageHero} = animationTimings;
+
+  const metaLabelContent = metaLabel ? (
+    <p
+      className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${metaLabelUppercase ? "uppercase" : "normal-case"} ${metaLabelClassName ?? ""}`}
+    >
+      {metaLabel}
+    </p>
+  ) : null;
+
+  const titleContent = (
+    <h1
+      id={sectionId}
+      className={`${montserrat.className} font-extrabold tracking-tight ${compact ? "text-xl sm:text-3xl" : "text-4xl sm:text-6xl"} ${titleClassName ?? ""}`}
+    >
+      {title}
+    </h1>
+  );
+
+  const subtitleContent = subtitle ? (
+    <p
+      className={`${montserrat.className} max-w-3xl font-medium tracking-tight ${compact ? "text-xs text-[var(--header-item-color)]/80 sm:text-sm" : "text-xl text-[var(--ui-fg-muted)] sm:text-2xl"} ${subtitleClassName ?? ""}`}
+    >
+      {subtitle}
+    </p>
+  ) : null;
 
   return (
     <section
       aria-labelledby={sectionId}
       className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"} ${className ?? ""}`}
     >
-      {metaLabel ? (
+      {metaLabelContent && animateMetaLabel ? (
         <ScrollReveal
-          variant="fade-up"
+          variant="fade-down"
           delay={metaLabelDelayMs}
           duration={secondaryPageHero.metaLabel.durationMs}
         >
-          <p
-            className={`${montserrat.className} text-xs font-semibold tracking-[0.18em] text-[var(--header-item-color)] ${metaLabelUppercase ? "uppercase" : "normal-case"} ${metaLabelClassName ?? ""}`}
-          >
-            {metaLabel}
-          </p>
+          {metaLabelContent}
+        </ScrollReveal>
+      ) : (
+        metaLabelContent
+      )}
+
+      {animate ? (
+        <ScrollReveal
+          variant="fade-up"
+          delay={titleDelayMs ?? secondaryPageHero.title.delayMs}
+          duration={secondaryPageHero.title.durationMs}
+        >
+          {titleContent}
         </ScrollReveal>
       ) : null}
 
-      <ScrollReveal
-        variant="fade-up"
-        delay={titleDelayMs ?? secondaryPageHero.title.delayMs}
-        duration={secondaryPageHero.title.durationMs}
-      >
-        <h1
-          id={sectionId}
-          className={`${montserrat.className} font-extrabold tracking-tight ${compact ? "text-xl sm:text-3xl" : "text-4xl sm:text-6xl"} ${titleClassName ?? ""}`}
-        >
-          {title}
-        </h1>
-      </ScrollReveal>
+      {animate ? null : titleContent}
 
-      {subtitle ? (
+      {subtitleContent && animate ? (
         <ScrollReveal
           variant="fade-up"
           delay={subtitleDelayMs ?? secondaryPageHero.subtitle.delayMs}
           duration={secondaryPageHero.subtitle.durationMs}
           className={compact ? "pt-1 sm:pt-1.5" : ""}
         >
-          <p
-            className={`${montserrat.className} max-w-3xl font-medium tracking-tight ${compact ? "text-xs text-[var(--header-item-color)]/80 sm:text-sm" : "text-xl text-[var(--ui-fg-muted)] sm:text-2xl"} ${subtitleClassName ?? ""}`}
-          >
-            {subtitle}
-          </p>
+          {subtitleContent}
         </ScrollReveal>
+      ) : subtitleContent ? (
+        <div className={compact ? "pt-1 sm:pt-1.5" : ""}>{subtitleContent}</div>
       ) : null}
     </section>
   );

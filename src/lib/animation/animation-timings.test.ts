@@ -16,7 +16,7 @@ describe("animation timings", () => {
       animationTimings.secondaryPageHero.subtitle,
       animationTimings.workExperienceList.item,
       animationTimings.projectsShowcaseList.item,
-      animationTimings.projectCaseStudy.backLink,
+      animationTimings.projectCaseStudy.metaLabel,
       animationTimings.projectCaseStudy.content,
     ];
 
@@ -44,11 +44,16 @@ describe("animation timings", () => {
 
   it("keeps standalone delays valid", () => {
     expect(animationTimings.homeIntro.section.stepDelayMs).toBeGreaterThanOrEqual(0);
+    expect(animationTimings.homeIntro.section.initialViewportDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.workExperienceList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectsShowcaseList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.projectCaseStudy.hero.metaLabelDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.projectCaseStudy.hero.titleDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.projectCaseStudy.hero.subtitleDelayMs).toBeGreaterThanOrEqual(0);
+    expect(
+      animationTimings.projectCaseStudy.metaLabel.initialViewportDelayMs
+    ).toBeGreaterThanOrEqual(0);
+    expect(animationTimings.projectCaseStudy.content.initialViewportDelayMs).toBeGreaterThanOrEqual(
+      0
+    );
+    expect(animationTimings.projectCaseStudy.content.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.themeTransition.syncDelayMs).toBeGreaterThanOrEqual(0);
   });
 });

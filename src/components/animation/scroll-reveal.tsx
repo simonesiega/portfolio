@@ -3,7 +3,7 @@
 import {useRef, useEffect, type ReactNode, type CSSProperties} from "react";
 import {animationTimings} from "@/lib/animation/animation-timings";
 
-type Variant = "fade-up" | "fade-in";
+type Variant = "fade-up" | "fade-down" | "fade-in";
 
 interface ScrollRevealProps {
   children: ReactNode;

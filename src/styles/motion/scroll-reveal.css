@@ -12,6 +12,12 @@ html.js .scroll-reveal--fade-up {
   filter: blur(4px);
 }
 
+html.js .scroll-reveal--fade-down {
+  opacity: 0;
+  transform: translateY(-16px);
+  filter: blur(4px);
+}
+
 html.js .scroll-reveal--fade-in {
   opacity: 0;
   filter: blur(4px);

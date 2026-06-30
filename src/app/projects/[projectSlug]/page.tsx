@@ -1,8 +1,8 @@
 import type {Metadata} from "next";
-import Link from "next/link";
 import {notFound} from "next/navigation";
-import {FiArrowLeft, FiArrowUpRight} from "react-icons/fi";
-import {RouteReveal} from "@/components/animation/route-reveal";
+import {ViewTransition} from "react";
+import {FiArrowUpRight} from "react-icons/fi";
+import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {ProjectImageGallery} from "@/components/projects/project-image-gallery";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
@@ -13,8 +13,9 @@ import {
   getProjectCaseStudySeo,
   projectsText,
 } from "@/lib/config/text/projects";
-import {geistSans, montserrat} from "@/lib/fonts";
+import {geistSans} from "@/lib/fonts";
 import {createContentPageMetadata} from "@/lib/metadata";
+import {PROJECT_DETAIL_SHARE} from "@/lib/view-transition";
 
 type ProjectCaseStudyPageProps = {
   params: Promise<{
@@ -62,6 +63,10 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
   const diagramThemeClass = getProjectCaseStudyDiagramThemeClass(project.slug);
   const diagramImageClassName = ["project-diagram-image", "h-full", "w-full", "object-contain"];
   const githubUrl = project.githubUrl.trim();
+  const getContentRevealDelayMs = (index: number) =>
+    projectCaseStudy.content.delayMs + index * projectCaseStudy.content.stepDelayMs;
+  const getContentInitialViewportDelayMs = (index: number) =>
+    projectCaseStudy.content.initialViewportDelayMs + index * projectCaseStudy.content.stepDelayMs;
 
   if (diagramThemeClass) {
     diagramImageClassName.push(diagramThemeClass);
@@ -69,53 +74,49 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
 
   return (
     <SecondaryPageLayout
-      beforeHero={
-        <RouteReveal
-          variant="fade-up"
-          delay={projectCaseStudy.backLink.delayMs}
-          duration={animationTimings.projectsShowcaseList.item.durationMs}
-          threshold={projectCaseStudy.backLink.threshold}
-          className="mx-auto w-full max-w-[44rem]"
-        >
-          <Link
-            href="/projects"
-            scroll={false}
-            className={`${montserrat.className} group inline-flex items-center gap-1.5 pt-3 text-sm font-semibold tracking-[0.04em] text-[var(--header-item-color)] transition-all duration-300 hover:text-[var(--ui-fg)] sm:pt-4`}
-          >
-            <FiArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5" />
-            {projectsText.caseStudyPage.backToProjectsLabel}
-          </Link>
-        </RouteReveal>
-      }
       hero={{
         sectionId: `${project.slug}-case-study-heading`,
         metaLabel: `${project.caseStudy.readTimeMinutes} ${projectsText.caseStudyPage.minReadSuffix}`,
         metaLabelClassName: "opacity-80",
         metaLabelUppercase: false,
-        metaLabelDelayMs: projectCaseStudy.hero.metaLabelDelayMs,
-        title: project.title,
+        metaLabelDelayMs: projectCaseStudy.metaLabel.delayMs,
+        title: (
+          <ViewTransition
+            name={`project-title-${project.slug}`}
+            default="none"
+            share={PROJECT_DETAIL_SHARE}
+          >
+            <span className="inline-block">{project.title}</span>
+          </ViewTransition>
+        ),
         titleClassName: "text-2xl sm:text-[2.25rem]",
-        titleDelayMs: projectCaseStudy.hero.titleDelayMs,
-        subtitle: project.keyPhrase,
-        subtitleClassName: "text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[1.08rem]",
-        subtitleDelayMs: projectCaseStudy.hero.subtitleDelayMs,
-        className: "mx-auto w-full max-w-[44rem]",
+        subtitle: (
+          <ViewTransition
+            name={`project-description-${project.slug}`}
+            default="none"
+            share={PROJECT_DETAIL_SHARE}
+          >
+            <span className="inline-block">{project.keyPhrase}</span>
+          </ViewTransition>
+        ),
+        subtitleClassName:
+          "max-w-[31rem] text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[1.08rem]",
+        className: "-mt-3 mx-auto w-full max-w-[44rem] sm:-mt-4",
       }}
       routeRevealDurationMs={routeReveal.durationMs}
       routeRevealThreshold={routeReveal.threshold}
       compactHero
+      animateHero={false}
+      animateHeroMetaLabel
     >
-      <RouteReveal
-        variant="fade-up"
-        delay={
-          animationTimings.projectsShowcaseList.item.delayMs +
-          animationTimings.projectsShowcaseList.item.stepDelayMs
-        }
-        duration={animationTimings.projectsShowcaseList.item.durationMs}
-        threshold={projectCaseStudy.content.threshold}
-        className="mx-auto w-full max-w-[44rem] pb-24"
-      >
-        <article className="space-y-8 pt-4 sm:space-y-10 sm:pt-5">
+      <article className="mx-auto w-full max-w-[44rem] space-y-8 pt-4 pb-24 sm:space-y-10 sm:pt-5">
+        <ScrollReveal
+          variant="fade-up"
+          delay={getContentRevealDelayMs(0)}
+          initialViewportDelay={getContentInitialViewportDelayMs(0)}
+          duration={projectCaseStudy.content.durationMs}
+          threshold={projectCaseStudy.content.threshold}
+        >
           <section
             aria-label={projectsText.caseStudyPage.projectSummaryAriaLabel}
             className="space-y-3"
@@ -161,21 +162,29 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
               ))}
             </div>
           </section>
+        </ScrollReveal>
 
-          {project.caseStudy.gallery?.length ? (
+        {project.caseStudy.gallery?.length ? (
+          <ScrollReveal
+            variant="fade-up"
+            delay={getContentRevealDelayMs(1)}
+            initialViewportDelay={getContentInitialViewportDelayMs(1)}
+            duration={projectCaseStudy.content.durationMs}
+            threshold={projectCaseStudy.content.threshold}
+          >
             <ProjectImageGallery
               images={project.caseStudy.gallery}
               imageClassName={diagramImageClassName.join(" ")}
               width={caseStudyGallery.width}
               height={caseStudyGallery.height}
             />
-          ) : null}
+          </ScrollReveal>
+        ) : null}
 
-          <div className="project-case-study-mdx">
-            <CaseStudyContent />
-          </div>
-        </article>
-      </RouteReveal>
+        <div className="project-case-study-mdx space-y-8 sm:space-y-10 [&_h2+p]:mt-2">
+          <CaseStudyContent />
+        </div>
+      </article>
     </SecondaryPageLayout>
   );
 }

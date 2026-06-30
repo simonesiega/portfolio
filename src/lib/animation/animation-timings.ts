@@ -76,17 +76,18 @@ export const animationTimings = {
   },
 
   projectCaseStudy: {
-    backLink: {
-      delayMs: 60,
-      threshold: 0,
-    },
-    hero: {
-      metaLabelDelayMs: 160,
-      titleDelayMs: 260,
-      subtitleDelayMs: 360,
+    metaLabel: {
+      delayMs: 360,
+      initialViewportDelayMs: 360,
+      durationMs: 860,
+      threshold: 0.06,
     },
     content: {
-      threshold: 0,
+      delayMs: 120,
+      initialViewportDelayMs: 560,
+      stepDelayMs: 180,
+      durationMs: 860,
+      threshold: 0.06,
     },
   },
 

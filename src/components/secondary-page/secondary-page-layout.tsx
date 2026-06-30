@@ -11,10 +11,10 @@ type SecondaryPageLayoutProps = {
     metaLabelClassName?: string;
     metaLabelUppercase?: boolean;
     metaLabelDelayMs?: number;
-    title: string;
+    title: ReactNode;
     titleClassName?: string;
     titleDelayMs?: number;
-    subtitle?: string;
+    subtitle?: ReactNode;
     subtitleClassName?: string;
     subtitleDelayMs?: number;
     className?: string;
@@ -23,6 +23,8 @@ type SecondaryPageLayoutProps = {
   routeRevealThreshold: number;
   footerLegalDisclaimerLine?: string;
   compactHero?: boolean;
+  animateHero?: boolean;
+  animateHeroMetaLabel?: boolean;
   beforeHero?: ReactNode;
   children?: ReactNode;
 };
@@ -33,6 +35,8 @@ export function SecondaryPageLayout({
   routeRevealThreshold,
   footerLegalDisclaimerLine,
   compactHero = false,
+  animateHero = true,
+  animateHeroMetaLabel = animateHero,
   beforeHero,
   children,
 }: SecondaryPageLayoutProps) {
@@ -55,6 +59,8 @@ export function SecondaryPageLayout({
             subtitleDelayMs={hero.subtitleDelayMs}
             className={hero.className}
             compact={compactHero}
+            animate={animateHero}
+            animateMetaLabel={animateHeroMetaLabel}
           />
           {children}
         </div>

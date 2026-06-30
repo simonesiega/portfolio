@@ -7,6 +7,18 @@
 @import "../styles/components/header-motion.css";
 @import "../styles/accessibility/reduced-motion.css";
 
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: clip;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0s;
+}
+
 :root[data-theme="light"] .project-diagram-image--dark-source {
   filter: invert(1);
 }

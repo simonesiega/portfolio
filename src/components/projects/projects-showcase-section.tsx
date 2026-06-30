@@ -1,3 +1,4 @@
+import {ViewTransition} from "react";
 import {InstantRouteLink} from "@/components/behavior/scroll/instant-route-link";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
@@ -5,6 +6,7 @@ import {appConfig} from "@/lib/config/app-config";
 import {montserrat} from "@/lib/fonts";
 import {getProjectCaseStudyHref, type ProjectsPageProject} from "@/lib/config/text/projects";
 import {pageColumnClassName} from "@/lib/layout-classes";
+import {PROJECT_DETAIL_SHARE, PROJECT_DETAIL_TRANSITION_TYPE} from "@/lib/view-transition";
 
 type ProjectsShowcaseSectionProps = {
   projects: readonly ProjectsPageProject[];
@@ -72,10 +74,17 @@ export function ProjectsShowcaseSection({
                       <h2 className="min-w-0">
                         <InstantRouteLink
                           href={getProjectCaseStudyHref(project.slug)}
+                          transitionTypes={[PROJECT_DETAIL_TRANSITION_TYPE]}
                           aria-label={`${openCaseStudyLabel} ${project.title}`}
                           className="rounded-sm font-semibold text-[var(--ui-fg)] transition-colors duration-300 hover:text-[#2563eb] focus-visible:text-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
                         >
-                          {project.title}
+                          <ViewTransition
+                            name={`project-title-${project.slug}`}
+                            default="none"
+                            share={PROJECT_DETAIL_SHARE}
+                          >
+                            <span className="inline-block">{project.title}</span>
+                          </ViewTransition>
                         </InstantRouteLink>
                       </h2>
                     </div>
@@ -134,7 +143,13 @@ export function ProjectsShowcaseSection({
                   </header>
 
                   <p className="mt-2 max-w-[31rem] text-[0.9rem] leading-relaxed text-[var(--header-item-color)] sm:text-[0.94rem]">
-                    {project.keyPhrase}
+                    <ViewTransition
+                      name={`project-description-${project.slug}`}
+                      default="none"
+                      share={PROJECT_DETAIL_SHARE}
+                    >
+                      <span className="inline-block">{project.keyPhrase}</span>
+                    </ViewTransition>
                   </p>
                 </article>
               </ScrollReveal>

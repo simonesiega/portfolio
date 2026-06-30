@@ -1,9 +1,13 @@
+import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
+
 export const keyPhrase =
   "Rust CLI expression parser built with a custom tokenizer, recursive-descent parser, precedence handling, and structured errors.";
 
 export const galleryCaptions = [
   "How input moves through tokenization, recursive-descent parsing, implicit multiplication, evaluation, and error handling.",
 ];
+
+<ProjectMdxRevealSection>
 
 ## Overview
 
@@ -19,6 +23,10 @@ So CFG Parser became a Rust command-line expression parser. It does not delegate
 
 The arithmetic was the simple part. The interesting part was defining the small language around it: which inputs should be accepted, which ones should fail, and which layer of the parser should be responsible for each decision.
 
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
 ## Goal
 
 The goal was to make grammar feel practical instead of theoretical.
@@ -28,6 +36,10 @@ A rule like `E -> P E'` is easy to write on paper, but it becomes more interesti
 That meant not hiding the language behind a parser generator. A parser generator would have been a valid choice, but it would also have skipped the part I wanted to learn most: how the parser actually walks the expression and decides what comes next.
 
 The result is a small parser where the path is traceable: scan the input, emit tokens, walk the grammar, apply precedence, evaluate the expression, and stop with either a formatted numeric result or a structured error.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
 
 ## Technical Approach
 
@@ -48,6 +60,10 @@ I also evaluate during parsing. For this version, that is enough because the lan
 
 Right-associative exponent and root operators come from the recursive structure of the exponent/root layer. A chain such as `2^3^2` is evaluated as `2^(3^2)`, not `(2^3)^2`, because the parser resolves the next exponent/root expression before completing the current one.
 
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
 ## Architecture
 
 The parser structure mirrors the grammar. That makes bugs easier to place.
@@ -62,6 +78,10 @@ So implicit multiplication stays in the parser. That keeps the tokenizer simple 
 
 That separation prevented the project from becoming a long list of string checks. The tokenizer identifies what exists. The parser decides whether those tokens form a valid expression. The evaluator returns the numeric result while the parser still has the structure in front of it.
 
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
 ## Challenges
 
 The hard cases were not the obvious arithmetic ones. `1 + 2 * 3 =` proves precedence, but inputs like `2(3 + 4)` and `(1 + 2)(3 + 4)` are where the parser becomes more interesting: some adjacent tokens imply multiplication, while others should still be rejected.
@@ -69,6 +89,10 @@ The hard cases were not the obvious arithmetic ones. `1 + 2 * 3 =` proves preced
 So the parser had to accept useful shorthand without guessing too much. It needed to reject incomplete expressions instead of returning partial results, keep exponentiation and roots right-associative, reject invalid real-number operations, and classify failures correctly.
 
 That distinction became important. Invalid numbers, unexpected tokens, invalid operators, and unmatched parentheses are syntax/token problems. Division by zero, overflow/underflow, invalid exponentiation, and even roots of negative values are semantic math problems.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
 
 ## What Shipped
 
@@ -90,6 +114,10 @@ Invalid cases are handled deliberately too:
 - `5 5 =` fails because consecutive numbers are ambiguous.
 - `2 ^ =` and `27 $ =` fail before evaluation because the operand after the operator is missing.
 
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
 ## Engineering Proof
 
 I treated inspectability as part of the deliverable, not as an afterthought.
@@ -104,6 +132,10 @@ The project can be inspected and run in a few predictable ways:
 
 The documented error model also separates token, syntax, and math failures, so the expected behavior can be reviewed without reading the full parser source.
 
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
 ## What I Learned
 
 This project made me more disciplined about the boundary between a clever implementation and a precise language definition.
@@ -113,6 +145,10 @@ It is tempting to fix parser bugs by adding another condition somewhere. Sometim
 The better fix is usually a sharper rule.
 
 Parser bugs are often design bugs. If the grammar is vague, the implementation becomes vague too. Once the language rule is clear, the code usually has a much clearer place to change.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
 
 ## Future Improvements
 
@@ -124,6 +160,12 @@ If I continued expanding the parser, I would strengthen the foundation before ad
 - Define function-call grammar before adding functions such as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">sin</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">cos</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">tan</code>, or <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">log</code>.
 - Publish versioned Docker images so the CLI is easier to try without cloning the repository.
 
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
 ## Links
 
 The project can be inspected through the [GitHub repository](https://github.com/simonesiega/cfg-parser), [technical documentation](https://github.com/simonesiega/cfg-parser/tree/master/docs), and [README](https://github.com/simonesiega/cfg-parser/blob/master/README.md).
+
+</ProjectMdxRevealSection>

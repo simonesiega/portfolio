@@ -6,6 +6,9 @@ const withMDX = createMDX({});
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  experimental: {
+    viewTransition: true,
+  },
   output: "standalone",
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   outputFileTracingIncludes: {
