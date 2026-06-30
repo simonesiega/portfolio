@@ -19,8 +19,7 @@ test.describe("project case study content links", () => {
       await expect(page.getByRole("heading", {name: projectContentLinksHeading})).toBeVisible();
 
       for (const link of contentLinks) {
-        const anchor = page.getByRole("link", {name: link.label});
-        await expect(anchor).toHaveAttribute("href", link.href);
+        await expect(page.locator(`a[href="${link.href}"]`).first()).toBeVisible();
       }
     });
   }

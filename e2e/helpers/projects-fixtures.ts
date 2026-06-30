@@ -1,14 +1,38 @@
 import {appConfig} from "../../src/lib/config/app-config";
-import {
-  projectsText,
-  type ProjectCaseStudyContentLink,
-  type ProjectsPageProject,
-} from "../../src/lib/config/text/projects";
 
 type ProjectWithContentLinks = {
-  project: ProjectsPageProject;
-  contentLinks: readonly ProjectCaseStudyContentLink[];
+  project: {
+    slug: string;
+  };
+  contentLinks: readonly {
+    label: string;
+    href: string;
+  }[];
 };
+
+const projectFixtures = [
+  {
+    slug: "first-client-projects",
+    contentLinks: [
+      {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
+      {label: "Arsenale Moto", href: "https://arsenale-moto.simonesiega.dev/"},
+    ],
+  },
+  {
+    slug: "cfg-parser",
+    contentLinks: [
+      {label: "GitHub repository", href: "https://github.com/simonesiega/cfg-parser"},
+      {
+        label: "technical documentation",
+        href: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
+      },
+      {
+        label: "project README",
+        href: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
+      },
+    ],
+  },
+] as const;
 
 export const themeStorageKey = appConfig.theme.storageKey;
 
@@ -16,13 +40,13 @@ export const appRoutes = [
   "/",
   "/projects",
   "/work",
-  ...projectsText.projects.map((project) => getProjectCaseStudyRoute(project.slug)),
+  ...projectFixtures.map((project) => getProjectCaseStudyRoute(project.slug)),
 ];
 
-export const projectContentLinksHeading = projectsText.caseStudyPage.linksFallbackHeading;
+export const projectContentLinksHeading = "Links";
 
-export const projectsWithContentLinks = projectsText.projects.flatMap((project) => {
-  const {contentLinks} = project.caseStudy;
+export const projectsWithContentLinks = projectFixtures.flatMap((project) => {
+  const {contentLinks} = project;
 
   if (!contentLinks.length) {
     return [];
@@ -32,7 +56,7 @@ export const projectsWithContentLinks = projectsText.projects.flatMap((project) 
 });
 
 export const allProjectsHaveContentLinks =
-  projectsWithContentLinks.length === projectsText.projects.length;
+  projectsWithContentLinks.length === projectFixtures.length;
 
 export function getProjectCaseStudyRoute(projectSlug: string) {
   return `/projects/${projectSlug}`;

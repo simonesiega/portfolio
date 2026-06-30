@@ -38,6 +38,10 @@ export default function Home() {
     homeIntro.section.delayMs + index * homeIntro.section.stepDelayMs;
   const getSectionInitialViewportDelayMs = (index: number) =>
     homeIntro.section.initialViewportDelayMs + index * homeIntro.section.stepDelayMs;
+  const getAboutImageRevealDelayMs = (index: number) =>
+    homeIntro.aboutImages.delayMs + index * homeIntro.aboutImages.stepDelayMs;
+  const getAboutImageInitialViewportDelayMs = (index: number) =>
+    homeIntro.aboutImages.initialViewportDelayMs + index * homeIntro.aboutImages.stepDelayMs;
 
   return (
     <div className="relative overflow-x-clip">
@@ -245,16 +249,16 @@ export default function Home() {
               </p>
             </ScrollReveal>
 
-            <ScrollReveal
-              variant="fade-up"
-              delay={getSectionRevealDelayMs(3) + 120}
-              initialViewportDelay={getSectionInitialViewportDelayMs(3) + 120}
-              duration={homeIntro.section.durationMs}
-              threshold={homeIntro.section.threshold}
-              className="mt-4"
-            >
-              <div className="grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">
-                {intro.about.images.map((image, index) => (
+            <div className="mt-4 grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">
+              {intro.about.images.map((image, index) => (
+                <ScrollReveal
+                  key={image.label}
+                  variant="fade-up"
+                  delay={getAboutImageRevealDelayMs(index)}
+                  initialViewportDelay={getAboutImageInitialViewportDelayMs(index)}
+                  duration={homeIntro.aboutImages.durationMs}
+                  threshold={homeIntro.aboutImages.threshold}
+                >
                   <figure key={image.label}>
                     <Image
                       src={image.src}
@@ -270,9 +274,9 @@ export default function Home() {
                       {image.label}
                     </figcaption>
                   </figure>
-                ))}
-              </div>
-            </ScrollReveal>
+                </ScrollReveal>
+              ))}
+            </div>
           </section>
 
           <div className="flex-1" />

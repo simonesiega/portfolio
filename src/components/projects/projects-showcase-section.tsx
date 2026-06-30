@@ -74,9 +74,11 @@ export function ProjectsShowcaseSection({
                       <h2 className="min-w-0">
                         <InstantRouteLink
                           href={getProjectCaseStudyHref(project.slug)}
+                          prefetch={true}
+                          scroll={false}
                           transitionTypes={[PROJECT_DETAIL_TRANSITION_TYPE]}
                           aria-label={`${openCaseStudyLabel} ${project.title}`}
-                          className="rounded-sm font-semibold text-[var(--ui-fg)] transition-colors duration-300 hover:text-[#2563eb] focus-visible:text-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
+                          className="rounded-sm font-semibold text-[var(--ui-fg)] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
                         >
                           <ViewTransition
                             name={`project-title-${project.slug}`}

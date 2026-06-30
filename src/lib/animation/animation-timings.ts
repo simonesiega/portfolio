@@ -41,6 +41,13 @@ export const animationTimings = {
       durationMs: 860,
       threshold: 0.06,
     },
+    aboutImages: {
+      delayMs: 120,
+      initialViewportDelayMs: 680,
+      stepDelayMs: 140,
+      durationMs: 820,
+      threshold: 0.18,
+    },
   },
 
   secondaryPageHero: {

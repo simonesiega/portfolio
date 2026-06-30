@@ -7,10 +7,11 @@
 @import "../styles/components/header-motion.css";
 @import "../styles/accessibility/reduced-motion.css";
 
+::view-transition-group(*),
 ::view-transition-old(*),
 ::view-transition-new(*) {
-  animation-duration: 0.6s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-duration: 0.42s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   overflow: clip;
 }
 

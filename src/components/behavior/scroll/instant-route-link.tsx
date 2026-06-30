@@ -3,7 +3,10 @@
 import Link from "next/link";
 import type {ComponentProps, MouseEvent} from "react";
 import {usePathname} from "next/navigation";
-import {beginRouteNavigationScrollMode} from "@/components/behavior/scroll/instant-scroll-reset";
+import {
+  beginRouteNavigationScrollMode,
+  beginViewTransitionRouteNavigation,
+} from "@/components/behavior/scroll/instant-scroll-reset";
 
 type InstantRouteLinkProps = ComponentProps<typeof Link>;
 
@@ -27,6 +30,11 @@ export function InstantRouteLink({href, onClick, ...props}: InstantRouteLinkProp
     const nextHref = typeof href === "string" ? href : href.pathname;
 
     if (nextHref && nextHref !== pathname) {
+      if (props.transitionTypes?.length) {
+        beginViewTransitionRouteNavigation();
+        return;
+      }
+
       beginRouteNavigationScrollMode();
     }
   }
