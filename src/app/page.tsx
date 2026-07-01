@@ -6,6 +6,7 @@ import {FaGithub, FaInstagram, FaLinkedinIn, FaXTwitter} from "react-icons/fa6";
 import {InstantRouteLink} from "@/components/behavior/scroll/instant-route-link";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
+import {AboutInterestImages} from "@/components/home/about-interest-images";
 import {PrimaryFooter} from "@/components/home/primary-footer";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {mediaConfig} from "@/lib/config/media";
@@ -16,6 +17,8 @@ import {pageColumnClassName, pageContentClassName, pageFrameClassName} from "@/l
 const {homeIntro, routeReveal} = animationTimings;
 const {intro} = homeText;
 const {home: homeMedia} = mediaConfig;
+const aboutImageTextOverlapMs = 900;
+// 680
 
 const socialIcons: Record<HomeIntroSocialIconKey, IconType> = {
   x: FaXTwitter,
@@ -38,11 +41,11 @@ export default function Home() {
     homeIntro.section.delayMs + index * homeIntro.section.stepDelayMs;
   const getSectionInitialViewportDelayMs = (index: number) =>
     homeIntro.section.initialViewportDelayMs + index * homeIntro.section.stepDelayMs;
-  const getAboutImageRevealDelayMs = (index: number) =>
-    homeIntro.aboutImages.delayMs + index * homeIntro.aboutImages.stepDelayMs;
-  const getAboutImageInitialViewportDelayMs = (index: number) =>
-    homeIntro.aboutImages.initialViewportDelayMs + index * homeIntro.aboutImages.stepDelayMs;
-
+  const aboutSectionIndex = 3;
+  const aboutImageStartDelayMs =
+    getSectionInitialViewportDelayMs(aboutSectionIndex) +
+    homeIntro.section.durationMs -
+    aboutImageTextOverlapMs;
   return (
     <div className="relative overflow-x-clip">
       <div className={`relative z-10 ${pageFrameClassName}`}>
@@ -232,8 +235,8 @@ export default function Home() {
 
             <ScrollReveal
               variant="fade-up"
-              delay={getSectionRevealDelayMs(3)}
-              initialViewportDelay={getSectionInitialViewportDelayMs(3)}
+              delay={getSectionRevealDelayMs(aboutSectionIndex)}
+              initialViewportDelay={getSectionInitialViewportDelayMs(aboutSectionIndex)}
               duration={homeIntro.section.durationMs}
               threshold={homeIntro.section.threshold}
               className="mt-10 sm:mt-12"
@@ -249,34 +252,10 @@ export default function Home() {
               </p>
             </ScrollReveal>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">
-              {intro.about.images.map((image, index) => (
-                <ScrollReveal
-                  key={image.label}
-                  variant="fade-up"
-                  delay={getAboutImageRevealDelayMs(index)}
-                  initialViewportDelay={getAboutImageInitialViewportDelayMs(index)}
-                  duration={homeIntro.aboutImages.durationMs}
-                  threshold={homeIntro.aboutImages.threshold}
-                >
-                  <figure key={image.label}>
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      width={homeMedia.aboutImage.width}
-                      height={homeMedia.aboutImage.height}
-                      loading={
-                        homeMedia.aboutImage.eagerFirstImage && index === 0 ? "eager" : "lazy"
-                      }
-                      className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
-                    />
-                    <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/72">
-                      {image.label}
-                    </figcaption>
-                  </figure>
-                </ScrollReveal>
-              ))}
-            </div>
+            <AboutInterestImages
+              images={intro.about.images}
+              startDelayMs={aboutImageStartDelayMs}
+            />
           </section>
 
           <div className="flex-1" />

@@ -29,6 +29,23 @@ html.js .scroll-reveal--visible {
   filter: blur(0);
 }
 
+html.js .about-interest-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(4px);
+  transition-property: transform, opacity, filter;
+  transition-duration: var(--about-image-duration, 820ms);
+  transition-delay: var(--about-image-delay, 0ms);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity, filter;
+}
+
+html.js .about-interest-reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 :root,
 :root[data-theme="dark"] {
   --project-line-color: color-mix(in srgb, var(--header-item-color) 54%, transparent);

@@ -28,7 +28,7 @@ type HomeIntroWorkItem = {
   imageAlt: string;
 };
 
-type HomeIntroAboutImage = {
+export type HomeIntroAboutImage = {
   label: string;
   src: string;
   alt: string;

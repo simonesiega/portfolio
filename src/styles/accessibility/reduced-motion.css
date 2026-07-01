@@ -16,7 +16,8 @@
     transition: none !important;
   }
 
-  .scroll-reveal {
+  .scroll-reveal,
+  .about-interest-reveal {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
