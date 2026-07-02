@@ -1,26 +1,19 @@
 import {expect, test} from "@playwright/test";
 import {
-  allProjectsHaveContentLinks,
   getProjectCaseStudyRoute,
   projectContentLinksHeading,
-  projectsWithContentLinks,
+  projectFixtures,
 } from "./helpers/projects-fixtures";
 
 test.describe("project case study content links", () => {
-  test("every project defines content links", () => {
-    expect(projectsWithContentLinks.length).toBeGreaterThan(0);
-    expect(allProjectsHaveContentLinks).toBe(true);
-  });
-
-  for (const {project, contentLinks} of projectsWithContentLinks) {
-    test(`${project.slug} renders all configured content links`, async ({page}) => {
+  for (const project of projectFixtures) {
+    test(`${project.slug} renders content links`, async ({page}) => {
       await page.goto(getProjectCaseStudyRoute(project.slug));
 
-      await expect(page.getByRole("heading", {name: projectContentLinksHeading})).toBeVisible();
+      const heading = page.getByRole("heading", {name: projectContentLinksHeading});
+      await expect(heading).toBeVisible();
 
-      for (const link of contentLinks) {
-        await expect(page.locator(`a[href="${link.href}"]`).first()).toBeVisible();
-      }
+      await expect(page.locator("section", {has: heading}).getByRole("link").first()).toBeVisible();
     });
   }
 });

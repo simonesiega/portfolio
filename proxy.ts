@@ -25,14 +25,8 @@ if (umamiScriptSrc) {
   }
 }
 
-function createNonce() {
-  const bytes = new Uint8Array(16);
-  crypto.getRandomValues(bytes);
-  return btoa(String.fromCharCode(...bytes));
-}
-
-function createCspHeader(nonce: string) {
-  const scriptSrc = ["'self'", `'nonce-${nonce}'`, ...(umamiOrigin ? [umamiOrigin] : [])];
+function createCspHeader() {
+  const scriptSrc = ["'self'", "'unsafe-inline'", ...(umamiOrigin ? [umamiOrigin] : [])];
   const connectSrc = ["'self'", ...(umamiOrigin ? [umamiOrigin] : []), ...cspConnectSrcExtra];
 
   if (!isProduction) {
@@ -75,20 +69,12 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const nonce = createNonce();
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
-
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  const response = NextResponse.next();
 
   if (cspMode === "enforce") {
-    response.headers.set("Content-Security-Policy", createCspHeader(nonce));
+    response.headers.set("Content-Security-Policy", createCspHeader());
   } else if (cspMode === "report-only") {
-    response.headers.set("Content-Security-Policy-Report-Only", createCspHeader(nonce));
+    response.headers.set("Content-Security-Policy-Report-Only", createCspHeader());
   }
 
   if (cspReportUri) {

@@ -95,7 +95,7 @@ export const homeText = {
           title: "Arsenale Moto",
           description: "Website & CMS development",
           dateRange: "2026",
-          imageSrc: "/work/logos/Arsenale.png",
+          imageSrc: "/work/logos/Arsenale.webp",
           imageAlt: "Arsenale Moto logo",
         },
         {
@@ -109,7 +109,7 @@ export const homeText = {
           title: "Dacos S.r.l.",
           description: "Software development internship",
           dateRange: "2025",
-          imageSrc: "/work/logos/Dacos.png",
+          imageSrc: "/work/logos/Dacos.webp",
           imageAlt: "Dacos logo",
         },
       ] as const satisfies readonly HomeIntroWorkItem[],

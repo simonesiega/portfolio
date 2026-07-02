@@ -43,14 +43,14 @@ export const firstClientProjects = {
     ],
     gallery: [
       {
-        src: "/projects/first-client-projects/NewArtVanguard.png",
+        src: "/projects/first-client-projects/NewArtVanguard.webp",
         alt: "New Art Vanguard coming soon page",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
         href: "https://www.newartvanguard.com/",
       },
       {
-        src: "/projects/first-client-projects/ArsenaleMoto.png",
+        src: "/projects/first-client-projects/ArsenaleMoto.webp",
         alt: "Arsenale Moto landing page",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],

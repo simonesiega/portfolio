@@ -3,7 +3,7 @@ import type {WorkPageExperience} from "../types";
 export const arsenalemotoExperience = {
   id: "arsenalemoto",
   sortStart: "2026-05",
-  logoSrc: "/work/logos/Arsenale.png",
+  logoSrc: "/work/logos/Arsenale.webp",
   logoAlt: "Arsenale Moto logo",
   dateRange: "May 2026 — Present",
   role: "Full-Stack Developer",
