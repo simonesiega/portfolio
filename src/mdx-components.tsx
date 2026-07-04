@@ -1,6 +1,6 @@
 import type {MDXComponents} from "mdx/types";
 import type {ComponentProps} from "react";
-import {geistMono, geistSans} from "@/lib/fonts";
+import {geistSans} from "@/lib/fonts";
 
 function ExternalLink({children, href, ...props}: ComponentProps<"a">) {
   const isExternal = typeof href === "string" && /^https?:\/\//.test(href);
@@ -93,7 +93,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     code: ({children, ...props}: ComponentProps<"code">) => (
       <code
-        className={`${geistMono.className} text-[0.9em] font-bold text-[color-mix(in_srgb,var(--ui-fg)_86%,var(--ui-fg-muted))]`}
+        className="font-[inherit] text-[length:inherit] leading-[inherit] tracking-[inherit] text-[color-mix(in_srgb,var(--ui-fg)_78%,var(--ui-fg-muted))]"
         {...props}
       >
         {children}

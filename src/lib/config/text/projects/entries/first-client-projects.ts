@@ -13,12 +13,12 @@ export const firstClientProjects = {
   githubUrl: "",
   demoUrls: [
     {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
-    {label: "Arsenale Moto", href: "https://arsenale-moto.simonesiega.dev/"},
+    {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},
   ],
   developmentPeriod: "2026",
   keyPhrase,
   caseStudy: {
-    readTimeMinutes: 8,
+    readTimeMinutes: 5,
     quickFacts: [
       {
         label: "Context",
@@ -54,12 +54,12 @@ export const firstClientProjects = {
         alt: "Arsenale Moto landing page",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],
-        href: "https://arsenale-moto.simonesiega.dev/",
+        href: "https://arsenalemoto.it/",
       },
     ],
     contentLinks: [
       {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
-      {label: "Arsenale Moto", href: "https://arsenale-moto.simonesiega.dev/"},
+      {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},
     ],
     Content: CaseStudyContent,
   },

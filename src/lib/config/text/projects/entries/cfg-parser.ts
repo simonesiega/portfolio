@@ -10,7 +10,7 @@ export const cfgParserProject = {
   developmentPeriod: "2025",
   keyPhrase,
   caseStudy: {
-    readTimeMinutes: 6,
+    readTimeMinutes: 7,
     quickFacts: [
       {
         label: "Language",

@@ -8,7 +8,7 @@ export const arsenalemotoExperience = {
   dateRange: "May 2026 — Present",
   role: "Full-Stack Developer",
   company: "Arsenale Moto",
-  companyUrl: "https://arsenale-moto.simonesiega.dev/",
+  companyUrl: "https://arsenalemoto.it/",
   companyType: "Contractor",
   location: "Remote",
   description:
@@ -19,6 +19,6 @@ export const arsenalemotoExperience = {
     {label: "Client website"},
     {label: "Strapi CMS"},
     {label: "Resend"},
-    {label: "Website ↗", href: "https://arsenale-moto.simonesiega.dev/"},
+    {label: "Website ↗", href: "https://arsenalemoto.it/"},
   ],
 } as const satisfies WorkPageExperience;
