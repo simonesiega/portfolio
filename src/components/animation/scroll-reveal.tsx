@@ -1,6 +1,6 @@
 "use client";
 
-import {useRef, useEffect, type ReactNode, type CSSProperties} from "react";
+import {useRef, useEffect, type ReactNode} from "react";
 import {animationTimings} from "@/lib/animation/animation-timings";
 
 type Variant = "fade-up" | "fade-down" | "fade-in";
@@ -13,7 +13,10 @@ interface ScrollRevealProps {
   duration?: number;
   threshold?: number;
   className?: string;
-  style?: CSSProperties;
+}
+
+function getTimingClass(prefix: "sr-delay" | "sr-duration", value: number) {
+  return `${prefix}-${value}`;
 }
 
 export function ScrollReveal({
@@ -24,7 +27,6 @@ export function ScrollReveal({
   duration = animationTimings.scrollRevealDefaults.durationMs,
   threshold = animationTimings.scrollRevealDefaults.threshold,
   className = "",
-  style,
 }: ScrollRevealProps) {
   const {scrollRevealDefaults} = animationTimings;
   const ref = useRef<HTMLDivElement>(null);
@@ -50,7 +52,8 @@ export function ScrollReveal({
       ([entry]) => {
         if (entry.isIntersecting) {
           if (initialViewportDelay !== undefined && window.scrollY === initialScrollY) {
-            el.style.setProperty("--sr-delay", `${initialViewportDelay}ms`);
+            el.classList.remove(getTimingClass("sr-delay", delay));
+            el.classList.add(getTimingClass("sr-delay", initialViewportDelay));
           }
 
           el.classList.add("scroll-reveal--visible");
@@ -65,22 +68,16 @@ export function ScrollReveal({
     return () => observer.disconnect();
   }, [
     initialViewportDelay,
+    delay,
     threshold,
     scrollRevealDefaults.reducedMotionQuery,
     scrollRevealDefaults.rootMargin,
   ]);
 
-  const combinedStyle: CSSProperties = {
-    ...style,
-    "--sr-delay": `${delay}ms`,
-    "--sr-duration": `${duration}ms`,
-  } as CSSProperties;
-
   return (
     <div
       ref={ref}
-      className={`scroll-reveal scroll-reveal--${variant} ${className}`}
-      style={combinedStyle}
+      className={`scroll-reveal scroll-reveal--${variant} ${getTimingClass("sr-delay", delay)} ${getTimingClass("sr-duration", duration)} ${className}`}
     >
       {children}
     </div>

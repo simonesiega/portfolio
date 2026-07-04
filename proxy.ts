@@ -45,7 +45,7 @@ function createCspHeader() {
     `connect-src ${connectSrc.join(" ")}`,
     "img-src 'self' data: blob:",
     "font-src 'self' data:",
-    "style-src 'self' 'unsafe-inline'",
+    "style-src 'self'",
     "frame-src 'none'",
     "worker-src 'self' blob:",
   ];
@@ -79,20 +79,6 @@ export function proxy(request: NextRequest) {
 
   if (cspReportUri) {
     response.headers.set("Reporting-Endpoints", `csp-endpoint="${cspReportUri}"`);
-  }
-
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set("X-Frame-Options", "DENY");
-  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-  response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
-  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-
-  if (isProduction) {
-    response.headers.set(
-      "Strict-Transport-Security",
-      "max-age=63072000; includeSubDomains; preload"
-    );
   }
 
   return response;

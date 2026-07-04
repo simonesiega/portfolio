@@ -13,7 +13,7 @@ export const galleryCaptions = [
 
 **Stack:** Rust · Recursive-descent parser · CLI · Docker · Structured error handling
 
-CFG Parser started from a question: _what actually happens between typing_ <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 * 3 =</code> _and getting_ <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result: 7.000</code>?
+CFG Parser started from a question: _what actually happens between typing_ <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 \* 3 =</code> _and getting_ <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result: 7.000</code>?
 
 A calculator can be implemented with ad hoc string checks, but that approach hides the rules that make an expression valid.
 
@@ -50,7 +50,7 @@ The **tokenizer** runs first. It scans the raw string and emits tokens for numbe
 Then the **recursive-descent parser** consumes those tokens. Each parsing function owns one level of precedence, so the code follows the same shape as the language:
 
 1. Additive expressions handle <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">+</code> and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">-</code>.
-2. Product expressions handle <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">*</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">/</code>, and constrained implicit multiplication.
+2. Product expressions handle <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">\*</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">/</code>, and constrained implicit multiplication.
 3. Exponent and root expressions handle right-associative power/root behavior.
 4. Base expressions handle numbers, unary minus, and parenthesized expressions.
 
@@ -84,7 +84,7 @@ _That separation prevented the project from becoming a long list of string check
 
 ## Challenges
 
-The hard cases were not the obvious arithmetic ones. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 * 3 =</code> proves precedence, but inputs like <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2(3 + 4)</code> and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(1 + 2)(3 + 4)</code> are where the parser becomes more interesting: some adjacent tokens imply multiplication, while others should still be rejected.
+The hard cases were not the obvious arithmetic ones. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 \* 3 =</code> proves precedence, but inputs like <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2(3 + 4)</code> and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(1 + 2)(3 + 4)</code> are where the parser becomes more interesting: some adjacent tokens imply multiplication, while others should still be rejected.
 
 So the parser had to accept useful shorthand without guessing too much. It needed to reject incomplete expressions instead of returning partial results, keep exponentiation and roots right-associative, reject invalid real-number operations, and classify failures correctly.
 
@@ -100,18 +100,69 @@ The CLI can evaluate plain arithmetic, nested parentheses, unary minus, exponent
 
 The useful cases are the ones that combine features without relying on special-case string handling:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 * 3 =</code> returns <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result: 7.000</code>, showing that multiplication is evaluated before addition.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2(3 + 1) =</code> is parsed as implicit multiplication.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(.12)(1*9/2.3) =</code> is interpreted as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">0.12 * (9 / 2.3)</code> and returns approximately <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">0.46956</code>.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">27 $ 3 =</code> computes a cube root.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">4^2 $ 2 =</code> is evaluated as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(4^2)^(1/2)</code> and returns <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result: 4.000</code>.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    1 + 2 * 3 =
+  </code>
+  returns
+  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    Result: 7.000
+  </code>
+  , showing that multiplication is evaluated before addition.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    2(3 + 1) =
+  </code>
+  is parsed as implicit multiplication.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    (.12)(1*9/2.3) =
+  </code>
+  is interpreted as
+  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    0.12 * (9 / 2.3)
+  </code>
+  and returns approximately
+  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    0.46956
+  </code>
+  .
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    27 $ 3 =
+  </code>
+  computes a cube root.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    4^2 $ 2 =
+  </code>
+  is evaluated as
+  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    (4^2)^(1/2)
+  </code>
+  and returns
+  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    Result: 4.000
+  </code>
+  .
 
 Invalid cases are handled deliberately too:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 + =</code> fails because the right operand is missing.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 * (3 + 4</code> fails because the closing parenthesis is missing.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">5 5 =</code> fails because consecutive numbers are ambiguous.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 ^ =</code> and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">27 $ =</code> fail before evaluation because the operand after the operator is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    2 + =
+  </code>
+  fails because the right operand is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    2 * (3 + 4
+  </code>
+  fails because the closing parenthesis is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    5 5 =
+  </code>
+  fails because consecutive numbers are ambiguous.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    2 ^ =
+  </code>
+  and
+  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
+    27 $ =
+  </code>
+  fail before evaluation because the operand after the operator is missing.
 
 </ProjectMdxRevealSection>
 

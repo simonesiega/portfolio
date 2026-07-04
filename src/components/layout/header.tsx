@@ -241,24 +241,27 @@ export function Header({
               );
             })}
 
-            <span
-              className={`pointer-events-none absolute -bottom-1 h-px ${
+            <svg
+              aria-hidden={true}
+              className={`pointer-events-none absolute -bottom-1 left-0 h-px overflow-visible ${
                 indicatorMotion === "slide"
                   ? "transition-[transform,width,opacity] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   : ""
-              } left-0 origin-left will-change-transform`}
-              style={{
-                transform: `translate3d(${indicator?.left ?? 0}px, 0, 0)`,
-                width: `${Math.max(indicator?.width ?? 0, 1)}px`,
-                opacity: indicator ? 1 : 0,
-              }}
+              } origin-left will-change-transform`}
+              width={Math.max(indicator?.width ?? 0, 1)}
+              height="1"
+              viewBox={`0 0 ${Math.max(indicator?.width ?? 0, 1)} 1`}
+              opacity={indicator ? 1 : 0}
+              transform={`translate(${indicator?.left ?? 0} 0)`}
             >
-              <span
-                className={`block h-full w-full bg-[var(--ui-fg)] ${
+              <rect
+                width="100%"
+                height="1"
+                className={`fill-[var(--ui-fg)] ${
                   indicatorMotion === "spawn" ? "header-nav-indicator-spawn" : ""
                 }`}
               />
-            </span>
+            </svg>
           </div>
 
           <div className="hidden items-center gap-4 min-[390px]:flex sm:gap-6">

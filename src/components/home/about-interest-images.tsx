@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {useEffect, useRef, type CSSProperties} from "react";
+import {useEffect, useRef} from "react";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {mediaConfig} from "@/lib/config/media";
 import type {HomeIntroAboutImage} from "@/lib/config/text/home";
@@ -96,13 +96,7 @@ export function AboutInterestImages({images, startDelayMs}: AboutInterestImagesP
           ref={(element) => {
             itemRefs.current[index] = element;
           }}
-          className="about-interest-reveal"
-          style={
-            {
-              "--about-image-delay": `${startDelayMs + index * aboutImages.stepDelayMs}ms`,
-              "--about-image-duration": `${aboutImages.durationMs}ms`,
-            } as CSSProperties
-          }
+          className={`about-interest-reveal about-image-delay-${startDelayMs + index * aboutImages.stepDelayMs} about-image-duration-${aboutImages.durationMs}`}
         >
           <Image
             src={image.src}

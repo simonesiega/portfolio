@@ -2,7 +2,6 @@ import type {Metadata} from "next";
 import Script from "next/script";
 import {geistMono, geistSans} from "@/lib/fonts";
 import {appConfig} from "@/lib/config/app-config";
-import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
 import {getSiteUrl} from "@/lib/site-url";
 import {themeInitScript} from "@/lib/theme-init";
@@ -10,9 +9,7 @@ import {ScrollToTopOnRouteChange} from "@/components/behavior/scroll/scroll-to-t
 import {Header} from "@/components/layout/header";
 import "./globals.css";
 
-const themeTransitionDuration = toMs(animationTimings.themeTransition.durationMs);
 const metadataBase = getSiteUrl();
-const headerHeightFallback = "5.5rem";
 const {owner, navigation, social, metadata: metadataConfig, analytics} = appConfig;
 
 export const metadata: Metadata = {
@@ -62,12 +59,7 @@ export default function RootLayout({
         ) : null}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased [--app-header-height:5.5rem] [--theme-transition-easing:cubic-bezier(0.22,1,0.36,1)] sm:[--app-header-height:6.5rem]`}
-        style={
-          {
-            "--theme-transition-duration": themeTransitionDuration,
-          } as React.CSSProperties
-        }
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-[var(--ui-bg)] text-[var(--ui-fg)] antialiased [--app-header-height:5.5rem] [--theme-transition-duration:1000ms] [--theme-transition-easing:cubic-bezier(0.22,1,0.36,1)] sm:[--app-header-height:4.5rem]`}
       >
         <ScrollToTopOnRouteChange />
         <div className="fixed inset-x-0 top-0 z-50">
@@ -83,12 +75,7 @@ export default function RootLayout({
             />
           </div>
         </div>
-        <main
-          className="flex flex-1 flex-col"
-          style={{paddingTop: `var(--app-header-height, ${headerHeightFallback})`}}
-        >
-          {children}
-        </main>
+        <main className="flex flex-1 flex-col pt-[var(--app-header-height)]">{children}</main>
       </body>
     </html>
   );
