@@ -17,8 +17,7 @@ import {pageColumnClassName, pageContentClassName, pageFrameClassName} from "@/l
 const {homeIntro, routeReveal} = animationTimings;
 const {intro} = homeText;
 const {home: homeMedia} = mediaConfig;
-const aboutImageTextOverlapMs = 900;
-// 680
+const aboutImageTextOverlapMs = 800;
 
 const socialIcons: Record<HomeIntroSocialIconKey, IconType> = {
   x: FaXTwitter,
@@ -46,6 +45,8 @@ export default function Home() {
     getSectionInitialViewportDelayMs(aboutSectionIndex) +
     homeIntro.section.durationMs -
     aboutImageTextOverlapMs;
+  const footerRevealDelayMs =
+    aboutImageStartDelayMs + intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
   return (
     <div className="relative overflow-x-clip">
       <div className={`relative z-10 ${pageFrameClassName}`}>
@@ -261,6 +262,7 @@ export default function Home() {
           <div className="flex-1" />
           <RouteReveal
             variant="fade-in"
+            delay={footerRevealDelayMs}
             duration={routeReveal.durationMs}
             threshold={routeReveal.threshold}
           >

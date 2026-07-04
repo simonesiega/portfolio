@@ -50,6 +50,10 @@
   --sr-delay: 560ms;
 }
 
+.sr-delay-660 {
+  --sr-delay: 660ms;
+}
+
 .sr-delay-680 {
   --sr-delay: 680ms;
 }
@@ -88,6 +92,10 @@
 
 .sr-delay-1280 {
   --sr-delay: 1280ms;
+}
+
+.sr-delay-1580 {
+  --sr-delay: 1580ms;
 }
 
 .sr-duration-700 {
@@ -162,6 +170,18 @@ html.js .about-interest-reveal {
 
 .about-image-delay-1340 {
   --about-image-delay: 1340ms;
+}
+
+.about-image-delay-1160 {
+  --about-image-delay: 1160ms;
+}
+
+.about-image-delay-1300 {
+  --about-image-delay: 1300ms;
+}
+
+.about-image-delay-1440 {
+  --about-image-delay: 1440ms;
 }
 
 .about-image-duration-820 {
