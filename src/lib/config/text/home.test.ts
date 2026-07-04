@@ -3,6 +3,8 @@ import {appRouteFiles} from "@/lib/config/site-routes";
 import {projectsText} from "./projects";
 import {homeIntroSocialIconKeys, homeText} from "./home";
 
+const yearPattern = /^\d{4}$/;
+
 function expectAbsoluteUrl(url: string) {
   expect(() => new URL(url)).not.toThrow();
 }
@@ -50,7 +52,7 @@ describe("home text model", () => {
     for (const work of homeText.intro.works.items) {
       expect(work.title.trim().length).toBeGreaterThan(0);
       expect(work.description.trim().length).toBeGreaterThan(0);
-      expect(work.dateRange.trim().length).toBeGreaterThan(0);
+      expect(work.dateRange).toMatch(yearPattern);
       expect(work.imageSrc.startsWith("/")).toBe(true);
       expect(work.imageAlt.trim().length).toBeGreaterThan(0);
     }

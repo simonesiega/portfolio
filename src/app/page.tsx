@@ -259,7 +259,6 @@ export default function Home() {
             />
           </section>
 
-          <div className="flex-1" />
           <RouteReveal
             variant="fade-in"
             delay={footerRevealDelayMs}

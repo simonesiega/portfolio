@@ -7,11 +7,11 @@ function ExternalLink({children, href, ...props}: ComponentProps<"a">) {
 
   return (
     <a
+      {...props}
       href={href}
+      className="font-medium text-[var(--ui-fg)] underline decoration-[var(--header-item-color)]/40 underline-offset-4 transition-colors duration-300 hover:text-[var(--header-item-hover-color)] hover:decoration-[var(--header-item-hover-color)]"
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
-      className="font-medium text-[var(--ui-fg)] underline decoration-[var(--header-item-color)]/40 underline-offset-4 transition-colors duration-300 hover:text-[var(--header-item-hover-color)] hover:decoration-[var(--header-item-hover-color)]"
-      {...props}
     >
       {children}
     </a>

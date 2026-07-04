@@ -11,8 +11,6 @@ export type WorkPageExperience = {
   dateRange: string;
   role: string;
   company: string;
-  companyUrl: string | null;
-  companyType: string;
   location: string;
   description: string;
   tags: readonly WorkPageExperienceTag[];

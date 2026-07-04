@@ -14,7 +14,10 @@ export function ScrollToTopOnRouteChange() {
   const previousPathRef = useRef(pathname);
 
   useLayoutEffect(() => {
+    let previousScrollRestoration: ScrollRestoration | null = null;
+
     if ("scrollRestoration" in window.history) {
+      previousScrollRestoration = window.history.scrollRestoration;
       window.history.scrollRestoration = "manual";
     }
 
@@ -25,6 +28,12 @@ export function ScrollToTopOnRouteChange() {
         restoreSmoothScrollMode();
       });
     });
+
+    return () => {
+      if (previousScrollRestoration && "scrollRestoration" in window.history) {
+        window.history.scrollRestoration = previousScrollRestoration;
+      }
+    };
   }, []);
 
   useLayoutEffect(() => {

@@ -1,3 +1,6 @@
+import {getProjectCaseStudyHref, projectsText} from "./projects";
+import {workText} from "./work";
+
 export const homeIntroSocialIconKeys = ["x", "instagram", "github", "linkedin"] as const;
 
 export type HomeIntroSocialIconKey = (typeof homeIntroSocialIconKeys)[number];
@@ -28,11 +31,76 @@ type HomeIntroWorkItem = {
   imageAlt: string;
 };
 
+type HomeFeaturedProjectSlug = (typeof projectsText.projects)[number]["slug"];
+type HomeFeaturedWorkId = (typeof workText.experiences)[number]["id"];
+
 export type HomeIntroAboutImage = {
   label: string;
   src: string;
   alt: string;
 };
+
+const homeFeaturedProjectSlugs = [
+  "first-client-projects",
+  "cfg-parser",
+] as const satisfies readonly HomeFeaturedProjectSlug[];
+
+const homeFeaturedProjectDescriptions = {
+  "first-client-projects": "Two production client websites delivered during high school",
+  "cfg-parser": "Rust CLI tool for grammar-driven expression parsing and evaluation",
+} as const satisfies Record<(typeof homeFeaturedProjectSlugs)[number], string>;
+
+const homeFeaturedWorkIds = [
+  "arsenalemoto",
+  "novaidea",
+  "dacos-srl",
+] as const satisfies readonly HomeFeaturedWorkId[];
+
+function getHomeFeaturedProject(projectSlug: HomeFeaturedProjectSlug) {
+  const project = projectsText.projects.find((candidate) => candidate.slug === projectSlug);
+
+  if (!project) {
+    throw new Error(`Missing home featured project: ${projectSlug}`);
+  }
+
+  return project;
+}
+
+function getHomeFeaturedWork(workId: HomeFeaturedWorkId) {
+  const experience = workText.experiences.find((candidate) => candidate.id === workId);
+
+  if (!experience) {
+    throw new Error(`Missing home featured work experience: ${workId}`);
+  }
+
+  if (!experience.logoSrc) {
+    throw new Error(`Missing logo for home featured work experience: ${workId}`);
+  }
+
+  return experience;
+}
+
+const homeIntroProjectItems = homeFeaturedProjectSlugs.map((projectSlug) => {
+  const project = getHomeFeaturedProject(projectSlug);
+
+  return {
+    title: project.title,
+    href: getProjectCaseStudyHref(project.slug),
+    description: homeFeaturedProjectDescriptions[projectSlug],
+  };
+}) satisfies readonly HomeIntroProjectItem[];
+
+const homeIntroWorkItems = homeFeaturedWorkIds.map((workId) => {
+  const experience = getHomeFeaturedWork(workId);
+
+  return {
+    title: experience.company,
+    description: experience.role,
+    dateRange: experience.sortStart.slice(0, 4),
+    imageSrc: experience.logoSrc,
+    imageAlt: experience.logoAlt,
+  };
+}) satisfies readonly HomeIntroWorkItem[];
 
 export const homeText = {
   intro: {
@@ -73,46 +141,13 @@ export const homeText = {
       label: "PROJECTS",
       linkLabel: "PROJECTS →",
       seeAllHref: "/projects",
-      items: [
-        {
-          title: "Client Web Delivery",
-          href: "/projects/first-client-projects",
-          description: "Two production client websites delivered during high school",
-        },
-        {
-          title: "CFG Parser",
-          href: "/projects/cfg-parser",
-          description: "Rust CLI tool for grammar-driven expression parsing and evaluation",
-        },
-      ] as const satisfies readonly HomeIntroProjectItem[],
+      items: homeIntroProjectItems,
     },
     works: {
       label: "WORK",
       linkLabel: "WORK →",
       seeAllHref: "/work",
-      items: [
-        {
-          title: "Arsenale Moto",
-          description: "Website & CMS development",
-          dateRange: "2026",
-          imageSrc: "/work/logos/Arsenale.webp",
-          imageAlt: "Arsenale Moto logo",
-        },
-        {
-          title: "New Art Vanguard",
-          description: "Website development & maintenance",
-          dateRange: "2026",
-          imageSrc: "/work/logos/NewArtVanguard.webp",
-          imageAlt: "New Art Vanguard logo",
-        },
-        {
-          title: "Dacos S.r.l.",
-          description: "Software development internship",
-          dateRange: "2025",
-          imageSrc: "/work/logos/Dacos.webp",
-          imageAlt: "Dacos logo",
-        },
-      ] as const satisfies readonly HomeIntroWorkItem[],
+      items: homeIntroWorkItems,
     },
     about: {
       label: "ABOUT ME",

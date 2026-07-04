@@ -175,6 +175,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             threshold={projectCaseStudy.content.threshold}
           >
             <ProjectImageGallery
+              key={project.slug}
               images={project.caseStudy.gallery}
               imageClassName={diagramImageClassName.join(" ")}
               width={caseStudyGallery.width}

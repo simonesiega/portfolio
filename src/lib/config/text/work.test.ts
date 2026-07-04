@@ -28,8 +28,6 @@ describe("work text model", () => {
       expect(experience.dateRange.trim().length).toBeGreaterThan(0);
       expect(experience.role.trim().length).toBeGreaterThan(0);
       expect(experience.company.trim().length).toBeGreaterThan(0);
-      expect(experience.companyUrl === null || experience.companyUrl.trim().length > 0).toBe(true);
-      expect(experience.companyType.trim().length).toBeGreaterThan(0);
       expect(experience.location.trim().length).toBeGreaterThan(0);
       expect(experience.description.trim().length).toBeGreaterThan(0);
 

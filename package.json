@@ -18,7 +18,8 @@
     "test:e2e:server": "bun run build:standalone:local && SITE_URL=https://simonesiega.com HOSTNAME=127.0.0.1 PORT=3100 node .next/standalone/server.js",
     "test:e2e": "playwright test",
     "check": "bun run format:check && bun run lint && bun run typecheck && bun run build:local",
-    "ci": "bun run check"
+    "ci": "bun run check",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [

@@ -60,6 +60,7 @@ export function ProjectImageGallery({
 
       {images.length > 1 ? (
         <div
+          role="group"
           className="grid max-w-md grid-cols-4 gap-2 sm:grid-cols-6"
           aria-label="Project image previews"
         >

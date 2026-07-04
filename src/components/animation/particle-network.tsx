@@ -2,18 +2,28 @@
 
 import {useSyncExternalStore} from "react";
 import {useParticleNetwork} from "@/components/animation/use-particle-network";
+import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
 
 const largeScreenQuery = "(min-width: 80rem)";
+const reducedMotionQuery = particleNetworkConfig.particleNetwork.reducedMotionQuery;
 
-function subscribeToLargeScreenChanges(onChange: () => void) {
-  const media = window.matchMedia(largeScreenQuery);
+function subscribeToVisualPreferenceChanges(onChange: () => void) {
+  const largeScreenMedia = window.matchMedia(largeScreenQuery);
+  const reducedMotionMedia = window.matchMedia(reducedMotionQuery);
 
-  media.addEventListener("change", onChange);
-  return () => media.removeEventListener("change", onChange);
+  largeScreenMedia.addEventListener("change", onChange);
+  reducedMotionMedia.addEventListener("change", onChange);
+
+  return () => {
+    largeScreenMedia.removeEventListener("change", onChange);
+    reducedMotionMedia.removeEventListener("change", onChange);
+  };
 }
 
-function getLargeScreenSnapshot() {
-  return window.matchMedia(largeScreenQuery).matches;
+function getVisualPreferenceSnapshot() {
+  return (
+    window.matchMedia(largeScreenQuery).matches && !window.matchMedia(reducedMotionQuery).matches
+  );
 }
 
 function getServerSnapshot() {
@@ -34,8 +44,8 @@ type ParticleNetworkProps = {
  */
 export function ParticleNetwork({className}: ParticleNetworkProps) {
   const shouldRender = useSyncExternalStore(
-    subscribeToLargeScreenChanges,
-    getLargeScreenSnapshot,
+    subscribeToVisualPreferenceChanges,
+    getVisualPreferenceSnapshot,
     getServerSnapshot
   );
 

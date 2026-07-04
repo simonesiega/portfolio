@@ -45,18 +45,22 @@ export function WorkExperienceCard({
               </div>
             ) : null}
 
-            <div className="min-w-0 flex-1">
-              <h2 className="text-[0.98rem] leading-relaxed font-semibold text-[var(--ui-fg)] sm:text-[1.02rem]">
+            <div className="grid min-w-0 flex-1 gap-y-0.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-4">
+              <h2 className="text-[1.04rem] leading-relaxed font-semibold text-[var(--ui-fg)] sm:text-[1.1rem]">
                 {experience.company}
               </h2>
 
-              <div className="mt-1 grid gap-y-0.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-4">
-                <p className="text-[0.9rem] leading-relaxed text-[var(--header-item-color)] sm:text-[0.94rem]">
+              <p className="text-[0.88rem] leading-relaxed font-medium text-[var(--header-item-color)] sm:text-right sm:text-[0.94rem]">
+                {experience.dateRange}
+              </p>
+
+              <div className="mt-0.5 grid gap-y-0.5 sm:col-span-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-4">
+                <p className="text-[0.86rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-[0.9rem]">
                   {experience.role}
                 </p>
 
-                <p className="text-[0.82rem] font-medium tracking-[0.035em] text-[var(--header-item-color)]/72 sm:text-right sm:text-[0.86rem]">
-                  {experience.dateRange}
+                <p className="text-[0.86rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-right sm:text-[0.9rem]">
+                  {experience.location}
                 </p>
               </div>
             </div>

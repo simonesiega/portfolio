@@ -6,11 +6,9 @@ export const novaideaExperience = {
   logoSrc: "/work/logos/NewArtVanguard.webp",
   logoAlt: "New Art Vanguard logo",
   dateRange: "Feb 2026 — Present",
-  role: "Full-Stack Developer",
+  role: "Software Engineer, Contract",
   company: "New Art Vanguard",
-  companyUrl: "https://www.newartvanguard.com/",
-  companyType: "Contractor",
-  location: "Remote",
+  location: "Miami, FL (Remote)",
   description:
     "Maintained and expanded an existing production website, updating 5+ pages and delivering 3 new pages while improving responsive structure, navigation flow, and maintainability. Helped introduce Docker-based workflows that reduced repeated setup and deployment preparation time by ~25%.",
   tags: [

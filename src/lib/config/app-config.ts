@@ -20,8 +20,6 @@ export const appConfig = {
 
   owner: {
     name: "Simone Siega",
-    copyrightName: "SIMONE SIEGA",
-    tagline: "Design · Code · Clarity.",
   },
 
   navigation: {
