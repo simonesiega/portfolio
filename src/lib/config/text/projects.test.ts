@@ -35,7 +35,6 @@ describe("projects text model", () => {
     expect(projectsText.caseStudyPage.backToProjectsLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.githubLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.projectSummaryAriaLabel.trim().length).toBeGreaterThan(0);
-    expect(projectsText.caseStudyPage.linksFallbackHeading.trim().length).toBeGreaterThan(0);
   });
 
   it("keeps project identity unique and helper lookups aligned", () => {
@@ -110,7 +109,6 @@ describe("projects text model", () => {
 
       expect(caseStudy.readTimeMinutes).toBeGreaterThan(0);
       expect(caseStudy.quickFacts.length).toBeGreaterThan(0);
-      expect(caseStudy.contentLinks.length).toBeGreaterThan(0);
       expect(typeof caseStudy.Content).toBe("function");
 
       if (caseStudy.gallery) {
@@ -152,17 +150,6 @@ describe("projects text model", () => {
           `Duplicate quick fact label: ${quickFact.label}`
         ).toBe(false);
         quickFactLabels.add(quickFact.label);
-      }
-
-      const contentLinkLabels = new Set<string>();
-      for (const link of caseStudy.contentLinks) {
-        expect(link.label.trim().length).toBeGreaterThan(0);
-        expect(() => new URL(link.href)).not.toThrow();
-        expect(
-          contentLinkLabels.has(link.label),
-          `Duplicate content link label: ${link.label}`
-        ).toBe(false);
-        contentLinkLabels.add(link.label);
       }
     }
   });

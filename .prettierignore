@@ -7,3 +7,5 @@ public
 *.tsbuildinfo
 README.md
 docs/
+src/lib/config/text/projects/content/cfg-parser.mdx
+src/lib/config/text/projects/content/first-client-projects.mdx

@@ -6,11 +6,7 @@ import {
 } from "./projects/projects-shared";
 import {projects} from "./projects/project-entries";
 import type {ProjectsPageProject, ProjectsText} from "./projects/types";
-export {
-  type ProjectCaseStudyContentLink,
-  type ProjectCaseStudyGalleryItem,
-  type ProjectsPageProject,
-} from "./projects/types";
+export {type ProjectCaseStudyGalleryItem, type ProjectsPageProject} from "./projects/types";
 
 export const projectsText = {
   hero: projectsHero,

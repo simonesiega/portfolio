@@ -42,17 +42,6 @@ export const cfgParserProject = {
         renderingMode: "dark-source",
       },
     ],
-    contentLinks: [
-      {label: "GitHub repository", href: "https://github.com/simonesiega/cfg-parser"},
-      {
-        label: "technical documentation",
-        href: "https://github.com/simonesiega/cfg-parser/tree/master/docs",
-      },
-      {
-        label: "project README",
-        href: "https://github.com/simonesiega/cfg-parser/blob/master/README.md",
-      },
-    ],
     Content: CaseStudyContent,
   },
 } as const satisfies ProjectsPageProject;

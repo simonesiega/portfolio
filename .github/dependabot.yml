@@ -7,6 +7,10 @@ updates:
       day: monday
       time: "05:00"
     open-pull-requests-limit: 5
+    groups:
+      npm-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: github-actions
     directory: /
@@ -15,6 +19,10 @@ updates:
       day: monday
       time: "05:15"
     open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: docker
     directory: /
@@ -23,3 +31,7 @@ updates:
       day: monday
       time: "05:30"
     open-pull-requests-limit: 5
+    groups:
+      docker-images:
+        patterns:
+          - "*"

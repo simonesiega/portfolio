@@ -14,11 +14,6 @@ export type ProjectDemoLink = {
   href: string;
 };
 
-export type ProjectCaseStudyContentLink = {
-  label: string;
-  href: string;
-};
-
 export type ProjectsPageProject = {
   id: string;
   slug: string;
@@ -35,7 +30,6 @@ export type ProjectsPageProject = {
       value: string;
     }[];
     gallery?: readonly ProjectCaseStudyGalleryItem[];
-    contentLinks: readonly ProjectCaseStudyContentLink[];
     Content: ComponentType;
   };
 };
@@ -68,7 +62,6 @@ export type ProjectsText = {
     backToProjectsLabel: string;
     githubLabel: string;
     projectSummaryAriaLabel: string;
-    linksFallbackHeading: string;
   };
   projects: readonly ProjectsPageProject[];
 };

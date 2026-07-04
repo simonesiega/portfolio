@@ -57,10 +57,6 @@ export const firstClientProjects = {
         href: "https://arsenalemoto.it/",
       },
     ],
-    contentLinks: [
-      {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
-      {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},
-    ],
     Content: CaseStudyContent,
   },
 } as const satisfies ProjectsPageProject;

@@ -4,7 +4,6 @@ import {ViewTransition} from "react";
 import {FiArrowUpRight} from "react-icons/fi";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {ProjectImageGallery} from "@/components/projects/project-image-gallery";
-import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {mediaConfig} from "@/lib/config/media";
@@ -186,20 +185,6 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
 
         <div className="project-case-study-mdx space-y-8 sm:space-y-10 [&_h2+p]:mt-2">
           <CaseStudyContent />
-          <ProjectMdxRevealSection>
-            <h2
-              className={`${geistSans.className} text-[1.3rem] font-semibold tracking-[-0.02em] text-[var(--ui-fg)] sm:text-[1.5rem]`}
-            >
-              {projectsText.caseStudyPage.linksFallbackHeading}
-            </h2>
-            <ul className="mt-3 list-disc space-y-2 pl-5">
-              {project.caseStudy.contentLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href}>{link.label}</a>
-                </li>
-              ))}
-            </ul>
-          </ProjectMdxRevealSection>
         </div>
       </article>
     </SecondaryPageLayout>

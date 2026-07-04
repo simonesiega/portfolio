@@ -32,5 +32,4 @@ export const projectsCaseStudyPage = {
   backToProjectsLabel: "Back to projects",
   githubLabel: "View on GitHub",
   projectSummaryAriaLabel: "Project summary",
-  linksFallbackHeading: "Links",
 } as const satisfies ProjectsText["caseStudyPage"];

@@ -100,69 +100,19 @@ The CLI can evaluate plain arithmetic, nested parentheses, unary minus, exponent
 
 The useful cases are the ones that combine features without relying on special-case string handling:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    1 + 2 * 3 =
-  </code>
-  returns
-  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    Result: 7.000
-  </code>
-  , showing that multiplication is evaluated before addition.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    2(3 + 1) =
-  </code>
-  is parsed as implicit multiplication.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    (.12)(1*9/2.3) =
-  </code>
-  is interpreted as
-  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    0.12 * (9 / 2.3)
-  </code>
-  and returns approximately
-  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    0.46956
-  </code>
-  .
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    27 $ 3 =
-  </code>
-  computes a cube root.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    4^2 $ 2 =
-  </code>
-  is evaluated as
-  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    (4^2)^(1/2)
-  </code>
-  and returns
-  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    Result: 4.000
-  </code>
-  .
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 * 3 =</code> returns <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result: 7.000</code>, showing that multiplication is evaluated before addition.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2(3 + 1) =</code> is parsed as implicit multiplication.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(.12)(1*9/2.3) =</code> is interpreted as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">0.12 * (9 / 2.3)</code> and returns approximately <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">0.46956</code>.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">27 $ 3 =</code> computes a cube root.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">4^2 $ 2 =</code> is evaluated as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(4^2)^(1/2)</code> and returns <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result: 4.000</code>.
 
 Invalid cases are handled deliberately too:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    2 + =
-  </code>
-  fails because the right operand is missing.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    2 * (3 + 4
-  </code>
-  fails because the closing parenthesis is missing.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    5 5 =
-  </code>
-  fails because consecutive numbers are ambiguous.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    2 ^ =
-  </code>
-  and
-  <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-    27 $ =
-  </code>
-  fail before evaluation because the operand after the operator is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 + =</code> fails because the right operand is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 * (3 + 4</code> fails because the closing parenthesis is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">5 5 =</code> fails because consecutive numbers are ambiguous.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 ^ =</code> fails before evaluation because the operand after the operator is missing.
+- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">27 $ =</code> fails before evaluation because the operand after the operator is missing.
 
 </ProjectMdxRevealSection>
 
@@ -209,5 +159,15 @@ If I continued expanding the parser, I would strengthen the foundation before ad
 - Introduce an AST when the language needs transformations, richer diagnostics, or delayed evaluation.
 - Define function-call grammar before adding functions such as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">sin</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">cos</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">tan</code>, or <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">log</code>.
 - Publish versioned Docker images so the CLI is easier to try without cloning the repository.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Links
+
+- [GitHub repository](https://github.com/simonesiega/cfg-parser)
+- [Technical documentation](https://github.com/simonesiega/cfg-parser/tree/master/docs)
+- [Project README](https://github.com/simonesiega/cfg-parser/blob/master/README.md)
 
 </ProjectMdxRevealSection>
