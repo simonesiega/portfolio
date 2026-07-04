@@ -56,7 +56,7 @@ jobs:
           languages: javascript-typescript
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@e8e8e51caba890f74f97e228d00b0b81b666ee4c
+        uses: github/codeql-action/analyze@411c4c9a36b3fca4d674f06b6396b2c6d23522c6
 
   docker-image-scan:
     name: Docker Image Scan
