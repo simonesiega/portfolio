@@ -1,16 +1,31 @@
 version: 2
 updates:
-  - package-ecosystem: npm
+  - package-ecosystem: bun
     directory: /
     schedule:
       interval: weekly
       day: monday
       time: "05:00"
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: eslint
+        update-types:
+          - version-update:semver-major
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
     groups:
-      npm-dependencies:
+      npm-safe:
         patterns:
           - "*"
+        update-types:
+          - patch
+          - minor
+      npm-major:
+        patterns:
+          - "*"
+        update-types:
+          - major
 
   - package-ecosystem: github-actions
     directory: /

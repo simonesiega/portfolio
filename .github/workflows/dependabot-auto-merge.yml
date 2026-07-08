@@ -15,12 +15,26 @@ permissions:
 jobs:
   auto-merge:
     name: Enable Auto Merge
-    if: github.actor == 'dependabot[bot]'
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Enable auto-merge
+        if: |
+          (
+            steps.metadata.outputs.package-ecosystem == 'bun' &&
+            contains(fromJSON('["version-update:semver-patch","version-update:semver-minor"]'), steps.metadata.outputs.update-type)
+          ) || (
+            steps.metadata.outputs.package-ecosystem == 'github-actions' &&
+            steps.metadata.outputs.update-type != 'version-update:semver-major'
+          )
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
