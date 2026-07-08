@@ -8,9 +8,17 @@ updates:
       time: "05:00"
     open-pull-requests-limit: 5
     groups:
-      npm-dependencies:
+      npm-safe:
         patterns:
           - "*"
+        update-types:
+          - patch
+          - minor
+      npm-major:
+        patterns:
+          - "*"
+        update-types:
+          - major
 
   - package-ecosystem: github-actions
     directory: /
