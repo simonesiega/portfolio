@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
   },
   output: "standalone",
   pageExtensions: ["ts", "tsx", "md", "mdx"],
+  poweredByHeader: false,
   outputFileTracingIncludes: {
     "/*": ["./node_modules/@img/sharp-*/lib/*"],
   },

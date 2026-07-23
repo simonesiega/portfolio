@@ -5,9 +5,9 @@ Personal portfolio website showcasing my work, projects, and technical interests
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-000?logo=nextdotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Next.js-000?logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
 </p>
 
 <p align="center">
@@ -58,14 +58,21 @@ Production builds require `NEXT_PUBLIC_SITE_URL` or `SITE_URL` so metadata, robo
 bun run check
 ```
 
+Run the browser suite separately:
+
+```bash
+bunx playwright install chromium
+bun run test:e2e
+```
+
 ## Production
 
 The Docker image uses Next.js standalone output and runs as a non-root `nextjs` user on port `3000`.
 
 Configuration is handled with environment variables:
 
-- `NEXT_PUBLIC_SITE_URL` or `SITE_URL`: canonical site origin used by metadata, sitemap, and robots. The Docker image defaults `SITE_URL` to `https://simonesiega.com` and deployments can override it.
-- `NEXT_PUBLIC_UMAMI_ENABLED`, `NEXT_PUBLIC_UMAMI_SCRIPT_SRC`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID`: optional Umami analytics. Provide these at build time for client-side code and at runtime for server-rendered layout/proxy behavior.
+- `NEXT_PUBLIC_SITE_URL` or `SITE_URL`: canonical site origin used at build time by metadata, sitemap, and robots. Docker builds default `SITE_URL` to `https://simonesiega.com`; deployments can override it with a build argument.
+- `NEXT_PUBLIC_UMAMI_ENABLED`, `NEXT_PUBLIC_UMAMI_SCRIPT_SRC`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID`: optional Umami analytics. Provide all three at build time. When analytics is enabled, also provide `NEXT_PUBLIC_UMAMI_ENABLED=true` and `NEXT_PUBLIC_UMAMI_SCRIPT_SRC` at runtime so the CSP permits that origin; changing runtime values alone does not modify prerendered pages.
 - `CSP_MODE`: `off`, `report-only`, or `enforce`; production defaults to `enforce` when unset.
 - `CSP_REPORT_URI`: optional CSP report endpoint.
 - `CSP_CONNECT_SRC_EXTRA`: optional space-separated extra `connect-src` origins.

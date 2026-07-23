@@ -16,6 +16,13 @@
     transition: none !important;
   }
 
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
   .scroll-reveal,
   .about-interest-reveal {
     opacity: 1 !important;

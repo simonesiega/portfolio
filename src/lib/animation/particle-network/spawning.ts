@@ -30,10 +30,12 @@ export function spawnParticle({
   // Clustered spawn creates denser visual islands while uniform fallback fills gaps.
   if (Math.random() < spawning.clusteredSpawnChance && centers.length > 0) {
     const center = centers[randomInt(0, centers.length - 1)];
-    // Gaussian spread around cluster center creates denser visual islands.
-    const sigma = Math.min(width, height) * spawning.clusterSigmaFactor;
-    x = center.x + randomGaussian() * sigma;
-    y = center.y + randomGaussian() * sigma;
+    if (center) {
+      // Gaussian spread around cluster center creates denser visual islands.
+      const sigma = Math.min(width, height) * spawning.clusterSigmaFactor;
+      x = center.x + randomGaussian() * sigma;
+      y = center.y + randomGaussian() * sigma;
+    }
   }
 
   x = clamp(x, 0, width);

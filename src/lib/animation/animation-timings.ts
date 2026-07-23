@@ -43,7 +43,6 @@ export const animationTimings = {
     },
     aboutImages: {
       delayMs: 120,
-      initialViewportDelayMs: 680,
       stepDelayMs: 140,
       durationMs: 820,
       threshold: 0.18,
@@ -85,7 +84,6 @@ export const animationTimings = {
   projectCaseStudy: {
     metaLabel: {
       delayMs: 360,
-      initialViewportDelayMs: 360,
       durationMs: 860,
       threshold: 0.06,
     },
@@ -100,6 +98,7 @@ export const animationTimings = {
 
   themeTransition: {
     durationMs: 1000,
+    easing: "cubic-bezier(0.22, 1, 0.36, 1)",
     syncDelayMs: 0,
   },
 } as const;

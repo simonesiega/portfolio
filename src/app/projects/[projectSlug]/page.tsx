@@ -7,12 +7,7 @@ import {ProjectImageGallery} from "@/components/projects/project-image-gallery";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {mediaConfig} from "@/lib/config/media";
-import {
-  getProjectBySlug,
-  getProjectCaseStudyDiagramThemeClass,
-  getProjectCaseStudySeo,
-  projectsText,
-} from "@/lib/config/text/projects";
+import {getProjectBySlug, getProjectCaseStudySeo, projectsText} from "@/lib/config/text/projects";
 import {geistSans} from "@/lib/fonts";
 import {createContentPageMetadata} from "@/lib/metadata";
 import {PROJECT_DETAIL_SHARE} from "@/lib/view-transition";
@@ -62,17 +57,12 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
   const {projectCaseStudy} = animationTimings;
   const {caseStudyGallery} = mediaConfig.projects;
   const CaseStudyContent = project.caseStudy.Content;
-  const diagramThemeClass = getProjectCaseStudyDiagramThemeClass(project.slug);
-  const diagramImageClassName = ["project-diagram-image", "h-full", "w-full", "object-contain"];
+  const galleryImageClassName = "project-diagram-image h-full w-full object-contain";
   const githubUrl = project.githubUrl.trim();
   const getContentRevealDelayMs = (index: number) =>
     projectCaseStudy.content.delayMs + index * projectCaseStudy.content.stepDelayMs;
   const getContentInitialViewportDelayMs = (index: number) =>
     projectCaseStudy.content.initialViewportDelayMs + index * projectCaseStudy.content.stepDelayMs;
-
-  if (diagramThemeClass) {
-    diagramImageClassName.push(diagramThemeClass);
-  }
 
   return (
     <SecondaryPageLayout
@@ -129,10 +119,10 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                   key={fact.label}
                   className="grid grid-cols-[minmax(0,8rem)_minmax(0,1fr)] items-start gap-x-3"
                 >
-                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_48%,transparent)]">
+                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_68%,transparent)]">
                     {fact.label}
                   </span>
-                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_68%,transparent)]">
+                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_82%,transparent)]">
                     {fact.value}
                   </span>
                 </li>
@@ -147,7 +137,10 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                   className={`${geistSans.className} group inline-flex items-center gap-1.5 text-[0.84rem] font-medium text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
                 >
                   {projectsText.caseStudyPage.githubLabel}
-                  <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <FiArrowUpRight
+                    aria-hidden={true}
+                    className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
                 </a>
               ) : null}
               {project.demoUrls?.map((demo) => (
@@ -159,7 +152,10 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
                   className={`${geistSans.className} group inline-flex items-center gap-1.5 text-[0.84rem] font-medium text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
                 >
                   {demo.label}
-                  <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <FiArrowUpRight
+                    aria-hidden={true}
+                    className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
                 </a>
               ))}
             </div>
@@ -177,7 +173,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             <ProjectImageGallery
               key={project.slug}
               images={project.caseStudy.gallery}
-              imageClassName={diagramImageClassName.join(" ")}
+              imageClassName={galleryImageClassName}
               width={caseStudyGallery.width}
               height={caseStudyGallery.height}
             />

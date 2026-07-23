@@ -29,6 +29,7 @@ export const appConfig = {
       {href: "/work", label: "work"},
     ],
     ariaLabel: "Primary navigation",
+    skipToContentLabel: "Skip to content",
   },
 
   social: {
@@ -62,7 +63,6 @@ export const appConfig = {
       toggleTheme: "Toggle color theme",
       controls: "Theme controls",
       currentModePrefix: "Current mode",
-      manualSelectionPrefix: "Manual selection",
       statusPrefix: "Theme mode",
     },
   },

@@ -1,5 +1,7 @@
 import {defineConfig, devices} from "@playwright/test";
 
+const isCI = Boolean(process.env.CI);
+
 export default defineConfig({
   testDir: "./e2e",
   timeout: 60_000,
@@ -7,10 +9,12 @@ export default defineConfig({
     timeout: 10_000,
   },
   fullyParallel: true,
-  retries: 0,
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
   reporter: "list",
   use: {
     baseURL: "http://127.0.0.1:3100",
+    screenshot: "only-on-failure",
     trace: "on-first-retry",
   },
   projects: [

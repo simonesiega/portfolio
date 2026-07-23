@@ -47,12 +47,8 @@ describe("animation timings", () => {
     expect(animationTimings.homeIntro.section.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.homeIntro.section.initialViewportDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.homeIntro.aboutImages.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.homeIntro.aboutImages.initialViewportDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.workExperienceList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectsShowcaseList.item.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(
-      animationTimings.projectCaseStudy.metaLabel.initialViewportDelayMs
-    ).toBeGreaterThanOrEqual(0);
     expect(animationTimings.projectCaseStudy.content.initialViewportDelayMs).toBeGreaterThanOrEqual(
       0
     );

@@ -1,7 +1,7 @@
 "use client";
 
-import {useRef, useEffect, type ReactNode} from "react";
-import {animationTimings} from "@/lib/animation/animation-timings";
+import {useRef, useEffect, type CSSProperties, type ReactNode} from "react";
+import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 
 type Variant = "fade-up" | "fade-down" | "fade-in";
 
@@ -15,9 +15,10 @@ interface ScrollRevealProps {
   className?: string;
 }
 
-function getTimingClass(prefix: "sr-delay" | "sr-duration", value: number) {
-  return `${prefix}-${value}`;
-}
+type ScrollRevealStyle = CSSProperties & {
+  "--sr-delay": string;
+  "--sr-duration": string;
+};
 
 export function ScrollReveal({
   children,
@@ -46,14 +47,19 @@ export function ScrollReveal({
       return;
     }
 
-    const initialScrollY = window.scrollY;
+    let hasScrolled = false;
+    const handleScroll = () => {
+      hasScrolled = true;
+      window.removeEventListener("scroll", handleScroll);
+    };
+
+    window.addEventListener("scroll", handleScroll, {passive: true});
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          if (initialViewportDelay !== undefined && window.scrollY === initialScrollY) {
-            el.classList.remove(getTimingClass("sr-delay", delay));
-            el.classList.add(getTimingClass("sr-delay", initialViewportDelay));
+        if (entry?.isIntersecting) {
+          if (initialViewportDelay !== undefined && !hasScrolled) {
+            el.style.setProperty("--sr-delay", toMs(initialViewportDelay));
           }
 
           el.classList.add("scroll-reveal--visible");
@@ -65,20 +71,24 @@ export function ScrollReveal({
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, [
     initialViewportDelay,
-    delay,
     threshold,
     scrollRevealDefaults.reducedMotionQuery,
     scrollRevealDefaults.rootMargin,
   ]);
 
+  const style: ScrollRevealStyle = {
+    "--sr-delay": toMs(delay),
+    "--sr-duration": toMs(duration),
+  };
+
   return (
-    <div
-      ref={ref}
-      className={`scroll-reveal scroll-reveal--${variant} ${getTimingClass("sr-delay", delay)} ${getTimingClass("sr-duration", duration)} ${className}`}
-    >
+    <div ref={ref} style={style} className={`scroll-reveal scroll-reveal--${variant} ${className}`}>
       {children}
     </div>
   );

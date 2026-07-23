@@ -249,6 +249,10 @@ export function useParticleNetwork() {
 
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) {
+          return;
+        }
+
         state.isCanvasVisible = entry.isIntersecting;
 
         if (!state.isCanvasVisible) {

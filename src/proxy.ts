@@ -1,5 +1,6 @@
 import {NextResponse, type NextRequest} from "next/server";
 
+const umamiEnabled = process.env.NEXT_PUBLIC_UMAMI_ENABLED === "true";
 const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC;
 const isProduction = process.env.NODE_ENV === "production";
 const rawCspMode = process.env.CSP_MODE ?? (isProduction ? "enforce" : "off");
@@ -11,19 +12,24 @@ const cspMode =
       : "off";
 const cspReportUri = process.env.CSP_REPORT_URI;
 const cspConnectSrcExtra = (process.env.CSP_CONNECT_SRC_EXTRA ?? "")
-  .split(" ")
+  .split(/\s+/)
   .map((value) => value.trim())
   .filter(Boolean);
 
-let umamiOrigin = "";
+function getHttpOrigin(value: string | undefined) {
+  if (!value) {
+    return "";
+  }
 
-if (umamiScriptSrc) {
   try {
-    umamiOrigin = new URL(umamiScriptSrc).origin;
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.origin : "";
   } catch {
-    umamiOrigin = "";
+    return "";
   }
 }
+
+const umamiOrigin = umamiEnabled ? getHttpOrigin(umamiScriptSrc) : "";
 
 function createCspHeader() {
   const scriptSrc = ["'self'", "'unsafe-inline'", ...(umamiOrigin ? [umamiOrigin] : [])];
@@ -45,7 +51,7 @@ function createCspHeader() {
     `connect-src ${connectSrc.join(" ")}`,
     "img-src 'self' data: blob:",
     "font-src 'self' data:",
-    "style-src 'self'",
+    "style-src 'self' 'unsafe-inline'",
     "frame-src 'none'",
     "worker-src 'self' blob:",
   ];
@@ -63,7 +69,7 @@ function createCspHeader() {
 }
 
 export function proxy(request: NextRequest) {
-  const accepts = request.headers.get("accept") ?? "";
+  const accepts = request.headers.get("accept")?.toLowerCase() ?? "";
 
   if (!accepts.includes("text/html")) {
     return NextResponse.next();

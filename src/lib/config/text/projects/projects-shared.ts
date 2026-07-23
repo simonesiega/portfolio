@@ -29,7 +29,6 @@ export const projectsSeo = {
 
 export const projectsCaseStudyPage = {
   minReadSuffix: "min read",
-  backToProjectsLabel: "Back to projects",
   githubLabel: "View on GitHub",
   projectSummaryAriaLabel: "Project summary",
 } as const satisfies ProjectsText["caseStudyPage"];

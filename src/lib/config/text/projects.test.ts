@@ -1,7 +1,6 @@
 import {describe, expect, it} from "vitest";
 import {
   getProjectBySlug,
-  getProjectCaseStudyDiagramThemeClass,
   getProjectCaseStudyHref,
   getProjectCaseStudySeo,
   projectsText,
@@ -32,7 +31,6 @@ describe("projects text model", () => {
     expect(projectsText.seo.caseStudyFallbackDescription.trim().length).toBeGreaterThan(0);
 
     expect(projectsText.caseStudyPage.minReadSuffix.trim().length).toBeGreaterThan(0);
-    expect(projectsText.caseStudyPage.backToProjectsLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.githubLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.caseStudyPage.projectSummaryAriaLabel.trim().length).toBeGreaterThan(0);
   });
@@ -82,23 +80,12 @@ describe("projects text model", () => {
 
       expect(seo.title).toBe(`${project.title} ${projectsText.seo.caseStudyTitleSuffix}`);
       expect(seo.description).toBe(project.keyPhrase);
-
-      const renderingMode = project.caseStudy.gallery?.[0]?.renderingMode;
-
-      if (renderingMode === "dark-source") {
-        expect(getProjectCaseStudyDiagramThemeClass(project.slug)).toBe(
-          "project-diagram-image--dark-source"
-        );
-      } else {
-        expect(getProjectCaseStudyDiagramThemeClass(project.slug)).toBe("");
-      }
     }
 
     const unknownSlug = "unknown-project-slug";
     const fallbackSeo = getProjectCaseStudySeo(unknownSlug);
 
     expect(getProjectBySlug(unknownSlug)).toBeUndefined();
-    expect(getProjectCaseStudyDiagramThemeClass(unknownSlug)).toBe("");
     expect(fallbackSeo.title).toBe(projectsText.seo.caseStudyFallbackTitle);
     expect(fallbackSeo.description).toBe(projectsText.seo.caseStudyFallbackDescription);
   });

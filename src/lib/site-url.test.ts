@@ -44,12 +44,20 @@ describe("site URL resolution", () => {
     });
 
     expect(getSiteOrigin()).toBe("https://preview.example.com");
+    expect(getSiteUrl().href).toBe("https://preview.example.com/");
   });
 
-  it("rejects invalid configured URLs", () => {
+  it("rejects invalid or unsafe configured URLs", () => {
     setNodeEnv("production");
-    setSiteUrls({publicUrl: "not-a-url"});
 
-    expect(() => getSiteUrl()).toThrow("must be a valid absolute URL");
+    for (const publicUrl of [
+      "not-a-url",
+      "ftp://example.com",
+      "javascript:alert(1)",
+      "https://user:password@example.com",
+    ]) {
+      setSiteUrls({publicUrl});
+      expect(() => getSiteUrl()).toThrow("must be a valid absolute URL");
+    }
   });
 });

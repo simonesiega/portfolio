@@ -6,6 +6,18 @@ html[data-scroll-behavior="auto"] {
   scroll-behavior: auto;
 }
 
+html.theme-initializing *,
+html.theme-initializing *::before,
+html.theme-initializing *::after {
+  transition: none !important;
+}
+
+html.theme-changing *,
+html.theme-changing *::before,
+html.theme-changing *::after {
+  transition-property: transform, opacity, filter !important;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;

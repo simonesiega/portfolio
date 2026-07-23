@@ -7,10 +7,12 @@ const staticAppRouteFiles = {
   "/work": "src/app/work/page.tsx",
 } as const;
 
+const appContentLastModified = "2026-07-23T00:00:00.000Z";
+
 const staticAppRouteLastModified = {
-  "/": "2026-07-04T00:00:00.000Z",
-  "/projects": "2026-07-04T00:00:00.000Z",
-  "/work": "2026-07-04T00:00:00.000Z",
+  "/": appContentLastModified,
+  "/projects": appContentLastModified,
+  "/work": appContentLastModified,
 } as const;
 
 const projectCaseStudyRouteFiles = Object.fromEntries(
@@ -26,7 +28,7 @@ export const appRouteFiles = {
 } as const;
 
 const projectCaseStudyRouteLastModified = Object.fromEntries(
-  projectsText.projects.map((project) => [`/projects/${project.slug}`, "2026-07-04T00:00:00.000Z"])
+  projectsText.projects.map((project) => [`/projects/${project.slug}`, appContentLastModified])
 );
 
 export const appRouteLastModified = {

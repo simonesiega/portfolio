@@ -24,13 +24,18 @@ export function ProjectImageGallery({
     return null;
   }
 
+  const selectedImageClassName = `${imageClassName} ${
+    selectedImage.renderingMode === "dark-source" ? "project-diagram-image--dark-source" : ""
+  }`.trim();
   const selectedImageElement = (
     <Image
       src={selectedImage.src}
       alt={selectedImage.alt}
       width={width}
       height={height}
-      className={imageClassName}
+      sizes="(min-width: 48rem) 44rem, calc(100vw - 5rem)"
+      preload={selectedIndex === 0}
+      className={selectedImageClassName}
     />
   );
 
@@ -51,12 +56,6 @@ export function ProjectImageGallery({
           selectedImageElement
         )}
       </div>
-
-      {selectedImage.caption ? (
-        <figcaption className="text-xs leading-relaxed text-[color-mix(in_srgb,var(--ui-fg-muted)_55%,transparent)] sm:text-[0.82rem]">
-          {selectedImage.caption}
-        </figcaption>
-      ) : null}
 
       {images.length > 1 ? (
         <div
@@ -86,12 +85,19 @@ export function ProjectImageGallery({
                   alt=""
                   width={240}
                   height={135}
+                  sizes="96px"
                   className="aspect-video h-full w-full object-cover"
                 />
               </button>
             );
           })}
         </div>
+      ) : null}
+
+      {selectedImage.caption ? (
+        <figcaption className="text-xs leading-relaxed text-[color-mix(in_srgb,var(--ui-fg-muted)_68%,transparent)] sm:text-[0.82rem]">
+          {selectedImage.caption}
+        </figcaption>
       ) : null}
     </figure>
   );

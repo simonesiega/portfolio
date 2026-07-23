@@ -106,7 +106,7 @@ export const homeText = {
   intro: {
     profileImage: {
       src: "/landing/pfp.webp",
-      alt: "Simone Siega",
+      alt: "Portrait of Simone Siega",
     },
     name: "Simone Siega",
 
@@ -138,13 +138,11 @@ export const homeText = {
       ] as const satisfies readonly HomeIntroEducationItem[],
     },
     projects: {
-      label: "PROJECTS",
       linkLabel: "PROJECTS →",
       seeAllHref: "/projects",
       items: homeIntroProjectItems,
     },
     works: {
-      label: "WORK",
       linkLabel: "WORK →",
       seeAllHref: "/work",
       items: homeIntroWorkItems,

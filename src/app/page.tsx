@@ -41,12 +41,13 @@ export default function Home() {
   const getSectionInitialViewportDelayMs = (index: number) =>
     homeIntro.section.initialViewportDelayMs + index * homeIntro.section.stepDelayMs;
   const aboutSectionIndex = 3;
-  const aboutImageStartDelayMs =
+  const aboutImageInitialViewportDelayMs =
     getSectionInitialViewportDelayMs(aboutSectionIndex) +
     homeIntro.section.durationMs -
     aboutImageTextOverlapMs;
-  const footerRevealDelayMs =
-    aboutImageStartDelayMs + intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
+  const footerInitialViewportDelayMs =
+    aboutImageInitialViewportDelayMs +
+    intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
   return (
     <div className="relative overflow-x-clip">
       <div className={`relative z-10 ${pageFrameClassName}`}>
@@ -111,7 +112,7 @@ export default function Home() {
                       key={link.label}
                       href={link.href}
                       aria-label={link.label}
-                      className="transition-colors hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-none"
+                      className="rounded-sm transition-colors hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
                     >
                       <Icon aria-hidden={true} />
                     </a>
@@ -130,7 +131,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-5">
                 <h2
-                  className={`${montserrat.className} text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/72`}
+                  className={`${montserrat.className} text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/82`}
                 >
                   {intro.education.label}
                 </h2>
@@ -144,7 +145,10 @@ export default function Home() {
                       className="group/school-link relative inline-flex items-baseline gap-1 rounded-sm pb-0.5 font-semibold text-[var(--ui-fg)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
                     >
                       <span>{item.school}</span>
-                      <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/school-link:translate-x-0.5 group-hover/school-link:-translate-y-0.5 group-focus-visible/school-link:translate-x-0.5 group-focus-visible/school-link:-translate-y-0.5" />
+                      <FiArrowUpRight
+                        aria-hidden={true}
+                        className="h-3.5 w-3.5 transition-transform duration-300 group-hover/school-link:translate-x-0.5 group-hover/school-link:-translate-y-0.5 group-focus-visible/school-link:translate-x-0.5 group-focus-visible/school-link:-translate-y-0.5"
+                      />
                       <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/school-link:scale-x-100 group-focus-visible/school-link:scale-x-100" />
                     </a>
                     <span className="text-[var(--header-item-color)]">
@@ -166,7 +170,7 @@ export default function Home() {
             >
               <InstantRouteLink
                 href={intro.projects.seeAllHref}
-                className={`${montserrat.className} inline-flex text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/72 underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none`}
+                className={`${montserrat.className} inline-flex text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/82 underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none`}
               >
                 {intro.projects.linkLabel}
               </InstantRouteLink>
@@ -176,7 +180,7 @@ export default function Home() {
                   <p key={item.title} className="text-[0.98rem] leading-relaxed sm:text-[1.02rem]">
                     <InstantRouteLink
                       href={item.href}
-                      className="rounded-sm font-semibold text-[var(--ui-fg)] transition-colors duration-300 hover:text-[#2563eb] focus-visible:text-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
+                      className="rounded-sm font-semibold text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--project-link-accent-color)] focus-visible:text-[var(--project-link-accent-color)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--ui-fg)]"
                     >
                       {item.title}
                     </InstantRouteLink>
@@ -199,7 +203,7 @@ export default function Home() {
             >
               <InstantRouteLink
                 href={intro.works.seeAllHref}
-                className={`${montserrat.className} inline-flex text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/72 underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none`}
+                className={`${montserrat.className} inline-flex text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/82 underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none`}
               >
                 {intro.works.linkLabel}
               </InstantRouteLink>
@@ -243,7 +247,7 @@ export default function Home() {
               className="mt-10 sm:mt-12"
             >
               <h2
-                className={`${montserrat.className} text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/72`}
+                className={`${montserrat.className} text-[0.76rem] font-bold tracking-[0.14em] text-[var(--header-item-color)]/82`}
               >
                 {intro.about.label}
               </h2>
@@ -255,13 +259,15 @@ export default function Home() {
 
             <AboutInterestImages
               images={intro.about.images}
-              startDelayMs={aboutImageStartDelayMs}
+              delayMs={homeIntro.aboutImages.delayMs}
+              initialViewportDelayMs={aboutImageInitialViewportDelayMs}
             />
           </section>
 
           <RouteReveal
             variant="fade-in"
-            delay={footerRevealDelayMs}
+            delay={0}
+            initialViewportDelay={footerInitialViewportDelayMs}
             duration={routeReveal.durationMs}
             threshold={routeReveal.threshold}
           >

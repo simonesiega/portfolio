@@ -117,8 +117,11 @@ export function Header({
   }, [activeNavHref, measureIndicator]);
 
   useEffect(() => {
+    let frameId = 0;
+
     const handleResize = () => {
-      window.requestAnimationFrame(() => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
         const nextIndicator = measureIndicator();
         if (nextIndicator) {
           setIndicator(nextIndicator);
@@ -126,9 +129,18 @@ export function Header({
       });
     };
 
+    const resizeObserver = new ResizeObserver(handleResize);
+    const container = containerRef.current;
+
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
+      window.cancelAnimationFrame(frameId);
     };
   }, [measureIndicator]);
 
@@ -148,7 +160,19 @@ export function Header({
 
   const handleOwnerClick = useCallback(
     (event: ReactMouseEvent<HTMLAnchorElement>) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
       if (pathname !== homeHref) {
+        beginRouteNavigationScrollMode();
         return;
       }
 
@@ -266,11 +290,11 @@ export function Header({
 
           <div className="hidden items-center gap-4 min-[390px]:flex sm:gap-6">
             <SocialIconLink href={githubUrl} label={socialLabels.github}>
-              <FaGithub className="h-6 w-6" />
+              <FaGithub aria-hidden={true} className="h-6 w-6" />
             </SocialIconLink>
 
             <SocialIconLink href={linkedinUrl} label={socialLabels.linkedin}>
-              <FaLinkedinIn className="h-6 w-6" />
+              <FaLinkedinIn aria-hidden={true} className="h-6 w-6" />
             </SocialIconLink>
           </div>
         </div>

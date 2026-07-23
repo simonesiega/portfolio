@@ -7,7 +7,7 @@ const {
   owner,
 } = appConfig;
 
-export const socialPreviewImage = {
+const socialPreviewImage = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,

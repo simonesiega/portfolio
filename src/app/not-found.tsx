@@ -1,3 +1,4 @@
+import type {Metadata} from "next";
 import Link from "next/link";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {SecondaryFooter} from "@/components/secondary-page/secondary-footer";
@@ -6,9 +7,16 @@ import {systemText} from "@/lib/config/text/system";
 import {montserrat} from "@/lib/fonts";
 import {pageColumnClassName, pageContentClassName, pageFrameClassName} from "@/lib/layout-classes";
 
+const {notFoundPage} = systemText;
+
+export const metadata: Metadata = {
+  title: notFoundPage.hero.title,
+  description: notFoundPage.hero.subtitle,
+  alternates: {canonical: null},
+};
+
 export default function NotFoundPage() {
   const {routeReveal, projectsShowcaseList} = animationTimings;
-  const {notFoundPage} = systemText;
   const {actions} = notFoundPage.body;
 
   return (

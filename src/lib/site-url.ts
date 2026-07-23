@@ -12,9 +12,18 @@ export function getSiteUrl() {
   }
 
   try {
-    return new URL(configuredSiteUrl);
+    const siteUrl = new URL(configuredSiteUrl);
+    const usesHttp = siteUrl.protocol === "http:" || siteUrl.protocol === "https:";
+
+    if (!usesHttp || siteUrl.username || siteUrl.password) {
+      throw new Error();
+    }
+
+    return new URL(siteUrl.origin);
   } catch {
-    throw new Error("NEXT_PUBLIC_SITE_URL or SITE_URL must be a valid absolute URL.");
+    throw new Error(
+      "NEXT_PUBLIC_SITE_URL or SITE_URL must be a valid absolute URL using HTTP or HTTPS."
+    );
   }
 }
 

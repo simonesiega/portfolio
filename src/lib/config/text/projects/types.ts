@@ -9,7 +9,7 @@ export type ProjectCaseStudyGalleryItem = {
   renderingMode?: "auto" | "dark-source";
 };
 
-export type ProjectDemoLink = {
+type ProjectDemoLink = {
   label: string;
   href: string;
 };
@@ -59,7 +59,6 @@ export type ProjectsText = {
   };
   caseStudyPage: {
     minReadSuffix: string;
-    backToProjectsLabel: string;
     githubLabel: string;
     projectSummaryAriaLabel: string;
   };

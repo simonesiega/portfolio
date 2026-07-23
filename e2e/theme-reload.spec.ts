@@ -47,6 +47,9 @@ test.describe("theme initialization", () => {
       await page.goto(route);
 
       await expect.poll(async () => page.locator("html").getAttribute("data-theme")).toBe("light");
+      expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(
+        "rgb(255, 255, 255)"
+      );
     });
 
     test(`${route} resolves system dark before hydration`, async ({page}) => {

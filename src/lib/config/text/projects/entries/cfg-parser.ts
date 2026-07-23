@@ -6,7 +6,7 @@ export const cfgParserProject = {
   slug: "cfg-parser",
   title: "CFG Parser",
   pinned: false,
-  githubUrl: "https://github.com/simonesiega/cfg-parser.git",
+  githubUrl: "https://github.com/simonesiega/cfg-parser",
   developmentPeriod: "2025",
   keyPhrase,
   caseStudy: {

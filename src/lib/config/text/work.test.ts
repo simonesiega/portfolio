@@ -51,7 +51,12 @@ describe("work text model", () => {
       const previous = workText.experiences[index - 1];
       const current = workText.experiences[index];
 
-      expect(previous.sortStart >= current.sortStart).toBe(true);
+      expect(previous).toBeDefined();
+      expect(current).toBeDefined();
+
+      if (previous && current) {
+        expect(previous.sortStart >= current.sortStart).toBe(true);
+      }
     }
   });
 });

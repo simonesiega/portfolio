@@ -27,7 +27,7 @@ export function SecondaryFooter({legalDisclaimerLine}: SecondaryFooterProps) {
 
         {legalDisclaimerLine ? (
           <p
-            className={`${montserrat.className} mt-3 max-w-[26rem] text-[0.62rem] leading-relaxed text-[var(--header-item-color)] opacity-80 sm:col-start-2 sm:row-start-1 sm:mt-0 sm:justify-self-end sm:text-right sm:text-[0.7rem]`}
+            className={`${montserrat.className} mt-3 max-w-[26rem] text-[0.62rem] leading-relaxed text-[var(--header-item-color)] sm:col-start-2 sm:row-start-1 sm:mt-0 sm:justify-self-end sm:text-right sm:text-[0.7rem]`}
           >
             {legalDisclaimerLine}
           </p>

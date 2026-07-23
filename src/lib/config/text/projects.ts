@@ -26,22 +26,6 @@ export function getProjectCaseStudyHref(projectSlug: string) {
   return `/projects/${projectSlug}`;
 }
 
-export function getProjectCaseStudyDiagramThemeClass(projectSlug: string) {
-  const project = getProjectBySlug(projectSlug);
-
-  if (!project) {
-    return "";
-  }
-
-  const renderingMode = project.caseStudy.gallery?.[0]?.renderingMode;
-
-  if (renderingMode === "dark-source") {
-    return "project-diagram-image--dark-source";
-  }
-
-  return "";
-}
-
 export function getProjectCaseStudySeo(projectSlug: string) {
   const project = getProjectBySlug(projectSlug);
 

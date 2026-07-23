@@ -55,11 +55,11 @@ export function WorkExperienceCard({
               </p>
 
               <div className="mt-0.5 grid gap-y-0.5 sm:col-span-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline sm:gap-x-4">
-                <p className="text-[0.86rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-[0.9rem]">
+                <p className="text-[0.86rem] leading-relaxed text-[var(--header-item-color)]/82 sm:text-[0.9rem]">
                   {experience.role}
                 </p>
 
-                <p className="text-[0.86rem] leading-relaxed text-[var(--header-item-color)]/78 sm:text-right sm:text-[0.9rem]">
+                <p className="text-[0.86rem] leading-relaxed text-[var(--header-item-color)]/82 sm:text-right sm:text-[0.9rem]">
                   {experience.location}
                 </p>
               </div>

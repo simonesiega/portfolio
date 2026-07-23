@@ -64,14 +64,14 @@ function drawLinks({
   particles: Particle[];
   colors: NetworkColors;
 }) {
-  const cellSize = links.baseDistance;
-  // Grid cell size tied to max link distance.
-  const grid = buildSpatialGrid(particles, cellSize);
+  const linkDistance = links.baseDistance;
+  const linkDistanceSquared = linkDistance * linkDistance;
+  // Grid cell size is tied to the maximum link distance.
+  const grid = buildSpatialGrid(particles, linkDistance);
 
-  for (let index = 0; index < particles.length; index += 1) {
-    const particle = particles[index];
-    const cellX = Math.floor(particle.x / cellSize);
-    const cellY = Math.floor(particle.y / cellSize);
+  for (const [index, particle] of particles.entries()) {
+    const cellX = Math.floor(particle.x / linkDistance);
+    const cellY = Math.floor(particle.y / linkDistance);
 
     for (let ox = -1; ox <= 1; ox += 1) {
       for (let oy = -1; oy <= 1; oy += 1) {
@@ -87,8 +87,9 @@ function drawLinks({
           }
 
           const neighbor = particles[neighborIndex];
-          const linkDistance = links.baseDistance;
-          const linkDistanceSquared = linkDistance * linkDistance;
+          if (!neighbor) {
+            continue;
+          }
 
           const dx = particle.x - neighbor.x;
           const dy = particle.y - neighbor.y;
@@ -170,8 +171,7 @@ function buildSpatialGrid(particles: Particle[], cellSize: number) {
   const grid = new Map<string, number[]>();
 
   // Each particle is assigned to a cell based on its coordinates. The grid is a map where the key is a string of the form "cellX,cellY" and the value is an array of particle indexes that fall into that cell. This allows for efficient retrieval of nearby particles by only checking the current cell and its 8 neighbors, rather than all particles.
-  for (let index = 0; index < particles.length; index += 1) {
-    const particle = particles[index];
+  for (const [index, particle] of particles.entries()) {
     const cellX = Math.floor(particle.x / cellSize);
     const cellY = Math.floor(particle.y / cellSize);
     const key = `${cellX},${cellY}`;

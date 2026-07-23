@@ -82,7 +82,7 @@ jobs:
         with:
           image-ref: portfolio-security-scan:${{ github.sha }}
           format: table
-          exit-code: "0"
+          exit-code: "1"
           ignore-unfixed: true
           vuln-type: os,library
           severity: CRITICAL,HIGH
