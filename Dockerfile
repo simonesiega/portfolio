@@ -42,7 +42,9 @@ ENV SITE_URL=$SITE_URL
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
-RUN addgroup --system --gid 1001 nodejs \
+RUN rm -rf /usr/local/lib/node_modules/npm \
+  && rm -f /usr/local/bin/npm /usr/local/bin/npx \
+  && addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public

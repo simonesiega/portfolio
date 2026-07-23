@@ -48,31 +48,72 @@ export function ScrollReveal({
     }
 
     let hasScrolled = false;
-    const handleScroll = () => {
-      hasScrolled = true;
+    let scrollFrameId = 0;
+    let revealFrameId = 0;
+    let revealed = false;
+
+    const reveal = () => {
+      if (revealed) return;
+
+      revealed = true;
+      el.classList.add("scroll-reveal--visible");
       window.removeEventListener("scroll", handleScroll);
+      observer.unobserve(el);
     };
 
-    window.addEventListener("scroll", handleScroll, {passive: true});
+    const scheduleReveal = () => {
+      if (revealed || revealFrameId !== 0) return;
+
+      // Commit the hidden state before revealing. This preserves transitions
+      // when hydration and a fast scroll happen within the same paint cycle.
+      revealFrameId = window.requestAnimationFrame(() => {
+        revealFrameId = window.requestAnimationFrame(() => {
+          revealFrameId = 0;
+          reveal();
+        });
+      });
+    };
+
+    const handleScroll = () => {
+      hasScrolled = true;
+      if (scrollFrameId !== 0) return;
+
+      scrollFrameId = window.requestAnimationFrame(() => {
+        scrollFrameId = 0;
+
+        // IntersectionObserver can miss an element that crosses the viewport
+        // between two frames during a fast scroll. Reveal anything already passed.
+        if (el.getBoundingClientRect().top < 0) {
+          scheduleReveal();
+        }
+      });
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          if (initialViewportDelay !== undefined && !hasScrolled) {
-            el.style.setProperty("--sr-delay", toMs(initialViewportDelay));
-          }
+        if (!entry?.isIntersecting) return;
 
-          el.classList.add("scroll-reveal--visible");
-          observer.unobserve(el);
-          return;
+        if (initialViewportDelay !== undefined && !hasScrolled) {
+          el.style.setProperty("--sr-delay", toMs(initialViewportDelay));
         }
+
+        scheduleReveal();
       },
       {threshold, rootMargin: scrollRevealDefaults.rootMargin}
     );
 
+    window.addEventListener("scroll", handleScroll, {passive: true});
     observer.observe(el);
+
+    if (el.getBoundingClientRect().top < 0) {
+      hasScrolled = true;
+      scheduleReveal();
+    }
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.cancelAnimationFrame(scrollFrameId);
+      window.cancelAnimationFrame(revealFrameId);
       observer.disconnect();
     };
   }, [

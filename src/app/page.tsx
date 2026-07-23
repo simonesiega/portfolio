@@ -17,7 +17,6 @@ import {pageColumnClassName, pageContentClassName, pageFrameClassName} from "@/l
 const {homeIntro, routeReveal} = animationTimings;
 const {intro} = homeText;
 const {home: homeMedia} = mediaConfig;
-const aboutImageTextOverlapMs = 800;
 
 const socialIcons: Record<HomeIntroSocialIconKey, IconType> = {
   x: FaXTwitter,
@@ -41,10 +40,12 @@ export default function Home() {
   const getSectionInitialViewportDelayMs = (index: number) =>
     homeIntro.section.initialViewportDelayMs + index * homeIntro.section.stepDelayMs;
   const aboutSectionIndex = 3;
+  const aboutImagesSectionIndex = aboutSectionIndex + 1;
+  const aboutImageRevealDelayMs = getSectionRevealDelayMs(aboutImagesSectionIndex);
   const aboutImageInitialViewportDelayMs =
-    getSectionInitialViewportDelayMs(aboutSectionIndex) +
-    homeIntro.section.durationMs -
-    aboutImageTextOverlapMs;
+    getSectionInitialViewportDelayMs(aboutImagesSectionIndex);
+  const footerRevealDelayMs =
+    aboutImageRevealDelayMs + intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
   const footerInitialViewportDelayMs =
     aboutImageInitialViewportDelayMs +
     intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
@@ -259,14 +260,14 @@ export default function Home() {
 
             <AboutInterestImages
               images={intro.about.images}
-              delayMs={homeIntro.aboutImages.delayMs}
+              delayMs={aboutImageRevealDelayMs}
               initialViewportDelayMs={aboutImageInitialViewportDelayMs}
             />
           </section>
 
           <RouteReveal
             variant="fade-in"
-            delay={0}
+            delay={footerRevealDelayMs}
             initialViewportDelay={footerInitialViewportDelayMs}
             duration={routeReveal.durationMs}
             threshold={routeReveal.threshold}
