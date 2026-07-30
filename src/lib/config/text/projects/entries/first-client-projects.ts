@@ -18,7 +18,7 @@ export const firstClientProjects = {
   developmentPeriod: "2026",
   keyPhrase,
   caseStudy: {
-    readTimeMinutes: 5,
+    readTimeMinutes: 6,
     quickFacts: [
       {
         label: "Context",

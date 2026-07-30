@@ -7,7 +7,7 @@ export const cfgParserProject = {
   title: "CFG Parser",
   pinned: false,
   githubUrl: "https://github.com/simonesiega/cfg-parser",
-  developmentPeriod: "2025",
+  developmentPeriod: "2024",
   keyPhrase,
   caseStudy: {
     readTimeMinutes: 7,

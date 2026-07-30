@@ -34,6 +34,7 @@ export function ProjectImageGallery({
       width={width}
       height={height}
       sizes="(min-width: 48rem) 44rem, calc(100vw - 5rem)"
+      quality={100}
       preload={selectedIndex === 0}
       className={selectedImageClassName}
     />
