@@ -6,16 +6,16 @@ export const dacosSrlExperience = {
   logoSrc: "/work/logos/Dacos.webp",
   logoAlt: "Dacos S.r.l. logo",
   dateRange: "May 2025 — Jun 2025",
-  role: "Software Engineer, Internship",
+  role: "Software Developer Intern",
   company: "Dacos S.r.l.",
   location: "Venice, Italy",
   description:
-    "Developed a Vue.js e-commerce prototype for 100+ technology products, using reusable components, routing, state management, and structured data integration. Tested core shopping flows for up to 20 concurrent users and added rate-limited data handling to reduce repeated requests during product interactions.",
+    "Built a Vue.js e-commerce prototype within a two-developer team using Git and Docker. Optimized database queries and caching for stable operation at up to 100 concurrent users, then presented and documented the completed prototype.",
   tags: [
     {label: "Internship"},
-    {label: "Venice, Italy"},
-    {label: "E-commerce app"},
-    {label: "Frontend/backend"},
-    {label: "Internal prototype"},
+    {label: "Vue.js"},
+    {label: "Docker"},
+    {label: "Git"},
+    {label: "E-commerce"},
   ],
 } as const satisfies WorkPageExperience;

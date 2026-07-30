@@ -98,8 +98,8 @@ const homeIntroWorkItems = homeFeaturedWorkIds.map((workId) => {
 
   return {
     title: experience.company,
-    description: experience.role,
-    dateRange: experience.sortStart.slice(0, 4),
+    description: experience.role.replace(/ — Contract$/, ""),
+    dateRange: experience.dateRange,
     imageSrc: experience.logoSrc,
     imageAlt: experience.logoAlt,
   };
@@ -159,7 +159,7 @@ export const homeText = {
     about: {
       label: "ABOUT ME",
       description:
-        "Outside software development, I spend time on mountain trails, strength training, and studying computer science and mathematics. I’m drawn to activities that require patience, discipline, and long-term improvement.",
+        "Outside software development, I spend my time hiking, strength training, and studying computer science and mathematics. I’m drawn to pursuits that reward patience, discipline, and steady progress.",
       images: [
         {
           label: "Mountain",
