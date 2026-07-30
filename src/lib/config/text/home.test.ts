@@ -5,8 +5,13 @@ import {homeIntroSocialIconKeys, homeText} from "./home";
 
 const yearPattern = /^\d{4}$/;
 
-function expectAbsoluteUrl(url: string) {
-  expect(() => new URL(url)).not.toThrow();
+function expectValidHref(href: string) {
+  if (href.startsWith("/")) {
+    expect(href.startsWith("//")).toBe(false);
+    return;
+  }
+
+  expect(() => new URL(href)).not.toThrow();
 }
 
 describe("home text model", () => {
@@ -18,7 +23,7 @@ describe("home text model", () => {
     for (const link of homeText.intro.socialLinks) {
       expect(homeIntroSocialIconKeys).toContain(link.icon);
       expect(link.label.trim().length).toBeGreaterThan(0);
-      expectAbsoluteUrl(link.href);
+      expectValidHref(link.href);
       expect(socialIcons.has(link.icon), `Duplicate social icon: ${link.icon}`).toBe(false);
       socialIcons.add(link.icon);
     }
@@ -26,7 +31,7 @@ describe("home text model", () => {
     for (const item of homeText.intro.education.items) {
       expect(item.school.trim().length).toBeGreaterThan(0);
       expect(item.description.trim().length).toBeGreaterThan(0);
-      expectAbsoluteUrl(item.href);
+      expectValidHref(item.href);
     }
   });
 

@@ -5,6 +5,9 @@ export const projectFixtures = [
     slug: "first-client-projects",
   },
   {
+    slug: "codex-limits",
+  },
+  {
     slug: "cfg-parser",
   },
 ] as const;

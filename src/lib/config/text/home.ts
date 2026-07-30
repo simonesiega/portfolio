@@ -1,7 +1,7 @@
 import {getProjectCaseStudyHref, projectsText} from "./projects";
 import {workText} from "./work";
 
-export const homeIntroSocialIconKeys = ["x", "instagram", "github", "linkedin"] as const;
+export const homeIntroSocialIconKeys = ["resume", "linkedin", "github", "x", "instagram"] as const;
 
 export type HomeIntroSocialIconKey = (typeof homeIntroSocialIconKeys)[number];
 
@@ -9,6 +9,7 @@ type HomeIntroSocialLink = {
   icon: HomeIntroSocialIconKey;
   label: string;
   href: string;
+  download?: string;
 };
 
 type HomeIntroEducationItem = {
@@ -42,11 +43,13 @@ export type HomeIntroAboutImage = {
 
 const homeFeaturedProjectSlugs = [
   "first-client-projects",
+  "codex-limits",
   "cfg-parser",
 ] as const satisfies readonly HomeFeaturedProjectSlug[];
 
 const homeFeaturedProjectDescriptions = {
   "first-client-projects": "Two production client websites delivered during high school",
+  "codex-limits": "Cross-platform Codex usage CLI published as a public npm package",
   "cfg-parser": "Rust CLI tool for grammar-driven expression parsing and evaluation",
 } as const satisfies Record<(typeof homeFeaturedProjectSlugs)[number], string>;
 
@@ -116,10 +119,16 @@ export const homeText = {
     ],
 
     socialLinks: [
+      {
+        icon: "resume",
+        label: "Download résumé",
+        href: "/simone-siega-resume.pdf",
+        download: "Simone-Siega-Resume.pdf",
+      },
+      {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
+      {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
       {icon: "x", label: "X / Twitter", href: "https://x.com/simonesiega_"},
       {icon: "instagram", label: "Instagram", href: "https://www.instagram.com/_simonesiiega_/"},
-      {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
-      {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
     ] as const satisfies readonly HomeIntroSocialLink[],
 
     education: {

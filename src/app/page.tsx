@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import Image from "next/image";
-import type {IconType} from "react-icons";
+import type {ComponentType} from "react";
+import {FileDown} from "lucide-react";
 import {FiArrowUpRight} from "react-icons/fi";
 import {FaGithub, FaInstagram, FaLinkedinIn, FaXTwitter} from "react-icons/fa6";
 import {InstantRouteLink} from "@/components/behavior/scroll/instant-route-link";
@@ -18,11 +19,15 @@ const {homeIntro, routeReveal} = animationTimings;
 const {intro} = homeText;
 const {home: homeMedia} = mediaConfig;
 
-const socialIcons: Record<HomeIntroSocialIconKey, IconType> = {
+const socialIcons: Record<
+  HomeIntroSocialIconKey,
+  ComponentType<{"aria-hidden"?: boolean; className?: string; strokeWidth?: number}>
+> = {
+  resume: FileDown,
+  linkedin: FaLinkedinIn,
+  github: FaGithub,
   x: FaXTwitter,
   instagram: FaInstagram,
-  github: FaGithub,
-  linkedin: FaLinkedinIn,
 };
 
 export const metadata: Metadata = {
@@ -113,9 +118,15 @@ export default function Home() {
                       key={link.label}
                       href={link.href}
                       aria-label={link.label}
+                      title={link.icon === "resume" ? link.label : undefined}
+                      download={"download" in link ? link.download : undefined}
                       className="rounded-sm transition-colors hover:text-[var(--header-item-hover-color)] focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
                     >
-                      <Icon aria-hidden={true} />
+                      <Icon
+                        aria-hidden={true}
+                        className={link.icon === "resume" ? "h-[1.55rem] w-[1.55rem]" : undefined}
+                        strokeWidth={link.icon === "resume" ? 2.25 : undefined}
+                      />
                     </a>
                   );
                 })}
