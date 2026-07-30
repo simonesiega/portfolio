@@ -30,10 +30,15 @@ function getHttpOrigin(value: string | undefined) {
 }
 
 const umamiOrigin = umamiEnabled ? getHttpOrigin(umamiScriptSrc) : "";
+const umamiConnectOrigins = [
+  ...(umamiOrigin ? [umamiOrigin] : []),
+  // Umami Cloud serves the tracker from cloud.umami.is but collects events on a separate origin.
+  ...(umamiOrigin === "https://cloud.umami.is" ? ["https://gateway.umami.is"] : []),
+];
 
 function createCspHeader() {
   const scriptSrc = ["'self'", "'unsafe-inline'", ...(umamiOrigin ? [umamiOrigin] : [])];
-  const connectSrc = ["'self'", ...(umamiOrigin ? [umamiOrigin] : []), ...cspConnectSrcExtra];
+  const connectSrc = ["'self'", ...umamiConnectOrigins, ...cspConnectSrcExtra];
 
   if (!isProduction) {
     scriptSrc.push("'unsafe-eval'");
