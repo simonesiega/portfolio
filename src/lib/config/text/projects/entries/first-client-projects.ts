@@ -13,6 +13,10 @@ export const firstClientProjects = {
     {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
     {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},
   ],
+  showcaseAction: {
+    kind: "contact",
+    label: "Contact",
+  },
   developmentPeriod: "2026",
   keyPhrase,
   caseStudy: {

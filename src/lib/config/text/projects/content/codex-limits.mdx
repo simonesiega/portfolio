@@ -1,7 +1,7 @@
 import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
 
 export const keyPhrase =
-  "A personal Codex utility transformed into my first public npm package, unifying usage, reset-credit coupons, and coding-agent integrations behind a release pipeline built for trust.";
+  "A personal Codex utility transformed into my first public npm package, combining usage tracking, reset-credit coupons, and coding-agent integrations.";
 
 export const galleryCaptions = [
   "The responsive terminal dashboard, bringing Codex usage windows, reset times, and reset-credit coupons into one view.",
@@ -27,7 +27,7 @@ Codex Limits began with a repeated interruption in my workflow. I had to open th
 
 So I designed and built the project independently. Ten days after writing the first line of code, I published [@simonesiega/codex-limits](https://www.npmjs.com/package/@simonesiega/codex-limits), **my first public npm package**.
 
-It grew into a cross-platform tool with a responsive dashboard, text and `JSON` output, diagnostics, safe coupon redemption, and integrations for OpenCode, pi, and GitHub Copilot CLI.
+It grew into a cross-platform tool with a responsive dashboard, text and `JSON` output, diagnostics, confirmation-gated coupon redemption, and integrations for OpenCode, pi, and GitHub Copilot CLI.
 
 _The central challenge was no longer displaying a number. It was turning a tool that worked on my machine into software other developers could install and trust._
 
@@ -83,7 +83,7 @@ Publishing the first npm release within ten days changed the standard I used to 
 
 A local build was no longer enough. I had to define the executable, supported runtimes, package exports, declarations, documentation, versioning, and the exact `npm` tarball contents.
 
-The package validator tests **the artifact users actually install**: it runs `npm pack`, inspects the tarball and public entry points, extracts it in isolation, and smoke-tests the packed CLI and agent bundles. `CI` repeats this across Linux, Windows, and macOS.
+The package validator tests **the artifact users actually install**: it runs `npm pack`, inspects the tarball and public entry points, extracts it in isolation, and smoke-tests the packed CLI and agent bundles. CI repeats this across Linux, Windows, and macOS.
 
 **Releases use GitHub Actions and npm Trusted Publishing.** The release tag must match the package metadata, the complete validation pipeline must pass, and npm publishes the artifact with provenance instead of relying on a long-lived repository token.
 
@@ -101,10 +101,7 @@ _Publishing taught me that release engineering is the work required to make soft
 
 I contained that responsibility inside the shared core. Local reads are bounded and read-only, network responses are limited, and credentials, raw files, and private paths are excluded from every public output.
 
-`codex-limits reset`
-is the **only remote account mutation**. It can use a coupon by its displayed index or automatically
-choose the available coupon that expires first. Before sending the request, it refreshes the coupon
-list, verifies the selection, displays a recap, and requires an explicit interactive confirmation.
+`codex-limits reset` is the **only remote account mutation**. It can use a coupon by its displayed index or automatically choose the available coupon that expires first. Before sending the request, it refreshes the coupon list, verifies the selection, displays a recap, and requires an explicit interactive confirmation.
 
 _This is the feature I am most proud of because it completes the original workflow: users can inspect their limits and safely act on them from the same command-line tool._
 

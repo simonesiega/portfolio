@@ -83,7 +83,7 @@ The product layer therefore accepts three constrained adjacency patterns:
 - `)` followed by `(`, as in `(1 + 2)(3 + 4)`;
 - `)` followed by a number, as in `(1 + 2)3`.
 
-Two adjacent numbers such as `5 5` remain invalid because treating them as multiplication would make the language ambiguous.
+Parentheses provide a clear boundary for implicit multiplication, allowing expressions such as `4(1.2 - 3.4)` to be valid while rejecting `2 3`.
 
 This boundary keeps lexical recognition simple while allowing the parser to support familiar mathematical notation without turning the implementation into a collection of string-specific exceptions.
 
@@ -158,7 +158,7 @@ The project also exposes repeatable execution paths:
 - Docker builds for an isolated runtime;
 - CLI arguments and environment variables for custom expressions.
 
-The strongest evidence today is the explicit grammar, the documented valid and invalid cases, and the direct correspondence between language rules and parser functions.
+The strongest evidence is the explicit grammar, the documented valid and invalid cases, and the direct correspondence between language rules and parser functions.
 
 _Expanding those examples into a comprehensive regression suite is the most important step before extending the language._
 

@@ -17,7 +17,6 @@ type ProjectsShowcaseSectionProps = {
   githubAriaLabelPrefix: string;
   githubAriaLabelSuffix: string;
   githubLinkLabel: string;
-  askLinkLabel: string;
   pinnedLabel: string;
 };
 
@@ -39,7 +38,6 @@ export function ProjectsShowcaseSection({
   githubAriaLabelPrefix,
   githubAriaLabelSuffix,
   githubLinkLabel,
-  askLinkLabel,
   pinnedLabel,
 }: ProjectsShowcaseSectionProps) {
   const {secondaryPageItem} = animationTimings;
@@ -123,21 +121,41 @@ export function ProjectsShowcaseSection({
                         </>
                       ) : null}
 
-                      <a
-                        href={getProjectInfoMailHref(
-                          project.title,
-                          mailSubjectPrefix,
-                          contactEmail
-                        )}
-                        aria-label={`${mailAriaLabelPrefix} ${project.title}`}
-                        className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none"
-                      >
-                        {askLinkLabel}
-                      </a>
+                      {project.showcaseAction ? (
+                        <>
+                          <a
+                            href={
+                              project.showcaseAction.kind === "contact"
+                                ? getProjectInfoMailHref(
+                                    project.title,
+                                    mailSubjectPrefix,
+                                    contactEmail
+                                  )
+                                : project.showcaseAction.href
+                            }
+                            target={
+                              project.showcaseAction.kind === "external" ? "_blank" : undefined
+                            }
+                            rel={
+                              project.showcaseAction.kind === "external"
+                                ? "noopener noreferrer"
+                                : undefined
+                            }
+                            aria-label={
+                              project.showcaseAction.kind === "contact"
+                                ? `${mailAriaLabelPrefix} ${project.title}`
+                                : `${project.showcaseAction.label}: ${project.title}`
+                            }
+                            className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none"
+                          >
+                            {project.showcaseAction.label}
+                          </a>
 
-                      <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
-                        ·
-                      </span>
+                          <span aria-hidden={true} className="text-[var(--header-item-color)]/55">
+                            ·
+                          </span>
+                        </>
+                      ) : null}
 
                       <p>{project.developmentPeriod}</p>
                     </div>

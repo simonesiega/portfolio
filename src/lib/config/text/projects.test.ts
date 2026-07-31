@@ -22,7 +22,6 @@ describe("projects text model", () => {
     expect(projectsText.sections.githubAriaLabelPrefix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.githubAriaLabelSuffix.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.githubLinkLabel.trim().length).toBeGreaterThan(0);
-    expect(projectsText.sections.askLinkLabel.trim().length).toBeGreaterThan(0);
     expect(projectsText.sections.pinnedLabel.trim().length).toBeGreaterThan(0);
 
     expect(projectsText.seo.projectsPageTitle.trim().length).toBeGreaterThan(0);
@@ -59,6 +58,15 @@ describe("projects text model", () => {
         for (const demo of project.demoUrls) {
           expect(demo.label.trim().length).toBeGreaterThan(0);
           expect(() => new URL(demo.href)).not.toThrow();
+        }
+      }
+
+      const {showcaseAction} = project;
+      if (showcaseAction) {
+        expect(showcaseAction.label.trim().length).toBeGreaterThan(0);
+
+        if (showcaseAction.kind === "external") {
+          expect(() => new URL(showcaseAction.href)).not.toThrow();
         }
       }
 

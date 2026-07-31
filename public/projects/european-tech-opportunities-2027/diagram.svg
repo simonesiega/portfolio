@@ -1,0 +1,214 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-label="European Tech Opportunities 2027 architecture flow diagram">
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: #0a0a0a;
+      --panel-soft: #080808;
+      --border: #232323;
+      --border-soft: #1a1a1a;
+      --text: #f5f5f5;
+      --text-soft: #a8a8a8;
+      --text-muted: #858585;
+      --body: #d0d0d0;
+      --arrow: #666666;
+      --connector: #303030;
+    }
+
+    .bg {
+      fill: var(--bg);
+    }
+
+    .panel {
+      fill: var(--panel);
+      stroke: var(--border);
+      stroke-width: 1.6;
+    }
+
+    .panel-soft {
+      fill: var(--panel-soft);
+      stroke: var(--border-soft);
+      stroke-width: 1.6;
+    }
+
+    .eyebrow {
+      font: 600 15px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.28em;
+      fill: var(--text-muted);
+    }
+
+    .title {
+      font: 800 42px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text);
+    }
+
+    .subtitle {
+      font: 500 18px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text-soft);
+    }
+
+    .box-title {
+      font: 700 24px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text);
+    }
+
+    .box-text {
+      font: 500 15px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--body);
+    }
+
+    .box-text-soft {
+      font: 500 14px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text-soft);
+    }
+
+    .group-label {
+      font: 500 15px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text-soft);
+    }
+
+    .footer {
+      font: italic 500 15px Inter, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: var(--text-soft);
+    }
+
+    .arrow {
+      stroke: var(--arrow);
+      stroke-width: 2;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+
+    .connector {
+      stroke: var(--connector);
+      stroke-width: 1.6;
+      fill: none;
+    }
+
+    .branch {
+      stroke: var(--arrow);
+      stroke-width: 2;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+
+    .bracket {
+      stroke: var(--arrow);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 5 6;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10"
+            refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 8 5 L 0 10 z" fill="var(--arrow)"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="900"/>
+
+  <!-- Header -->
+  <text x="800" y="92" text-anchor="middle" class="eyebrow">ARCHITECTURE</text>
+  <text x="800" y="154" text-anchor="middle" class="title">
+    European Tech Opportunities Flow
+  </text>
+  <text x="800" y="196" text-anchor="middle" class="subtitle">
+    Collection → Classification → SQLite → Website / README
+  </text>
+
+  <!-- Collection -->
+  <rect x="96" y="372" width="270" height="174" rx="18" class="panel"/>
+  <text x="231" y="435" text-anchor="middle" class="box-title">Collection</text>
+  <text x="231" y="478" text-anchor="middle" class="box-text">
+    Bounded guest-search
+  </text>
+  <text x="231" y="505" text-anchor="middle" class="box-text">
+    fetching
+  </text>
+
+  <!-- Arrow 1 -->
+  <line x1="366" y1="459" x2="452" y2="459" class="arrow"/>
+
+  <!-- Classification -->
+  <rect x="472" y="372" width="290" height="174" rx="18" class="panel-soft"/>
+  <text x="617" y="435" text-anchor="middle" class="box-title">Classification</text>
+  <text x="617" y="478" text-anchor="middle" class="box-text">
+    Deterministic 6-rule
+  </text>
+  <text x="617" y="505" text-anchor="middle" class="box-text">
+    filtering
+  </text>
+
+  <!-- Arrow 2 -->
+  <line x1="762" y1="459" x2="848" y2="459" class="arrow"/>
+
+  <!-- SQLite -->
+  <rect x="868" y="372" width="270" height="174" rx="18" class="panel"/>
+  <text x="1003" y="435" text-anchor="middle" class="box-title">SQLite</text>
+  <text x="1003" y="478" text-anchor="middle" class="box-text">
+    Canonical lifecycle
+  </text>
+  <text x="1003" y="505" text-anchor="middle" class="box-text">
+    state
+  </text>
+
+  <!-- Main connector to branch -->
+  <line x1="1138" y1="459" x2="1230" y2="459" class="connector"/>
+  <circle cx="1230" cy="459" r="5.5" fill="#d8d8d8"/>
+
+  <!-- Branch upward -->
+  <path d="M 1230 459 L 1230 350 Q 1230 330 1250 330 L 1290 330"
+        class="branch"/>
+
+  <!-- Branch downward -->
+  <path d="M 1230 459 L 1230 568 Q 1230 588 1250 588 L 1290 588"
+        class="branch"/>
+
+  <!-- Website -->
+  <rect x="1310" y="270" width="230" height="160" rx="18" class="panel"/>
+  <text x="1425" y="333" text-anchor="middle" class="box-title">Website</text>
+  <text x="1425" y="374" text-anchor="middle" class="box-text">
+    Searchable public
+  </text>
+  <text x="1425" y="401" text-anchor="middle" class="box-text">
+    directory
+  </text>
+
+  <!-- README -->
+  <rect x="1310" y="508" width="230" height="160" rx="18" class="panel"/>
+  <text x="1425" y="574" text-anchor="middle" class="box-title">README</text>
+  <text x="1425" y="617" text-anchor="middle" class="box-text">
+    Bounded preview
+  </text>
+
+  <!-- Group bracket -->
+  <path d="M 1290 696
+           Q 1290 720 1314 720
+           L 1536 720
+           Q 1560 720 1560 696"
+        class="bracket"/>
+  <text x="1425" y="758" text-anchor="middle" class="group-label">
+    Read-only projections
+  </text>
+
+  <!-- Footer -->
+  <line x1="120" y1="822" x2="520" y2="822" class="connector"/>
+  <circle cx="120" cy="822" r="3.5" fill="#777777"/>
+  <line x1="1080" y1="822" x2="1480" y2="822" class="connector"/>
+  <circle cx="1480" cy="822" r="3.5" fill="#777777"/>
+  <text x="800" y="827" text-anchor="middle" class="footer">
+    Search defines discovery. Classification defines publication.
+  </text>
+</svg>

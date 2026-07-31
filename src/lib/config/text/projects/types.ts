@@ -14,12 +14,24 @@ type ProjectDemoLink = {
   href: string;
 };
 
+type ProjectShowcaseAction =
+  | {
+      kind: "contact";
+      label: string;
+    }
+  | {
+      kind: "external";
+      label: string;
+      href: string;
+    };
+
 export type ProjectsPageProject = {
   slug: string;
   title: string;
   pinned: boolean;
   githubUrl?: string;
   demoUrls?: readonly ProjectDemoLink[];
+  showcaseAction?: ProjectShowcaseAction;
   developmentPeriod: string;
   keyPhrase: string;
   caseStudy: {
@@ -47,7 +59,6 @@ export type ProjectsText = {
     githubAriaLabelPrefix: string;
     githubAriaLabelSuffix: string;
     githubLinkLabel: string;
-    askLinkLabel: string;
     pinnedLabel: string;
   };
   seo: {

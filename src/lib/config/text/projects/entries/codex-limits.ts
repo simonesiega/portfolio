@@ -16,6 +16,11 @@ export const codexLimitsProject = {
       href: "https://www.npmjs.com/package/@simonesiega/codex-limits",
     },
   ],
+  showcaseAction: {
+    kind: "external",
+    label: "npm",
+    href: "https://www.npmjs.com/package/@simonesiega/codex-limits",
+  },
   developmentPeriod: "2026",
   keyPhrase,
   caseStudy: {

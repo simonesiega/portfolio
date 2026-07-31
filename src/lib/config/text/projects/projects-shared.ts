@@ -15,7 +15,6 @@ export const projectsSections = {
   githubAriaLabelPrefix: "Open",
   githubAriaLabelSuffix: "repository on GitHub",
   githubLinkLabel: "GitHub",
-  askLinkLabel: "Contact",
   pinnedLabel: "Featured",
 } as const satisfies ProjectsText["sections"];
 

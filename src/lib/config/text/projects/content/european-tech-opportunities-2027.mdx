@@ -1,0 +1,225 @@
+import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
+
+export const keyPhrase =
+  "Finding the right tech opportunity across Europe became difficult, so I built an open-source directory for discovering 2027 internships and New Grad roles.";
+
+export const galleryCaptions = [
+  "The complete path from bounded collection to deterministic classification, canonical SQLite lifecycle state, and read-only website and README projections.",
+  "The live opportunity directory, exposing every accepted internship and New Grad role through search, filters, sorting, pagination, and direct source links.",
+  "The directory in dark mode, backed by read-only canonical SQLite state that can be replaced without rebuilding the application.",
+];
+
+export const galleryThumbnailDescriptions = [
+  "European Tech Opportunities 2027 architecture diagram.",
+  "European opportunity directory in light mode.",
+  "European opportunity directory in dark mode.",
+];
+
+<ProjectMdxRevealSection>
+
+## Overview
+
+**Stack:** Python · TypeScript · Next.js · SQLite · Docker · GitHub Actions
+
+Searching for technology opportunities across Europe often means working through results that mix different hiring cycles, senior positions, unrelated roles, and locations outside Europe.
+
+I built [European Tech Opportunities 2027](https://opportunities2027.simonesiega.com/) as an open-source directory for **2027 internships and New Grad positions**. The system combines a bounded asynchronous Python collection pipeline with a searchable Next.js interface and has published more than **500 European opportunities**.
+
+_The difficult part was not collecting job links._ It was deciding which listings contained enough explicit evidence to publish, preserving their history across repeated searches, and keeping the public directory correct when the source became unavailable or ambiguous.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Goal
+
+The project follows one central principle: **precision is more valuable than maximum coverage**.
+
+A listing should appear only when the system can verify its employment type, posting recency, hiring cycle, seniority, technology category, and European location with deterministic evidence. When a result is ambiguous, the pipeline excludes it rather than guessing.
+
+I also wanted the project to be useful beyond a generated README. The final product needed:
+
+1. a complete public directory with search and filters;
+2. a repeatable pipeline that could update the dataset without manual editing;
+3. lifecycle rules that would not delete valid roles after temporary failures;
+4. production automation for validation, backup, review, and deployment;
+5. documentation that made the system understandable and open to focused contributions.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Technical Approach
+
+The project is split into **collection, classification, canonical state, and public presentation**.
+
+Validated YAML definitions describe where the pipeline should search. The Python runner fetches bounded guest-search pages asynchronously, applies low-cost title and company checks, deduplicates overlapping results, and retrieves selected detail pages.
+
+Collection is disabled by default behind an explicit authorization interlock. The project does not use credentials, sessions, browser automation, private endpoints, proxies, CAPTCHA bypasses, or anti-bot evasion.
+
+Each candidate is then normalized and passed through the deterministic classifier. Accepted listings are written transactionally to SQLite together with their search provenance and observation history.
+
+The public outputs are read-only projections of that database:
+
+```text
+Search definitions
+    -> bounded asynchronous collection
+    -> normalization and deterministic classification
+    -> transactional SQLite lifecycle state
+    -> searchable Next.js directory + bounded README preview
+```
+
+The Next.js website exposes full-text search, company, country, category, and employment-type filters, sortable columns, pagination, shareable filter URLs, responsive layouts, and light and dark themes.
+
+_Search determines what the pipeline discovers; classification determines what the project is willing to publish._
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Deterministic Classification
+
+Every new listing must pass **six publication checks**:
+
+1. **Employment type:** the title must explicitly identify an internship or New Grad opportunity.
+2. **Posting date:** the resolved posting date must be May 1, 2026 or later.
+3. **Seniority:** configured senior, lead, principal, management, and similar terminology is rejected.
+4. **2027 cycle:** explicit 2027 evidence is accepted; conflicting years are rejected, while a yearless role is accepted only with an eligible posting date.
+5. **Technology role:** the title, or a narrowly permitted description fallback, must match a configured technology category.
+6. **European location:** the normalized location must resolve explicitly to Europe or a supported European country.
+
+These rules are deliberately conservative. Graduation-year language alone does not prove an internship cycle, arbitrary description keywords do not fill missing structured fields, and an explicit conflicting year is never ignored.
+
+The classifier returns reproducible decisions rather than confidence scores. That made the behavior easier to test, document, and review because every accepted or excluded candidate follows the same evidence contract.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Architecture and Canonical State
+
+SQLite is the **only source of lifecycle truth**.
+
+The numeric source job ID provides canonical identity, while separate provenance records preserve every search that discovered the listing. Overlapping searches can therefore support one job without creating duplicate public rows.
+
+The architecture enforces a single application writer. Collection tasks may fetch concurrently, but persistence is serialized through the repository layer. Each search produces an isolated outcome, so one failed search can record diagnostics without modifying another search's accepted jobs or lifecycle evidence.
+
+A successful search transaction atomically:
+
+- records the run;
+- upserts accepted jobs;
+- refreshes search provenance;
+- applies explicit unavailability evidence;
+- advances monotonic observation timestamps;
+- closes a job only when no active supporting association remains.
+
+The website opens short-lived read-only SQLite connections, and the README renderer produces only a bounded preview. Neither public interface can classify, close, reopen, or otherwise mutate a listing.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Main Challenge: Preserving State Under Uncertainty
+
+The hardest design problem was deciding **what counts as evidence that a role is no longer available**.
+
+Search results are not reliable lifecycle signals. A listing may disappear because of ranking changes, pagination, temporary source failures, altered search terms, or an incomplete response. Treating search-page absence as closure evidence would silently remove valid opportunities.
+
+I therefore separated discovery from availability:
+
+- disappearance from a search page never closes a job;
+- explicit detail-page `404` or `410` responses provide unavailability evidence;
+- ambiguous HTTP, parsing, authentication, rate-limit, or transport failures preserve the current state;
+- a daily full-state auditor checks every stored job independently of the searches that originally found it;
+- a later valid rediscovery can reactivate provenance and reopen the listing.
+
+_The safest response to uncertain external data is often to preserve known state and report the ambiguity, not invent a transition._
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Production Automation
+
+The production workflow is designed around **validation, recoverability, and controlled state changes**.
+
+Three independent CI paths validate the Python application, the Next.js website, and the Docker images without contacting the external source. The Python workflow checks formatting, linting, typing, migrations, generated documentation, benchmarks, and thresholded branch coverage. The website workflow adds strict TypeScript, production builds, unit tests, and browser tests against synthetic SQLite state.
+
+An authorized nightly workflow runs at 03:00 UTC. It audits every stored role before collecting new candidates, validates the resulting database and README projection, checkpoints SQLite, and publishes a timestamped snapshot.
+
+Snapshots include checksums, schema revision, timestamps, provenance metadata, and references to the preceding state. Every new snapshot is downloaded into a clean directory and restore-tested before the pointer to the latest state is changed.
+
+Reviewed state is deployed to the VPS through a checksum-verified, locked, and atomic database replacement. Because the website reads SQLite through short-lived connections, it observes the new canonical database on the next request without an application rebuild or mutation endpoint.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## What Shipped
+
+The project delivers:
+
+- an open-source directory containing more than 500 European internships and New Grad roles;
+- a bounded asynchronous Python pipeline with cross-search deduplication;
+- six deterministic publication rules with conservative ambiguity handling;
+- transactional SQLite persistence for provenance, first- and last-seen history, and lifecycle state;
+- a daily full-state availability auditor that removes listings only after explicit evidence;
+- a responsive Next.js directory with search, combined filters, sorting, pagination, themes, and shareable URLs;
+- a generated README preview containing only the ten latest roles of each employment type;
+- separate Python, website, and Docker validation workflows;
+- restore-tested snapshots, review-based updates, and atomic VPS deployment;
+- installation, architecture, operations, security, contribution, and troubleshooting documentation.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Engineering Proof
+
+On July 31, 2026, the public directory contained **657 open opportunities**: 354 internships and 303 New Grad positions.
+
+The offline critical-path suite reported **89.8% combined statement and branch coverage**, including 81.5% branch coverage and 95.0% classifier branch coverage. CI publishes the complete coverage and benchmark reports while also validating migrations, generated output, strict TypeScript, production builds, browser behavior, and Docker runtime paths.
+
+The strongest evidence is operational. The pipeline updates canonical state on a recurring schedule, the website serves the complete read-only dataset, the README remains a deterministic projection, and backup publication is accepted only after an automated restore verifies the exact artifact that would be used for recovery.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## What I Learned
+
+This project changed how I think about data pipelines.
+
+A scraper can stop after returning records. A production directory must also define identity, evidence, state transitions, failure behavior, reproducibility, recovery, and the boundary between canonical data and presentation.
+
+I learned that **determinism is an operational feature**. Explicit rules made classification testable, one-writer transactions made lifecycle behavior understandable, and conservative failure handling prevented temporary external problems from becoming destructive database changes.
+
+I also learned that deployment is incomplete without recovery. A successful database upload is less meaningful when there is no verified path back to a known-good state.
+
+_The part I am most proud of is not the number of published roles. It is building a system that can explain why each role was accepted, how its state changed, and why uncertain failures did not silently remove it._
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Future Improvements
+
+The next infrastructure improvement would be replicating canonical snapshots to **an independent host or storage provider**. The current restore-tested VPS snapshots protect against cache expiry and accidental replacement, but they cannot protect against complete VPS, disk, or provider loss.
+
+I would also expand source coverage only through explicit adapters that preserve the existing classification and lifecycle contracts. Supporting another provider should not weaken the evidence required for publication or introduce a second path that can mutate canonical state unpredictably.
+
+The objective is to increase useful coverage while keeping the directory conservative, explainable, and recoverable.
+
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Links
+
+- [Live opportunity directory](https://opportunities2027.simonesiega.com/)
+- [GitHub repository](https://github.com/simonesiega/european-tech-opportunities-2027)
+- [Architecture guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/development/architecture.md)
+- [Automation guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/operations/automation.md)
+- [Website guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/user-guide/website.md)
+
+</ProjectMdxRevealSection>
