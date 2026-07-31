@@ -36,25 +36,20 @@ describe("projects text model", () => {
   });
 
   it("keeps project identity unique and helper lookups aligned", () => {
-    const projectIds = new Set<string>();
     const projectSlugs = new Set<string>();
 
     expect(projects.length).toBeGreaterThan(0);
 
     for (const project of projects) {
-      expect(project.id.trim().length).toBeGreaterThan(0);
       expect(project.slug.trim().length).toBeGreaterThan(0);
       expect(project.title.trim().length).toBeGreaterThan(0);
       expect(typeof project.pinned).toBe("boolean");
       expect(project.developmentPeriod.trim().length).toBeGreaterThan(0);
       expect(project.keyPhrase.trim().length).toBeGreaterThan(0);
-      expect(
-        project.githubUrl.trim() === "" ||
-          (() => {
-            new URL(project.githubUrl);
-            return true;
-          })()
-      ).toBe(true);
+      const {githubUrl} = project;
+      if (githubUrl) {
+        expect(() => new URL(githubUrl)).not.toThrow();
+      }
       if (project.demoUrls) {
         expect(project.demoUrls.length).toBeGreaterThan(0);
         expect(new Set(project.demoUrls.map((demo) => demo.href)).size).toBe(
@@ -67,13 +62,10 @@ describe("projects text model", () => {
         }
       }
 
-      expect(projectIds.has(project.id), `Duplicate project id: ${project.id}`).toBe(false);
       expect(projectSlugs.has(project.slug), `Duplicate project slug: ${project.slug}`).toBe(false);
-
-      projectIds.add(project.id);
       projectSlugs.add(project.slug);
 
-      expect(getProjectBySlug(project.slug)?.id).toBe(project.id);
+      expect(getProjectBySlug(project.slug)?.slug).toBe(project.slug);
       expect(getProjectCaseStudyHref(project.slug)).toBe(`/projects/${project.slug}`);
 
       const seo = getProjectCaseStudySeo(project.slug);
@@ -121,8 +113,8 @@ describe("projects text model", () => {
             galleryCaptions.add(image.caption);
           }
 
-          const href = image.href;
-          if (href !== undefined && href !== null) {
+          const {href} = image;
+          if (href) {
             expect(() => new URL(href)).not.toThrow();
           }
         }

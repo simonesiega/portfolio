@@ -1,7 +1,7 @@
 import {describe, expect, it} from "vitest";
-import {appRouteFiles} from "@/lib/config/site-routes";
+import {appRoutes} from "@/lib/config/site-routes";
 import {projectsText} from "./projects";
-import {homeIntroSocialIconKeys, homeText} from "./home";
+import {homeText} from "./home";
 
 function expectValidHref(href: string) {
   if (href.startsWith("/")) {
@@ -16,10 +16,9 @@ describe("home text model", () => {
   it("keeps social and education links valid", () => {
     const socialIcons = new Set<string>();
 
-    expect(homeText.intro.socialLinks.length).toBe(homeIntroSocialIconKeys.length);
+    expect(homeText.intro.socialLinks.length).toBeGreaterThan(0);
 
     for (const link of homeText.intro.socialLinks) {
-      expect(homeIntroSocialIconKeys).toContain(link.icon);
       expect(link.label.trim().length).toBeGreaterThan(0);
       expectValidHref(link.href);
       expect(socialIcons.has(link.icon), `Duplicate social icon: ${link.icon}`).toBe(false);
@@ -38,8 +37,8 @@ describe("home text model", () => {
       projectsText.projects.map((project) => `/projects/${project.slug}`)
     );
 
-    expect(homeText.intro.projects.seeAllHref in appRouteFiles).toBe(true);
-    expect(homeText.intro.works.seeAllHref in appRouteFiles).toBe(true);
+    expect(appRoutes).toContain(homeText.intro.projects.seeAllHref);
+    expect(appRoutes).toContain(homeText.intro.works.seeAllHref);
 
     for (const project of homeText.intro.projects.items) {
       expect(project.title.trim().length).toBeGreaterThan(0);

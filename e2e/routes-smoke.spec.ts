@@ -1,7 +1,7 @@
 import {expect, test} from "@playwright/test";
 import {appRoutes} from "./helpers/projects-fixtures";
 
-test("fast scrolling keeps landing-page reveals in document order", async ({page}) => {
+test("fast scrolling reveals landing content without skipping transitions", async ({page}) => {
   await page.setViewportSize({width: 375, height: 500});
   await page.goto("/");
 
@@ -63,7 +63,7 @@ test("fast scrolling keeps landing-page reveals in document order", async ({page
     expect(delay).toBeGreaterThan(sectionDelays[index]!);
   });
   expect(imageDelay).toBeGreaterThan(aboutDelay);
-  expect(footerDelay).toBeGreaterThan(imageDelay);
+  expect(footerDelay).toBe(0);
 });
 
 test("keyboard users can skip repeated navigation", async ({page}) => {
@@ -76,6 +76,27 @@ test("keyboard users can skip repeated navigation", async ({page}) => {
 
   await page.keyboard.press("Enter");
   await expect(page.getByRole("main")).toBeFocused();
+});
+
+test("unknown routes render the not-found recovery page", async ({page}) => {
+  const response = await page.goto("/missing-route");
+
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", {name: "Page not found"})).toBeVisible();
+  await expect(page.getByRole("navigation", {name: "Not found routes"})).toBeVisible();
+});
+
+test("particle network responds to reduced-motion changes", async ({page}) => {
+  await page.setViewportSize({width: 1280, height: 720});
+  await page.emulateMedia({reducedMotion: "reduce"});
+  await page.goto("/projects");
+  await expect(page.locator("canvas")).toHaveCount(0);
+
+  await page.emulateMedia({reducedMotion: "no-preference"});
+  await expect(page.locator("canvas")).toHaveCount(1);
+
+  await page.emulateMedia({reducedMotion: "reduce"});
+  await expect(page.locator("canvas")).toHaveCount(0);
 });
 
 test.describe("app routes smoke", () => {

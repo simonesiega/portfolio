@@ -36,7 +36,7 @@ export function applyThemePreference(preference: ThemePreference) {
   document.documentElement.setAttribute(attributeName, themePreference.dark);
 }
 
-export function applySystemTheme() {
+function applySystemTheme() {
   if (typeof window === "undefined") {
     return;
   }

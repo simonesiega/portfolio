@@ -6,11 +6,9 @@ import CaseStudyContent, {
 import type {ProjectsPageProject} from "../types";
 
 export const firstClientProjects = {
-  id: "first-client-projects",
   slug: "first-client-projects",
   title: "Client Web Delivery",
   pinned: true,
-  githubUrl: "",
   demoUrls: [
     {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
     {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},

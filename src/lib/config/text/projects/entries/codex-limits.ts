@@ -6,7 +6,6 @@ import CaseStudyContent, {
 import type {ProjectsPageProject} from "../types";
 
 export const codexLimitsProject = {
-  id: "codex-limits",
   slug: "codex-limits",
   title: "Codex Limits",
   pinned: false,

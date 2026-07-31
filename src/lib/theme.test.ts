@@ -1,7 +1,6 @@
 import {afterEach, describe, expect, it, vi} from "vitest";
 import {appConfig} from "@/lib/config/app-config";
 import {
-  applySystemTheme,
   applyThemePreference,
   getStoredThemePreference,
   isLightThemeActive,
@@ -105,7 +104,7 @@ describe("theme utilities", () => {
 
   it("resolves system preference through matchMedia", () => {
     const lightBrowser = installBrowserGlobals({prefersLight: true});
-    applySystemTheme();
+    applyThemePreference(themePreference.system);
     expect(lightBrowser.attributes.get(themeAttribute)).toBe(themePreference.light);
 
     const darkBrowser = installBrowserGlobals({prefersLight: false});
@@ -120,7 +119,6 @@ describe("theme utilities", () => {
     expect(getStoredThemePreference()).toBeNull();
     expect(isLightThemeActive()).toBe(false);
     expect(() => applyThemePreference(themePreference.light)).not.toThrow();
-    expect(() => applySystemTheme()).not.toThrow();
     expect(() => setStoredThemePreference(themePreference.dark)).not.toThrow();
   });
 

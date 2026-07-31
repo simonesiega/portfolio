@@ -5,6 +5,20 @@ import type {DustParticle, Particle, Point} from "@/lib/animation/particle-netwo
 
 const {motion} = particleNetworkConfig.particleNetwork;
 
+function wrapPoint(point: Point, width: number, height: number, margin: number) {
+  if (point.x < -margin) {
+    point.x = width + margin;
+  } else if (point.x > width + margin) {
+    point.x = -margin;
+  }
+
+  if (point.y < -margin) {
+    point.y = height + margin;
+  } else if (point.y > height + margin) {
+    point.y = -margin;
+  }
+}
+
 /**
  * Advances primary particles by one simulation step.
  *
@@ -47,35 +61,17 @@ export function updateParticles({
       continue;
     }
 
-    // Add random drift to velocity, scaled by depth for parallax effect, and dampen to prevent runaway speeds.
     particle.vx += (Math.random() - 0.5) * motion.randomDrift * dt;
     particle.vy += (Math.random() - 0.5) * motion.randomDrift * dt;
-
-    // Clamp velocity to max speed to maintain control over motion and prevent extreme values that could cause visual glitches or performance issues.
     particle.vx = clamp(particle.vx, -motion.maxSpeed, motion.maxSpeed);
     particle.vy = clamp(particle.vy, -motion.maxSpeed, motion.maxSpeed);
 
-    // Update position based on velocity and time step.
     particle.x += particle.vx * dt;
     particle.y += particle.vy * dt;
-
-    // Apply velocity damping to prevent particles from accelerating indefinitely.
     particle.vx *= motion.velocityDamping;
     particle.vy *= motion.velocityDamping;
 
-    // Toroidal wrapping: particles leaving one side re-enter from opposite side.
-    if (particle.x < -wrapMargin) {
-      particle.x = width + wrapMargin;
-    } else if (particle.x > width + wrapMargin) {
-      particle.x = -wrapMargin;
-    }
-
-    // Vertical wrap is applied independently to allow for different viewport aspect ratios and to maintain consistent behavior regardless of width vs height.
-    if (particle.y < -wrapMargin) {
-      particle.y = height + wrapMargin;
-    } else if (particle.y > height + wrapMargin) {
-      particle.y = -wrapMargin;
-    }
+    wrapPoint(particle, width, height, wrapMargin);
   }
 }
 
@@ -99,18 +95,6 @@ export function updateDustParticles({
     particle.x += particle.vx * dt;
     particle.y += particle.vy * dt;
 
-    // Dust uses same wrap behavior as main particles for continuity.
-    if (particle.x < -wrapMargin) {
-      particle.x = width + wrapMargin;
-    } else if (particle.x > width + wrapMargin) {
-      particle.x = -wrapMargin;
-    }
-
-    // Vertical wrap is applied independently to allow for different viewport aspect ratios and to maintain consistent behavior regardless of width vs height.
-    if (particle.y < -wrapMargin) {
-      particle.y = height + wrapMargin;
-    } else if (particle.y > height + wrapMargin) {
-      particle.y = -wrapMargin;
-    }
+    wrapPoint(particle, width, height, wrapMargin);
   }
 }

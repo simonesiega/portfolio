@@ -13,10 +13,27 @@ import {
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
 } from "react";
-import {beginRouteNavigationScrollMode} from "@/components/behavior/scroll/instant-scroll-reset";
+import {
+  beginRouteNavigationScrollMode,
+  isPlainLeftClick,
+} from "@/components/behavior/scroll/instant-scroll-reset";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
 import type {HeaderLink} from "@/lib/config/app-config";
+
+function resolveActiveNavHref(path: string, navItems: readonly HeaderLink[]) {
+  const exactMatch = navItems.find((item) => item.href === path);
+
+  if (exactMatch) {
+    return exactMatch.href;
+  }
+
+  return (
+    navItems
+      .filter((item) => path.startsWith(`${item.href}/`))
+      .sort((left, right) => right.href.length - left.href.length)[0]?.href ?? null
+  );
+}
 
 type HeaderProps = {
   homeHref: string;
@@ -47,26 +64,9 @@ export function Header({
   const [indicatorMotion, setIndicatorMotion] = useState<"none" | "spawn" | "slide">("none");
   const [brandBounceActive, setBrandBounceActive] = useState(false);
 
-  const resolveActiveNavHref = useCallback(
-    (path: string) => {
-      const exactMatch = navItems.find((item) => item.href === path);
-
-      if (exactMatch) {
-        return exactMatch.href;
-      }
-
-      const parentMatch = navItems
-        .filter((item) => path.startsWith(`${item.href}/`))
-        .sort((left, right) => right.href.length - left.href.length)[0];
-
-      return parentMatch?.href ?? null;
-    },
-    [navItems]
-  );
-
   const activeNavHref = useMemo(
-    () => resolveActiveNavHref(pathname),
-    [pathname, resolveActiveNavHref]
+    () => resolveActiveNavHref(pathname, navItems),
+    [navItems, pathname]
   );
   const previousActiveNavHrefRef = useRef<string | null>(activeNavHref);
 
@@ -160,14 +160,7 @@ export function Header({
 
   const handleOwnerClick = useCallback(
     (event: ReactMouseEvent<HTMLAnchorElement>) => {
-      if (
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey
-      ) {
+      if (!isPlainLeftClick(event)) {
         return;
       }
 
@@ -194,14 +187,7 @@ export function Header({
 
   const handleNavItemClick = useCallback(
     (event: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
-      if (
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey
-      ) {
+      if (!isPlainLeftClick(event)) {
         return;
       }
 

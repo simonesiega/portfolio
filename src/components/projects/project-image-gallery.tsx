@@ -2,21 +2,16 @@
 
 import Image from "next/image";
 import {useState} from "react";
+import {mediaConfig} from "@/lib/config/media";
 import type {ProjectCaseStudyGalleryItem} from "@/lib/config/text/projects";
 
 type ProjectImageGalleryProps = {
   images: readonly ProjectCaseStudyGalleryItem[];
-  imageClassName: string;
-  width: number;
-  height: number;
 };
 
-export function ProjectImageGallery({
-  images,
-  imageClassName,
-  width,
-  height,
-}: ProjectImageGalleryProps) {
+const {width, height} = mediaConfig.projects.caseStudyGallery;
+
+export function ProjectImageGallery({images}: ProjectImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedImage = images[selectedIndex] ?? images[0];
 
@@ -24,8 +19,8 @@ export function ProjectImageGallery({
     return null;
   }
 
-  const selectedImageClassName = `${imageClassName} ${
-    selectedImage.renderingMode === "dark-source" ? "project-diagram-image--dark-source" : ""
+  const selectedImageClassName = `h-full w-full object-contain ${
+    selectedImage.invertInLightTheme ? "project-diagram-image--dark-source" : ""
   }`.trim();
   const selectedImageElement = (
     <Image

@@ -1,17 +1,6 @@
 import {getProjectCaseStudyHref, projectsText} from "./projects";
 import {workText} from "./work";
 
-export const homeIntroSocialIconKeys = ["resume", "linkedin", "github", "x", "instagram"] as const;
-
-export type HomeIntroSocialIconKey = (typeof homeIntroSocialIconKeys)[number];
-
-type HomeIntroSocialLink = {
-  icon: HomeIntroSocialIconKey;
-  label: string;
-  href: string;
-  download?: string;
-};
-
 type HomeIntroEducationItem = {
   school: string;
   href: string;
@@ -40,6 +29,21 @@ export type HomeIntroAboutImage = {
   src: string;
   alt: string;
 };
+
+const homeIntroSocialLinks = [
+  {
+    icon: "resume",
+    label: "Download résumé",
+    href: "/simone-siega-resume.pdf",
+    download: "Simone-Siega-Resume.pdf",
+  },
+  {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
+  {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
+  {icon: "x", label: "X / Twitter", href: "https://x.com/simonesiega_"},
+  {icon: "instagram", label: "Instagram", href: "https://www.instagram.com/_simonesiiega_/"},
+] as const;
+
+export type HomeIntroSocialIconKey = (typeof homeIntroSocialLinks)[number]["icon"];
 
 const homeFeaturedProjectSlugs = [
   "first-client-projects",
@@ -118,18 +122,7 @@ export const homeText = {
       "Building backend software and production-ready web systems, with a growing interest in AI engineering.",
     ],
 
-    socialLinks: [
-      {
-        icon: "resume",
-        label: "Download résumé",
-        href: "/simone-siega-resume.pdf",
-        download: "Simone-Siega-Resume.pdf",
-      },
-      {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
-      {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
-      {icon: "x", label: "X / Twitter", href: "https://x.com/simonesiega_"},
-      {icon: "instagram", label: "Instagram", href: "https://www.instagram.com/_simonesiiega_/"},
-    ] as const satisfies readonly HomeIntroSocialLink[],
+    socialLinks: homeIntroSocialLinks,
 
     education: {
       label: "EDUCATION",

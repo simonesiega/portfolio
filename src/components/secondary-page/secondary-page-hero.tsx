@@ -11,12 +11,9 @@ type SecondaryPageHeroProps = {
   metaLabelDelayMs?: number;
   title: ReactNode;
   titleClassName?: string;
-  titleDelayMs?: number;
   subtitle?: ReactNode;
   subtitleClassName?: string;
-  subtitleDelayMs?: number;
   className?: string;
-  compact?: boolean;
   animate?: boolean;
   animateMetaLabel?: boolean;
 };
@@ -29,12 +26,9 @@ export function SecondaryPageHero({
   metaLabelDelayMs,
   title,
   titleClassName,
-  titleDelayMs,
   subtitle,
   subtitleClassName,
-  subtitleDelayMs,
   className,
-  compact = false,
   animate = true,
   animateMetaLabel = animate,
 }: SecondaryPageHeroProps) {
@@ -51,7 +45,7 @@ export function SecondaryPageHero({
   const titleContent = (
     <h1
       id={sectionId}
-      className={`${montserrat.className} font-extrabold tracking-tight ${compact ? "text-xl sm:text-3xl" : "text-4xl sm:text-6xl"} ${titleClassName ?? ""}`}
+      className={`${montserrat.className} text-xl font-extrabold tracking-tight sm:text-3xl ${titleClassName ?? ""}`}
     >
       {title}
     </h1>
@@ -59,7 +53,7 @@ export function SecondaryPageHero({
 
   const subtitleContent = subtitle ? (
     <p
-      className={`${montserrat.className} max-w-3xl font-medium tracking-tight ${compact ? "text-xs text-[var(--header-item-color)]/80 sm:text-sm" : "text-xl text-[var(--ui-fg-muted)] sm:text-2xl"} ${subtitleClassName ?? ""}`}
+      className={`${montserrat.className} max-w-3xl text-xs font-medium tracking-tight text-[var(--header-item-color)]/80 sm:text-sm ${subtitleClassName ?? ""}`}
     >
       {subtitle}
     </p>
@@ -68,7 +62,7 @@ export function SecondaryPageHero({
   return (
     <section
       aria-labelledby={sectionId}
-      className={`max-w-3xl ${compact ? "space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5" : "space-y-5 pt-10 pb-10 sm:pt-12 sm:pb-12"} ${className ?? ""}`}
+      className={`max-w-3xl space-y-0 pt-5 pb-4 sm:pt-7 sm:pb-5 ${className ?? ""}`}
     >
       {metaLabelContent && animateMetaLabel ? (
         <ScrollReveal
@@ -85,26 +79,26 @@ export function SecondaryPageHero({
       {animate ? (
         <ScrollReveal
           variant="fade-up"
-          delay={titleDelayMs ?? secondaryPageHero.title.delayMs}
+          delay={secondaryPageHero.title.delayMs}
           duration={secondaryPageHero.title.durationMs}
         >
           {titleContent}
         </ScrollReveal>
-      ) : null}
-
-      {animate ? null : titleContent}
+      ) : (
+        titleContent
+      )}
 
       {subtitleContent && animate ? (
         <ScrollReveal
           variant="fade-up"
-          delay={subtitleDelayMs ?? secondaryPageHero.subtitle.delayMs}
+          delay={secondaryPageHero.subtitle.delayMs}
           duration={secondaryPageHero.subtitle.durationMs}
-          className={compact ? "pt-1 sm:pt-1.5" : ""}
+          className="pt-1 sm:pt-1.5"
         >
           {subtitleContent}
         </ScrollReveal>
       ) : subtitleContent ? (
-        <div className={compact ? "pt-1 sm:pt-1.5" : ""}>{subtitleContent}</div>
+        <div className="pt-1 sm:pt-1.5">{subtitleContent}</div>
       ) : null}
     </section>
   );

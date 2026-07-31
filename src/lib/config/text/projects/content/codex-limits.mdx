@@ -27,7 +27,7 @@ Codex Limits began with a repeated interruption in my workflow. I had to open th
 
 So I designed and built the project independently. Ten days after writing the first line of code, I published [@simonesiega/codex-limits](https://www.npmjs.com/package/@simonesiega/codex-limits), **my first public npm package**.
 
-It grew into a cross-platform tool with a responsive dashboard, text and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">JSON</code> output, diagnostics, safe coupon redemption, and integrations for OpenCode, pi, and GitHub Copilot CLI.
+It grew into a cross-platform tool with a responsive dashboard, text and `JSON` output, diagnostics, safe coupon redemption, and integrations for OpenCode, pi, and GitHub Copilot CLI.
 
 _The central challenge was no longer displaying a number. It was turning a tool that worked on my machine into software other developers could install and trust._
 
@@ -55,7 +55,7 @@ I built **one normalized core** and reused it across every output surface.
 
 Live account data is treated as the primary source. When it is unavailable or incomplete, bounded local Codex session data fills only the missing information instead of replacing valid live results. This produces one normalized model for usage windows, reset times, coupons, and safe warnings.
 
-The terminal dashboard, text commands, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">JSON</code> output, diagnostics, and agent integrations consume that model instead of interpreting Codex data independently. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Ink</code> handles presentation, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">JSON</code> provides an automation contract, and thin adapters render the same sanitized result inside other developer tools.
+The terminal dashboard, text commands, `JSON` output, diagnostics, and agent integrations consume that model instead of interpreting Codex data independently. `Ink` handles presentation, `JSON` provides an automation contract, and thin adapters render the same sanitized result inside other developer tools.
 
 _One source of truth made consistency, testing, and later integrations easier than duplicating data logic in every interface._
 
@@ -81,9 +81,9 @@ OpenCode was the first and most difficult agent integration because it establish
 
 Publishing the first npm release within ten days changed the standard I used to judge the project.
 
-A local build was no longer enough. I had to define the executable, supported runtimes, package exports, declarations, documentation, versioning, and the exact <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">npm</code> tarball contents.
+A local build was no longer enough. I had to define the executable, supported runtimes, package exports, declarations, documentation, versioning, and the exact `npm` tarball contents.
 
-The package validator tests **the artifact users actually install**: it runs <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">npm pack</code>, inspects the tarball and public entry points, extracts it in isolation, and smoke-tests the packed CLI and agent bundles. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">CI</code> repeats this across Linux, Windows, and macOS.
+The package validator tests **the artifact users actually install**: it runs `npm pack`, inspects the tarball and public entry points, extracts it in isolation, and smoke-tests the packed CLI and agent bundles. `CI` repeats this across Linux, Windows, and macOS.
 
 **Releases use GitHub Actions and npm Trusted Publishing.** The release tag must match the package metadata, the complete validation pipeline must pass, and npm publishes the artifact with provenance instead of relying on a long-lived repository token.
 
@@ -101,9 +101,7 @@ _Publishing taught me that release engineering is the work required to make soft
 
 I contained that responsibility inside the shared core. Local reads are bounded and read-only, network responses are limited, and credentials, raw files, and private paths are excluded from every public output.
 
-<code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">
-  codex-limits reset
-</code>
+`codex-limits reset`
 is the **only remote account mutation**. It can use a coupon by its displayed index or automatically
 choose the available coupon that expires first. Before sending the request, it refreshes the coupon
 list, verifies the selection, displays a recap, and requires an explicit interactive confirmation.
@@ -134,9 +132,9 @@ The published package delivers:
 
 - one terminal view for usage windows, reset times, and reset-credit coupons;
 - responsive layouts for wide, compact, short, and constrained terminals;
-- text, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">JSON</code>, and diagnostic interfaces built on the same normalized core;
+- text, `JSON`, and diagnostic interfaces built on the same normalized core;
 - coupon redemption by displayed index or soonest expiration, protected by explicit confirmation;
-- support for Windows, macOS, and Linux on <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Node.js 20</code> or newer;
+- support for Windows, macOS, and Linux on `Node.js 20` or newer;
 - local integrations for OpenCode, pi, and GitHub Copilot CLI;
 - public npm distribution with automated, provenance-backed releases.
 
@@ -158,7 +156,7 @@ The validation pipeline checks formatting, documentation, types, tests, producti
 
 Before this project, I underestimated the difference between code that works locally and software that works globally.
 
-A public CLI becomes **an API**. Commands, arguments, exit behavior, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">JSON</code> fields, installation paths, and exports become compatibility decisions once other developers depend on them.
+A public CLI becomes **an API**. Commands, arguments, exit behavior, `JSON` fields, installation paths, and exports become compatibility decisions once other developers depend on them.
 
 I also learned that safety must be architectural. Credentials, paths, filesystem errors, and network payloads need to be contained from discovery to output, not redacted only at the final step.
 
@@ -172,7 +170,7 @@ Most importantly, publishing my first npm package made trust measurable: predict
 
 The next step is to make the project easier to extend in two directions.
 
-First, I want to add more coding-agent integrations through the existing adapter model. Second, I want to isolate changes in the upstream OpenAI usage response even further from the public interfaces. If new daily, monthly, or differently shaped usage windows appear, they should require a focused normalization change rather than updates throughout the CLI, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">JSON</code> output, TUI, and integrations.
+First, I want to add more coding-agent integrations through the existing adapter model. Second, I want to isolate changes in the upstream OpenAI usage response even further from the public interfaces. If new daily, monthly, or differently shaped usage windows appear, they should require a focused normalization change rather than updates throughout the CLI, `JSON` output, TUI, and integrations.
 
 The aim is not to add unrelated commands. It is to keep the product stable while its external data source and supported hosts evolve.
 

@@ -13,7 +13,7 @@ import type {
 } from "@/lib/animation/particle-network/types";
 
 const {particleNetwork} = particleNetworkConfig;
-const {reducedMotionQuery, density, rendering, spawning} = particleNetwork;
+const {density, rendering, spawning} = particleNetwork;
 const slowMotionScale = 0.2;
 
 /**
@@ -30,7 +30,6 @@ type ParticleNetworkState = {
   particles: Particle[];
   dustParticles: DustParticle[];
   centers: Point[];
-  reducedMotion: boolean;
 };
 
 /**
@@ -40,7 +39,7 @@ function createInitialState(): ParticleNetworkState {
   return {
     animationFrame: 0,
     isCanvasVisible: true,
-    previousTime: performance.now(),
+    previousTime: 0,
     dimensions: {width: 0, height: 0},
     colors: {
       pointRgb: rendering.defaultColors.pointRgb,
@@ -50,7 +49,6 @@ function createInitialState(): ParticleNetworkState {
     particles: [],
     dustParticles: [],
     centers: [],
-    reducedMotion: false,
   };
 }
 
@@ -73,10 +71,7 @@ export function useParticleNetwork() {
     }
 
     const state = stateRef.current;
-    const reducedMotionMedia = window.matchMedia(reducedMotionQuery);
     const targetFrameMs = 1000 / rendering.targetFps;
-
-    state.reducedMotion = reducedMotionMedia.matches;
 
     const syncNetworkColors = () => {
       const styles = getComputedStyle(document.documentElement);
@@ -105,25 +100,12 @@ export function useParticleNetwork() {
     const initParticles = () => {
       const {width, height} = state.dimensions;
       const area = width * height;
-      const baseCount = clamp(
+      const particleCount = clamp(
         Math.round(area * density.baseParticles),
         density.minParticles,
         density.maxParticles
       );
-
-      const particleCount = state.reducedMotion
-        ? Math.max(
-            density.reducedMotionMinParticles,
-            Math.round(baseCount * density.reducedMotionParticleFactor)
-          )
-        : baseCount;
-
-      const dustCount = state.reducedMotion
-        ? Math.max(
-            density.reducedMotionMinDust,
-            Math.round(area * density.baseDust * density.reducedMotionDustFactor)
-          )
-        : Math.max(density.minDust, Math.round(area * density.baseDust));
+      const dustCount = Math.max(density.minDust, Math.round(area * density.baseDust));
 
       state.centers = Array.from(
         {
@@ -145,21 +127,7 @@ export function useParticleNetwork() {
       state.dustParticles = Array.from({length: dustCount}, () => spawnDustParticle(width, height));
     };
 
-    const shouldRunAnimation = () =>
-      state.isCanvasVisible && !document.hidden && !state.reducedMotion;
-
-    const renderStaticFrame = () => {
-      drawFrame({
-        context,
-        width: state.dimensions.width,
-        height: state.dimensions.height,
-        dt: 0,
-        particles: state.particles,
-        dustParticles: state.dustParticles,
-        centers: state.centers,
-        colors: state.colors,
-      });
-    };
+    const shouldRunAnimation = () => state.isCanvasVisible && !document.hidden;
 
     const frame = (time: number) => {
       if (!shouldRunAnimation()) {
@@ -208,19 +176,6 @@ export function useParticleNetwork() {
       state.animationFrame = 0;
     };
 
-    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
-      state.reducedMotion = event.matches;
-      initParticles();
-
-      if (state.reducedMotion) {
-        stopAnimation();
-        renderStaticFrame();
-        return;
-      }
-
-      startAnimation();
-    };
-
     const handleVisibilityChange = () => {
       if (document.hidden) {
         stopAnimation();
@@ -233,19 +188,9 @@ export function useParticleNetwork() {
     const resizeObserver = new ResizeObserver(() => {
       resizeCanvas();
       initParticles();
-
-      if (state.reducedMotion) {
-        renderStaticFrame();
-      }
     });
 
-    const themeObserver = new MutationObserver(() => {
-      syncNetworkColors();
-
-      if (state.reducedMotion) {
-        renderStaticFrame();
-      }
-    });
+    const themeObserver = new MutationObserver(syncNetworkColors);
 
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
@@ -271,26 +216,18 @@ export function useParticleNetwork() {
       attributes: true,
       attributeFilter: ["data-theme"],
     });
-    reducedMotionMedia.addEventListener("change", handleReducedMotionChange);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     resizeCanvas();
     syncNetworkColors();
     initParticles();
-
-    if (state.reducedMotion) {
-      renderStaticFrame();
-      stopAnimation();
-    } else {
-      startAnimation();
-    }
+    startAnimation();
 
     return () => {
       stopAnimation();
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
       themeObserver.disconnect();
-      reducedMotionMedia.removeEventListener("change", handleReducedMotionChange);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);

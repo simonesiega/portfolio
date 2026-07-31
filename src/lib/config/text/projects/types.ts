@@ -5,8 +5,8 @@ export type ProjectCaseStudyGalleryItem = {
   alt: string;
   caption?: string;
   thumbnailDescription?: string;
-  href?: string | null;
-  renderingMode?: "auto" | "dark-source";
+  href?: string;
+  invertInLightTheme?: boolean;
 };
 
 type ProjectDemoLink = {
@@ -15,11 +15,10 @@ type ProjectDemoLink = {
 };
 
 export type ProjectsPageProject = {
-  id: string;
   slug: string;
   title: string;
   pinned: boolean;
-  githubUrl: string;
+  githubUrl?: string;
   demoUrls?: readonly ProjectDemoLink[];
   developmentPeriod: string;
   keyPhrase: string;

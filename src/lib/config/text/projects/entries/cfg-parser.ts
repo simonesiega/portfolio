@@ -2,7 +2,6 @@ import CaseStudyContent, {galleryCaptions, keyPhrase} from "../content/cfg-parse
 import type {ProjectsPageProject} from "../types";
 
 export const cfgParserProject = {
-  id: "cfg-parser",
   slug: "cfg-parser",
   title: "CFG Parser",
   pinned: false,
@@ -39,7 +38,7 @@ export const cfgParserProject = {
         alt: "CFG Parser architecture diagram",
         caption: galleryCaptions[0],
         href: "https://github.com/simonesiega/cfg-parser",
-        renderingMode: "dark-source",
+        invertInLightTheme: true,
       },
     ],
     Content: CaseStudyContent,

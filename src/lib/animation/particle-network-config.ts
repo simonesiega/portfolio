@@ -1,15 +1,10 @@
 export const particleNetworkConfig = {
   particleNetwork: {
-    reducedMotionQuery: "(prefers-reduced-motion: reduce)",
     density: {
       baseParticles: 0.00012,
       baseDust: 0.00008,
       minParticles: 70,
       maxParticles: 165,
-      reducedMotionParticleFactor: 0.42,
-      reducedMotionMinParticles: 30,
-      reducedMotionDustFactor: 0.35,
-      reducedMotionMinDust: 12,
       minDust: 28,
     },
     links: {

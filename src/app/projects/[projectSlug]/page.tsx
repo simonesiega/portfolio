@@ -6,7 +6,6 @@ import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {ProjectImageGallery} from "@/components/projects/project-image-gallery";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
-import {mediaConfig} from "@/lib/config/media";
 import {getProjectBySlug, getProjectCaseStudySeo, projectsText} from "@/lib/config/text/projects";
 import {geistSans} from "@/lib/fonts";
 import {createContentPageMetadata} from "@/lib/metadata";
@@ -53,12 +52,8 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
     notFound();
   }
 
-  const {routeReveal} = animationTimings;
   const {projectCaseStudy} = animationTimings;
-  const {caseStudyGallery} = mediaConfig.projects;
   const CaseStudyContent = project.caseStudy.Content;
-  const galleryImageClassName = "project-diagram-image h-full w-full object-contain";
-  const githubUrl = project.githubUrl.trim();
   const getContentRevealDelayMs = (index: number) =>
     projectCaseStudy.content.delayMs + index * projectCaseStudy.content.stepDelayMs;
   const getContentInitialViewportDelayMs = (index: number) =>
@@ -95,9 +90,6 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
           "max-w-[31rem] text-[0.98rem] text-[var(--ui-fg-muted)] sm:text-[1.08rem]",
         className: "-mt-3 mx-auto w-full max-w-[44rem] sm:-mt-4",
       }}
-      routeRevealDurationMs={routeReveal.durationMs}
-      routeRevealThreshold={routeReveal.threshold}
-      compactHero
       animateHero={false}
       animateHeroMetaLabel
     >
@@ -129,9 +121,9 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
               ))}
             </ul>
             <div className="flex flex-wrap items-center gap-4 pt-0.5">
-              {githubUrl ? (
+              {project.githubUrl ? (
                 <a
-                  href={githubUrl}
+                  href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${geistSans.className} group inline-flex items-center gap-1.5 text-[0.84rem] font-medium text-[var(--ui-fg)] transition-colors duration-300 hover:text-[var(--header-item-hover-color)]`}
@@ -170,13 +162,7 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             duration={projectCaseStudy.content.durationMs}
             threshold={projectCaseStudy.content.threshold}
           >
-            <ProjectImageGallery
-              key={project.slug}
-              images={project.caseStudy.gallery}
-              imageClassName={galleryImageClassName}
-              width={caseStudyGallery.width}
-              height={caseStudyGallery.height}
-            />
+            <ProjectImageGallery key={project.slug} images={project.caseStudy.gallery} />
           </ScrollReveal>
         ) : null}
 

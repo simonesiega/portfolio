@@ -31,9 +31,7 @@ export function AboutInterestImages({
   const {aboutImage} = mediaConfig.home;
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      animationTimings.scrollRevealDefaults.reducedMotionQuery
-    ).matches;
+    const prefersReduced = window.matchMedia(scrollRevealDefaults.reducedMotionQuery).matches;
     const items = itemRefs.current.flatMap((item, index) => (item ? [{item, index}] : []));
 
     if (prefersReduced || typeof IntersectionObserver === "undefined") {
@@ -108,7 +106,7 @@ export function AboutInterestImages({
       mobileMedia.removeEventListener("change", setupObservers);
       observers.forEach((observer) => observer.disconnect());
     };
-  }, [aboutImages.stepDelayMs, aboutImages.threshold, delayMs, scrollRevealDefaults.rootMargin]);
+  }, [aboutImages, delayMs, scrollRevealDefaults]);
 
   return (
     <div ref={gridRef} className="mt-4 grid grid-cols-1 gap-4 min-[430px]:grid-cols-3">

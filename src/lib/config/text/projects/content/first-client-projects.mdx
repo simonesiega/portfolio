@@ -57,11 +57,11 @@ I also helped standardize development with Docker. The resulting workflow reduce
 
 Arsenale Moto needed a new operational workflow, not only a public-facing design. Before the project, motorcycles could be promoted through social media, while a website listing would otherwise require someone to edit source code manually.
 
-I built **6 public pages** with Next.js and TypeScript and modeled **more than 30 motorcycle listings** in <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Strapi</code>. Each listing exposes over 10 editable fields for information such as pricing, specifications, imagery, and page content. Staff now fill in the CMS fields, and every motorcycle page is generated with the same structure and visual style.
+I built **6 public pages** with Next.js and TypeScript and modeled **more than 30 motorcycle listings** in `Strapi`. Each listing exposes over 10 editable fields for information such as pricing, specifications, imagery, and page content. Staff now fill in the CMS fields, and every motorcycle page is generated with the same structure and visual style.
 
 The CMS supports **10 distinct roles**. I translated the responsibilities of different staff members into permissions so that routine content work remained accessible while sensitive actions stayed restricted.
 
-I also connected the valuation form to <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Resend</code> with server-side validation, anti-spam controls, authenticated domains, and branded email templates. In production, it handles approximately **10–20 customer valuation requests per day**.
+I also connected the valuation form to `Resend` with server-side validation, anti-spam controls, authenticated domains, and branded email templates. In production, it handles approximately **10–20 customer valuation requests per day**.
 
 </ProjectMdxRevealSection>
 
@@ -73,7 +73,7 @@ The two contracts demonstrate **opposite sides of client engineering**.
 
 New Art Vanguard required controlled contribution inside a shared system. I had to understand an unfamiliar codebase, coordinate with two teammates, and improve it without turning every inconsistency into a rewrite.
 
-Arsenale Moto required full ownership. A push to GitHub triggered deployment through Dokploy, while I configured the VPS, Docker services, domains, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">HTTPS</code>, environment variables, backups, and health checks.
+Arsenale Moto required full ownership. A push to GitHub triggered deployment through Dokploy, while I configured the VPS, Docker services, domains, `HTTPS`, environment variables, backups, and health checks.
 
 The handoff included CMS training, documentation, deployment instructions, credential management, and ongoing support. The client did not receive only finished pages; they received a workflow for publishing motorcycles, receiving leads, deploying updates, and maintaining the system.
 

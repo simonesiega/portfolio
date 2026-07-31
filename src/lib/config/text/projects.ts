@@ -17,9 +17,7 @@ export const projectsText = {
 } as const satisfies ProjectsText;
 
 export function getProjectBySlug(projectSlug: string): ProjectsPageProject | undefined {
-  return (projectsText.projects as readonly ProjectsPageProject[]).find(
-    (project) => project.slug === projectSlug
-  );
+  return projectsText.projects.find((project) => project.slug === projectSlug);
 }
 
 export function getProjectCaseStudyHref(projectSlug: string) {

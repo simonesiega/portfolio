@@ -62,29 +62,16 @@ export const animationTimings = {
     },
   },
 
-  workExperienceList: {
-    item: {
-      delayMs: 520,
-      stepDelayMs: 240,
-      durationMs: 980,
-      threshold: 0.1,
-    },
-  },
-
-  projectsShowcaseList: {
-    item: {
-      delayMs: 520,
-      stepDelayMs: 240,
-      durationMs: 980,
-      threshold: 0.1,
-    },
+  secondaryPageItem: {
+    delayMs: 520,
+    stepDelayMs: 240,
+    durationMs: 980,
+    threshold: 0.1,
   },
 
   projectCaseStudy: {
     metaLabel: {
       delayMs: 360,
-      durationMs: 860,
-      threshold: 0.06,
     },
     content: {
       delayMs: 120,

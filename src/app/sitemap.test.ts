@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest";
 import sitemap from "./sitemap";
-import {appRouteFiles, appRouteLastModified} from "@/lib/config/site-routes";
+import {appRouteLastModified, appRoutes} from "@/lib/config/site-routes";
 import {getSiteOrigin} from "@/lib/site-url";
 
 describe("sitemap", () => {
@@ -8,11 +8,11 @@ describe("sitemap", () => {
     const entries = sitemap();
     const urls = entries.map((entry) => entry.url);
 
-    expect(entries).toHaveLength(Object.keys(appRouteFiles).length);
+    expect(entries).toHaveLength(appRoutes.length);
 
     const siteOrigin = getSiteOrigin();
 
-    for (const route of Object.keys(appRouteFiles)) {
+    for (const route of appRoutes) {
       expect(urls).toContain(`${siteOrigin}${route}`);
     }
   });

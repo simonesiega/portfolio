@@ -2,10 +2,12 @@
 
 import {useSyncExternalStore} from "react";
 import {useParticleNetwork} from "@/components/animation/use-particle-network";
-import {particleNetworkConfig} from "@/lib/animation/particle-network-config";
+import {animationTimings} from "@/lib/animation/animation-timings";
 
 const largeScreenQuery = "(min-width: 80rem)";
-const reducedMotionQuery = particleNetworkConfig.particleNetwork.reducedMotionQuery;
+const reducedMotionQuery = animationTimings.scrollRevealDefaults.reducedMotionQuery;
+const particleNetworkClassName =
+  "pointer-events-none absolute inset-0 hidden [mask-image:linear-gradient(to_right,black_0%,black_16%,rgba(0,0,0,0.3)_32%,rgba(0,0,0,0.3)_68%,black_84%,black_100%)] opacity-25 xl:block";
 
 function subscribeToVisualPreferenceChanges(onChange: () => void) {
   const largeScreenMedia = window.matchMedia(largeScreenQuery);
@@ -31,18 +33,11 @@ function getServerSnapshot() {
 }
 
 /**
- * Component rendering a particle network animation on a canvas element, using the `useParticleNetwork` hook for all simulation and rendering logic.
- */
-type ParticleNetworkProps = {
-  className?: string;
-};
-
-/**
  * Thin presentation wrapper for the particle network engine.
  *
  * All simulation lifecycle and rendering logic live inside `useParticleNetwork`.
  */
-export function ParticleNetwork({className}: ParticleNetworkProps) {
+export function ParticleNetwork() {
   const shouldRender = useSyncExternalStore(
     subscribeToVisualPreferenceChanges,
     getVisualPreferenceSnapshot,
@@ -53,15 +48,15 @@ export function ParticleNetwork({className}: ParticleNetworkProps) {
     return null;
   }
 
-  return <ParticleNetworkCanvas className={className} />;
+  return <ParticleNetworkCanvas />;
 }
 
-function ParticleNetworkCanvas({className}: ParticleNetworkProps) {
+function ParticleNetworkCanvas() {
   const canvasRef = useParticleNetwork();
 
   return (
     // Decorative visual layer only; no semantic content for assistive tech.
-    <div className={className} aria-hidden="true">
+    <div className={particleNetworkClassName} aria-hidden="true">
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
   );

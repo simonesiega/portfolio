@@ -42,27 +42,26 @@ export function ProjectsShowcaseSection({
   askLinkLabel,
   pinnedLabel,
 }: ProjectsShowcaseSectionProps) {
-  const {projectsShowcaseList} = animationTimings;
+  const {secondaryPageItem} = animationTimings;
   const contactEmail = appConfig.contact.email;
 
   return (
     <section aria-label={projectsAriaLabel} className={`${pageColumnClassName} pt-5 pb-20 sm:pt-7`}>
       <ul className="space-y-7 sm:space-y-8">
         {projects.map((project, index) => {
-          const githubUrl = project.githubUrl.trim();
           const revealDelay =
-            projectsShowcaseList.item.delayMs + (index % 2) * projectsShowcaseList.item.stepDelayMs;
+            secondaryPageItem.delayMs + (index % 2) * secondaryPageItem.stepDelayMs;
           const initialViewportDelay =
-            projectsShowcaseList.item.delayMs + index * projectsShowcaseList.item.stepDelayMs;
+            secondaryPageItem.delayMs + index * secondaryPageItem.stepDelayMs;
 
           return (
-            <li key={project.id}>
+            <li key={project.slug}>
               <ScrollReveal
                 variant="fade-up"
                 delay={revealDelay}
                 initialViewportDelay={initialViewportDelay}
-                duration={projectsShowcaseList.item.durationMs}
-                threshold={projectsShowcaseList.item.threshold}
+                duration={secondaryPageItem.durationMs}
+                threshold={secondaryPageItem.threshold}
               >
                 <article className="project-showcase-item group relative pl-5 sm:pl-6">
                   <span
@@ -106,10 +105,10 @@ export function ProjectsShowcaseSection({
                         </>
                       ) : null}
 
-                      {githubUrl ? (
+                      {project.githubUrl ? (
                         <>
                           <a
-                            href={githubUrl}
+                            href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${githubAriaLabelPrefix} ${project.title} ${githubAriaLabelSuffix}`}

@@ -100,9 +100,8 @@ function drawLinks({
           }
 
           const distance = Math.sqrt(distanceSquared);
-          const alphaBase = 1 - distance / linkDistance;
           // Keep line intensity proportional to normalized proximity.
-          const alpha = alphaBase;
+          const alpha = 1 - distance / linkDistance;
 
           context.strokeStyle = `rgba(${colors.linkRgb},${alpha * 0.2})`;
           context.lineWidth = 0.3 + alpha * 0.85;
@@ -176,12 +175,12 @@ function buildSpatialGrid(particles: Particle[], cellSize: number) {
     const cellY = Math.floor(particle.y / cellSize);
     const key = `${cellX},${cellY}`;
 
-    // Lazily allocate only occupied cells to keep memory usage low.
-    if (!grid.has(key)) {
-      grid.set(key, []);
+    const cell = grid.get(key);
+    if (cell) {
+      cell.push(index);
+    } else {
+      grid.set(key, [index]);
     }
-
-    grid.get(key)?.push(index);
   }
 
   return grid;

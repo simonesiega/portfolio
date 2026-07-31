@@ -33,7 +33,7 @@ I wanted the grammar to be more than documentation written after the code. It ha
 
 I deliberately avoided a parser generator because that would have hidden the part I most wanted to understand. I also chose direct evaluation instead of building an abstract syntax tree. The program only needed to return one numeric result, so introducing a second intermediate representation would have added complexity without solving a current requirement.
 
-The final <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">=</code> delimiter was another deliberate language decision. It gives the parser an explicit end to a complete formula, rather than accepting whatever valid prefix happens to appear before the input stops.
+The final `=` delimiter was another deliberate language decision. It gives the parser an explicit end to a complete formula, rather than accepting whatever valid prefix happens to appear before the input stops.
 
 </ProjectMdxRevealSection>
 
@@ -47,15 +47,15 @@ The **tokenizer** scans the input character by character and produces typed toke
 
 The **recursive-descent parser** then consumes the token sequence. Its functions mirror the grammar layers:
 
-1. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">F</code> validates a complete formula ending in <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">=</code>.
-2. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">E</code> handles addition and subtraction.
-3. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">P</code> handles multiplication, division, and implicit multiplication.
-4. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">U</code> handles exponentiation and n-th roots.
-5. <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">B</code> handles numbers, unary minus, and parenthesized expressions.
+1. `F` validates a complete formula ending in `=`.
+2. `E` handles addition and subtraction.
+3. `P` handles multiplication, division, and implicit multiplication.
+4. `U` handles exponentiation and n-th roots.
+5. `B` handles numbers, unary minus, and parenthesized expressions.
 
 This structure **encodes precedence directly**. Multiplication does not need to be “fixed” after addition, because additive parsing can only consume values that have already passed through the product layer.
 
-Exponentiation and roots are **right-associative through recursion**. For example, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2^3^2</code> is interpreted as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2^(3^2)</code>, because the parser resolves the expression on the right before completing the current operation.
+Exponentiation and roots are **right-associative through recursion**. For example, `2^3^2` is interpreted as `2^(3^2)`, because the parser resolves the expression on the right before completing the current operation.
 
 </ProjectMdxRevealSection>
 
@@ -75,15 +75,15 @@ Input string
 
 One important design decision was **keeping implicit multiplication inside the parser rather than the tokenizer**.
 
-The tokenizer can see that <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2</code> is a number and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(</code> is a parenthesis, but it should not decide that the relationship between them means multiplication. That decision requires grammar context.
+The tokenizer can see that `2` is a number and `(` is a parenthesis, but it should not decide that the relationship between them means multiplication. That decision requires grammar context.
 
 The product layer therefore accepts three constrained adjacency patterns:
 
-- a number followed by <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(</code>, as in <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2(3 + 4)</code>;
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">)</code> followed by <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(</code>, as in <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(1 + 2)(3 + 4)</code>;
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">)</code> followed by a number, as in <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(1 + 2)3</code>.
+- a number followed by `(`, as in `2(3 + 4)`;
+- `)` followed by `(`, as in `(1 + 2)(3 + 4)`;
+- `)` followed by a number, as in `(1 + 2)3`.
 
-Two adjacent numbers such as <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">5 5</code> remain invalid because treating them as multiplication would make the language ambiguous.
+Two adjacent numbers such as `5 5` remain invalid because treating them as multiplication would make the language ambiguous.
 
 This boundary keeps lexical recognition simple while allowing the parser to support familiar mathematical notation without turning the implementation into a collection of string-specific exceptions.
 
@@ -97,17 +97,17 @@ The most difficult part was **assigning lexical, syntactic, and mathematical fai
 
 From a user's perspective, all of these inputs are simply “wrong,” but they fail for different reasons:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1..2 + 3 =</code> contains a malformed number and should fail during tokenization.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 + =</code> contains valid tokens but violates the grammar because an operand is missing.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 * (3 + 4 =</code> reaches the parser with an unmatched parenthesis.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">8 / 0 =</code> is syntactically valid but mathematically undefined.
+- `1..2 + 3 =` contains a malformed number and should fail during tokenization.
+- `2 + =` contains valid tokens but violates the grammar because an operand is missing.
+- `2 * (3 + 4 =` reaches the parser with an unmatched parenthesis.
+- `8 / 0 =` is syntactically valid but mathematically undefined.
 - a negative number with an even root is valid syntax but invalid over the real numbers.
 
 Combining every failure into one generic message would have made the parser easier to write but harder to reason about. The implementation models and exposes those failures through:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">TokenError</code> for malformed input and invalid expression structure;
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">MathError</code> for division by zero, invalid powers or roots, overflow, and underflow;
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">CalcError</code> as the unified result returned to the caller.
+- `TokenError` for malformed input and invalid expression structure;
+- `MathError` for division by zero, invalid powers or roots, overflow, and underflow;
+- `CalcError` as the unified result returned to the caller.
 
 This forced me to answer a useful design question for every failure: _which layer has enough information to identify the problem accurately?_
 
@@ -122,24 +122,24 @@ That same question improved the rest of the architecture. **The tokenizer recogn
 The CLI supports a compact but intentionally defined expression language:
 
 - real numbers and unary negation;
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">+</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">-</code>, <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">*</code>, and <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">/</code> with standard precedence;
+- `+`, `-`, `*`, and `/` with standard precedence;
 - nested parenthesized expressions;
 - constrained implicit multiplication;
-- right-associative exponentiation with <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">^</code>;
-- n-th roots with <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">$</code>;
-- mandatory formula termination with <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">=</code>;
+- right-associative exponentiation with `^`;
+- n-th roots with `$`;
+- mandatory formula termination with `=`;
 - explicit token, syntax, and mathematical errors.
 
 Representative expressions show the grammar working across features:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">1 + 2 * 3 =</code> returns <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">7.000</code> because the product layer resolves first.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">(1 + 2)(3 + 4) =</code> returns <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">21.000</code> through implicit multiplication.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2^3^2 =</code> follows right-associative exponentiation.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">27 $ 3 =</code> returns the cube root of 27.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">5 5 =</code> is rejected rather than silently guessed.
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">2 + =</code> is rejected before evaluation because its right operand is missing.
+- `1 + 2 * 3 =` returns `7.000` because the product layer resolves first.
+- `(1 + 2)(3 + 4) =` returns `21.000` through implicit multiplication.
+- `2^3^2 =` follows right-associative exponentiation.
+- `27 $ 3 =` returns the cube root of 27.
+- `5 5 =` is rejected rather than silently guessed.
+- `2 + =` is rejected before evaluation because its right operand is missing.
 
-The project can run directly with Cargo or inside Docker, with expressions supplied as command-line arguments or through the <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">CFGPARSER_INPUT</code> environment variable.
+The project can run directly with Cargo or inside Docker, with expressions supplied as command-line arguments or through the `CFGPARSER_INPUT` environment variable.
 
 </ProjectMdxRevealSection>
 
@@ -153,8 +153,8 @@ The five grammar non-terminals are implemented through eight recursive-descent m
 
 The project also exposes repeatable execution paths:
 
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">cargo run</code> for local development;
-- <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">cargo test</code> for the current test target;
+- `cargo run` for local development;
+- `cargo test` for the current test target;
 - Docker builds for an isolated runtime;
 - CLI arguments and environment variables for custom expressions.
 
@@ -170,7 +170,7 @@ _Expanding those examples into a comprehensive regression suite is the most impo
 
 This project was my **first practical experience with Rust ownership**.
 
-In Java and Python, I could often pass data between functions without thinking deeply about who owned it or how long a reference remained valid. Rust made those decisions visible. The tokenizer borrows the input while scanning it, produces a vector of owned tokens, and transfers that token sequence into the parser. Lightweight token values can be copied, while larger values and errors move through explicit <code className="rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]">Result</code> paths.
+In Java and Python, I could often pass data between functions without thinking deeply about who owned it or how long a reference remained valid. Rust made those decisions visible. The tokenizer borrows the input while scanning it, produces a vector of owned tokens, and transfers that token sequence into the parser. Lightweight token values can be copied, while larger values and errors move through explicit `Result` paths.
 
 At first, these rules made development slower. That learning curve is one reason the project took about a month. _Over time, however, ownership stopped feeling like a restriction and became a way to describe the program's data flow more precisely._
 

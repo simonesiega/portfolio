@@ -49,11 +49,7 @@ export default function Home() {
   const aboutImageRevealDelayMs = getSectionRevealDelayMs(aboutImagesSectionIndex);
   const aboutImageInitialViewportDelayMs =
     getSectionInitialViewportDelayMs(aboutImagesSectionIndex);
-  const footerRevealDelayMs =
-    aboutImageRevealDelayMs + intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
-  const footerInitialViewportDelayMs =
-    aboutImageInitialViewportDelayMs +
-    intro.about.images.length * homeIntro.aboutImages.stepDelayMs;
+
   return (
     <div className="relative overflow-x-clip">
       <div className={`relative z-10 ${pageFrameClassName}`}>
@@ -278,8 +274,6 @@ export default function Home() {
 
           <RouteReveal
             variant="fade-in"
-            delay={footerRevealDelayMs}
-            initialViewportDelay={footerInitialViewportDelayMs}
             duration={routeReveal.durationMs}
             threshold={routeReveal.threshold}
           >

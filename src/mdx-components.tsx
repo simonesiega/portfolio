@@ -25,6 +25,23 @@ function ExternalLink({children, href, className, ...props}: ComponentProps<"a">
   );
 }
 
+const codeClassName =
+  "font-[inherit] leading-[inherit] tracking-[inherit] text-[color-mix(in_srgb,var(--ui-fg)_78%,var(--ui-fg-muted))]";
+const inlineCodeClassName =
+  "rounded-sm border border-[var(--card-border)] bg-[var(--card-bg)] px-1 py-0.5 text-[0.9em]";
+
+function MdxCode({children, className, ...props}: ComponentProps<"code">) {
+  const presentationClassName = className?.startsWith("language-")
+    ? codeClassName
+    : `${inlineCodeClassName} ${codeClassName}`;
+
+  return (
+    <code {...props} className={mergeClassNames(presentationClassName, className)}>
+      {children}
+    </code>
+  );
+}
+
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     h2: ({children, className, ...props}: ComponentProps<"h2">) => (
@@ -122,17 +139,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </em>
     ),
-    code: ({children, className, ...props}: ComponentProps<"code">) => (
-      <code
-        {...props}
-        className={mergeClassNames(
-          "font-[inherit] leading-[inherit] tracking-[inherit] text-[color-mix(in_srgb,var(--ui-fg)_78%,var(--ui-fg-muted))]",
-          className
-        )}
-      >
-        {children}
-      </code>
-    ),
+    code: MdxCode,
     a: ExternalLink,
     hr: ({className, ...props}: ComponentProps<"hr">) => (
       <hr
