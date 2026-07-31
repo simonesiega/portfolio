@@ -47,13 +47,17 @@ export type HomeIntroSocialIconKey = (typeof homeIntroSocialLinks)[number]["icon
 
 const homeFeaturedProjectSlugs = [
   "first-client-projects",
+  "european-tech-opportunities-2027",
   "codex-limits",
   "cfg-parser",
 ] as const satisfies readonly HomeFeaturedProjectSlug[];
 
 const homeFeaturedProjectDescriptions = {
-  "first-client-projects": "Two production client websites delivered during high school",
-  "codex-limits": "Cross-platform Codex usage CLI published as a public npm package",
+  "first-client-projects": "Two production websites delivered during high school",
+  "european-tech-opportunities-2027":
+    "Open-source directory for European internships and New Grad positions",
+  "codex-limits":
+    "Cross-platform CLI for monitoring Codex usage, published as a public npm package",
   "cfg-parser": "Rust CLI tool for grammar-driven expression parsing and evaluation",
 } as const satisfies Record<(typeof homeFeaturedProjectSlugs)[number], string>;
 
