@@ -1,90 +1,116 @@
 <h1 align="center">Simone Siega — Portfolio</h1>
 
 <p align="center">
-Personal portfolio website showcasing my work, projects, and technical interests.
+  Computer Engineering student at the <a href="https://www.unipd.it/">University of Padua</a>, based in Venice, Italy.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-000?logo=nextdotjs&logoColor=white" alt="Next.js" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  🌐 <b>Live Website:</b> <a href="https://simonesiega.com">simonesiega.com</a>
 </p>
 
 <p align="center">
-🌐 <b>Live Website:</b> <a href="https://simonesiega.com">simonesiega.com</a>
+  <sub>Next.js 16 · TypeScript · Tailwind CSS · Bun · GitHub Actions</sub>
 </p>
 
-## 🚀 Preview
+## Preview
 
 <p align="center">
-  <img src="docs/gif/home-animation.gif" alt="Homepage animation and theme toggle" />
+  <img src="docs/gif/home-animation.gif" alt="Portfolio homepage animation and theme transition" />
 </p>
 
-## About
+## Overview
 
-I am **Simone Siega**, a software developer and computer science student based in **Venice, Italy**.
+This repository contains the source for my personal portfolio. It is the main place where I document selected projects, client work, and the engineering decisions behind them.
 
-This repository contains the source code for my personal portfolio website, designed as the main place to explore my work. The site brings together selected projects, experiments, and professional experience, with a focus on **systems-oriented engineering**, **backend development**, and **practical software architecture**.
+Each featured project includes an MDX case study covering the original problem, implementation choices, production constraints, results, and what I would improve next.
 
-## What the portfolio includes
+The current portfolio includes:
 
-- Selected software projects and technical experiments  
-- Professional experience and development work  
-- The technical direction of my work across systems, backend engineering, and software architecture
+- [Client Web Delivery](https://simonesiega.com/projects/first-client-projects) — my first paid contracts, from contributing to an existing PHP website to owning a CMS-driven platform through production handoff.
+- [European Tech Opportunities 2027](https://simonesiega.com/projects/european-tech-opportunities-2027) — an open-source Python pipeline and directory built around deterministic classification, SQLite lifecycle management, restore-tested snapshots, and atomic deployment.
+- [Codex Limits](https://simonesiega.com/projects/codex-limits) — my first public npm package, combining a terminal interface, automation output, safe reset-credit redemption, and coding-agent integrations.
+- [CFG Parser](https://simonesiega.com/projects/cfg-parser) — my first Rust project, using a hand-written recursive-descent parser to turn a custom grammar into evaluation and structured errors.
 
-Explore the portfolio here:
-
-- [Projects](https://simonesiega.com/projects)
-- [Work](https://simonesiega.com/work)
+Professional experience is collected separately on the [Work page](https://simonesiega.com/work).
 
 ## Running Locally
 
+The project uses the Bun version declared in `package.json`.
+
 ```bash
-bun install
+git clone https://github.com/simonesiega/portfolio.git
+cd portfolio
+bun install --frozen-lockfile
+cp .env.example .env
 bun run dev
 ```
 
-Then open:
+Open [http://localhost:3000](http://localhost:3000).
 
-```bash
-http://localhost:3000
-```
+The environment file is optional for basic local development. It becomes important when checking canonical metadata, analytics, or production CSP behavior.
 
-Optional: copy `.env.example` to `.env` to configure analytics, canonical URL generation, and CSP/security-header behavior.
+## Configuration
 
-Production builds require `NEXT_PUBLIC_SITE_URL` or `SITE_URL` so metadata, robots, and sitemap URLs are generated from an explicit origin. For local verification, run:
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Public origin used for canonical metadata, sitemap, and robots output. |
+| `SITE_URL` | Server-side fallback for the public origin and the default Docker build origin. |
+| `NEXT_PUBLIC_UMAMI_ENABLED` | Enables optional Umami analytics when set to `true`. |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_SRC` | URL of the Umami script; also informs the production CSP. |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Umami website identifier supplied at build time. |
+| `CSP_MODE` | Selects `off`, `report-only`, or `enforce`; production defaults to `enforce`. |
+| `CSP_REPORT_URI` | Optional endpoint for CSP violation reports. |
+| `CSP_CONNECT_SRC_EXTRA` | Optional space-separated additions to the CSP `connect-src` directive. |
+
+Production builds require `NEXT_PUBLIC_SITE_URL` or `SITE_URL` so generated URLs never depend on an inferred deployment origin.
+
+## Verification
+
+Run the complete local quality gate with:
 
 ```bash
 bun run check
 ```
 
-Run the browser suite separately:
+It checks formatting, linting, TypeScript, unit tests, and a production build. Browser tests run separately:
 
 ```bash
 bunx playwright install chromium
 bun run test:e2e
 ```
 
+GitHub Actions repeats those checks on pushes and pull requests. Additional workflows build the standalone application, audit dependencies, run CodeQL, and scan the Docker image for high and critical vulnerabilities.
+
 ## Production
 
-The Docker image uses Next.js standalone output and runs as a non-root `nextjs` user on port `3000`.
+The multi-stage Docker build installs dependencies from the lockfile, compiles Next.js standalone output, and copies only the runtime files into the final image. The application runs on port `3000` as a non-root `nextjs` user.
 
-Configuration is handled with environment variables:
+```bash
+docker build --build-arg SITE_URL=https://simonesiega.com -t portfolio .
+docker run --rm -p 3000:3000 portfolio
+```
 
-- `NEXT_PUBLIC_SITE_URL` or `SITE_URL`: canonical site origin used at build time by metadata, sitemap, and robots. Docker builds default `SITE_URL` to `https://simonesiega.com`; deployments can override it with a build argument.
-- `NEXT_PUBLIC_UMAMI_ENABLED`, `NEXT_PUBLIC_UMAMI_SCRIPT_SRC`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID`: optional Umami analytics. Provide all three at build time. When analytics is enabled, also provide `NEXT_PUBLIC_UMAMI_ENABLED=true` and `NEXT_PUBLIC_UMAMI_SCRIPT_SRC` at runtime so the CSP permits that origin; changing runtime values alone does not modify prerendered pages.
-- `CSP_MODE`: `off`, `report-only`, or `enforce`; production defaults to `enforce` when unset.
-- `CSP_REPORT_URI`: optional CSP report endpoint.
-- `CSP_CONNECT_SRC_EXTRA`: optional space-separated extra `connect-src` origins.
+Public environment variables are embedded during the Next.js build. Changing analytics values only at container runtime does not rewrite already prerendered pages, so production deployments provide matching build-time and runtime configuration.
 
-## 🧑‍💻 Contact
+## Repository Structure
 
-- Website: https://simonesiega.com  
-- GitHub: https://github.com/simonesiega  
-- LinkedIn: https://linkedin.com/in/simonesiega  
+```text
+src/app                              routes, metadata, sitemap, and page composition
+src/components                       reusable UI, behavior, and animation components
+src/lib/config/text/projects         typed project entries and MDX case studies
+src/lib/config/text/work             professional experience data
+src/styles                           design tokens, components, motion, and accessibility
+src/proxy.ts                         Content Security Policy handling
+public                               images, project media, icons, and résumé
+.github/workflows                    quality, test, build, and security automation
+```
+
+## Contact
+
+- [Website](https://simonesiega.com)
+- [GitHub](https://github.com/simonesiega)
+- [LinkedIn](https://linkedin.com/in/simonesiega)
 
 ## License
 
-This project is licensed under the **MIT License**.
-
-See [LICENSE](LICENSE) for details.
+Licensed under the [MIT License](LICENSE).
