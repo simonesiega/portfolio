@@ -9,27 +9,27 @@ export const cfgParserProject = {
   developmentPeriod: "2024",
   keyPhrase,
   caseStudy: {
-    readTimeMinutes: 7,
+    readTimeMinutes: 5,
     quickFacts: [
       {
-        label: "Language",
-        value: "Rust",
+        label: "Context",
+        value: "First Rust project",
       },
       {
         label: "Type",
-        value: "CLI tool",
+        value: "Arithmetic CLI",
       },
       {
         label: "Parser",
-        value: "Recursive descent",
+        value: "Hand-written recursive descent",
       },
       {
-        label: "Architecture",
-        value: "Tokenizer -> Parser/Evaluator",
+        label: "Evaluation",
+        value: "Grammar-driven, without an AST",
       },
       {
-        label: "Supported syntax",
-        value: "8 operators/forms",
+        label: "Runtime",
+        value: "Cargo or Docker",
       },
     ],
     gallery: [

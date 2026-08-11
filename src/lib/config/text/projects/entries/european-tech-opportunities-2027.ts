@@ -24,27 +24,27 @@ export const europeanTechOpportunities2027Project = {
   developmentPeriod: "2026",
   keyPhrase,
   caseStudy: {
-    readTimeMinutes: 8,
+    readTimeMinutes: 7,
     quickFacts: [
       {
-        label: "Directory",
-        value: "500+ European opportunities",
+        label: "Scale",
+        value: "700+ open European opportunities",
       },
       {
-        label: "Pipeline",
-        value: "Bounded asynchronous Python",
+        label: "Acceptance",
+        value: "Six deterministic publication rules",
       },
       {
-        label: "Classification",
-        value: "Six deterministic rules",
+        label: "State",
+        value: "SQLite lifecycle with provenance",
       },
       {
-        label: "State model",
-        value: "Transactional SQLite lifecycle",
+        label: "Recovery",
+        value: "Restore-tested, checksummed snapshots",
       },
       {
         label: "Quality",
-        value: "89.8% critical-path coverage",
+        value: "89.9% critical-path coverage",
       },
     ],
     gallery: [

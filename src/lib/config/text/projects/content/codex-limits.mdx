@@ -1,13 +1,13 @@
 import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
 
 export const keyPhrase =
-  "A personal Codex utility transformed into my first public npm package, combining usage tracking, reset-credit coupons, and coding-agent integrations.";
+  "A terminal utility for Codex usage that grew into my first public npm package, with automation and coding-agent integrations built on the same core.";
 
 export const galleryCaptions = [
-  "The responsive terminal dashboard, bringing Codex usage windows, reset times, and reset-credit coupons into one view.",
-  "The OpenCode integration, reusing the same read-only core through a local /codex-limits command without sending limit data to the LLM.",
-  "The public @simonesiega/codex-limits npm package page, marking the transition from a personal utility to an installable developer product.",
-  "The successful v1.0.0 GitHub Actions workflow, validating the release and publishing the package to npm with provenance.",
+  "The responsive terminal dashboard combines Codex usage windows, reset times, and reset-credit coupons in one view.",
+  "The OpenCode adapter renders a local read-only view through /codex-limits without sending usage data to the LLM.",
+  "The public @simonesiega/codex-limits npm page, where the project moved from a personal script to an installable developer tool.",
+  "The release workflow validates the packed artifact before publishing it to npm with provenance.",
 ];
 
 export const galleryThumbnailDescriptions = [
@@ -19,105 +19,81 @@ export const galleryThumbnailDescriptions = [
 
 <ProjectMdxRevealSection>
 
-## Overview
+## Why I Built It
 
 **Stack:** TypeScript · Bun · Node.js · React · Ink · GitHub Actions · npm
 
-Codex Limits began with a repeated interruption in my workflow. I had to open the Codex analytics page for usage and reset times, then switch to the ChatGPT app to check or use reset-credit coupons. _I wanted both workflows in one terminal interface._
+Checking my Codex allowance interrupted the same workflow every time. Usage windows and reset times were on the analytics page, while reset-credit coupons were visible in ChatGPT. Those coupons restore part of the available Codex usage before its normal reset.
 
-So I designed and built the project independently. Ten days after writing the first line of code, I published [@simonesiega/codex-limits](https://www.npmjs.com/package/@simonesiega/codex-limits), **my first public npm package**.
+I wanted one quick answer in the terminal, so I built a CLI for myself. Ten days after the first line of code, I published [@simonesiega/codex-limits](https://www.npmjs.com/package/@simonesiega/codex-limits), my first public npm package. It passed **1,500 downloads in its first 20 days**.
 
-It grew into a cross-platform tool with a responsive dashboard, text and `JSON` output, diagnostics, confirmation-gated coupon redemption, and integrations for OpenCode, pi, and GitHub Copilot CLI.
+Today the package includes a responsive terminal dashboard, plain-text and `JSON` commands, diagnostics, confirmed coupon redemption, and integrations for OpenCode, pi, and GitHub Copilot CLI.
 
-_The central challenge was no longer displaying a number. It was turning a tool that worked on my machine into software other developers could install and trust._
-
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Goal
-
-The first goal was to replace two separate interfaces with one fast workflow:
-
-1. See the available Codex usage windows and their reset times.
-2. Check which reset-credit coupons are available.
-3. Use a selected coupon without leaving the command line.
-
-Publishing introduced a broader goal: the command had to behave predictably across operating systems, terminal sizes, Node.js versions, Codex installations, and partial network failures.
+Publishing changed the standard for the project. It now had to survive different operating systems, Node.js versions, terminal dimensions, Codex installations, incomplete local state, and network failures—not only my machine.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Technical Approach
+## One Interpretation of the Data
 
-I built **one normalized core** and reused it across every output surface.
+Codex Limits can receive live account information and can recover selected missing fields from local Codex session data. Local inspection is read-only and constrained by file-size, traversal, entry, and response limits.
 
-Live account data is treated as the primary source. When it is unavailable or incomplete, bounded local Codex session data fills only the missing information instead of replacing valid live results. This produces one normalized model for usage windows, reset times, coupons, and safe warnings.
+The precedence rule is deliberately narrow:
 
-The terminal dashboard, text commands, `JSON` output, diagnostics, and agent integrations consume that model instead of interpreting Codex data independently. `Ink` handles presentation, `JSON` provides an automation contract, and thin adapters render the same sanitized result inside other developer tools.
+```text
+valid live value     -> use it
+missing live field   -> fill it from valid local state
+neither is reliable  -> return a warning, never an invented value
+```
 
-_One source of truth made consistency, testing, and later integrations easier than duplicating data logic in every interface._
+Both sources pass through one normalization layer. The `Ink` dashboard, text commands, documented `JSON`, diagnostics, and agent adapters all consume the resulting model instead of maintaining separate parsing or fallback logic.
 
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Architecture
-
-The project separates **data discovery and normalization**, **command capabilities**, and **presentation**.
-
-The shared core locates Codex data across Windows, macOS, Linux, and custom home directories, resolves authentication, reads bounded fallback data, and removes sensitive information before producing public output.
-
-A central command registry restricts each command to the capabilities it needs. Read-only commands never receive the service used to consume a coupon.
-
-OpenCode was the first and most difficult agent integration because it established the reusable boundaries. Once the core and adapter shape were clear, I added pi and then GitHub Copilot CLI without reimplementing usage discovery or security-sensitive parsing.
+This matters most when the upstream response is partial. A UI-specific fallback could disagree with automation even though both are describing the same account. Keeping data meaning in one place makes those disagreements harder to introduce.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Publishing and Release Engineering
+## Commands Have Different Powers
 
-Publishing the first npm release within ten days changed the standard I used to judge the project.
+The CLI uses a declarative registry rather than a large conditional entry point. Each command declares its metadata, argument rules, handler, required services, and one of three safety categories:
 
-A local build was no longer enough. I had to define the executable, supported runtimes, package exports, declarations, documentation, versioning, and the exact `npm` tarball contents.
+- **read-only** for the dashboard, status, coupons, and doctor;
+- **local-write** for installing or removing recognized agent configuration;
+- **remote-mutation** for consuming a reset coupon.
 
-The package validator tests **the artifact users actually install**: it runs `npm pack`, inspects the tarball and public entry points, extracts it in isolation, and smoke-tests the packed CLI and agent bundles. CI repeats this across Linux, Windows, and macOS.
+The router provides only the capabilities assigned to that category. A status command cannot consume a coupon because its handler never receives the service that performs the request.
 
-**Releases use GitHub Actions and npm Trusted Publishing.** The release tag must match the package metadata, the complete validation pipeline must pass, and npm publishes the artifact with provenance instead of relying on a long-lived repository token.
+`codex-limits reset` is the only remote account mutation. It refreshes the available coupons, displays the selection, requires an interactive terminal and an explicit `y` or `yes`, and uses an idempotency key for the request. An unclear response is reported as unconfirmed rather than success.
 
-Within its first 20 days, the package reached more than 1,500 npm downloads and 5 GitHub stars.
-
-_Publishing taught me that release engineering is the work required to make software survive outside its original machine._
-
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Safety Model
-
-**Credential discovery was difficult** because it combined operating-system differences, custom Codex directories, local formats, authenticated requests, and the risk of exposing private values through errors.
-
-I contained that responsibility inside the shared core. Local reads are bounded and read-only, network responses are limited, and credentials, raw files, and private paths are excluded from every public output.
-
-`codex-limits reset` is the **only remote account mutation**. It can use a coupon by its displayed index or automatically choose the available coupon that expires first. Before sending the request, it refreshes the coupon list, verifies the selection, displays a recap, and requires an explicit interactive confirmation.
-
-_This is the feature I am most proud of because it completes the original workflow: users can inspect their limits and safely act on them from the same command-line tool._
+Sensitive values follow the same least-access approach. Tokens, account IDs, headers, cookies, private paths, raw files, and internal coupon identifiers stay out of normal output, diagnostics, public `JSON`, and rendering adapters. Preventing those values from reaching presentation code is safer than trying to redact every final string.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Challenges
+## Coding-Agent Integrations
 
-The hardest data problem was reconciling live usage with local fallback information without presenting stale or contradictory results.
+OpenCode was the first agent host I supported. It forced a useful constraint: the integration should display limits locally without turning private usage data into model context.
 
-Treating both sources equally would make the outcome unpredictable. Ignoring local data would make the tool unnecessarily fragile when the live response was unavailable or only partially populated.
+The adapter receives a sanitized read-only result, renders its own host UI, and has no reset capability. It does not send a user prompt or limits data to the LLM. Once that contract worked, pi and GitHub Copilot CLI could follow it without duplicating Codex discovery or authentication logic.
 
-I defined a clear precedence rule: **valid live data wins, while local data fills only missing fields**. Each source is normalized before it reaches the UI, and ambiguous failures become bounded warnings rather than raw exceptions or invented values.
+Each integration registers a descriptor containing its metadata, environment guidance, installation, removal, and inspection behavior. Shared lifecycle commands operate on those descriptors instead of hard-coding every host. Adding another agent still requires host-specific rendering and configuration work, but not another implementation of the security-sensitive core.
 
-That rule made the behavior easier to reason about and test. It also gave every interface—terminal, JSON, diagnostics, and agent integrations—the same answer under the same conditions.
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## Testing What Users Install
+
+A repository build is not the final npm product. Users receive a tarball with specific files, exports, declarations, executable metadata, and runtime assumptions.
+
+The package validator runs `npm pack`, inspects the resulting contents and public entry points, rejects development-only files, extracts the tarball, and smoke-tests the packed CLI and agent bundles. CI runs packed-runtime checks across Linux, Windows, and macOS. Separate compatibility jobs install real OpenCode, pi, and GitHub Copilot CLI hosts and exercise the generated integrations inside them.
+
+Releases use npm Trusted Publishing through GitHub Actions, with provenance instead of a long-lived npm token. The workflow publishes only after the version and validation gates pass.
+
+This was my first direct experience of the package itself being a test target. Source tests can pass while a missing declaration, wrong export, or excluded bundle still breaks the software people install.
 
 </ProjectMdxRevealSection>
 
@@ -125,51 +101,40 @@ That rule made the behavior easier to reason about and test. It also gave every 
 
 ## What Shipped
 
-The published package delivers:
+The current package provides:
 
-- one terminal view for usage windows, reset times, and reset-credit coupons;
-- responsive layouts for wide, compact, short, and constrained terminals;
-- text, `JSON`, and diagnostic interfaces built on the same normalized core;
-- coupon redemption by displayed index or soonest expiration, protected by explicit confirmation;
-- support for Windows, macOS, and Linux on `Node.js 20` or newer;
-- local integrations for OpenCode, pi, and GitHub Copilot CLI;
-- public npm distribution with automated, provenance-backed releases.
+- responsive TUI, plain-text, and machine-readable usage views;
+- reset times and reset-credit coupon status;
+- `codex-limits doctor` for safe environment and connectivity diagnostics;
+- coupon redemption by displayed index or earliest expiration, guarded by confirmation;
+- agent installation and removal commands;
+- OpenCode, pi, and GitHub Copilot CLI adapters;
+- support for Node.js 20 or newer on Windows, macOS, and Linux;
+- automated package validation and provenance-backed npm releases.
 
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Engineering Proof
-
-The repository contains **more than 100 automated tests** across normalization, fallback precedence, credential handling, redaction, commands, reset behavior, terminal rendering, packaging, and agent integrations.
-
-The validation pipeline checks formatting, documentation, types, tests, production builds, and the packed artifact. The same project is tested as source, built for distribution, packed as npm delivers it, installed in isolation, and exercised through its public interfaces.
+The repository contains **more than 180 automated tests** across core behavior, commands, output contracts, safety rules, terminal rendering, and integration logic. The supported public interfaces are the CLI and documented `JSON`; internal core modules are not presented as a general-purpose JavaScript API.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## What I Learned
+## What Changed for Me
 
-Before this project, I underestimated the difference between code that works locally and software that works globally.
+Before this project, I treated a CLI mostly as an executable wrapper around internal code. A public command is closer to an API: names, flags, exit codes, `JSON` fields, installation paths, exports, and failure behavior can all become dependencies for somebody else.
 
-A public CLI becomes **an API**. Commands, arguments, exit behavior, `JSON` fields, installation paths, and exports become compatibility decisions once other developers depend on them.
+I also became more careful about where safety guarantees live. A comment saying “do not expose this value” is weaker than an interface that never provides the value. The same applies to mutation: a read path is easier to trust when it cannot reach the write operation at all.
 
-I also learned that safety must be architectural. Credentials, paths, filesystem errors, and network payloads need to be contained from discovery to output, not redacted only at the final step.
-
-Most importantly, publishing my first npm package made trust measurable: predictable fallback rules, explicit mutations, cross-platform validation, reproducible releases, and honest failure behavior.
+Codex Limits was the first project where maintenance felt different from adding features for myself. Compatibility, documentation, packaging, and predictable failures became product work.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Future Improvements
+## Where It Goes Next
 
-The next step is to make the project easier to extend in two directions.
+Future agent support should continue through the descriptor and read-only adapter model. I also want upstream response changes to stop at normalization: a new usage window or modified payload should require one focused update rather than coordinated edits to the TUI, CLI output, `JSON`, and every host integration.
 
-First, I want to add more coding-agent integrations through the existing adapter model. Second, I want to isolate changes in the upstream OpenAI usage response even further from the public interfaces. If new daily, monthly, or differently shaped usage windows appear, they should require a focused normalization change rather than updates throughout the CLI, `JSON` output, TUI, and integrations.
-
-The aim is not to add unrelated commands. It is to keep the product stable while its external data source and supported hosts evolve.
+Real-host compatibility tests will need to evolve as the supported agents do. The target is deliberately uneventful maintenance—one change in the correct layer while existing interfaces continue to behave as documented.
 
 </ProjectMdxRevealSection>
 

@@ -3,7 +3,7 @@ import Image from "next/image";
 import type {ComponentType} from "react";
 import {FileDown} from "lucide-react";
 import {FiArrowUpRight} from "react-icons/fi";
-import {FaGithub, FaInstagram, FaLinkedinIn, FaXTwitter} from "react-icons/fa6";
+import {FaGithub, FaLinkedinIn, FaXTwitter} from "react-icons/fa6";
 import {InstantRouteLink} from "@/components/behavior/scroll/instant-route-link";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {ScrollReveal} from "@/components/animation/scroll-reveal";
@@ -27,7 +27,6 @@ const socialIcons: Record<
   linkedin: FaLinkedinIn,
   github: FaGithub,
   x: FaXTwitter,
-  instagram: FaInstagram,
 };
 
 export const metadata: Metadata = {

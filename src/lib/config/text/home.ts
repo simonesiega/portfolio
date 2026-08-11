@@ -40,7 +40,6 @@ const homeIntroSocialLinks = [
   {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
   {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
   {icon: "x", label: "X / Twitter", href: "https://x.com/simonesiega_"},
-  {icon: "instagram", label: "Instagram", href: "https://www.instagram.com/_simonesiiega_/"},
 ] as const;
 
 export type HomeIntroSocialIconKey = (typeof homeIntroSocialLinks)[number]["icon"];
@@ -123,7 +122,7 @@ export const homeText = {
 
     bioLines: [
       "Computer Engineering student in Venice, Italy.",
-      "Building backend software and production-ready web systems, with a growing interest in AI engineering.",
+      "Building developer tools, backend systems, and production software designed for real use.",
     ],
 
     socialLinks: homeIntroSocialLinks,

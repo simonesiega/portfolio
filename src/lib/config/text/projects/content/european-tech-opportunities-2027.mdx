@@ -1,12 +1,12 @@
 import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
 
 export const keyPhrase =
-  "Finding the right tech opportunity across Europe became difficult, so I built an open-source directory for discovering 2027 internships and New Grad roles.";
+  "An internship search turned into an open-source pipeline and directory for carefully filtered 2027 technology opportunities across Europe.";
 
 export const galleryCaptions = [
-  "The complete path from bounded collection to deterministic classification, canonical SQLite lifecycle state, and read-only website and README projections.",
-  "The live opportunity directory, exposing every accepted internship and New Grad role through search, filters, sorting, pagination, and direct source links.",
-  "The directory in dark mode, backed by read-only canonical SQLite state that can be replaced without rebuilding the application.",
+  "Configured searches feed a deterministic classifier and transactional SQLite store, which supplies two read-only public views.",
+  "The live directory exposes accepted internships and New Grad roles through search, filters, sorting, pagination, and source links.",
+  "Light and dark themes query the same SQLite state; the website contains no collection or classification path.",
 ];
 
 export const galleryThumbnailDescriptions = [
@@ -17,198 +17,140 @@ export const galleryThumbnailDescriptions = [
 
 <ProjectMdxRevealSection>
 
-## Overview
+## The Problem I Kept Repeating
 
 **Stack:** Python · TypeScript · Next.js · SQLite · Docker · GitHub Actions
 
-Searching for technology opportunities across Europe often means working through results that mix different hiring cycles, senior positions, unrelated roles, and locations outside Europe.
+Searching for early-career technology roles across Europe meant checking the same facts over and over. Results mixed internships with senior positions, combined different hiring cycles, included unrelated work, and often pointed outside Europe.
 
-I built [European Tech Opportunities 2027](https://opportunities2027.simonesiega.com/) as an open-source directory for **2027 internships and New Grad positions**. The system combines a bounded asynchronous Python collection pipeline with a searchable Next.js interface and has published more than **500 European opportunities**.
+I wanted a directory focused on **2027 internships and New Grad roles**, but I did not want to maintain another list by hand. [European Tech Opportunities 2027](https://opportunities2027.simonesiega.com/) became both a public website and the data pipeline behind it.
 
-_The difficult part was not collecting job links._ It was deciding which listings contained enough explicit evidence to publish, preserving their history across repeated searches, and keeping the public directory correct when the source became unavailable or ambiguous.
+The collection itself was only the starting point. A useful directory also needs to answer harder questions: Is there enough evidence to publish this listing? Is it the same role found through another search? Does disappearance mean closure? Can the database be recovered after a bad update?
 
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Goal
-
-The project follows one central principle: **precision is more valuable than maximum coverage**.
-
-A listing should appear only when the system can verify its employment type, posting recency, hiring cycle, seniority, technology category, and European location with deterministic evidence. When a result is ambiguous, the pipeline excludes it rather than guessing.
-
-I also wanted the project to be useful beyond a generated README. The final product needed:
-
-1. a complete public directory with search and filters;
-2. a repeatable pipeline that could update the dataset without manual editing;
-3. lifecycle rules that would not delete valid roles after temporary failures;
-4. production automation for validation, backup, review, and deployment;
-5. documentation that made the system understandable and open to focused contributions.
+The project favors precision over maximum coverage. When the available evidence is ambiguous, the listing stays out rather than being guessed into the dataset.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Technical Approach
+## What Qualifies for Publication
 
-The project is split into **collection, classification, canonical state, and public presentation**.
+Every new candidate passes six checks:
 
-Validated YAML definitions describe where the pipeline should search. The Python runner fetches bounded guest-search pages asynchronously, applies low-cost title and company checks, deduplicates overlapping results, and retrieves selected detail pages.
+1. **Employment type:** the title explicitly identifies an internship or New Grad role.
+2. **Posting date:** the resolved date is May 1, 2026 or later.
+3. **Seniority:** senior, lead, principal, management, and similar configured terms cause rejection.
+4. **Hiring cycle:** explicit 2027 evidence is accepted and a conflicting year is rejected.
+5. **Technology category:** the title, or a narrow description fallback, matches a configured category.
+6. **European location:** the normalized location resolves explicitly to Europe or a supported European country.
 
-Collection is disabled by default behind an explicit authorization interlock. The project does not use credentials, sessions, browser automation, private endpoints, proxies, CAPTCHA bypasses, or anti-bot evasion.
+Yearless listings need a clear policy. They may qualify when posted on or after May 1, 2026 and all other checks pass. That cutoff marks the project's current hiring window; it does **not** claim that a yearless role is labeled 2027. Graduation-year language alone is not accepted as internship-cycle evidence, and an explicit conflicting year always wins over recency.
 
-Each candidate is then normalized and passed through the deterministic classifier. Accepted listings are written transactionally to SQLite together with their search provenance and observation history.
+The classifier returns reproducible decisions, not confidence scores. That reduces coverage, but it lets me explain why a role appears and test rule changes against known behavior.
 
-The public outputs are read-only projections of that database:
+</ProjectMdxRevealSection>
+
+<ProjectMdxRevealSection>
+
+## From Search Configuration to Public Data
 
 ```text
-Search definitions
-    -> bounded asynchronous collection
-    -> normalization and deterministic classification
-    -> transactional SQLite lifecycle state
-    -> searchable Next.js directory + bounded README preview
+validated YAML searches
+        -> bounded guest-page collection
+        -> title and company prefilters
+        -> selected detail pages
+        -> normalization and classification
+        -> transactional SQLite state
+        -> website + README preview
 ```
 
-The Next.js website exposes full-text search, company, country, category, and employment-type filters, sortable columns, pagination, shareable filter URLs, responsive layouts, and light and dark themes.
+The Python runner fetches searches asynchronously with limits on pacing, concurrency, retries, pages, response sizes, and result counts. Results begin as untrusted candidates; only normalized records that pass every publication rule can reach the database.
 
-_Search determines what the pipeline discovers; classification determines what the project is willing to publish._
+Collection is disabled by default behind an operator authorization interlock. That interlock records a decision; it does not grant permission to access the source. The project uses no credentials, sessions, browser automation, private endpoints, proxies, CAPTCHA bypasses, or anti-bot evasion, and an upstream challenge is a stop condition.
 
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Deterministic Classification
-
-Every new listing must pass **six publication checks**:
-
-1. **Employment type:** the title must explicitly identify an internship or New Grad opportunity.
-2. **Posting date:** the resolved posting date must be May 1, 2026 or later.
-3. **Seniority:** configured senior, lead, principal, management, and similar terminology is rejected.
-4. **2027 cycle:** explicit 2027 evidence is accepted; conflicting years are rejected, while a yearless role is accepted only with an eligible posting date.
-5. **Technology role:** the title, or a narrowly permitted description fallback, must match a configured technology category.
-6. **European location:** the normalized location must resolve explicitly to Europe or a supported European country.
-
-These rules are deliberately conservative. Graduation-year language alone does not prove an internship cycle, arbitrary description keywords do not fill missing structured fields, and an explicit conflicting year is never ignored.
-
-The classifier returns reproducible decisions rather than confidence scores. That made the behavior easier to test, document, and review because every accepted or excluded candidate follows the same evidence contract.
+SQLite stores the accepted lifecycle state. The website and generated README only read from it: neither can discover, classify, close, reopen, or otherwise modify a listing. Search configuration determines where the pipeline looks; it does not weaken the evidence required for publication.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Architecture and Canonical State
+## Identity, Provenance, and One Writer
 
-SQLite is the **only source of lifecycle truth**.
+A numeric LinkedIn job ID identifies each listing. Separate provenance rows record every configured search that discovered it, allowing overlapping searches to support one public job without creating duplicates.
 
-The numeric source job ID provides canonical identity, while separate provenance records preserve every search that discovered the listing. Overlapping searches can therefore support one job without creating duplicate public rows.
+Searches fetch concurrently, but the repository serializes persistence. Each search produces an isolated outcome, so one failure can record diagnostics without changing another search's accepted jobs or absence evidence.
 
-The architecture enforces a single application writer. Collection tasks may fetch concurrently, but persistence is serialized through the repository layer. Each search produces an isolated outcome, so one failed search can record diagnostics without modifying another search's accepted jobs or lifecycle evidence.
+A successful transaction records the run, upserts accepted listings, refreshes provenance, advances observation timestamps, and applies explicit unavailability evidence. Jobs remain open while at least one active search association supports them.
 
-A successful search transaction atomically:
-
-- records the run;
-- upserts accepted jobs;
-- refreshes search provenance;
-- applies explicit unavailability evidence;
-- advances monotonic observation timestamps;
-- closes a job only when no active supporting association remains.
-
-The website opens short-lived read-only SQLite connections, and the README renderer produces only a bounded preview. Neither public interface can classify, close, reopen, or otherwise mutate a listing.
+The Next.js application opens short-lived read-only SQLite connections. The README is intentionally incomplete—it contains the ten latest roles for each employment type—so it cannot be mistaken for a backup or reconstructed into the full database.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Main Challenge: Preserving State Under Uncertainty
+## Disappearance Is Not Closure
 
-The hardest design problem was deciding **what counts as evidence that a role is no longer available**.
+Removing expired jobs looked simple until I considered what a missing search result actually proves. Ranking changes, pagination, query edits, and temporary source failures can all hide a listing that remains open.
 
-Search results are not reliable lifecycle signals. A listing may disappear because of ranking changes, pagination, temporary source failures, altered search terms, or an incomplete response. Treating search-page absence as closure evidence would silently remove valid opportunities.
+Normal collection therefore rechecks missing known jobs directly. Only repeated `404` or `410` responses deactivate a search association, and the job closes only after every supporting association becomes inactive.
 
-I therefore separated discovery from availability:
+A daily auditor examines every stored job independently of its discovery searches. It checks the canonical public listing and, when needed, the guest detail endpoint:
 
-- disappearance from a search page never closes a job;
-- explicit detail-page `404` or `410` responses provide unavailability evidence;
-- ambiguous HTTP, parsing, authentication, rate-limit, or transport failures preserve the current state;
-- a daily full-state auditor checks every stored job independently of the searches that originally found it;
-- a later valid rediscovery can reactivate provenance and reopen the listing.
+```text
+valid listing                    -> keep or reopen
+explicit 404 / 410               -> delete listing and provenance
+"No longer accepting" notice    -> delete listing and provenance
+ambiguous response or failure    -> preserve current state
+```
 
-_The safest response to uncertain external data is often to preserve known state and report the ambiguity, not invent a transition._
+These paths use different evidence. Per-search confirmation protects one provenance relationship against a transient detail failure; the auditor changes the job itself only after a direct listing-level closure signal. Authentication, rate-limit, server, parser, and transport failures are inconclusive and leave the known state untouched.
 
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Production Automation
-
-The production workflow is designed around **validation, recoverability, and controlled state changes**.
-
-Three independent CI paths validate the Python application, the Next.js website, and the Docker images without contacting the external source. The Python workflow checks formatting, linting, typing, migrations, generated documentation, benchmarks, and thresholded branch coverage. The website workflow adds strict TypeScript, production builds, unit tests, and browser tests against synthetic SQLite state.
-
-An authorized nightly workflow runs at 03:00 UTC. It audits every stored role before collecting new candidates, validates the resulting database and README projection, checkpoints SQLite, and publishes a timestamped snapshot.
-
-Snapshots include checksums, schema revision, timestamps, provenance metadata, and references to the preceding state. Every new snapshot is downloaded into a clean directory and restore-tested before the pointer to the latest state is changed.
-
-Reviewed state is deployed to the VPS through a checksum-verified, locked, and atomic database replacement. Because the website reads SQLite through short-lived connections, it observes the new canonical database on the next request without an application rebuild or mutation endpoint.
+This conservative behavior is intentional. An uncertain external response should create a diagnostic, not a destructive transition disguised as certainty.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## What Shipped
+## Operating the Pipeline
 
-The project delivers:
+Normal CI is offline with respect to the external source. Independent workflows validate the Python application, Next.js site, and Docker images using fixtures and synthetic SQLite state.
 
-- an open-source directory containing more than 500 European internships and New Grad roles;
-- a bounded asynchronous Python pipeline with cross-search deduplication;
-- six deterministic publication rules with conservative ambiguity handling;
-- transactional SQLite persistence for provenance, first- and last-seen history, and lifecycle state;
-- a daily full-state availability auditor that removes listings only after explicit evidence;
-- a responsive Next.js directory with search, combined filters, sorting, pagination, themes, and shareable URLs;
-- a generated README preview containing only the ten latest roles of each employment type;
-- separate Python, website, and Docker validation workflows;
-- restore-tested snapshots, review-based updates, and atomic VPS deployment;
-- installation, architecture, operations, security, contribution, and troubleshooting documentation.
+The authorized schedule audits existing jobs before collecting candidates. Each accepted update produces a versioned SQLite snapshot with a SHA-256 checksum and schema metadata. The workflow downloads that exact artifact into a clean directory and proves it can be restored before advancing the latest-state pointer.
+
+Generated README changes arrive as a review pull request rather than deploying immediately. After review, a manual workflow restores the approved snapshot, verifies its checksum on the VPS, acquires a deployment lock, keeps the previous database, and atomically replaces the canonical file. Short-lived website connections pick up the new state without an application rebuild.
+
+This process is intentionally cautious because the database contains history that cannot be recreated from the public README.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Engineering Proof
+## Current Result
 
-On July 31, 2026, the public directory contained **657 open opportunities**: 354 internships and 303 New Grad positions.
+As of **August 11, 2026**, the directory contains **731 open opportunities**:
 
-The offline critical-path suite reported **89.8% combined statement and branch coverage**, including 81.5% branch coverage and 95.0% classifier branch coverage. CI publishes the complete coverage and benchmark reports while also validating migrations, generated output, strict TypeScript, production builds, browser behavior, and Docker runtime paths.
+- 340 internships;
+- 391 New Grad positions.
 
-The strongest evidence is operational. The pipeline updates canonical state on a recurring schedule, the website serves the complete read-only dataset, the README remains a deterministic projection, and backup publication is accepted only after an automated restore verifies the exact artifact that would be used for recovery.
+The offline critical-path suite reports **89.9% combined statement and branch coverage**, including 81.8% branch coverage and **95.0% classifier branch coverage**.
 
-</ProjectMdxRevealSection>
+Beyond the counts, the project ships cross-search deduplication, provenance, first- and last-seen history, conservative closure handling, a searchable and filterable Next.js directory, a bounded README preview, restore-tested snapshots, and locked atomic deployment.
 
-<ProjectMdxRevealSection>
-
-## What I Learned
-
-This project changed how I think about data pipelines.
-
-A scraper can stop after returning records. A production directory must also define identity, evidence, state transitions, failure behavior, reproducibility, recovery, and the boundary between canonical data and presentation.
-
-I learned that **determinism is an operational feature**. Explicit rules made classification testable, one-writer transactions made lifecycle behavior understandable, and conservative failure handling prevented temporary external problems from becoming destructive database changes.
-
-I also learned that deployment is incomplete without recovery. A successful database upload is less meaningful when there is no verified path back to a known-good state.
-
-_The part I am most proud of is not the number of published roles. It is building a system that can explain why each role was accepted, how its state changed, and why uncertain failures did not silently remove it._
+The listing count shows that this is no longer a dataset I can inspect manually after every run. The coverage numbers matter for a different reason: classification and lifecycle changes can be checked against established behavior before they alter public state.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Future Improvements
+## Lessons and Next Work
 
-The next infrastructure improvement would be replicating canonical snapshots to **an independent host or storage provider**. The current restore-tested VPS snapshots protect against cache expiry and accidental replacement, but they cannot protect against complete VPS, disk, or provider loss.
+I began by thinking about search and filtering. Running the directory over time shifted my attention to identity, evidence, transitions, and recovery. Returning records is easy compared with deciding what they mean on the next run.
 
-I would also expand source coverage only through explicit adapters that preserve the existing classification and lifecycle contracts. Supporting another provider should not weaken the evidence required for publication or introduce a second path that can mutate canonical state unpredictably.
+Deterministic rules suit this project because each accepted role can be traced back to the evidence and state changes that put it online. They are less flexible than probabilistic classification, but easier to test, review, and correct without losing that explanation.
 
-The objective is to increase useful coverage while keeping the directory conservative, explainable, and recoverable.
+The largest remaining infrastructure gap is off-provider recovery. Restricted VPS snapshots, GitHub artifacts, cache, and the previous deployment copy cover several mistakes, but the durable snapshots still share a provider with production. Replicating them to independent storage would protect against complete VPS, disk, or provider loss.
+
+Additional job sources should arrive through explicit adapters while preserving the existing classification and lifecycle contracts. A new provider should expand discovery, not introduce a second definition of an acceptable role or another uncontrolled writer.
 
 </ProjectMdxRevealSection>
 

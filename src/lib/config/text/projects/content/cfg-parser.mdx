@@ -1,10 +1,10 @@
 import {ProjectMdxRevealSection} from "@/components/projects/project-mdx-reveal-section";
 
 export const keyPhrase =
-  "My first Rust project: a hand-written expression parser that turns a custom grammar into precedence-aware evaluation, implicit multiplication, and structured errors.";
+  "My first Rust project: a hand-written expression parser where a custom grammar controls precedence, associativity, and error handling.";
 
 export const galleryCaptions = [
-  "The complete path from raw input to tokens, recursive-descent parsing, direct evaluation, and structured failure handling.",
+  "Raw input becomes typed tokens, then passes through a grammar-shaped parser that evaluates the expression or returns a structured error.",
 ];
 
 <ProjectMdxRevealSection>
@@ -13,191 +13,118 @@ export const galleryCaptions = [
 
 **Stack:** Rust · Recursive-descent parsing · CLI · Docker
 
-Before this project, I had mainly programmed in Java and Python. I chose **Rust** because I wanted to move closer to systems programming and understand concepts that higher-level languages had mostly handled for me: ownership, memory safety, and explicit control over how data moves through a program.
+Before this project, most of my programming experience was in Java and Python. I wanted to try systems programming and understand ownership, borrowing, and explicit error handling in a program large enough for those ideas to matter.
 
-Rather than learn those ideas through isolated exercises, I spent about one month building a complete command-line expression parser. I designed the grammar myself, wrote the tokenizer and recursive-descent parser by hand, and evaluated each expression without relying on an existing calculator library or parser generator.
+I spent about a month building CFG Parser, a command-line calculator that tokenizes, parses, and evaluates arithmetic expressions. I wrote the grammar, tokenizer, and parser by hand rather than using a parser generator or calculator library.
 
-The result is an arithmetic language supporting precedence, nested parentheses, unary negation, implicit multiplication, exponentiation, n-th roots, and structured failures.
+The resulting language supports real numbers, nested parentheses, unary negation, implicit multiplication, exponentiation, n-th roots, and separate syntax and mathematical errors.
 
-_The arithmetic was not the main challenge._ The valuable part was deciding exactly **which inputs belong to the language, which layer should reject invalid input, and how Rust should represent the path from raw text to either a number or an error**.
-
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Goal
-
-My goal was to make two unfamiliar subjects practical at the same time: **Rust** and **context-free grammars**.
-
-I wanted the grammar to be more than documentation written after the code. It had to define the implementation itself. Each production would become a parser function, each precedence level would have an explicit boundary, and every accepted expression would follow the same path through the language.
-
-I deliberately avoided a parser generator because that would have hidden the part I most wanted to understand. I also chose direct evaluation instead of building an abstract syntax tree. The program only needed to return one numeric result, so introducing a second intermediate representation would have added complexity without solving a current requirement.
-
-The final `=` delimiter was another deliberate language decision. It gives the parser an explicit end to a complete formula, rather than accepting whatever valid prefix happens to appear before the input stops.
+Calculating the answer was familiar. What interested me was encoding *why* one operation must happen before another—and making invalid input fail at the layer that could explain it.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Technical Approach
+## From Grammar to Code
 
-The implementation is split into **two main stages**.
-
-The **tokenizer** scans the input character by character and produces typed tokens for real numbers, operators, parentheses, and the final delimiter. Its responsibility is lexical: identify what each symbol is and reject malformed numbers or unknown characters before grammar evaluation begins.
-
-The **recursive-descent parser** then consumes the token sequence. Its functions mirror the grammar layers:
+The implementation has two stages. The tokenizer scans the input and creates a `Vec<Token>` containing numbers, operators, parentheses, and the final `=` delimiter. The parser then consumes those tokens through five grammar levels:
 
 1. `F` validates a complete formula ending in `=`.
 2. `E` handles addition and subtraction.
 3. `P` handles multiplication, division, and implicit multiplication.
 4. `U` handles exponentiation and n-th roots.
-5. `B` handles numbers, unary minus, and parenthesized expressions.
+5. `B` handles numbers, unary negation, and parenthesized expressions.
 
-This structure **encodes precedence directly**. Multiplication does not need to be “fixed” after addition, because additive parsing can only consume values that have already passed through the product layer.
+Each level calls the one below it before applying its own operators. Addition therefore receives values only after multiplication and powers have been resolved; precedence follows from the call structure instead of a table of special cases.
 
-Exponentiation and roots are **right-associative through recursion**. For example, `2^3^2` is interpreted as `2^(3^2)`, because the parser resolves the expression on the right before completing the current operation.
-
-</ProjectMdxRevealSection>
-
-<ProjectMdxRevealSection>
-
-## Architecture
-
-The parser evaluates values while traversing the grammar, so the complete flow stays linear:
+Powers and roots recurse on their right-hand side, making them right-associative. For example:
 
 ```text
-Input string
-    -> Tokenizer
-    -> Vec<Token>
-    -> Recursive-descent parser/evaluator
-    -> f64 result or CalcError
+2^3^2 =
 ```
 
-One important design decision was **keeping implicit multiplication inside the parser rather than the tokenizer**.
+is evaluated as `2^(3^2)`, producing `512`, rather than `(2^3)^2`.
 
-The tokenizer can see that `2` is a number and `(` is a parenthesis, but it should not decide that the relationship between them means multiplication. That decision requires grammar context.
-
-The product layer therefore accepts three constrained adjacency patterns:
-
-- a number followed by `(`, as in `2(3 + 4)`;
-- `)` followed by `(`, as in `(1 + 2)(3 + 4)`;
-- `)` followed by a number, as in `(1 + 2)3`.
-
-Parentheses provide a clear boundary for implicit multiplication, allowing expressions such as `4(1.2 - 3.4)` to be valid while rejecting `2 3`.
-
-This boundary keeps lexical recognition simple while allowing the parser to support familiar mathematical notation without turning the implementation into a collection of string-specific exceptions.
+The parser evaluates while it walks the grammar. Every successful method returns an `f64` to the level above, so this version does not build an abstract syntax tree. An AST would add useful structure for variables, functions, or transformations, but it was unnecessary for a calculator whose only output is one number.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Main Challenge: Giving Each Failure the Right Owner
+## A Small Language Decision
 
-The most difficult part was **assigning lexical, syntactic, and mathematical failures to the layer that had enough information to identify them correctly**.
+I made `=` a required formula terminator rather than accepting the end of the input implicitly. A complete expression must reach it, and any trailing token is rejected. That gives the top-level grammar rule a clear boundary.
 
-From a user's perspective, all of these inputs are simply “wrong,” but they fail for different reasons:
+Implicit multiplication required a different kind of boundary. In an expression such as `2(3 + 4)`, the tokenizer can identify a number followed by a parenthesis, but it should not invent their meaning. The product layer decides whether that adjacency represents multiplication.
 
-- `1..2 + 3 =` contains a malformed number and should fail during tokenization.
-- `2 + =` contains valid tokens but violates the grammar because an operand is missing.
-- `2 * (3 + 4 =` reaches the parser with an unmatched parenthesis.
-- `8 / 0 =` is syntactically valid but mathematically undefined.
-- a negative number with an even root is valid syntax but invalid over the real numbers.
+The grammar documents three intended forms:
 
-Combining every failure into one generic message would have made the parser easier to write but harder to reason about. The implementation models and exposes those failures through:
+```text
+number (
+) (
+) number
+```
 
-- `TokenError` for malformed input and invalid expression structure;
-- `MathError` for division by zero, invalid powers or roots, overflow, and underflow;
-- `CalcError` as the unified result returned to the caller.
+They cover `2(3 + 4)`, `(1 + 2)(3 + 4)`, and `(1 + 2)3`. Keeping this decision in the parser separates symbol recognition from expression meaning.
 
-This forced me to answer a useful design question for every failure: _which layer has enough information to identify the problem accurately?_
-
-That same question improved the rest of the architecture. **The tokenizer recognizes symbols, the parser validates relationships between tokens, and the parser’s evaluation logic enforces numeric constraints.**
+The current implementation uses a broader adjacency predicate than the documented grammar and can also accept adjacent numbers. I would align the predicate with the grammar before extending the language. Finding that mismatch was a useful reminder that documentation and implementation only stay equivalent when tests enforce the contract between them.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## What Shipped
+## Errors Belong Somewhere
 
-The CLI supports a compact but intentionally defined expression language:
+The hardest implementation questions appeared around invalid input. These expressions are all wrong, but not for the same reason:
 
-- real numbers and unary negation;
-- `+`, `-`, `*`, and `/` with standard precedence;
-- nested parenthesized expressions;
-- constrained implicit multiplication;
-- right-associative exponentiation with `^`;
-- n-th roots with `$`;
-- mandatory formula termination with `=`;
-- explicit token, syntax, and mathematical errors.
+- `1..2 + 3 =` contains a malformed number and fails during tokenization.
+- `2 + =` contains valid tokens but no right operand.
+- `2 * (3 + 4 =` is missing a closing parenthesis.
+- `8 / 0 =` is syntactically complete but mathematically invalid.
+- an even-index root of a negative number falls outside the real numbers supported by the evaluator.
 
-Representative expressions show the grammar working across features:
+The project represents malformed input and expression structure with `TokenError`, numerical failures with `MathError`, and exposes both through `CalcError`. Rust's `Result` type carries those possibilities through each parsing method.
 
-- `1 + 2 * 3 =` returns `7.000` because the product layer resolves first.
-- `(1 + 2)(3 + 4) =` returns `21.000` through implicit multiplication.
-- `2^3^2 =` follows right-associative exponentiation.
-- `27 $ 3 =` returns the cube root of 27.
-- `5 5 =` is rejected rather than silently guessed.
-- `2 + =` is rejected before evaluation because its right operand is missing.
-
-The project can run directly with Cargo or inside Docker, with expressions supplied as command-line arguments or through the `CFGPARSER_INPUT` environment variable.
+This made error handling part of the design rather than a message added after evaluation. The tokenizer knows whether characters form a valid token; the parser understands relationships between tokens; the mathematical operations know whether a valid expression has a result in the supported number system.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Engineering Proof
+## What the CLI Supports
 
-The repository documents the grammar, architecture, Docker workflow, supported operators, valid expressions, invalid expressions, and error categories.
+The finished command accepts expressions through a CLI argument or the `CFGPARSER_INPUT` environment variable and can run with Cargo or Docker.
 
-The five grammar non-terminals are implemented through eight recursive-descent methods. That mapping makes the implementation inspectable: a reader can move from a production rule to the exact function responsible for it.
+```text
+1 + 2 * 3 =          -> 7.000
+(1 + 2)(3 + 4) =     -> 21.000
+2^3^2 =              -> 512.000
+27 $ 3 =              -> 3.000 (cube root of 27)
+```
 
-The project also exposes repeatable execution paths:
-
-- `cargo run` for local development;
-- `cargo test` for the current test target;
-- Docker builds for an isolated runtime;
-- CLI arguments and environment variables for custom expressions.
-
-The strongest evidence is the explicit grammar, the documented valid and invalid cases, and the direct correspondence between language rules and parser functions.
-
-_Expanding those examples into a comprehensive regression suite is the most important step before extending the language._
+The repository includes the formal grammar, architecture notes, Docker instructions, and examples of valid and invalid expressions. Its parser methods map directly to the grammar: `evaluate`, `evaluate_e`, `evaluate_p`, `evaluate_u`, and `evaluate_b`, together with the recursive continuation methods for each operator level.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## What I Learned
+## What I Took From It
 
-This project was my **first practical experience with Rust ownership**.
+Rust initially slowed me down. I had to decide whether values should be moved, borrowed, or copied instead of passing data around as casually as I would in Java or Python. In this program, the tokenizer borrows the input, produces owned tokens, and passes them into the parser; failures travel through explicit return values rather than exceptions.
 
-In Java and Python, I could often pass data between functions without thinking deeply about who owned it or how long a reference remained valid. Rust made those decisions visible. The tokenizer borrows the input while scanning it, produces a vector of owned tokens, and transfers that token sequence into the parser. Lightweight token values can be copied, while larger values and errors move through explicit `Result` paths.
+After a while, those decisions became a way to describe the program's data flow rather than requirements I was satisfying only for the compiler.
 
-At first, these rules made development slower. That learning curve is one reason the project took about a month. _Over time, however, ownership stopped feeling like a restriction and became a way to describe the program's data flow more precisely._
-
-I also learned that **parser correctness starts before implementation**. When a grammar rule is vague, the code tends to accumulate special cases. When the rule is precise, the correct layer and function usually become much easier to identify.
-
-The part I am most proud of is not one operator. _It is designing my first grammar and implementing it in a language that was completely new to me, rather than falling back to Java where the work would have been more familiar._
+The parser changed another assumption. I had always known that multiplication comes before addition, but implementing the grammar showed me how precedence can emerge from program structure. Choosing Rust made the work slower, and that was useful: I started the project to encounter decisions I could have avoided in a familiar language.
 
 </ProjectMdxRevealSection>
 
 <ProjectMdxRevealSection>
 
-## Future Improvements
+## Next Steps
 
-Before adding more syntax, I would strengthen the project's **internal structure and verification**.
+The priority is a regression suite for precedence, associativity, parentheses, unary negation, malformed input, numerical failures, and every accepted or rejected form of implicit multiplication. The current test target is too small for the number of language rules the repository documents.
 
-The first improvement would be splitting the current implementation into focused modules for tokens, tokenization, parsing, errors, CLI input, and tests. That would make each responsibility easier to navigate and reduce the cost of changing one grammar layer.
-
-The second improvement would be building a larger regression suite around:
-
-- precedence and associativity;
-- every supported implicit-multiplication transition;
-- nested and unmatched parentheses;
-- unary negation;
-- malformed numbers and incomplete expressions;
-- division by zero, invalid exponentiation, invalid roots, overflow, and underflow.
-
-Only after that foundation is in place would I consider an AST, variables, assignments, or functions. Those features need reusable expression structure; the current direct-evaluation design is intentionally appropriate for the calculator-sized language that exists today.
+I would then split the single-file implementation into modules for tokens, tokenization, parsing, errors, CLI input, and tests. If the language later gained variables, assignments, or functions, that would be the point to introduce an AST rather than stretching direct evaluation beyond its original purpose.
 
 </ProjectMdxRevealSection>
 

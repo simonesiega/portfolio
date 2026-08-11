@@ -2,7 +2,7 @@ export const appConfig = {
   metadata: {
     language: "en",
     title: {
-      default: "Simone Siega | Software Engineer",
+      default: "Simone Siega | Computer Engineer",
       template: "%s | Simone Siega",
     },
     description:
@@ -10,7 +10,7 @@ export const appConfig = {
     iconPath: "/icon.svg",
     socialPreview: {
       domain: "simonesiega.com",
-      role: "Software Engineer",
+      role: "Computer Engineer",
       supportingLine: "Venice, Italy",
       description: "Selected projects, engineering work, and systems experiments.",
       highlights: ["Projects", "Work", "About"],

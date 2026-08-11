@@ -9,7 +9,7 @@ export const codexLimitsProject = {
   slug: "codex-limits",
   title: "Codex Limits",
   pinned: false,
-  githubUrl: "https://github.com/simonesiega/codex-limits.git",
+  githubUrl: "https://github.com/simonesiega/codex-limits",
   demoUrls: [
     {
       label: "npm Package",
@@ -28,23 +28,23 @@ export const codexLimitsProject = {
     quickFacts: [
       {
         label: "Distribution",
-        value: "First public npm package",
+        value: "Cross-platform npm CLI",
+      },
+      {
+        label: "Early adoption",
+        value: "1,500 downloads in 20 days",
       },
       {
         label: "Interfaces",
         value: "Responsive TUI, text, and JSON",
       },
       {
-        label: "Architecture",
-        value: "Shared core with thin adapters",
-      },
-      {
         label: "Integrations",
         value: "OpenCode, pi, and Copilot CLI",
       },
       {
-        label: "Release",
-        value: "Trusted Publishing with provenance",
+        label: "Verification",
+        value: "100+ tests and packed-artifact checks",
       },
     ],
     gallery: [

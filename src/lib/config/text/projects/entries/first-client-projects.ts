@@ -20,26 +20,26 @@ export const firstClientProjects = {
   developmentPeriod: "2026",
   keyPhrase,
   caseStudy: {
-    readTimeMinutes: 6,
+    readTimeMinutes: 7,
     quickFacts: [
       {
         label: "Context",
-        value: "Real client work developed during studies",
-      },
-      {
-        label: "Project type",
-        value: "Existing site + new build",
+        value: "First paid contracts during high school",
       },
       {
         label: "Delivery",
-        value: "Live production websites",
+        value: "Existing codebase + sole-developer build",
       },
       {
-        label: "Responsibilities",
-        value: "Requests, CMS, backend, deployment, maintenance",
+        label: "Production use",
+        value: "30+ listings and 10–20 daily requests",
       },
       {
-        label: "Codebase",
+        label: "Ownership",
+        value: "Requirements, CMS, backend, VPS, handoff",
+      },
+      {
+        label: "Code",
         value: "Private client repositories",
       },
     ],
