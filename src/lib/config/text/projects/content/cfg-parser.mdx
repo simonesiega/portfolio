@@ -99,7 +99,7 @@ The finished command accepts expressions through a CLI argument or the `CFGPARSE
 1 + 2 * 3 =          -> 7.000
 (1 + 2)(3 + 4) =     -> 21.000
 2^3^2 =              -> 512.000
-27 $ 3 =              -> 3.000 (cube root of 27)
+27 $ 3 =             -> 3.000 (cube root of 27)
 ```
 
 The repository includes the formal grammar, architecture notes, Docker instructions, and examples of valid and invalid expressions. Its parser methods map directly to the grammar: `evaluate`, `evaluate_e`, `evaluate_p`, `evaluate_u`, and `evaluate_b`, together with the recursive continuation methods for each operator level.

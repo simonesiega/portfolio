@@ -82,6 +82,7 @@ export function ProjectImageGallery({images}: ProjectImageGalleryProps) {
                   width={240}
                   height={135}
                   sizes="96px"
+                  quality={100}
                   className="aspect-video h-full w-full object-cover"
                 />
               </button>

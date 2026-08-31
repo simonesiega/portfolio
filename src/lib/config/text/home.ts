@@ -138,7 +138,7 @@ export const homeText = {
         {
           school: "I.T.I.S. C. Zuccante",
           href: "https://www.itiszuccante.edu.it/",
-          description: "Technical Diploma in Computer Science, 2026, 100/100 with honors",
+          description: "Technical Diploma in Computer Science, 100/100 with honors",
         },
       ] as const satisfies readonly HomeIntroEducationItem[],
     },
@@ -155,7 +155,7 @@ export const homeText = {
     about: {
       label: "ABOUT ME",
       description:
-        "Outside software development, I spend my time hiking, strength training, and studying computer science and mathematics. I’m drawn to pursuits that reward patience, discipline, and steady progress.",
+        "Outside of coding, I enjoy strength training, hiking, and spending time outdoors. I like challenging myself, learning new things, and working toward goals that take time and consistency.",
       images: [
         {
           label: "Mountain",
