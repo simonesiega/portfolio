@@ -44,6 +44,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/codex-limits",
+        destination: "https://github.com/simonesiega/codex-limits",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default withMDX(nextConfig);
