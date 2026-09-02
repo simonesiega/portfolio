@@ -66,9 +66,9 @@ export function ProjectsShowcaseSection({
                     aria-hidden={true}
                     className="project-showcase-item-line absolute top-1 bottom-1 left-0 block w-px"
                   />
-                  <header className="grid max-w-[34rem] grid-cols-[minmax(0,1fr)_auto] items-start gap-x-5 gap-y-2 text-[0.98rem] leading-relaxed sm:text-[1.02rem]">
+                  <header className="grid max-w-[34rem] grid-cols-1 items-start gap-x-5 leading-relaxed sm:grid-cols-[minmax(0,1fr)_auto]">
                     <div className="min-w-0">
-                      <h2 className="min-w-0">
+                      <h2 className="min-w-0 text-[1.02rem]">
                         <InstantRouteLink
                           href={getProjectCaseStudyHref(project.slug)}
                           prefetch={true}
@@ -89,7 +89,7 @@ export function ProjectsShowcaseSection({
                     </div>
 
                     <div
-                      className={`${montserrat.className} flex shrink-0 items-center justify-end gap-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:text-[0.96rem]`}
+                      className={`${montserrat.className} flex shrink-0 items-center justify-start gap-2 text-[0.92rem] leading-relaxed font-semibold text-[var(--header-item-color)] sm:justify-end sm:text-[0.96rem]`}
                     >
                       {project.pinned ? (
                         <>
