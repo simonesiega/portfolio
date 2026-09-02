@@ -9,6 +9,7 @@ export const codexLimitsProject = {
   slug: "codex-limits",
   title: "Codex Limits",
   pinned: false,
+  showOnLandingPage: true,
   githubUrl: "https://github.com/simonesiega/codex-limits",
   demoUrls: [
     {

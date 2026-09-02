@@ -43,6 +43,7 @@ describe("projects text model", () => {
       expect(project.slug.trim().length).toBeGreaterThan(0);
       expect(project.title.trim().length).toBeGreaterThan(0);
       expect(typeof project.pinned).toBe("boolean");
+      expect(typeof project.showOnLandingPage).toBe("boolean");
       expect(project.developmentPeriod.trim().length).toBeGreaterThan(0);
       expect(project.keyPhrase.trim().length).toBeGreaterThan(0);
       const {githubUrl} = project;
@@ -139,6 +140,12 @@ describe("projects text model", () => {
         quickFactLabels.add(quickFact.label);
       }
     }
+  });
+
+  it("shows every project except CFG Parser on the landing page", () => {
+    expect(
+      projects.filter((project) => project.showOnLandingPage).map((project) => project.slug)
+    ).toEqual(["first-client-projects", "european-tech-opportunities-2027", "codex-limits"]);
   });
 
   it("keeps pinned projects before regular projects", () => {

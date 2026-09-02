@@ -3,6 +3,7 @@ import type {WorkPageExperience} from "../types";
 export const dacosSrlExperience = {
   id: "dacos-srl",
   sortStart: "2025-05",
+  showOnLandingPage: true,
   logoSrc: "/work/logos/Dacos.webp",
   logoAlt: "Dacos S.r.l. logo",
   dateRange: "May 2025 — Jun 2025",

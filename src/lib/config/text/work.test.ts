@@ -23,6 +23,7 @@ describe("work text model", () => {
     for (const experience of workText.experiences) {
       expect(experience.id.trim().length).toBeGreaterThan(0);
       expect(experience.sortStart).toMatch(sortStartPattern);
+      expect(typeof experience.showOnLandingPage).toBe("boolean");
       expect(experience.logoSrc === null || experience.logoSrc.trim().length > 0).toBe(true);
       expect(experience.logoSrc === null || experience.logoAlt.trim().length > 0).toBe(true);
       expect(experience.dateRange.trim().length).toBeGreaterThan(0);
@@ -44,6 +45,11 @@ describe("work text model", () => {
         expect(!("href" in tag) || tag.href.trim().length > 0).toBe(true);
       }
     }
+  });
+
+  it("shows all three experiences on the landing page", () => {
+    expect(workText.experiences).toHaveLength(3);
+    expect(workText.experiences.every((experience) => experience.showOnLandingPage)).toBe(true);
   });
 
   it("keeps experiences ordered from newest to oldest by sortStart", () => {

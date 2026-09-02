@@ -3,6 +3,7 @@ import type {WorkPageExperience} from "../types";
 export const novaideaExperience = {
   id: "novaidea",
   sortStart: "2026-02",
+  showOnLandingPage: true,
   logoSrc: "/work/logos/NewArtVanguard.webp",
   logoAlt: "New Art Vanguard logo",
   dateRange: "Feb 2026 — Jul 2026",

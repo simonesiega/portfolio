@@ -29,6 +29,7 @@ export type ProjectsPageProject = {
   slug: string;
   title: string;
   pinned: boolean;
+  showOnLandingPage: boolean;
   githubUrl?: string;
   demoUrls?: readonly ProjectDemoLink[];
   showcaseAction?: ProjectShowcaseAction;

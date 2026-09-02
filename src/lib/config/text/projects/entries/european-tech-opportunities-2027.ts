@@ -9,6 +9,7 @@ export const europeanTechOpportunities2027Project = {
   slug: "european-tech-opportunities-2027",
   title: "European Tech Opportunities 2027",
   pinned: false,
+  showOnLandingPage: true,
   githubUrl: "https://github.com/simonesiega/european-tech-opportunities-2027",
   demoUrls: [
     {

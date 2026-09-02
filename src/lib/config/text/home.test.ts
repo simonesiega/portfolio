@@ -1,6 +1,7 @@
 import {describe, expect, it} from "vitest";
 import {appRoutes} from "@/lib/config/site-routes";
 import {projectsText} from "./projects";
+import {workText} from "./work";
 import {homeText} from "./home";
 
 function expectValidHref(href: string) {
@@ -32,13 +33,25 @@ describe("home text model", () => {
     }
   });
 
-  it("keeps featured project and work routes aligned with app routes", () => {
+  it("keeps landing page projects and work aligned with their visibility flags", () => {
     const projectHrefs = new Set(
       projectsText.projects.map((project) => `/projects/${project.slug}`)
     );
+    const visibleProjectHrefs = projectsText.projects
+      .filter((project) => project.showOnLandingPage)
+      .map((project) => `/projects/${project.slug}`);
+    const visibleWorkCompanies = workText.experiences
+      .filter((experience) => experience.showOnLandingPage)
+      .map((experience) => experience.company);
 
     expect(appRoutes).toContain(homeText.intro.projects.seeAllHref);
     expect(appRoutes).toContain(homeText.intro.works.seeAllHref);
+    expect(homeText.intro.projects.items.map((project) => project.href)).toEqual(
+      visibleProjectHrefs
+    );
+    expect(homeText.intro.works.items.map((experience) => experience.title)).toEqual(
+      visibleWorkCompanies
+    );
 
     for (const project of homeText.intro.projects.items) {
       expect(project.title.trim().length).toBeGreaterThan(0);

@@ -9,6 +9,7 @@ export const firstClientProjects = {
   slug: "first-client-projects",
   title: "Client Web Delivery",
   pinned: true,
+  showOnLandingPage: true,
   demoUrls: [
     {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
     {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},

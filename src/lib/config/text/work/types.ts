@@ -6,6 +6,7 @@ type WorkPageExperienceTag = {
 export type WorkPageExperience = {
   id: string;
   sortStart: string;
+  showOnLandingPage: boolean;
   logoSrc: string | null;
   logoAlt: string;
   dateRange: string;
