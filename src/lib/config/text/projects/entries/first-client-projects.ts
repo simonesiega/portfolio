@@ -10,6 +10,7 @@ export const firstClientProjects = {
   title: "Client Web Delivery",
   pinned: true,
   showOnLandingPage: true,
+  landingPageDescription: "Two production websites delivered during high school",
   demoUrls: [
     {label: "New Art Vanguard", href: "https://www.newartvanguard.com/"},
     {label: "Arsenale Moto", href: "https://arsenalemoto.it/"},
@@ -46,14 +47,14 @@ export const firstClientProjects = {
     ],
     gallery: [
       {
-        src: "/projects/first-client-projects/NewArtVanguard.webp",
+        src: "/projects/first-client-projects/new-art-vanguard.webp",
         alt: "New Art Vanguard coming soon page",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
         href: "https://www.newartvanguard.com/",
       },
       {
-        src: "/projects/first-client-projects/ArsenaleMoto.webp",
+        src: "/projects/first-client-projects/arsenale-moto.webp",
         alt: "Arsenale Moto landing page",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],

@@ -47,7 +47,7 @@ export function spawnParticle({
   const angle = Math.random() * Math.PI * 2;
   const lifetime = randomBetween(motion.lifetimeMin, motion.lifetimeMax);
 
-  // Initial age is randomized to prevent visible patterns of synchronized respawns, which can happen if all particles start with age 0 and have similar lifetimes. By allowing some particles to start with a random age, we create a more natural, continuous flow of particles respawning at different times.
+  // Stagger initial ages so particles do not respawn in visible waves.
   return {
     x,
     y,
@@ -67,7 +67,7 @@ export function spawnDustParticle(width: number, height: number): DustParticle {
   const speed = randomBetween(dust.speedMin, dust.speedMax);
   const angle = Math.random() * Math.PI * 2;
 
-  // Dust particles are spawned uniformly across the viewport to create a consistent, non-distracting background layer. Their slower speed and simpler behavior compared to primary particles help add depth and visual interest without competing for attention or overwhelming the scene.
+  // Keep the slower dust layer evenly distributed across the canvas.
   return {
     x: Math.random() * width,
     y: Math.random() * height,

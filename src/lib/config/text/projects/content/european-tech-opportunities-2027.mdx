@@ -82,7 +82,7 @@ Searches fetch concurrently, but the repository serializes persistence. Each sea
 
 A successful transaction records the run, upserts accepted listings, refreshes provenance, advances observation timestamps, and applies explicit unavailability evidence. Jobs remain open while at least one active search association supports them.
 
-The Next.js application opens short-lived read-only SQLite connections. The README is intentionally incomplete—it contains the ten latest roles for each employment type—so it cannot be mistaken for a backup or reconstructed into the full database.
+The Next.js application opens short-lived read-only SQLite connections. The README is intentionally incomplete—it contains only a small, bounded sample of the latest roles—so it cannot be mistaken for a backup or reconstructed into the full database.
 
 </ProjectMdxRevealSection>
 
@@ -125,12 +125,14 @@ This process is intentionally cautious because the database contains history tha
 
 <ProjectMdxRevealSection>
 
-## Current Result
+## Demonstrated Scale
 
-As of **August 11, 2026**, the directory contains **731 open opportunities**:
+By **August 11, 2026**, the directory had reached **731 concurrently open opportunities**:
 
 - 340 internships;
 - 391 New Grad positions.
+
+The live directory remains the source for current availability because listings continue to open and close.
 
 The offline critical-path suite reports **89.9% combined statement and branch coverage**, including 81.8% branch coverage and **95.0% classifier branch coverage**.
 
@@ -160,8 +162,8 @@ Additional job sources should arrive through explicit adapters while preserving 
 
 - [Live opportunity directory](https://opportunities2027.simonesiega.com/)
 - [GitHub repository](https://github.com/simonesiega/european-tech-opportunities-2027)
-- [Architecture guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/development/architecture.md)
-- [Automation guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/operations/automation.md)
-- [Website guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/user-guide/website.md)
+- [Architecture guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/guides/development/architecture.md)
+- [Automation guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/guides/operations/automation.md)
+- [Website guide](https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/guides/user-guide/website.md)
 
 </ProjectMdxRevealSection>

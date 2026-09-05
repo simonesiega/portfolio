@@ -1,18 +1,16 @@
+import {appConfig} from "@/lib/config/app-config";
 import {projectsText} from "@/lib/config/text/projects";
 import {workText} from "@/lib/config/text/work";
 
-const staticAppRoutes = ["/", "/projects", "/work"] as const;
+const staticAppRoutes = [
+  appConfig.navigation.homeHref,
+  ...appConfig.navigation.headerLinks.map((link) => link.href),
+] as const;
 const projectCaseStudyRoutes = projectsText.projects.map(
   (project) => `/projects/${project.slug}` as const
 );
 
 export const appRoutes = [...staticAppRoutes, ...projectCaseStudyRoutes];
-
-const appContentLastModified = "2026-07-23T00:00:00.000Z";
-
-export const appRouteLastModified = Object.fromEntries(
-  appRoutes.map((route) => [route, appContentLastModified])
-);
 
 export const contentPageSeo = {
   "/projects": {

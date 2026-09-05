@@ -1,39 +1,31 @@
 import {describe, expect, it} from "vitest";
+import {appRoutes} from "@/lib/config/site-routes";
 import {systemText} from "./system";
 
 describe("system text model", () => {
-  it("keeps not-found copy and actions complete", () => {
-    const {notFoundPage} = systemText;
+  it("keeps every system page and recovery action complete", () => {
+    const sectionIds = new Set<string>();
 
-    expect(notFoundPage.hero.sectionId.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.hero.eyebrow.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.hero.title.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.hero.subtitle.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.body.navigationAriaLabel.trim().length).toBeGreaterThan(0);
+    for (const [pageName, page] of Object.entries(systemText)) {
+      for (const [key, value] of Object.entries(page.hero)) {
+        expect(value.trim().length, `${pageName}.hero.${key}`).toBeGreaterThan(0);
+      }
 
-    expect(notFoundPage.body.actions.backHomeLabel.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.body.actions.backHomeHref.startsWith("/")).toBe(true);
-    expect(notFoundPage.body.actions.openProjectsLabel.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.body.actions.openProjectsHref.startsWith("/")).toBe(true);
-    expect(notFoundPage.body.actions.openWorkLabel.trim().length).toBeGreaterThan(0);
-    expect(notFoundPage.body.actions.openWorkHref.startsWith("/")).toBe(true);
-  });
+      expect(
+        sectionIds.has(page.hero.sectionId),
+        `Duplicate system-page section id: ${page.hero.sectionId}`
+      ).toBe(false);
+      sectionIds.add(page.hero.sectionId);
+      expect(page.body.navigationAriaLabel.trim().length).toBeGreaterThan(0);
 
-  it("keeps runtime-error copy and actions complete", () => {
-    const {errorPage} = systemText;
+      for (const [key, value] of Object.entries(page.body.actions)) {
+        expect(value.trim().length, `${pageName}.body.actions.${key}`).toBeGreaterThan(0);
 
-    expect(errorPage.hero.sectionId.trim().length).toBeGreaterThan(0);
-    expect(errorPage.hero.eyebrow.trim().length).toBeGreaterThan(0);
-    expect(errorPage.hero.title.trim().length).toBeGreaterThan(0);
-    expect(errorPage.hero.subtitle.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.navigationAriaLabel.trim().length).toBeGreaterThan(0);
-
-    expect(errorPage.body.actions.retryLabel.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.actions.backHomeLabel.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.actions.backHomeHref.startsWith("/")).toBe(true);
-    expect(errorPage.body.actions.openProjectsLabel.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.actions.openProjectsHref.startsWith("/")).toBe(true);
-    expect(errorPage.body.actions.openWorkLabel.trim().length).toBeGreaterThan(0);
-    expect(errorPage.body.actions.openWorkHref.startsWith("/")).toBe(true);
+        if (key.endsWith("Href")) {
+          expect(value, `${pageName}.body.actions.${key}`).toMatch(/^\/(?!\/)/);
+          expect(appRoutes, `${pageName}.body.actions.${key}`).toContain(value);
+        }
+      }
+    }
   });
 });

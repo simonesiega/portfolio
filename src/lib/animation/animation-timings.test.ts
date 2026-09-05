@@ -1,56 +1,49 @@
 import {describe, expect, it} from "vitest";
 import {animationTimings, toMs} from "./animation-timings";
 
+type TimingRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is TimingRecord {
+  return typeof value === "object" && value !== null;
+}
+
 describe("animation timings", () => {
-  it("keeps reveal timings and thresholds valid", () => {
-    const revealEntries = [
-      animationTimings.scrollRevealDefaults,
-      animationTimings.routeReveal,
-      animationTimings.homeIntro.hero.image,
-      animationTimings.homeIntro.hero.name,
-      animationTimings.homeIntro.hero.bio,
-      animationTimings.homeIntro.hero.social,
-      animationTimings.homeIntro.section,
-      animationTimings.homeIntro.aboutImages,
-      animationTimings.secondaryPageHero.metaLabel,
-      animationTimings.secondaryPageHero.title,
-      animationTimings.secondaryPageHero.subtitle,
-      animationTimings.secondaryPageItem,
-      animationTimings.projectCaseStudy.metaLabel,
-      animationTimings.projectCaseStudy.content,
-    ];
+  it("keeps every configured duration, delay, and threshold valid", () => {
+    let checkedValueCount = 0;
 
-    for (const entry of revealEntries) {
-      if ("delayMs" in entry) {
-        expect(entry.delayMs).toBeGreaterThanOrEqual(0);
+    function visit(value: unknown, path: string) {
+      if (!isRecord(value)) {
+        return;
       }
 
-      if ("durationMs" in entry) {
-        expect(entry.durationMs).toBeGreaterThan(0);
-      }
+      for (const [key, child] of Object.entries(value)) {
+        const childPath = `${path}.${key}`;
 
-      if ("threshold" in entry) {
-        expect(entry.threshold).toBeGreaterThanOrEqual(0);
-        expect(entry.threshold).toBeLessThanOrEqual(1);
+        if (typeof child === "number" && key.endsWith("Ms")) {
+          checkedValueCount += 1;
+          expect(child, childPath).toBeGreaterThanOrEqual(0);
+
+          if (key === "durationMs") {
+            expect(child, childPath).toBeGreaterThan(0);
+          }
+        } else if (typeof child === "number" && key === "threshold") {
+          checkedValueCount += 1;
+          expect(child, childPath).toBeGreaterThanOrEqual(0);
+          expect(child, childPath).toBeLessThanOrEqual(1);
+        } else {
+          visit(child, childPath);
+        }
       }
     }
+
+    visit(animationTimings, "animationTimings");
+    expect(checkedValueCount).toBeGreaterThan(0);
   });
 
-  it("formats millisecond values consistently", () => {
+  it("formats millisecond values for CSS custom properties", () => {
+    expect(toMs(0)).toBe("0ms");
     expect(toMs(animationTimings.themeTransition.durationMs)).toBe(
       `${animationTimings.themeTransition.durationMs}ms`
     );
-  });
-
-  it("keeps standalone delays valid", () => {
-    expect(animationTimings.homeIntro.section.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.homeIntro.section.initialViewportDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.homeIntro.aboutImages.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.secondaryPageItem.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.projectCaseStudy.content.initialViewportDelayMs).toBeGreaterThanOrEqual(
-      0
-    );
-    expect(animationTimings.projectCaseStudy.content.stepDelayMs).toBeGreaterThanOrEqual(0);
-    expect(animationTimings.themeTransition.syncDelayMs).toBeGreaterThanOrEqual(0);
   });
 });

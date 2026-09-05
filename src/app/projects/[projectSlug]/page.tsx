@@ -6,7 +6,7 @@ import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {ProjectImageGallery} from "@/components/projects/project-image-gallery";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
 import {animationTimings} from "@/lib/animation/animation-timings";
-import {getProjectBySlug, getProjectCaseStudySeo, projectsText} from "@/lib/config/text/projects";
+import {getProjectBySlug, projectsText} from "@/lib/config/text/projects";
 import {geistSans} from "@/lib/fonts";
 import {createContentPageMetadata} from "@/lib/metadata";
 import {PROJECT_DETAIL_SHARE} from "@/lib/view-transition";
@@ -28,19 +28,13 @@ export async function generateMetadata({params}: ProjectCaseStudyPageProps): Pro
   const project = getProjectBySlug(projectSlug);
 
   if (!project) {
-    return createContentPageMetadata({
-      route: "/projects",
-      title: projectsText.seo.caseStudyFallbackTitle,
-      description: projectsText.seo.caseStudyFallbackDescription,
-    });
+    notFound();
   }
-
-  const seo = getProjectCaseStudySeo(project.slug);
 
   return createContentPageMetadata({
     route: `/projects/${project.slug}`,
-    title: seo.title,
-    description: seo.description,
+    title: `${project.title} ${projectsText.seo.caseStudyTitleSuffix}`,
+    description: project.keyPhrase,
   });
 }
 
@@ -105,21 +99,21 @@ export default async function ProjectCaseStudyPage({params}: ProjectCaseStudyPag
             aria-label={projectsText.caseStudyPage.projectSummaryAriaLabel}
             className="space-y-3"
           >
-            <ul className={`${geistSans.className} space-y-1.5 text-[0.84rem] sm:text-[0.92rem]`}>
+            <dl className={`${geistSans.className} space-y-1.5 text-[0.84rem] sm:text-[0.92rem]`}>
               {project.caseStudy.quickFacts.map((fact) => (
-                <li
+                <div
                   key={fact.label}
                   className="grid grid-cols-[minmax(0,8rem)_minmax(0,1fr)] items-start gap-x-3"
                 >
-                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_68%,transparent)]">
+                  <dt className="text-[color-mix(in_srgb,var(--ui-fg-muted)_68%,transparent)]">
                     {fact.label}
-                  </span>
-                  <span className="text-[color-mix(in_srgb,var(--ui-fg-muted)_82%,transparent)]">
+                  </dt>
+                  <dd className="text-[color-mix(in_srgb,var(--ui-fg-muted)_82%,transparent)]">
                     {fact.value}
-                  </span>
-                </li>
+                  </dd>
+                </div>
               ))}
-            </ul>
+            </dl>
             <div className="flex flex-wrap items-center gap-4 pt-0.5">
               {project.githubUrl ? (
                 <a

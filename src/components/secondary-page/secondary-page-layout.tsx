@@ -1,23 +1,15 @@
 import type {ReactNode} from "react";
 import {RouteReveal} from "@/components/animation/route-reveal";
 import {SecondaryFooter} from "@/components/secondary-page/secondary-footer";
-import {SecondaryPageHero} from "@/components/secondary-page/secondary-page-hero";
+import {
+  SecondaryPageHero,
+  type SecondaryPageHeroProps,
+} from "@/components/secondary-page/secondary-page-hero";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {pageContentClassName, pageFrameClassName} from "@/lib/layout-classes";
 
 type SecondaryPageLayoutProps = {
-  hero: {
-    sectionId: string;
-    metaLabel?: string;
-    metaLabelClassName?: string;
-    metaLabelUppercase?: boolean;
-    metaLabelDelayMs?: number;
-    title: ReactNode;
-    titleClassName?: string;
-    subtitle?: ReactNode;
-    subtitleClassName?: string;
-    className?: string;
-  };
+  hero: Omit<SecondaryPageHeroProps, "animate" | "animateMetaLabel">;
   footerLegalDisclaimerLine?: string;
   animateHero?: boolean;
   animateHeroMetaLabel?: boolean;
@@ -38,16 +30,7 @@ export function SecondaryPageLayout({
       <div className={pageFrameClassName}>
         <div className={pageContentClassName}>
           <SecondaryPageHero
-            sectionId={hero.sectionId}
-            metaLabel={hero.metaLabel}
-            metaLabelClassName={hero.metaLabelClassName}
-            metaLabelUppercase={hero.metaLabelUppercase}
-            metaLabelDelayMs={hero.metaLabelDelayMs}
-            title={hero.title}
-            titleClassName={hero.titleClassName}
-            subtitle={hero.subtitle}
-            subtitleClassName={hero.subtitleClassName}
-            className={hero.className}
+            {...hero}
             animate={animateHero}
             animateMetaLabel={animateHeroMetaLabel}
           />

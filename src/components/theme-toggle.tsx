@@ -6,7 +6,6 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {
   applyThemePreference,
-  getPrefersLightMediaQuery,
   getStoredThemePreference,
   isLightThemeActive,
   setStoredThemePreference,
@@ -14,9 +13,8 @@ import {
   themePreference,
 } from "@/lib/theme";
 
-const prefersLightMediaQuery = getPrefersLightMediaQuery();
 const fallbackThemePreference: ThemePreference = themePreference.dark;
-const {labels: themeLabels} = appConfig.theme;
+const {labels: themeLabels, prefersLightMediaQuery} = appConfig.theme;
 const themeChangingClassName = "theme-changing";
 
 function applyThemeWithoutColorTransitions(preference: ThemePreference) {
@@ -36,16 +34,16 @@ export function ThemeToggle() {
     useState<ThemePreference>(fallbackThemePreference);
   const [resolvedMode, setResolvedMode] = useState<"light" | "dark">(themePreference.dark);
 
-  function syncThemeState() {
-    const storedPreference = getStoredThemePreference() ?? fallbackThemePreference;
-    setSelectedPreference(storedPreference);
+  function syncThemeState(preference?: ThemePreference) {
+    const selectedTheme = preference ?? getStoredThemePreference() ?? fallbackThemePreference;
+    setSelectedPreference(selectedTheme);
     setResolvedMode(isLightThemeActive() ? themePreference.light : themePreference.dark);
   }
 
   function handleSelectPreference(preference: ThemePreference) {
     setStoredThemePreference(preference);
     applyThemeWithoutColorTransitions(preference);
-    syncThemeState();
+    syncThemeState(preference);
   }
 
   useEffect(() => {
@@ -61,7 +59,7 @@ export function ThemeToggle() {
       }
 
       applyThemeWithoutColorTransitions(themePreference.system);
-      syncThemeState();
+      syncThemeState(themePreference.system);
     }
 
     mediaQuery.addEventListener("change", handleSystemThemeChange);

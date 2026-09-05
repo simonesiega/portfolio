@@ -3,12 +3,21 @@ type WorkPageExperienceTag = {
   href?: string;
 };
 
-export type WorkPageExperience = {
+type WorkLandingPageVisibility =
+  | {
+      showOnLandingPage: true;
+      landingPageDescription: string;
+      logoSrc: string;
+    }
+  | {
+      showOnLandingPage: false;
+      landingPageDescription?: never;
+      logoSrc: string | null;
+    };
+
+export type WorkPageExperience = WorkLandingPageVisibility & {
   id: string;
   sortStart: string;
-  showOnLandingPage: boolean;
-  logoSrc: string | null;
-  logoAlt: string;
   dateRange: string;
   role: string;
   company: string;

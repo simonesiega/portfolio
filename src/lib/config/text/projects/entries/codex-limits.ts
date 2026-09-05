@@ -10,6 +10,8 @@ export const codexLimitsProject = {
   title: "Codex Limits",
   pinned: false,
   showOnLandingPage: true,
+  landingPageDescription:
+    "Cross-platform CLI for monitoring Codex usage, published as a public npm package",
   githubUrl: "https://github.com/simonesiega/codex-limits",
   demoUrls: [
     {
@@ -45,33 +47,33 @@ export const codexLimitsProject = {
       },
       {
         label: "Verification",
-        value: "100+ tests and packed-artifact checks",
+        value: "180+ tests and packed-artifact checks",
       },
     ],
     gallery: [
       {
-        src: "/projects/codex-limits/final_result_large.webp",
+        src: "/projects/codex-limits/final-result-large.webp",
         alt: "Codex Limits terminal dashboard showing usage windows and reset-credit coupons",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
         href: "https://github.com/simonesiega/codex-limits",
       },
       {
-        src: "/projects/codex-limits/opencode_result.webp",
+        src: "/projects/codex-limits/opencode-result.webp",
         alt: "Codex Limits read-only dashboard opened inside OpenCode",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],
         href: "https://github.com/simonesiega/codex-limits#agent-integrations",
       },
       {
-        src: "/projects/codex-limits/npm_package.webp",
+        src: "/projects/codex-limits/npm-package.webp",
         alt: "Public npm page for the @simonesiega/codex-limits package",
         caption: galleryCaptions[2],
         thumbnailDescription: galleryThumbnailDescriptions?.[2],
         href: "https://www.npmjs.com/package/@simonesiega/codex-limits",
       },
       {
-        src: "/projects/codex-limits/publish_workflow.webp",
+        src: "/projects/codex-limits/publish-workflow.webp",
         alt: "Successful GitHub Actions workflow publishing Codex Limits to npm",
         caption: galleryCaptions[3],
         thumbnailDescription: galleryThumbnailDescriptions?.[3],

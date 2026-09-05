@@ -1,11 +1,11 @@
 import type {WorkPageExperience} from "../types";
 
-export const novaideaExperience = {
-  id: "novaidea",
+export const newArtVanguardExperience = {
+  id: "new-art-vanguard",
   sortStart: "2026-02",
   showOnLandingPage: true,
-  logoSrc: "/work/logos/NewArtVanguard.webp",
-  logoAlt: "New Art Vanguard logo",
+  landingPageDescription: "Full-Stack Developer",
+  logoSrc: "/work/logos/new-art-vanguard.webp",
   dateRange: "Feb 2026 — Jul 2026",
   role: "Full-Stack Developer — Contract",
   company: "New Art Vanguard",

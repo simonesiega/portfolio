@@ -36,6 +36,14 @@ describe("site URL resolution", () => {
     expect(() => getSiteUrl()).toThrow("Set NEXT_PUBLIC_SITE_URL or SITE_URL");
   });
 
+  it("uses and normalizes the server-only fallback", () => {
+    setNodeEnv("production");
+    setSiteUrls({serverUrl: "https://simonesiega.com/nested/path?ignored=true"});
+
+    expect(getSiteOrigin()).toBe("https://simonesiega.com");
+    expect(getSiteUrl().href).toBe("https://simonesiega.com/");
+  });
+
   it("uses the configured public site URL first", () => {
     setNodeEnv("production");
     setSiteUrls({

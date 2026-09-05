@@ -41,7 +41,11 @@ function applySystemTheme() {
     return;
   }
 
-  const prefersLightTheme = window.matchMedia(prefersLightMediaQuery).matches;
+  let prefersLightTheme = false;
+
+  try {
+    prefersLightTheme = window.matchMedia(prefersLightMediaQuery).matches;
+  } catch {}
 
   if (prefersLightTheme) {
     document.documentElement.setAttribute(attributeName, themePreference.light);
@@ -87,8 +91,4 @@ export function setStoredThemePreference(preference: ThemePreference) {
   try {
     window.localStorage.setItem(storageKey, preference);
   } catch {}
-}
-
-export function getPrefersLightMediaQuery() {
-  return prefersLightMediaQuery;
 }

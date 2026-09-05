@@ -23,19 +23,3 @@ export function getProjectBySlug(projectSlug: string): ProjectsPageProject | und
 export function getProjectCaseStudyHref(projectSlug: string) {
   return `/projects/${projectSlug}`;
 }
-
-export function getProjectCaseStudySeo(projectSlug: string) {
-  const project = getProjectBySlug(projectSlug);
-
-  if (!project) {
-    return {
-      title: projectsText.seo.caseStudyFallbackTitle,
-      description: projectsText.seo.caseStudyFallbackDescription,
-    };
-  }
-
-  return {
-    title: `${project.title} ${projectsText.seo.caseStudyTitleSuffix}`,
-    description: project.keyPhrase,
-  };
-}

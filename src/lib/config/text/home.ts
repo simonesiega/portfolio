@@ -1,3 +1,4 @@
+import {appConfig} from "@/lib/config/app-config";
 import {getProjectCaseStudyHref, projectsText} from "./projects";
 import {workText} from "./work";
 
@@ -18,14 +19,7 @@ type HomeIntroWorkItem = {
   description: string;
   dateRange: string;
   imageSrc: string;
-  imageAlt: string;
 };
-
-type LandingPageProject = Extract<
-  (typeof projectsText.projects)[number],
-  {showOnLandingPage: true}
->;
-type LandingPageProjectSlug = LandingPageProject["slug"];
 
 export type HomeIntroAboutImage = {
   label: string;
@@ -40,46 +34,41 @@ const homeIntroSocialLinks = [
     href: "/simone-siega-resume.pdf",
     download: "Simone-Siega-Resume.pdf",
   },
-  {icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/simonesiega"},
-  {icon: "github", label: "GitHub", href: "https://github.com/simonesiega"},
-  {icon: "x", label: "X / Twitter", href: "https://x.com/simonesiega_"},
+  {
+    icon: "linkedin",
+    label: appConfig.social.labels.linkedin,
+    href: appConfig.social.linkedinUrl,
+  },
+  {icon: "github", label: appConfig.social.labels.github, href: appConfig.social.githubUrl},
+  {icon: "x", label: appConfig.social.labels.x, href: appConfig.social.xUrl},
 ] as const;
 
 export type HomeIntroSocialIconKey = (typeof homeIntroSocialLinks)[number]["icon"];
-
-const homeProjectDescriptions = {
-  "first-client-projects": "Two production websites delivered during high school",
-  "european-tech-opportunities-2027":
-    "Open-source directory for European internships and New Grad positions",
-  "codex-limits":
-    "Cross-platform CLI for monitoring Codex usage, published as a public npm package",
-} as const satisfies Record<LandingPageProjectSlug, string>;
 
 const homeIntroProjectItems = projectsText.projects
   .filter((project) => project.showOnLandingPage)
   .map((project) => ({
     title: project.title,
     href: getProjectCaseStudyHref(project.slug),
-    description: homeProjectDescriptions[project.slug],
+    description: project.landingPageDescription,
   })) satisfies readonly HomeIntroProjectItem[];
 
 const homeIntroWorkItems = workText.experiences
   .filter((experience) => experience.showOnLandingPage)
   .map((experience) => ({
     title: experience.company,
-    description: experience.role.replace(/ — Contract$/, ""),
+    description: experience.landingPageDescription,
     dateRange: experience.dateRange,
     imageSrc: experience.logoSrc,
-    imageAlt: experience.logoAlt,
   })) satisfies readonly HomeIntroWorkItem[];
 
 export const homeText = {
   intro: {
     profileImage: {
-      src: "/landing/pfp.webp",
+      src: "/landing/profile.webp",
       alt: "Portrait of Simone Siega",
     },
-    name: "Simone Siega",
+    name: appConfig.owner.name,
 
     bioLines: [
       "Computer Engineering student in Venice, Italy.",

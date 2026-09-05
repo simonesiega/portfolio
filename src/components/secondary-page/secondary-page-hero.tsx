@@ -3,7 +3,7 @@ import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {montserrat} from "@/lib/fonts";
 
-type SecondaryPageHeroProps = {
+export type SecondaryPageHeroProps = {
   sectionId: string;
   metaLabel?: string;
   metaLabelClassName?: string;

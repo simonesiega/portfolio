@@ -1,32 +1,12 @@
 import {describe, expect, it} from "vitest";
 import sitemap from "./sitemap";
-import {appRouteLastModified, appRoutes} from "@/lib/config/site-routes";
+import {appRoutes} from "@/lib/config/site-routes";
 import {getSiteOrigin} from "@/lib/site-url";
 
 describe("sitemap", () => {
-  it("publishes every configured app route with absolute URLs", () => {
-    const entries = sitemap();
-    const urls = entries.map((entry) => entry.url);
-
-    expect(entries).toHaveLength(appRoutes.length);
-
+  it("publishes every configured app route exactly once", () => {
     const siteOrigin = getSiteOrigin();
 
-    for (const route of appRoutes) {
-      expect(urls).toContain(`${siteOrigin}${route}`);
-    }
-  });
-
-  it("uses checked-in route metadata for last modified dates", () => {
-    const entries = sitemap();
-    const siteOrigin = getSiteOrigin();
-
-    for (const entry of entries) {
-      const route = entry.url.replace(siteOrigin, "");
-
-      expect(entry.lastModified).toBe(
-        appRouteLastModified[route as keyof typeof appRouteLastModified]
-      );
-    }
+    expect(sitemap()).toEqual(appRoutes.map((route) => ({url: `${siteOrigin}${route}`})));
   });
 });

@@ -10,6 +10,7 @@ export const europeanTechOpportunities2027Project = {
   title: "European Tech Opportunities 2027",
   pinned: false,
   showOnLandingPage: true,
+  landingPageDescription: "Open-source directory for European internships and New Grad positions",
   githubUrl: "https://github.com/simonesiega/european-tech-opportunities-2027",
   demoUrls: [
     {
@@ -29,7 +30,7 @@ export const europeanTechOpportunities2027Project = {
     quickFacts: [
       {
         label: "Scale",
-        value: "700+ open European opportunities",
+        value: "700+ published European opportunities",
       },
       {
         label: "Acceptance",
@@ -54,18 +55,18 @@ export const europeanTechOpportunities2027Project = {
         alt: "European Tech Opportunities 2027 architecture diagram",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
-        href: "https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/md/development/architecture.md",
+        href: "https://github.com/simonesiega/european-tech-opportunities-2027/blob/main/docs/guides/development/architecture.md",
         invertInLightTheme: true,
       },
       {
-        src: "/projects/european-tech-opportunities-2027/White_theme.webp",
+        src: "/projects/european-tech-opportunities-2027/light-theme.webp",
         alt: "European Tech Opportunities 2027 directory in light mode",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],
         href: "https://opportunities2027.simonesiega.com/",
       },
       {
-        src: "/projects/european-tech-opportunities-2027/Dark_theme.webp",
+        src: "/projects/european-tech-opportunities-2027/dark-theme.webp",
         alt: "European Tech Opportunities 2027 directory in dark mode",
         caption: galleryCaptions[2],
         thumbnailDescription: galleryThumbnailDescriptions?.[2],

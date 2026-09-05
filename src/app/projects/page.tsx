@@ -16,17 +16,7 @@ export default function ProjectsPage() {
 
       <div className="relative z-10">
         <SecondaryPageLayout hero={{...hero, ...secondaryListingHero}}>
-          <ProjectsShowcaseSection
-            projects={projects}
-            projectsAriaLabel={sections.projectsAriaLabel}
-            openCaseStudyLabel={sections.openCaseStudyLabel}
-            mailSubjectPrefix={sections.mailSubjectPrefix}
-            mailAriaLabelPrefix={sections.mailAriaLabelPrefix}
-            githubAriaLabelPrefix={sections.githubAriaLabelPrefix}
-            githubAriaLabelSuffix={sections.githubAriaLabelSuffix}
-            githubLinkLabel={sections.githubLinkLabel}
-            pinnedLabel={sections.pinnedLabel}
-          />
+          <ProjectsShowcaseSection projects={projects} labels={sections} />
         </SecondaryPageLayout>
       </div>
     </div>

@@ -4,20 +4,17 @@ import {ScrollReveal} from "@/components/animation/scroll-reveal";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {montserrat} from "@/lib/fonts";
-import {getProjectCaseStudyHref, type ProjectsPageProject} from "@/lib/config/text/projects";
+import {
+  getProjectCaseStudyHref,
+  projectsText,
+  type ProjectsPageProject,
+} from "@/lib/config/text/projects";
 import {pageColumnClassName} from "@/lib/layout-classes";
 import {PROJECT_DETAIL_SHARE, PROJECT_DETAIL_TRANSITION_TYPE} from "@/lib/view-transition";
 
 type ProjectsShowcaseSectionProps = {
   projects: readonly ProjectsPageProject[];
-  projectsAriaLabel: string;
-  openCaseStudyLabel: string;
-  mailSubjectPrefix: string;
-  mailAriaLabelPrefix: string;
-  githubAriaLabelPrefix: string;
-  githubAriaLabelSuffix: string;
-  githubLinkLabel: string;
-  pinnedLabel: string;
+  labels: typeof projectsText.sections;
 };
 
 function getProjectInfoMailHref(
@@ -29,17 +26,17 @@ function getProjectInfoMailHref(
   return `mailto:${contactEmail}?subject=${subject}`;
 }
 
-export function ProjectsShowcaseSection({
-  projects,
-  projectsAriaLabel,
-  openCaseStudyLabel,
-  mailSubjectPrefix,
-  mailAriaLabelPrefix,
-  githubAriaLabelPrefix,
-  githubAriaLabelSuffix,
-  githubLinkLabel,
-  pinnedLabel,
-}: ProjectsShowcaseSectionProps) {
+export function ProjectsShowcaseSection({projects, labels}: ProjectsShowcaseSectionProps) {
+  const {
+    projectsAriaLabel,
+    openCaseStudyLabel,
+    mailSubjectPrefix,
+    mailAriaLabelPrefix,
+    githubAriaLabelPrefix,
+    githubAriaLabelSuffix,
+    githubLinkLabel,
+    pinnedLabel,
+  } = labels;
   const {secondaryPageItem} = animationTimings;
   const contactEmail = appConfig.contact.email;
 

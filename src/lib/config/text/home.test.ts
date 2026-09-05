@@ -6,11 +6,15 @@ import {homeText} from "./home";
 
 function expectValidHref(href: string) {
   if (href.startsWith("/")) {
-    expect(href.startsWith("//")).toBe(false);
+    expect(href).toMatch(/^\/(?!\/)/);
+    expect(href).not.toContain("..");
     return;
   }
 
-  expect(() => new URL(href)).not.toThrow();
+  const url = new URL(href);
+  expect(url.protocol).toBe("https:");
+  expect(url.username).toBe("");
+  expect(url.password).toBe("");
 }
 
 describe("home text model", () => {
@@ -37,21 +41,26 @@ describe("home text model", () => {
     const projectHrefs = new Set(
       projectsText.projects.map((project) => `/projects/${project.slug}`)
     );
-    const visibleProjectHrefs = projectsText.projects
+    const visibleProjects = projectsText.projects
       .filter((project) => project.showOnLandingPage)
-      .map((project) => `/projects/${project.slug}`);
-    const visibleWorkCompanies = workText.experiences
+      .map((project) => ({
+        title: project.title,
+        href: `/projects/${project.slug}`,
+        description: project.landingPageDescription,
+      }));
+    const visibleWork = workText.experiences
       .filter((experience) => experience.showOnLandingPage)
-      .map((experience) => experience.company);
+      .map((experience) => ({
+        title: experience.company,
+        description: experience.landingPageDescription,
+        dateRange: experience.dateRange,
+        imageSrc: experience.logoSrc,
+      }));
 
     expect(appRoutes).toContain(homeText.intro.projects.seeAllHref);
     expect(appRoutes).toContain(homeText.intro.works.seeAllHref);
-    expect(homeText.intro.projects.items.map((project) => project.href)).toEqual(
-      visibleProjectHrefs
-    );
-    expect(homeText.intro.works.items.map((experience) => experience.title)).toEqual(
-      visibleWorkCompanies
-    );
+    expect(homeText.intro.projects.items).toEqual(visibleProjects);
+    expect(homeText.intro.works.items).toEqual(visibleWork);
 
     for (const project of homeText.intro.projects.items) {
       expect(project.title.trim().length).toBeGreaterThan(0);
@@ -69,7 +78,6 @@ describe("home text model", () => {
       expect(work.description.trim().length).toBeGreaterThan(0);
       expect(work.dateRange.trim().length).toBeGreaterThan(0);
       expect(work.imageSrc.startsWith("/")).toBe(true);
-      expect(work.imageAlt.trim().length).toBeGreaterThan(0);
     }
 
     for (const image of homeText.intro.about.images) {

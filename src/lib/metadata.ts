@@ -3,15 +3,20 @@ import {appConfig} from "@/lib/config/app-config";
 import type {ContentPageRoute} from "@/lib/config/site-routes";
 
 const {
-  metadata: {socialPreview},
+  metadata: {locale, socialPreview},
   owner,
+  social,
 } = appConfig;
+
+export const socialPreviewContentType = "image/png";
+export const socialPreviewImageAlt = `${owner.name} portfolio preview`;
 
 const socialPreviewImage = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: `${owner.name} portfolio preview`,
+  type: socialPreviewContentType,
+  alt: socialPreviewImageAlt,
 };
 
 export const socialPreviewImageSize = {
@@ -19,16 +24,19 @@ export const socialPreviewImageSize = {
   height: socialPreviewImage.height,
 };
 
-export const socialPreviewContentType = "image/png";
-
 export const sharedOpenGraph = {
+  type: "website",
+  locale,
+  siteName: owner.name,
   images: [socialPreviewImage],
-};
+} satisfies Metadata["openGraph"];
 
 export const sharedTwitter = {
   card: "summary_large_image",
-  images: [socialPreviewImage.url],
-};
+  site: social.xHandle,
+  creator: social.xHandle,
+  images: [socialPreviewImage],
+} satisfies Metadata["twitter"];
 
 type ContentPageMetadataInput = {
   route: ContentPageRoute;

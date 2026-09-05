@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: notFoundPage.hero.title,
   description: notFoundPage.hero.subtitle,
   alternates: {canonical: null},
+  openGraph: null,
+  twitter: null,
 };
 
 export default function NotFoundPage() {

@@ -1,12 +1,13 @@
 export const appConfig = {
   metadata: {
     language: "en",
+    locale: "en_US",
     title: {
       default: "Simone Siega | Computer Engineer",
       template: "%s | Simone Siega",
     },
     description:
-      "Personal portfolio of Simone Siega, showcasing software engineering projects, skills, and experience.",
+      "Portfolio of Simone Siega, a Computer Engineering student building developer tools, backend systems, and production software.",
     iconPath: "/icon.svg",
     socialPreview: {
       domain: "simonesiega.com",
@@ -35,17 +36,20 @@ export const appConfig = {
   social: {
     githubUrl: "https://github.com/simonesiega",
     linkedinUrl: "https://linkedin.com/in/simonesiega",
+    xUrl: "https://x.com/simonesiega_",
+    xHandle: "@simonesiega_",
     labels: {
       github: "GitHub",
       linkedin: "LinkedIn",
+      x: "X / Twitter",
     },
   },
 
   analytics: {
     umami: {
       enabled: process.env.NEXT_PUBLIC_UMAMI_ENABLED === "true",
-      scriptSrc: process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC,
-      websiteId: process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID,
+      scriptSrc: process.env.NEXT_PUBLIC_UMAMI_SCRIPT_SRC?.trim(),
+      websiteId: process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID?.trim(),
     },
   },
 

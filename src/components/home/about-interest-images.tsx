@@ -40,14 +40,15 @@ export function AboutInterestImages({
     }
 
     let hasScrolled = false;
-    const handleScroll = () => {
-      hasScrolled = true;
-      window.removeEventListener("scroll", handleScroll);
-    };
+    let scrollFrameId = 0;
     const mobileMedia = window.matchMedia(mobileQuery);
     const observers: IntersectionObserver[] = [];
 
     const revealItem = (item: HTMLElement, index: number) => {
+      if (item.classList.contains("about-interest-reveal--visible")) {
+        return;
+      }
+
       if (hasScrolled) {
         item.style.setProperty(
           "--about-image-delay",
@@ -56,7 +57,33 @@ export function AboutInterestImages({
       }
 
       item.classList.add("about-interest-reveal--visible");
+
+      if (
+        items.every(({item: candidate}) =>
+          candidate.classList.contains("about-interest-reveal--visible")
+        )
+      ) {
+        window.removeEventListener("scroll", handleScroll);
+      }
     };
+
+    function handleScroll() {
+      hasScrolled = true;
+      if (scrollFrameId !== 0) {
+        return;
+      }
+
+      scrollFrameId = window.requestAnimationFrame(() => {
+        scrollFrameId = 0;
+
+        // IntersectionObserver can miss items skipped during a fast scroll.
+        items.forEach(({item, index}) => {
+          if (item.getBoundingClientRect().top < 0) {
+            revealItem(item, index);
+          }
+        });
+      });
+    }
 
     const setupObservers = () => {
       observers.splice(0).forEach((observer) => observer.disconnect());
@@ -103,6 +130,7 @@ export function AboutInterestImages({
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.cancelAnimationFrame(scrollFrameId);
       mobileMedia.removeEventListener("change", setupObservers);
       observers.forEach((observer) => observer.disconnect());
     };
@@ -131,7 +159,6 @@ export function AboutInterestImages({
               width={aboutImage.width}
               height={aboutImage.height}
               sizes="(max-width: 429px) calc(100vw - 5.75rem), 180px"
-              loading={aboutImage.eagerFirstImage && index === 0 ? "eager" : "lazy"}
               className="about-interest-image aspect-[9/11] w-full rounded-md object-cover"
             />
             <figcaption className="mt-2 text-[0.68rem] font-medium tracking-[0.04em] text-[var(--header-item-color)]/82">

@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {ParticleNetwork} from "@/components/animation/particle-network";
 import {SecondaryPageLayout} from "@/components/secondary-page/secondary-page-layout";
-import {WorkExperienceCard} from "@/components/work/work-experience-section";
+import {WorkExperienceCard} from "@/components/work/work-experience-card";
 import {animationTimings} from "@/lib/animation/animation-timings";
 import {contentPageSeo} from "@/lib/config/site-routes";
 import {workText} from "@/lib/config/text/work";

@@ -37,7 +37,7 @@ export function WorkExperienceCard({
               <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[var(--card-border)] bg-[color-mix(in_srgb,var(--ui-fg)_4%,transparent)]">
                 <Image
                   src={experience.logoSrc}
-                  alt={experience.logoAlt}
+                  alt=""
                   width={workMedia.logo.width}
                   height={workMedia.logo.height}
                   className="h-full w-full object-cover"

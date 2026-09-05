@@ -25,11 +25,20 @@ type ProjectShowcaseAction =
       href: string;
     };
 
-export type ProjectsPageProject = {
+type ProjectLandingPageVisibility =
+  | {
+      showOnLandingPage: true;
+      landingPageDescription: string;
+    }
+  | {
+      showOnLandingPage: false;
+      landingPageDescription?: never;
+    };
+
+export type ProjectsPageProject = ProjectLandingPageVisibility & {
   slug: string;
   title: string;
   pinned: boolean;
-  showOnLandingPage: boolean;
   githubUrl?: string;
   demoUrls?: readonly ProjectDemoLink[];
   showcaseAction?: ProjectShowcaseAction;
@@ -65,8 +74,6 @@ export type ProjectsText = {
   seo: {
     projectsPageTitle: string;
     caseStudyTitleSuffix: string;
-    caseStudyFallbackTitle: string;
-    caseStudyFallbackDescription: string;
   };
   caseStudyPage: {
     minReadSuffix: string;

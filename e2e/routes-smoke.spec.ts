@@ -1,5 +1,5 @@
 import {expect, test} from "@playwright/test";
-import {appRoutes} from "./helpers/projects-fixtures";
+import {getAppRoutes} from "./helpers/sitemap";
 
 test("fast scrolling reveals landing content without skipping transitions", async ({page}) => {
   await page.setViewportSize({width: 375, height: 500});
@@ -13,7 +13,8 @@ test("fast scrolling reveals landing content without skipping transitions", asyn
   ];
   const workReveal = sectionReveals[2]!;
   const aboutReveal = sectionReveals.at(-1)!;
-  const visibleImage = page.locator(".about-interest-reveal--visible").first();
+  const interestImageReveals = page.locator(".about-interest-reveal");
+  const firstInterestImageReveal = interestImageReveals.first();
   const footerReveal = page.locator("footer").locator("..");
 
   await workReveal.evaluate((element) => {
@@ -34,7 +35,14 @@ test("fast scrolling reveals landing content without skipping transitions", asyn
       );
     })
     .toBe(true);
-  await expect(visibleImage).toBeAttached();
+  expect(await interestImageReveals.count()).toBeGreaterThan(0);
+  await expect
+    .poll(() =>
+      interestImageReveals.evaluateAll((elements) =>
+        elements.every((element) => element.classList.contains("about-interest-reveal--visible"))
+      )
+    )
+    .toBe(true);
   await expect(footerReveal).toHaveClass(/scroll-reveal--visible/);
 
   for (const sectionReveal of sectionReveals) {
@@ -52,7 +60,7 @@ test("fast scrolling reveals landing content without skipping transitions", asyn
   const aboutDelay = await aboutReveal.evaluate((element) =>
     Number.parseFloat(getComputedStyle(element).transitionDelay)
   );
-  const imageDelay = await visibleImage.evaluate((element) =>
+  const imageDelay = await firstInterestImageReveal.evaluate((element) =>
     Number.parseFloat(getComputedStyle(element).transitionDelay)
   );
   const footerDelay = await footerReveal.evaluate((element) =>
@@ -99,11 +107,43 @@ test("particle network responds to reduced-motion changes", async ({page}) => {
   await expect(page.locator("canvas")).toHaveCount(0);
 });
 
-test.describe("app routes smoke", () => {
+test("every sitemap route renders a responsive shell without browser errors", async ({
+  page,
+  request,
+}) => {
+  const appRoutes = await getAppRoutes(request);
+  const browserErrors: string[] = [];
+
+  await page.setViewportSize({width: 320, height: 720});
+
+  page.on("pageerror", (error) => browserErrors.push(error.message));
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      browserErrors.push(message.text());
+    }
+  });
+
   for (const route of appRoutes) {
-    test(`${route} renders a main landmark`, async ({page}) => {
-      await page.goto(route);
+    await test.step(route, async () => {
+      browserErrors.length = 0;
+      const response = await page.goto(route);
+
+      expect(response?.status()).toBe(200);
       await expect(page.getByRole("main")).toBeVisible();
+      await expect(page.getByRole("heading", {level: 1})).toHaveCount(1);
+      await page.evaluate(
+        () =>
+          new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+          )
+      );
+
+      const {viewportWidth, contentWidth} = await page.evaluate(() => ({
+        viewportWidth: document.documentElement.clientWidth,
+        contentWidth: document.documentElement.scrollWidth,
+      }));
+      expect(contentWidth).toBeLessThanOrEqual(viewportWidth);
+      expect(browserErrors).toEqual([]);
     });
   }
 });

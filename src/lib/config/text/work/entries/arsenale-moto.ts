@@ -1,11 +1,11 @@
 import type {WorkPageExperience} from "../types";
 
-export const arsenalemotoExperience = {
-  id: "arsenalemoto",
+export const arsenaleMotoExperience = {
+  id: "arsenale-moto",
   sortStart: "2026-05",
   showOnLandingPage: true,
-  logoSrc: "/work/logos/Arsenale.webp",
-  logoAlt: "Arsenale Moto logo",
+  landingPageDescription: "Full-Stack Developer",
+  logoSrc: "/work/logos/arsenale-moto.webp",
   dateRange: "May 2026 — Jul 2026",
   role: "Full-Stack Developer — Contract",
   company: "Arsenale Moto",

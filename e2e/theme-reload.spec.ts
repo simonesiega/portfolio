@@ -1,5 +1,8 @@
 import {expect, test} from "@playwright/test";
-import {appRoutes, themeStorageKey} from "./helpers/projects-fixtures";
+import {appConfig} from "../src/lib/config/app-config";
+import {getAppRoutes} from "./helpers/sitemap";
+
+const themeStorageKey = appConfig.theme.storageKey;
 
 test("theme preference persists after reload", async ({page}) => {
   await page.goto("/");
@@ -36,31 +39,41 @@ test("theme preference persists after reload", async ({page}) => {
   await expect.poll(async () => page.locator("html").getAttribute("data-theme")).toBe("light");
 });
 
-test.describe("theme initialization", () => {
-  for (const route of appRoutes) {
-    test(`${route} resolves system light before hydration`, async ({page}) => {
-      await page.addInitScript((storageKey) => {
-        window.localStorage.setItem(storageKey, "system");
-      }, themeStorageKey);
+test("every sitemap route resolves the system light theme", async ({page, request}) => {
+  const appRoutes = await getAppRoutes(request);
 
-      await page.emulateMedia({colorScheme: "light"});
+  await page.addInitScript((storageKey) => {
+    window.localStorage.setItem(storageKey, "system");
+  }, themeStorageKey);
+  await page.emulateMedia({colorScheme: "light"});
+
+  for (const route of appRoutes) {
+    await test.step(route, async () => {
       await page.goto(route);
 
-      await expect.poll(async () => page.locator("html").getAttribute("data-theme")).toBe("light");
+      await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
       expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(
         "rgb(255, 255, 255)"
       );
     });
+  }
+});
 
-    test(`${route} resolves system dark before hydration`, async ({page}) => {
-      await page.addInitScript((storageKey) => {
-        window.localStorage.setItem(storageKey, "system");
-      }, themeStorageKey);
+test("every sitemap route resolves the system dark theme", async ({page, request}) => {
+  const appRoutes = await getAppRoutes(request);
 
-      await page.emulateMedia({colorScheme: "dark"});
+  await page.addInitScript((storageKey) => {
+    window.localStorage.setItem(storageKey, "system");
+  }, themeStorageKey);
+  await page.emulateMedia({colorScheme: "dark"});
+
+  for (const route of appRoutes) {
+    await test.step(route, async () => {
       await page.goto(route);
-
-      await expect.poll(async () => page.locator("html").getAttribute("data-theme")).toBe("dark");
+      await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+      expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(
+        "rgb(0, 0, 0)"
+      );
     });
   }
 });

@@ -19,17 +19,23 @@ const themeTransitionStyle = {
 
 export const metadata: Metadata = {
   metadataBase,
+  applicationName: `${owner.name} Portfolio`,
   title: metadataConfig.title,
   description: metadataConfig.description,
+  authors: [{name: owner.name, url: metadataBase}],
+  creator: owner.name,
+  publisher: owner.name,
+  category: "technology",
+  robots: {
+    index: true,
+    follow: true,
+  },
   alternates: {
     canonical: "/",
   },
   openGraph: {
     ...sharedOpenGraph,
-    type: "website",
-    locale: "en_US",
     url: "/",
-    siteName: owner.name,
     title: metadataConfig.title.default,
     description: metadataConfig.description,
   },
@@ -51,7 +57,6 @@ export default function RootLayout({
   return (
     <html lang={metadataConfig.language} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        <Script src="/runtime-init.js" strategy="beforeInteractive" />
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
         </Script>

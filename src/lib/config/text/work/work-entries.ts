@@ -1,8 +1,8 @@
+import {arsenaleMotoExperience} from "./entries/arsenale-moto";
 import {dacosSrlExperience} from "./entries/dacos-srl";
-import {novaideaExperience} from "./entries/novaidea";
-import {arsenalemotoExperience} from "./entries/arsenalemoto";
+import {newArtVanguardExperience} from "./entries/new-art-vanguard";
 
-const workEntries = [arsenalemotoExperience, novaideaExperience, dacosSrlExperience] as const;
+const workEntries = [arsenaleMotoExperience, newArtVanguardExperience, dacosSrlExperience] as const;
 
 export const workExperiences = workEntries.toSorted((first, second) =>
   second.sortStart.localeCompare(first.sortStart)

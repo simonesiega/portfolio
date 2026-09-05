@@ -1,4 +1,3 @@
-import type {Metadata} from "next";
 import Image from "next/image";
 import type {ComponentType} from "react";
 import {FileDown} from "lucide-react";
@@ -29,15 +28,6 @@ const socialIcons: Record<
   x: FaXTwitter,
 };
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    url: "/",
-  },
-};
-
 export default function Home() {
   const getSectionRevealDelayMs = (index: number) =>
     homeIntro.section.delayMs + index * homeIntro.section.stepDelayMs;
@@ -65,7 +55,7 @@ export default function Home() {
                 alt={intro.profileImage.alt}
                 width={homeMedia.profileImage.width}
                 height={homeMedia.profileImage.height}
-                priority={homeMedia.profileImage.priority}
+                preload
                 className="h-[60px] w-[60px] rounded-full object-cover"
               />
             </RouteReveal>
@@ -224,7 +214,7 @@ export default function Home() {
                     <div className="flex min-w-0 items-center gap-3">
                       <Image
                         src={item.imageSrc}
-                        alt={item.imageAlt}
+                        alt=""
                         width={homeMedia.workLogo.width}
                         height={homeMedia.workLogo.height}
                         className="h-[22px] w-[22px] shrink-0 rounded-full object-cover"

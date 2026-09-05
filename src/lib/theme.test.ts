@@ -122,6 +122,22 @@ describe("theme utilities", () => {
     expect(() => setStoredThemePreference(themePreference.dark)).not.toThrow();
   });
 
+  it("falls back to dark when the system preference cannot be read", () => {
+    const {attributes} = installBrowserGlobals();
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: {
+        localStorage: {getItem: vi.fn(), setItem: vi.fn()},
+        matchMedia: vi.fn(() => {
+          throw new Error("media unavailable");
+        }),
+      },
+    });
+
+    expect(() => applyThemePreference(themePreference.system)).not.toThrow();
+    expect(attributes.get(themeAttribute)).toBe(themePreference.dark);
+  });
+
   it("is safe when localStorage access is restricted", () => {
     installBrowserGlobals();
     Object.defineProperty(globalThis, "window", {

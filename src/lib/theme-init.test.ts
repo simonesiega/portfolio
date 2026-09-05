@@ -33,7 +33,16 @@ function installThemeInitGlobals({
   matchMedia?: (query: string) => {matches: boolean};
 } = {}) {
   const attributes = new Map<string, string>();
+  const classes = new Set<string>();
   const documentElement = {
+    classList: {
+      add: vi.fn((...classNames: string[]) => {
+        classNames.forEach((className) => classes.add(className));
+      }),
+      remove: vi.fn((...classNames: string[]) => {
+        classNames.forEach((className) => classes.delete(className));
+      }),
+    },
     setAttribute: vi.fn((name: string, value: string) => {
       attributes.set(name, value);
     }),
@@ -49,10 +58,16 @@ function installThemeInitGlobals({
   });
   Object.defineProperty(globalThis, "window", {
     configurable: true,
-    value: {matchMedia: vi.fn(matchMedia)},
+    value: {
+      matchMedia: vi.fn(matchMedia),
+      requestAnimationFrame: vi.fn((callback: FrameRequestCallback) => {
+        callback(0);
+        return 1;
+      }),
+    },
   });
 
-  return {attributes};
+  return {attributes, classes};
 }
 
 describe("theme init script", () => {
@@ -97,6 +112,8 @@ describe("theme init script", () => {
     const missingBrowser = installThemeInitGlobals();
     runThemeInitScript();
     expect(missingBrowser.attributes.get(themeAttribute)).toBe(themePreference.dark);
+    expect(missingBrowser.classes.has("js")).toBe(true);
+    expect(missingBrowser.classes.has("theme-initializing")).toBe(false);
 
     const invalidBrowser = installThemeInitGlobals({getItem: () => "sepia"});
     runThemeInitScript();

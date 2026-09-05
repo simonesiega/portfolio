@@ -21,9 +21,6 @@ export const projectsSections = {
 export const projectsSeo = {
   projectsPageTitle: "Projects",
   caseStudyTitleSuffix: "case study",
-  caseStudyFallbackTitle: "Project case study",
-  caseStudyFallbackDescription:
-    "Detailed progress notes for selected project work, including implementation steps and outcomes.",
 } as const satisfies ProjectsText["seo"];
 
 export const projectsCaseStudyPage = {

@@ -3,7 +3,6 @@ export const mediaConfig = {
     profileImage: {
       width: 60,
       height: 60,
-      priority: true,
     },
     workLogo: {
       width: 22,
@@ -12,7 +11,6 @@ export const mediaConfig = {
     aboutImage: {
       width: 180,
       height: 220,
-      eagerFirstImage: true,
     },
   },
   work: {

@@ -51,16 +51,16 @@ The environment file is optional for basic local development. It becomes importa
 
 ## Configuration
 
-| Variable | Purpose |
-| --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Public origin used for canonical metadata, sitemap, and robots output. |
-| `SITE_URL` | Server-side fallback for the public origin and the default Docker build origin. |
-| `NEXT_PUBLIC_UMAMI_ENABLED` | Enables optional Umami analytics when set to `true`. |
-| `NEXT_PUBLIC_UMAMI_SCRIPT_SRC` | URL of the Umami script; also informs the production CSP. |
-| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Umami website identifier supplied at build time. |
-| `CSP_MODE` | Selects `off`, `report-only`, or `enforce`; production defaults to `enforce`. |
-| `CSP_REPORT_URI` | Optional endpoint for CSP violation reports. |
-| `CSP_CONNECT_SRC_EXTRA` | Optional space-separated additions to the CSP `connect-src` directive. |
+| Variable                       | Purpose                                                                         |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`         | Public origin used for canonical metadata, sitemap, and robots output.          |
+| `SITE_URL`                     | Server-side fallback for the public origin and the default Docker build origin. |
+| `NEXT_PUBLIC_UMAMI_ENABLED`    | Enables optional Umami analytics when set to `true`.                            |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_SRC` | URL of the Umami script; also informs the production CSP.                       |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Umami website identifier supplied at build time.                                |
+| `CSP_MODE`                     | Selects `off`, `report-only`, or `enforce`; production defaults to `enforce`.   |
+| `CSP_REPORT_URI`               | Optional endpoint for CSP violation reports.                                    |
+| `CSP_CONNECT_SRC_EXTRA`        | Optional space-separated additions to the CSP `connect-src` directive.          |
 
 Production builds require `NEXT_PUBLIC_SITE_URL` or `SITE_URL` so generated URLs never depend on an inferred deployment origin.
 
@@ -78,6 +78,8 @@ It checks formatting, linting, TypeScript, unit tests, and a production build. B
 bunx playwright install chromium
 bun run test:e2e
 ```
+
+The browser suite discovers indexable routes from the generated sitemap and validates registered work entries directly, so new projects and experience entries do not require duplicated test fixtures.
 
 GitHub Actions repeats those checks on pushes and pull requests. Additional workflows build the standalone application, audit dependencies, run CodeQL, and scan the Docker image for high and critical vulnerabilities.
 

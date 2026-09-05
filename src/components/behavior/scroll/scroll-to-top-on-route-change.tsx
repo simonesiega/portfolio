@@ -20,15 +20,17 @@ export function ScrollToTopOnRouteChange() {
       window.history.scrollRestoration = "manual";
     }
 
+    let restoreFrameId = 0;
     beginRouteNavigationScrollMode();
-    window.requestAnimationFrame(() => {
+    const resetFrameId = window.requestAnimationFrame(() => {
       resetScrollTopInstant();
-      window.requestAnimationFrame(() => {
-        restoreSmoothScrollMode();
-      });
+      restoreFrameId = window.requestAnimationFrame(restoreSmoothScrollMode);
     });
 
     return () => {
+      window.cancelAnimationFrame(resetFrameId);
+      window.cancelAnimationFrame(restoreFrameId);
+
       if (previousScrollRestoration && "scrollRestoration" in window.history) {
         window.history.scrollRestoration = previousScrollRestoration;
       }
@@ -40,14 +42,18 @@ export function ScrollToTopOnRouteChange() {
       return;
     }
 
+    let restoreFrameId = 0;
     beginRouteNavigationScrollMode();
     resetScrollTopInstant();
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        restoreSmoothScrollMode();
-      });
+    const settleFrameId = window.requestAnimationFrame(() => {
+      restoreFrameId = window.requestAnimationFrame(restoreSmoothScrollMode);
     });
     previousPathRef.current = pathname;
+
+    return () => {
+      window.cancelAnimationFrame(settleFrameId);
+      window.cancelAnimationFrame(restoreFrameId);
+    };
   }, [pathname]);
 
   return null;

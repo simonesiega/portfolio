@@ -169,7 +169,7 @@ function drawDust({
 function buildSpatialGrid(particles: Particle[], cellSize: number) {
   const grid = new Map<string, number[]>();
 
-  // Each particle is assigned to a cell based on its coordinates. The grid is a map where the key is a string of the form "cellX,cellY" and the value is an array of particle indexes that fall into that cell. This allows for efficient retrieval of nearby particles by only checking the current cell and its 8 neighbors, rather than all particles.
+  // Neighbor checks only need the current cell and its eight adjacent cells.
   for (const [index, particle] of particles.entries()) {
     const cellX = Math.floor(particle.x / cellSize);
     const cellY = Math.floor(particle.y / cellSize);

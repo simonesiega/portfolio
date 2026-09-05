@@ -1,8 +1,13 @@
 import {ImageResponse} from "next/og";
-import {socialPreviewContentType, socialPreviewImageSize, socialPreviewText} from "@/lib/metadata";
+import {
+  socialPreviewContentType,
+  socialPreviewImageAlt,
+  socialPreviewImageSize,
+  socialPreviewText,
+} from "@/lib/metadata";
 
+export const alt = socialPreviewImageAlt;
 export const size = socialPreviewImageSize;
-
 export const contentType = socialPreviewContentType;
 
 const outerStyle = {

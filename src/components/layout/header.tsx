@@ -9,7 +9,6 @@ import {
   useEffect,
   useState,
   useCallback,
-  useMemo,
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
 } from "react";
@@ -64,10 +63,7 @@ export function Header({
   const [indicatorMotion, setIndicatorMotion] = useState<"none" | "spawn" | "slide">("none");
   const [brandBounceActive, setBrandBounceActive] = useState(false);
 
-  const activeNavHref = useMemo(
-    () => resolveActiveNavHref(pathname, navItems),
-    [navItems, pathname]
-  );
+  const activeNavHref = resolveActiveNavHref(pathname, navItems);
   const previousActiveNavHrefRef = useRef<string | null>(activeNavHref);
 
   const measureIndicator = useCallback(() => {
