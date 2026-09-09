@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # deps
-FROM oven/bun:1.3.14-alpine@sha256:5acc90a93e91ff07bf72aa90a7c9f0fa189765aec90b47bdbf2152d2196383c0 AS deps
+FROM oven/bun:1.4.2-alpine@sha256:d888c0ae6c86d7866ff10c5aafdd9077b36aee6455b33dd270fb93c0dd5cef6f AS deps
 WORKDIR /app
 ENV HUSKY=0
 COPY package.json bun.lock ./
