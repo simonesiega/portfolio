@@ -8,7 +8,10 @@ html[data-scroll-behavior="auto"] {
 
 html.theme-initializing *,
 html.theme-initializing *::before,
-html.theme-initializing *::after {
+html.theme-initializing *::after,
+html.motion-initializing *,
+html.motion-initializing *::before,
+html.motion-initializing *::after {
   transition: none !important;
 }
 

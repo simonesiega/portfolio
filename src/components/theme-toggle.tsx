@@ -6,15 +6,17 @@ import {animationTimings} from "@/lib/animation/animation-timings";
 import {appConfig} from "@/lib/config/app-config";
 import {
   applyThemePreference,
+  getAppliedThemePreference,
   getStoredThemePreference,
   isLightThemeActive,
+  parseThemePreference,
   setStoredThemePreference,
   type ThemePreference,
   themePreference,
 } from "@/lib/theme";
 
 const fallbackThemePreference: ThemePreference = themePreference.dark;
-const {labels: themeLabels, prefersLightMediaQuery} = appConfig.theme;
+const {labels: themeLabels, prefersLightMediaQuery, storageKey} = appConfig.theme;
 const themeChangingClassName = "theme-changing";
 
 function applyThemeWithoutColorTransitions(preference: ThemePreference) {
@@ -35,7 +37,7 @@ export function ThemeToggle() {
   const [resolvedMode, setResolvedMode] = useState<"light" | "dark">(themePreference.dark);
 
   function syncThemeState(preference?: ThemePreference) {
-    const selectedTheme = preference ?? getStoredThemePreference() ?? fallbackThemePreference;
+    const selectedTheme = preference ?? getAppliedThemePreference() ?? fallbackThemePreference;
     setSelectedPreference(selectedTheme);
     setResolvedMode(isLightThemeActive() ? themePreference.light : themePreference.dark);
   }
@@ -48,13 +50,16 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(prefersLightMediaQuery);
-    const syncOnMount = window.setTimeout(
-      syncThemeState,
-      animationTimings.themeTransition.syncDelayMs
-    );
+    const syncOnMount = window.setTimeout(() => {
+      const preference =
+        getAppliedThemePreference() ?? getStoredThemePreference() ?? fallbackThemePreference;
+      // Re-resolve system mode in case it changed between the init script and hydration.
+      applyThemeWithoutColorTransitions(preference);
+      syncThemeState(preference);
+    }, animationTimings.themeTransition.syncDelayMs);
 
     function handleSystemThemeChange() {
-      if (getStoredThemePreference() !== themePreference.system) {
+      if (getAppliedThemePreference() !== themePreference.system) {
         return;
       }
 
@@ -62,11 +67,31 @@ export function ThemeToggle() {
       syncThemeState(themePreference.system);
     }
 
+    function handleStorageChange(event: StorageEvent) {
+      try {
+        if (
+          event.storageArea !== window.localStorage ||
+          (event.key !== storageKey && event.key !== null)
+        ) {
+          return;
+        }
+      } catch {
+        // Access can be blocked even when an unrelated storage event arrives.
+        return;
+      }
+
+      const preference = parseThemePreference(event.newValue) ?? fallbackThemePreference;
+      applyThemeWithoutColorTransitions(preference);
+      syncThemeState(preference);
+    }
+
     mediaQuery.addEventListener("change", handleSystemThemeChange);
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.clearTimeout(syncOnMount);
       mediaQuery.removeEventListener("change", handleSystemThemeChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 

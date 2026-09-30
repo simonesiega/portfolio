@@ -60,6 +60,7 @@ export const appConfig = {
 
   theme: {
     attributeName: "data-theme",
+    preferenceAttributeName: "data-theme-preference",
     storageKey: "portfolio-theme",
     prefersLightMediaQuery: "(prefers-color-scheme: light)",
     labels: {
