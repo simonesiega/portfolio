@@ -50,6 +50,39 @@ test("every sitemap route publishes complete canonical and social metadata", asy
       expect(await page.locator('meta[name="robots"]').getAttribute("content")).toBe(
         "index, follow"
       );
+      const structuredDataScripts = await page
+        .locator('script[type="application/ld+json"]')
+        .allTextContents();
+      expect(structuredDataScripts).toHaveLength(1);
+
+      const structuredData = JSON.parse(structuredDataScripts[0]!) as {
+        "@context": string;
+        "@graph": Array<{
+          "@type": string;
+          "@id": string;
+          [property: string]: unknown;
+        }>;
+      };
+      const [person, website] = structuredData["@graph"];
+
+      expect(structuredData["@context"]).toBe("https://schema.org");
+      expect(person).toMatchObject({
+        "@type": "Person",
+        "@id": `${sitemapUrl.origin}/#person`,
+        name: appConfig.owner.name,
+        url: `${sitemapUrl.origin}/`,
+        sameAs: [appConfig.social.githubUrl, appConfig.social.linkedinUrl, appConfig.social.xUrl],
+      });
+      expect(website).toMatchObject({
+        "@type": "WebSite",
+        "@id": `${sitemapUrl.origin}/#website`,
+        url: `${sitemapUrl.origin}/`,
+        name: appConfig.owner.name,
+        alternateName: `${appConfig.owner.name} Portfolio`,
+        inLanguage: appConfig.metadata.language,
+        publisher: {"@id": `${sitemapUrl.origin}/#person`},
+      });
+
       expect(await page.locator('link[rel="icon"]').getAttribute("href")).toBe(
         appConfig.metadata.iconPath
       );

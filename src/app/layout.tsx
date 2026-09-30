@@ -3,6 +3,7 @@ import Script from "next/script";
 import {geistSans} from "@/lib/fonts";
 import {appConfig} from "@/lib/config/app-config";
 import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
+import {createPortfolioStructuredData, serializeJsonLd} from "@/lib/structured-data";
 import {getSiteUrl} from "@/lib/site-url";
 import {themeInitScript} from "@/lib/theme-init";
 import {motionInitScript} from "@/lib/motion-init";
@@ -12,6 +13,7 @@ import {animationTimings, toMs} from "@/lib/animation/animation-timings";
 import "./globals.css";
 
 const metadataBase = getSiteUrl();
+const structuredData = serializeJsonLd(createPortfolioStructuredData(metadataBase));
 const {owner, navigation, social, metadata: metadataConfig, analytics} = appConfig;
 const themeTransitionStyle = {
   "--theme-transition-duration": toMs(animationTimings.themeTransition.durationMs),
@@ -58,6 +60,11 @@ export default function RootLayout({
   return (
     <html lang={metadataConfig.language} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
+        <script
+          id="portfolio-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: structuredData}}
+        />
         <script id="theme-init" dangerouslySetInnerHTML={{__html: themeInitScript}} />
         {/* Keep SSR content visible if the application bundles fail to load. */}
         <Script id="motion-init" strategy="beforeInteractive">
