@@ -11,6 +11,8 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  checks: read
+  statuses: read
 
 jobs:
   auto-merge:
@@ -35,7 +37,16 @@ jobs:
             steps.metadata.outputs.package-ecosystem == 'github-actions' &&
             steps.metadata.outputs.update-type != 'version-update:semver-major'
           )
-        run: gh pr merge --auto --squash "$PR_URL"
+        run: |
+          # --auto merges immediately when the base branch has no required checks.
+          # Fail closed when GitHub reports no merge gates (or they cannot be read).
+          checks=$(gh pr checks "$PR_URL" --required --json name 2>/dev/null) || true
+          if [[ -z "$checks" ]] || ! jq -e 'type == "array" and length > 0' <<< "$checks" >/dev/null; then
+            echo "::warning::Auto-merge skipped: configure required status checks on the base branch first."
+            exit 0
+          fi
+          gh pr merge --auto --squash --match-head-commit "$HEAD_SHA" "$PR_URL"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
