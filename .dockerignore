@@ -13,4 +13,3 @@ test-results
 *.tsbuildinfo
 next-env.d.ts
 README.md
-docs

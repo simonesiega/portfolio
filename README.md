@@ -11,7 +11,7 @@ I build thoughtful software, explore complex systems, and turn ideas into produc
 <br />
 
 <a href="https://simonesiega.com">
-  <img src="docs/home-preview.gif" alt="Preview of Simone Siega's portfolio" width="100%" />
+  <img src=".github/assets/home-preview.gif" alt="Preview of Simone Siega's portfolio" width="100%" />
 </a>
 
 </div>
@@ -25,6 +25,8 @@ This repository contains the source for [simonesiega.com](https://simonesiega.co
 Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · MDX · Bun
 
 ## Run Locally
+
+Use Node 26 (`.node-version`) and the Bun version pinned in `package.json`.
 
 ```bash
 git clone https://github.com/simonesiega/portfolio.git
@@ -45,6 +47,12 @@ Open [localhost:3000](http://localhost:3000).
 | `bun run test`     | Run unit tests                                           |
 | `bun run test:e2e` | Run end-to-end tests                                     |
 | `bun run format`   | Format the codebase                                      |
+
+Before running browser tests, install Chromium, Firefox, and WebKit:
+
+```bash
+bunx playwright install --with-deps chromium firefox webkit
+```
 
 ## Project Structure
 

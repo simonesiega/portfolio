@@ -2,6 +2,7 @@ import {afterEach, describe, expect, it, vi} from "vitest";
 import {appConfig} from "@/lib/config/app-config";
 import {
   applyThemePreference,
+  getAppliedThemePreference,
   getStoredThemePreference,
   isLightThemeActive,
   setStoredThemePreference,
@@ -117,6 +118,7 @@ describe("theme utilities", () => {
     restoreGlobalProperty("window");
 
     expect(getStoredThemePreference()).toBeNull();
+    expect(getAppliedThemePreference()).toBeNull();
     expect(isLightThemeActive()).toBe(false);
     expect(() => applyThemePreference(themePreference.light)).not.toThrow();
     expect(() => setStoredThemePreference(themePreference.dark)).not.toThrow();
@@ -157,5 +159,11 @@ describe("theme utilities", () => {
 
     expect(getStoredThemePreference()).toBeNull();
     expect(() => setStoredThemePreference(themePreference.light)).not.toThrow();
+    applyThemePreference(themePreference.system);
+    expect(getAppliedThemePreference()).toBe(themePreference.system);
+    expect(isLightThemeActive()).toBe(false);
+    applyThemePreference(themePreference.light);
+    expect(getAppliedThemePreference()).toBe(themePreference.light);
+    expect(isLightThemeActive()).toBe(true);
   });
 });

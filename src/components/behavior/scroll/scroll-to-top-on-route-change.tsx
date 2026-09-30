@@ -45,6 +45,7 @@ export function ScrollToTopOnRouteChange() {
     let restoreFrameId = 0;
     beginRouteNavigationScrollMode();
     resetScrollTopInstant();
+    document.getElementById("main-content")?.focus({preventScroll: true});
     const settleFrameId = window.requestAnimationFrame(() => {
       restoreFrameId = window.requestAnimationFrame(restoreSmoothScrollMode);
     });

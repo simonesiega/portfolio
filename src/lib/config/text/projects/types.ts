@@ -2,6 +2,8 @@ import type {ComponentType} from "react";
 
 export type ProjectCaseStudyGalleryItem = {
   src: string;
+  width: number;
+  height: number;
   alt: string;
   caption?: string;
   thumbnailDescription?: string;

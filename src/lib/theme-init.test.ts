@@ -1,6 +1,7 @@
 import {afterEach, describe, expect, it, vi} from "vitest";
 import {appConfig} from "@/lib/config/app-config";
 import {themeInitScript} from "./theme-init";
+import {motionInitScript} from "./motion-init";
 import {themePreference} from "./theme";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
@@ -78,6 +79,15 @@ describe("theme init script", () => {
     vi.restoreAllMocks();
   });
 
+  it("enables motion separately, only after the application bundles are available", () => {
+    const browser = installThemeInitGlobals();
+    runThemeInitScript();
+    expect(browser.classes.has("js")).toBe(false);
+    Function(motionInitScript)();
+    expect(browser.classes.has("js")).toBe(true);
+    expect(browser.classes.has("motion-initializing")).toBe(false);
+  });
+
   it("applies stored explicit preferences before hydration", () => {
     const lightBrowser = installThemeInitGlobals({
       getItem: (key) => (key === storageKey ? themePreference.light : null),
@@ -99,6 +109,9 @@ describe("theme init script", () => {
     });
     runThemeInitScript();
     expect(lightBrowser.attributes.get(themeAttribute)).toBe(themePreference.light);
+    expect(lightBrowser.attributes.get(appConfig.theme.preferenceAttributeName)).toBe(
+      themePreference.system
+    );
 
     const darkBrowser = installThemeInitGlobals({
       getItem: () => themePreference.system,
@@ -112,12 +125,16 @@ describe("theme init script", () => {
     const missingBrowser = installThemeInitGlobals();
     runThemeInitScript();
     expect(missingBrowser.attributes.get(themeAttribute)).toBe(themePreference.dark);
-    expect(missingBrowser.classes.has("js")).toBe(true);
+    // Theme initialization must not hide content before the application is ready.
+    expect(missingBrowser.classes.has("js")).toBe(false);
     expect(missingBrowser.classes.has("theme-initializing")).toBe(false);
 
     const invalidBrowser = installThemeInitGlobals({getItem: () => "sepia"});
     runThemeInitScript();
     expect(invalidBrowser.attributes.get(themeAttribute)).toBe(themePreference.dark);
+    expect(invalidBrowser.attributes.get(appConfig.theme.preferenceAttributeName)).toBe(
+      themePreference.dark
+    );
   });
 
   it("still chooses a safe default when storage or media query access fails", () => {

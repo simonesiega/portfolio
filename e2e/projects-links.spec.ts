@@ -46,6 +46,35 @@ test("every project case study renders its content links", async ({page, request
   }
 });
 
+for (const slug of ["codex-limits", "cfg-parser"]) {
+  test(`gallery reserves its final size before ${slug} loads`, async ({page}) => {
+    await page.emulateMedia({reducedMotion: "reduce"});
+    let releaseImages!: () => void;
+    const imagesReady = new Promise<void>((resolve) => {
+      releaseImages = resolve;
+    });
+    await page.route("**/*", async (route) => {
+      if (route.request().resourceType() === "image") await imagesReady;
+      await route.continue();
+    });
+    try {
+      await page.goto(`/projects/${slug}`, {waitUntil: "domcontentloaded"});
+      const image = page.locator("figure > div img").first();
+      await expect(image).toHaveJSProperty("naturalWidth", 0);
+      const before = await image.boundingBox();
+      expect(before).not.toBeNull();
+      releaseImages();
+      await image.evaluate((element) => (element as HTMLImageElement).decode());
+      const after = await image.boundingBox();
+      expect(after?.width).toBeCloseTo(before!.width, 1);
+      // The image optimizer rounds resized dimensions to whole pixels.
+      expect(after?.height).toBeCloseTo(before!.height, 0);
+    } finally {
+      releaseImages();
+    }
+  });
+}
+
 test("multi-image project galleries switch the selected image", async ({page, request}) => {
   const projectRoutes = await getProjectRoutes(request);
   let testedGallery = false;

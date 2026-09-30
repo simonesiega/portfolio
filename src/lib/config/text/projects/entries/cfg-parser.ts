@@ -36,6 +36,8 @@ export const cfgParserProject = {
     gallery: [
       {
         src: "/projects/cfg-parser/diagram.svg",
+        width: 1200,
+        height: 840,
         alt: "CFG Parser architecture diagram",
         caption: galleryCaptions[0],
         href: "https://github.com/simonesiega/cfg-parser",

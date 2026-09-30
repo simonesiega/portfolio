@@ -8,7 +8,24 @@ export const themePreference = {
 
 export type ThemePreference = (typeof themePreference)[keyof typeof themePreference];
 
-const {storageKey, prefersLightMediaQuery, attributeName} = appConfig.theme;
+const {storageKey, prefersLightMediaQuery, attributeName, preferenceAttributeName} =
+  appConfig.theme;
+
+export function parseThemePreference(value: unknown): ThemePreference | null {
+  return value === themePreference.dark ||
+    value === themePreference.light ||
+    value === themePreference.system
+    ? value
+    : null;
+}
+
+export function getAppliedThemePreference() {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  return parseThemePreference(document.documentElement.getAttribute(preferenceAttributeName));
+}
 
 export function isLightThemeActive() {
   if (typeof document === "undefined") {
@@ -22,6 +39,9 @@ export function applyThemePreference(preference: ThemePreference) {
   if (typeof document === "undefined") {
     return;
   }
+
+  // Keep the selected mode across client navigations even when storage is blocked.
+  document.documentElement.setAttribute(preferenceAttributeName, preference);
 
   if (preference === themePreference.system) {
     applySystemTheme();
@@ -68,19 +88,7 @@ export function getStoredThemePreference() {
     return null;
   }
 
-  if (storedPreference === themePreference.dark) {
-    return themePreference.dark;
-  }
-
-  if (storedPreference === themePreference.light) {
-    return themePreference.light;
-  }
-
-  if (storedPreference === themePreference.system) {
-    return themePreference.system;
-  }
-
-  return null;
+  return parseThemePreference(storedPreference);
 }
 
 export function setStoredThemePreference(preference: ThemePreference) {

@@ -11,6 +11,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
+  workers: isCI ? 2 : undefined,
   reporter: "list",
   use: {
     baseURL: "http://127.0.0.1:3100",
@@ -22,9 +23,24 @@ export default defineConfig({
       name: "chromium",
       use: {...devices["Desktop Chrome"]},
     },
+    {
+      name: "firefox",
+      use: {...devices["Desktop Firefox"]},
+    },
+    {
+      name: "webkit",
+      use: {...devices["Desktop Safari"]},
+    },
   ],
   webServer: {
     command: "bun run test:e2e:server",
+    env: {
+      NEXT_PUBLIC_SITE_URL: "https://simonesiega.com",
+      NEXT_PUBLIC_UMAMI_ENABLED: "false",
+      CSP_MODE: "enforce",
+      CSP_REPORT_URI: "",
+      CSP_CONNECT_SRC_EXTRA: "",
+    },
     url: "http://127.0.0.1:3100",
     reuseExistingServer: false,
     timeout: 120_000,

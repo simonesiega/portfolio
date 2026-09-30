@@ -48,6 +48,8 @@ export const firstClientProjects = {
     gallery: [
       {
         src: "/projects/first-client-projects/new-art-vanguard.webp",
+        width: 1600,
+        height: 900,
         alt: "New Art Vanguard coming soon page",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
@@ -55,6 +57,8 @@ export const firstClientProjects = {
       },
       {
         src: "/projects/first-client-projects/arsenale-moto.webp",
+        width: 1920,
+        height: 1080,
         alt: "Arsenale Moto landing page",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],

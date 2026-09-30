@@ -53,6 +53,8 @@ export const codexLimitsProject = {
     gallery: [
       {
         src: "/projects/codex-limits/final-result-large.webp",
+        width: 964,
+        height: 783,
         alt: "Codex Limits terminal dashboard showing usage windows and reset-credit coupons",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
@@ -60,6 +62,8 @@ export const codexLimitsProject = {
       },
       {
         src: "/projects/codex-limits/opencode-result.webp",
+        width: 1760,
+        height: 937,
         alt: "Codex Limits read-only dashboard opened inside OpenCode",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],
@@ -67,6 +71,8 @@ export const codexLimitsProject = {
       },
       {
         src: "/projects/codex-limits/npm-package.webp",
+        width: 1233,
+        height: 880,
         alt: "Public npm page for the @simonesiega/codex-limits package",
         caption: galleryCaptions[2],
         thumbnailDescription: galleryThumbnailDescriptions?.[2],
@@ -74,6 +80,8 @@ export const codexLimitsProject = {
       },
       {
         src: "/projects/codex-limits/publish-workflow.webp",
+        width: 1902,
+        height: 746,
         alt: "Successful GitHub Actions workflow publishing Codex Limits to npm",
         caption: galleryCaptions[3],
         thumbnailDescription: galleryThumbnailDescriptions?.[3],

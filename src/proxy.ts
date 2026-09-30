@@ -32,11 +32,10 @@ function getHttpOrigin(value: string | undefined) {
 const umamiOrigin = umamiEnabled ? getHttpOrigin(umamiScriptSrc) : "";
 const umamiConnectOrigins = [
   ...(umamiOrigin ? [umamiOrigin] : []),
-  // Umami Cloud serves the tracker from cloud.umami.is but collects events on a separate origin.
   ...(umamiOrigin === "https://cloud.umami.is" ? ["https://gateway.umami.is"] : []),
 ];
 
-function createCspHeader() {
+function createCspHeader(isSecureRequest: boolean) {
   const scriptSrc = ["'self'", "'unsafe-inline'", ...(umamiOrigin ? [umamiOrigin] : [])];
   const connectSrc = ["'self'", ...umamiConnectOrigins, ...cspConnectSrcExtra];
 
@@ -66,7 +65,7 @@ function createCspHeader() {
     directives.push("report-to csp-endpoint");
   }
 
-  if (isProduction) {
+  if (isProduction && isSecureRequest) {
     directives.push("upgrade-insecure-requests");
   }
 
@@ -74,19 +73,16 @@ function createCspHeader() {
 }
 
 export function proxy(request: NextRequest) {
-  const accepts = request.headers.get("accept")?.toLowerCase() ?? "";
-
-  if (!accepts.includes("text/html")) {
-    return NextResponse.next();
-  }
-
   const response = NextResponse.next();
+  const isSecureRequest = request.nextUrl.protocol === "https:";
 
-  if (cspMode === "enforce") {
-    response.headers.set("Content-Security-Policy", createCspHeader());
-  } else if (cspMode === "report-only") {
-    response.headers.set("Content-Security-Policy-Report-Only", createCspHeader());
+  if (cspMode === "off") {
+    return response;
   }
+
+  const headerName =
+    cspMode === "enforce" ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only";
+  response.headers.set(headerName, createCspHeader(isSecureRequest));
 
   if (cspReportUri) {
     response.headers.set("Reporting-Endpoints", `csp-endpoint="${cspReportUri}"`);
@@ -96,13 +92,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    {
-      source: "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
-      missing: [
-        {type: "header", key: "next-router-prefetch"},
-        {type: "header", key: "purpose", value: "prefetch"},
-      ],
-    },
-  ],
+  matcher: ["/((?!_next/|favicon\\.ico$|robots\\.txt$|sitemap\\.xml$).*)"],
 };

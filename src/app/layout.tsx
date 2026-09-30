@@ -5,6 +5,7 @@ import {appConfig} from "@/lib/config/app-config";
 import {sharedOpenGraph, sharedTwitter} from "@/lib/metadata";
 import {getSiteUrl} from "@/lib/site-url";
 import {themeInitScript} from "@/lib/theme-init";
+import {motionInitScript} from "@/lib/motion-init";
 import {ScrollToTopOnRouteChange} from "@/components/behavior/scroll/scroll-to-top-on-route-change";
 import {Header} from "@/components/layout/header";
 import {animationTimings, toMs} from "@/lib/animation/animation-timings";
@@ -57,8 +58,10 @@ export default function RootLayout({
   return (
     <html lang={metadataConfig.language} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeInitScript}
+        <script id="theme-init" dangerouslySetInnerHTML={{__html: themeInitScript}} />
+        {/* Keep SSR content visible if the application bundles fail to load. */}
+        <Script id="motion-init" strategy="beforeInteractive">
+          {motionInitScript}
         </Script>
         {analytics.umami.enabled && analytics.umami.scriptSrc && analytics.umami.websiteId ? (
           <script
@@ -74,6 +77,7 @@ export default function RootLayout({
       >
         <a
           href="#main-content"
+          tabIndex={0}
           className={`${geistSans.className} fixed top-3 left-3 z-[60] -translate-y-24 rounded-md bg-[var(--ui-bg)] px-4 py-2 font-semibold text-[var(--ui-fg)] shadow-lg transition-transform duration-200 focus:translate-y-0 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ui-fg)]`}
         >
           {navigation.skipToContentLabel}

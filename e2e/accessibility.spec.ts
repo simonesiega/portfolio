@@ -5,26 +5,32 @@ import {getAppRoutes} from "./helpers/sitemap";
 
 const colorSchemes = ["light", "dark"] as const;
 
-test("every sitemap route has no automated WCAG A or AA violations", async ({page, request}) => {
-  const appRoutes = await getAppRoutes(request);
+for (const width of [390, 1280]) {
+  test(`every sitemap route has no automated WCAG A or AA violations at ${width}px`, async ({
+    page,
+    request,
+  }) => {
+    const appRoutes = await getAppRoutes(request);
+    await page.setViewportSize({width, height: 900});
 
-  await page.addInitScript((storageKey) => {
-    window.localStorage.setItem(storageKey, "system");
-  }, appConfig.theme.storageKey);
+    await page.addInitScript((storageKey) => {
+      window.localStorage.setItem(storageKey, "system");
+    }, appConfig.theme.storageKey);
 
-  for (const colorScheme of colorSchemes) {
-    await page.emulateMedia({colorScheme, reducedMotion: "reduce"});
+    for (const colorScheme of colorSchemes) {
+      await page.emulateMedia({colorScheme, reducedMotion: "reduce"});
 
-    for (const route of appRoutes) {
-      await test.step(`${colorScheme}: ${route}`, async () => {
-        await page.goto(route);
+      for (const route of appRoutes) {
+        await test.step(`${colorScheme}: ${route}`, async () => {
+          await page.goto(route);
 
-        const {violations} = await new AxeBuilder({page})
-          .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-          .analyze();
+          const {violations} = await new AxeBuilder({page})
+            .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+            .analyze();
 
-        expect(violations).toEqual([]);
-      });
+          expect(violations).toEqual([]);
+        });
+      }
     }
-  }
-});
+  });
+}
