@@ -1,5 +1,11 @@
 * text=auto eol=lf
 
+# Only TypeScript and MDX count toward GitHub language statistics.
+* linguist-detectable=false
+*.ts linguist-detectable=true linguist-language=TypeScript
+*.tsx linguist-detectable=true linguist-language=TypeScript
+*.mdx linguist-detectable=true linguist-language=MDX
+
 *.gif binary
 *.jpg binary
 *.jpeg binary
