@@ -46,6 +46,16 @@ describe("public assets", () => {
     expect(publicFiles).toEqual([...configuredAssets].sort());
   });
 
+  it("reserves the actual intrinsic dimensions of every gallery image", async () => {
+    for (const project of projectsText.projects) {
+      for (const image of project.caseStudy.gallery ?? []) {
+        const metadata = await sharp(path.join(publicDirectory, image.src.slice(1))).metadata();
+        expect(image.width, image.src).toBe(metadata.width);
+        expect(image.height, image.src).toBe(metadata.height);
+      }
+    }
+  });
+
   it("keeps every image asset decodable with valid dimensions", async () => {
     const imageAssets = listPublicFiles().filter((assetPath) => /\.(?:svg|webp)$/.test(assetPath));
 

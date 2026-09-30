@@ -2,14 +2,11 @@
 
 import Image from "next/image";
 import {useState} from "react";
-import {mediaConfig} from "@/lib/config/media";
 import type {ProjectCaseStudyGalleryItem} from "@/lib/config/text/projects";
 
 type ProjectImageGalleryProps = {
   images: readonly ProjectCaseStudyGalleryItem[];
 };
-
-const {width, height} = mediaConfig.projects.caseStudyGallery;
 
 export function ProjectImageGallery({images}: ProjectImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -26,8 +23,8 @@ export function ProjectImageGallery({images}: ProjectImageGalleryProps) {
     <Image
       src={selectedImage.src}
       alt={selectedImage.alt}
-      width={width}
-      height={height}
+      width={selectedImage.width}
+      height={selectedImage.height}
       sizes="(min-width: 48rem) 44rem, calc(100vw - 5rem)"
       quality={100}
       preload={selectedIndex === 0}

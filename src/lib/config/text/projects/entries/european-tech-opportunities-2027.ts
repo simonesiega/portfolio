@@ -52,6 +52,8 @@ export const europeanTechOpportunities2027Project = {
     gallery: [
       {
         src: "/projects/european-tech-opportunities-2027/diagram.svg",
+        width: 1600,
+        height: 900,
         alt: "European Tech Opportunities 2027 architecture diagram",
         caption: galleryCaptions[0],
         thumbnailDescription: galleryThumbnailDescriptions?.[0],
@@ -60,6 +62,8 @@ export const europeanTechOpportunities2027Project = {
       },
       {
         src: "/projects/european-tech-opportunities-2027/light-theme.webp",
+        width: 1920,
+        height: 911,
         alt: "European Tech Opportunities 2027 directory in light mode",
         caption: galleryCaptions[1],
         thumbnailDescription: galleryThumbnailDescriptions?.[1],
@@ -67,6 +71,8 @@ export const europeanTechOpportunities2027Project = {
       },
       {
         src: "/projects/european-tech-opportunities-2027/dark-theme.webp",
+        width: 1920,
+        height: 911,
         alt: "European Tech Opportunities 2027 directory in dark mode",
         caption: galleryCaptions[2],
         thumbnailDescription: galleryThumbnailDescriptions?.[2],

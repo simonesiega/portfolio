@@ -19,10 +19,4 @@ export const mediaConfig = {
       height: 44,
     },
   },
-  projects: {
-    caseStudyGallery: {
-      width: 1600,
-      height: 900,
-    },
-  },
 } as const;
