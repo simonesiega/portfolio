@@ -11,7 +11,7 @@ I build thoughtful software, explore complex systems, and turn ideas into produc
 <br />
 
 <a href="https://simonesiega.com">
-  <img src="docs/home-preview.gif" alt="Preview of Simone Siega's portfolio" width="100%" />
+  <img src=".github/assets/home-preview.gif" alt="Preview of Simone Siega's portfolio" width="100%" />
 </a>
 
 </div>
