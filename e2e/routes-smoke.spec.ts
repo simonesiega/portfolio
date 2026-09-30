@@ -86,6 +86,18 @@ test("keyboard users can skip repeated navigation", async ({page}) => {
   await expect(page.getByRole("main")).toBeFocused();
 });
 
+test("client navigation moves keyboard focus to the new main content", async ({page}) => {
+  await page.emulateMedia({reducedMotion: "reduce"});
+  await page.goto("/");
+  const link = page
+    .getByRole("navigation", {name: "Primary navigation"})
+    .getByRole("link", {name: "projects", exact: true});
+  await link.focus();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL("/projects");
+  await expect(page.getByRole("main")).toBeFocused();
+});
+
 test("unknown routes render the not-found recovery page", async ({page}) => {
   const response = await page.goto("/missing-route");
 

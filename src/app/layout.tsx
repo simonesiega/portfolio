@@ -77,6 +77,7 @@ export default function RootLayout({
       >
         <a
           href="#main-content"
+          tabIndex={0}
           className={`${geistSans.className} fixed top-3 left-3 z-[60] -translate-y-24 rounded-md bg-[var(--ui-bg)] px-4 py-2 font-semibold text-[var(--ui-fg)] shadow-lg transition-transform duration-200 focus:translate-y-0 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ui-fg)]`}
         >
           {navigation.skipToContentLabel}

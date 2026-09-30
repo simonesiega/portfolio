@@ -1,5 +1,6 @@
 import {expect, test} from "@playwright/test";
 import {appConfig} from "../src/lib/config/app-config";
+import {getProjectRoutes} from "./helpers/sitemap";
 
 for (const blockedOperation of ["read", "write"] as const) {
   test(`system theme works across navigation when storage ${blockedOperation}s are blocked`, async ({
@@ -83,4 +84,26 @@ test("saved theme and content remain usable when application JavaScript fails to
         elements.every((element) => getComputedStyle(element).opacity === "1")
       )
   ).toBe(true);
+});
+
+test("long case-study code blocks are keyboard-scrollable on narrow screens", async ({
+  page,
+  request,
+}) => {
+  await page.setViewportSize({width: 320, height: 720});
+  await page.emulateMedia({reducedMotion: "reduce"});
+  let overflowingBlocks = 0;
+  for (const route of await getProjectRoutes(request)) {
+    await page.goto(route);
+    for (const block of await page.locator("pre").all()) {
+      if (!(await block.evaluate((element) => element.scrollWidth > element.clientWidth))) continue;
+      overflowingBlocks += 1;
+      await expect(block).toHaveCSS("overflow-x", "auto");
+      await block.focus();
+      await expect(block).toBeFocused();
+      await page.keyboard.press("ArrowRight");
+      await expect.poll(() => block.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
+    }
+  }
+  expect(overflowingBlocks).toBeGreaterThan(0);
 });

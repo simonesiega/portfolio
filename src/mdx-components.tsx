@@ -139,6 +139,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </em>
     ),
+    pre: ({children, className, ...props}: ComponentProps<"pre">) => (
+      <pre
+        {...props}
+        tabIndex={0}
+        className={mergeClassNames(
+          "overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]",
+          className
+        )}
+      >
+        {children}
+      </pre>
+    ),
     code: MdxCode,
     a: ExternalLink,
     hr: ({className, ...props}: ComponentProps<"hr">) => (
