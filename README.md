@@ -48,6 +48,12 @@ Open [localhost:3000](http://localhost:3000).
 | `bun run test:e2e` | Run end-to-end tests                                     |
 | `bun run format`   | Format the codebase                                      |
 
+Before running browser tests, install Chromium, Firefox, and WebKit:
+
+```bash
+bunx playwright install --with-deps chromium firefox webkit
+```
+
 ## Project Structure
 
 ```text

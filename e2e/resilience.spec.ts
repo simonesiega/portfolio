@@ -1,6 +1,6 @@
 import {expect, test} from "@playwright/test";
 import {appConfig} from "../src/lib/config/app-config";
-import {getProjectRoutes} from "./helpers/sitemap";
+import {getAppRoutes, getProjectRoutes} from "./helpers/sitemap";
 
 for (const blockedOperation of ["read", "write"] as const) {
   test(`system theme works across navigation when storage ${blockedOperation}s are blocked`, async ({
@@ -86,6 +86,35 @@ test("saved theme and content remain usable when application JavaScript fails to
   ).toBe(true);
 });
 
+test("all routes retain readable content and navigation without JavaScript", async ({
+  browser,
+  request,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: {width: 390, height: 844},
+  });
+  const page = await context.newPage();
+  try {
+    for (const route of await getAppRoutes(request)) {
+      await test.step(route, async () => {
+        await page.goto(new URL(route, test.info().project.use.baseURL).href);
+        await expect(page.getByRole("heading", {level: 1})).toBeVisible();
+        await expect(page.getByRole("navigation", {name: "Primary navigation"})).toBeVisible();
+        expect(
+          await page
+            .locator(".scroll-reveal")
+            .evaluateAll((elements) =>
+              elements.every((element) => getComputedStyle(element).opacity === "1")
+            )
+        ).toBe(true);
+      });
+    }
+  } finally {
+    await context.close();
+  }
+});
+
 test("long case-study code blocks are keyboard-scrollable on narrow screens", async ({
   page,
   request,
@@ -106,4 +135,30 @@ test("long case-study code blocks are keyboard-scrollable on narrow screens", as
     }
   }
   expect(overflowingBlocks).toBeGreaterThan(0);
+});
+
+test("internal links and downloads resolve and images decode", async ({page, request}) => {
+  await page.emulateMedia({reducedMotion: "reduce"});
+  const paths = new Set<string>();
+  for (const route of await getAppRoutes(request)) {
+    await page.goto(route);
+    await page.evaluate(async () => {
+      const images = Array.from(document.images);
+      for (const image of images) image.loading = "eager";
+      await Promise.all(images.map((image) => image.decode()));
+    });
+    for (const href of await page
+      .locator("a[href]")
+      .evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute("href")))) {
+      if (href?.startsWith("/") && !href.startsWith("//")) paths.add(href);
+    }
+  }
+  for (const path of paths) {
+    const response = await request.get(path);
+    expect(response.ok(), path).toBe(true);
+    if (path.endsWith(".pdf")) {
+      expect(response.headers()["content-type"]).toContain("application/pdf");
+      expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
+    }
+  }
 });

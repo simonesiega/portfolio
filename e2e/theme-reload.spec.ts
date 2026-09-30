@@ -65,6 +65,9 @@ test("every sitemap route resolves the system dark theme", async ({page, request
   await page.addInitScript((storageKey) => {
     window.localStorage.setItem(storageKey, "system");
   }, themeStorageKey);
+  // Firefox drops the emulated preference when COOP first swaps browsing contexts.
+  // Establish the protected origin before emulating the system theme.
+  await page.goto("/");
   await page.emulateMedia({colorScheme: "dark"});
 
   for (const route of appRoutes) {

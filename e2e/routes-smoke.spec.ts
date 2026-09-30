@@ -138,7 +138,9 @@ test("every sitemap route renders a responsive shell without browser errors", as
   for (const route of appRoutes) {
     await test.step(route, async () => {
       browserErrors.length = 0;
-      const response = await page.goto(route);
+      // Let prefetches finish before the next hard navigation. WebKit reports
+      // interrupted old-page prefetches as CORS errors in the new document.
+      const response = await page.goto(route, {waitUntil: "networkidle"});
 
       expect(response?.status()).toBe(200);
       await expect(page.getByRole("main")).toBeVisible();
