@@ -26,6 +26,8 @@ Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · MDX · Bun
 
 ## Run Locally
 
+Use Node 26 (`.node-version`) and the Bun version pinned in `package.json`.
+
 ```bash
 git clone https://github.com/simonesiega/portfolio.git
 cd portfolio
