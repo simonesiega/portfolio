@@ -8,7 +8,7 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 # build
-FROM node:26-alpine@sha256:2d984a15c9b54fd0aeb608b8e0d0d83529eb34d2966db27a1fb4f1edc3d298a3 AS builder
+FROM node:26-alpine@sha256:143494b1da2945f061539253adc65e4f1569ddf07da2d384c022c791a9d90a4a AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_UMAMI_ENABLED
@@ -27,7 +27,7 @@ RUN --mount=type=secret,id=NEXT_PUBLIC_UMAMI_WEBSITE_ID,required=false \
   && node node_modules/next/dist/bin/next build
 
 # run
-FROM node:26-alpine@sha256:2d984a15c9b54fd0aeb608b8e0d0d83529eb34d2966db27a1fb4f1edc3d298a3 AS runner
+FROM node:26-alpine@sha256:143494b1da2945f061539253adc65e4f1569ddf07da2d384c022c791a9d90a4a AS runner
 WORKDIR /app
 ARG NEXT_PUBLIC_UMAMI_ENABLED
 ARG NEXT_PUBLIC_UMAMI_SCRIPT_SRC
