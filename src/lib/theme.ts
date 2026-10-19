@@ -48,12 +48,10 @@ export function applyThemePreference(preference: ThemePreference) {
     return;
   }
 
-  if (preference === themePreference.light) {
-    document.documentElement.setAttribute(attributeName, themePreference.light);
-    return;
-  }
-
-  document.documentElement.setAttribute(attributeName, themePreference.dark);
+  document.documentElement.setAttribute(
+    attributeName,
+    preference === themePreference.light ? themePreference.light : themePreference.dark
+  );
 }
 
 function applySystemTheme() {
@@ -67,12 +65,10 @@ function applySystemTheme() {
     prefersLightTheme = window.matchMedia(prefersLightMediaQuery).matches;
   } catch {}
 
-  if (prefersLightTheme) {
-    document.documentElement.setAttribute(attributeName, themePreference.light);
-    return;
-  }
-
-  document.documentElement.setAttribute(attributeName, themePreference.dark);
+  document.documentElement.setAttribute(
+    attributeName,
+    prefersLightTheme ? themePreference.light : themePreference.dark
+  );
 }
 
 export function getStoredThemePreference() {
@@ -80,15 +76,11 @@ export function getStoredThemePreference() {
     return null;
   }
 
-  let storedPreference: string | null = null;
-
   try {
-    storedPreference = window.localStorage.getItem(storageKey);
+    return parseThemePreference(window.localStorage.getItem(storageKey));
   } catch {
     return null;
   }
-
-  return parseThemePreference(storedPreference);
 }
 
 export function setStoredThemePreference(preference: ThemePreference) {

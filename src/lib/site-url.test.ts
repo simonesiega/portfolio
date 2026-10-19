@@ -1,25 +1,18 @@
-import {afterEach, describe, expect, it} from "vitest";
+import {afterEach, describe, expect, it, vi} from "vitest";
 import {getSiteOrigin, getSiteUrl} from "./site-url";
 
-const originalNodeEnv = process.env.NODE_ENV;
-const originalNextPublicSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-const originalSiteUrl = process.env.SITE_URL;
-const mutableEnv = process.env as Record<string, string | undefined>;
-
 function setNodeEnv(value: string) {
-  mutableEnv["NODE_ENV"] = value;
+  vi.stubEnv("NODE_ENV", value);
 }
 
 function setSiteUrls({publicUrl = "", serverUrl = ""} = {}) {
-  mutableEnv["NEXT_PUBLIC_SITE_URL"] = publicUrl;
-  mutableEnv["SITE_URL"] = serverUrl;
+  vi.stubEnv("NEXT_PUBLIC_SITE_URL", publicUrl);
+  vi.stubEnv("SITE_URL", serverUrl);
 }
 
 describe("site URL resolution", () => {
   afterEach(() => {
-    mutableEnv["NODE_ENV"] = originalNodeEnv;
-    mutableEnv["NEXT_PUBLIC_SITE_URL"] = originalNextPublicSiteUrl;
-    mutableEnv["SITE_URL"] = originalSiteUrl;
+    vi.unstubAllEnvs();
   });
 
   it("uses localhost when no site URL is configured outside production", () => {

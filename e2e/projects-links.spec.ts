@@ -26,6 +26,19 @@ test("project navigation resets scroll before rendering the case study", async (
   await expect(page.getByRole("heading", {name: projectTitle!, level: 1})).toBeVisible();
 });
 
+test("project link accessible names include their visible text", async ({page}) => {
+  await page.goto("/projects");
+  const links = page.locator("article a[aria-label]");
+  expect(await links.count()).toBeGreaterThan(0);
+
+  for (const link of await links.all()) {
+    const text = (await link.innerText()).trim();
+    const name = await link.getAttribute("aria-label");
+    expect(text).not.toBe("");
+    expect(name?.toLowerCase()).toContain(text.toLowerCase());
+  }
+});
+
 test("every project case study renders its content links", async ({page, request}) => {
   const projectRoutes = await getProjectRoutes(request);
 

@@ -62,9 +62,12 @@ describe("public assets", () => {
     expect(imageAssets.length).toBeGreaterThan(0);
 
     for (const assetPath of imageAssets) {
-      const metadata = await sharp(path.join(publicDirectory, assetPath.slice(1))).metadata();
-      expect(metadata.width, assetPath).toBeGreaterThan(0);
-      expect(metadata.height, assetPath).toBeGreaterThan(0);
+      const {data, info} = await sharp(path.join(publicDirectory, assetPath.slice(1)))
+        .raw()
+        .toBuffer({resolveWithObject: true});
+      expect(info.width, assetPath).toBeGreaterThan(0);
+      expect(info.height, assetPath).toBeGreaterThan(0);
+      expect(data.length, assetPath).toBe(info.width * info.height * info.channels);
     }
   });
 });

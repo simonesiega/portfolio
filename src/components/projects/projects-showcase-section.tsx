@@ -140,7 +140,7 @@ export function ProjectsShowcaseSection({projects, labels}: ProjectsShowcaseSect
                             }
                             aria-label={
                               project.showcaseAction.kind === "contact"
-                                ? `${mailAriaLabelPrefix} ${project.title}`
+                                ? `${project.showcaseAction.label}: ${mailAriaLabelPrefix} ${project.title}`
                                 : `${project.showcaseAction.label}: ${project.title}`
                             }
                             className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none"

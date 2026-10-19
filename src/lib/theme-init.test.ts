@@ -35,6 +35,7 @@ function installThemeInitGlobals({
 } = {}) {
   const attributes = new Map<string, string>();
   const classes = new Set<string>();
+  let frameCallbacks: FrameRequestCallback[] = [];
   const documentElement = {
     classList: {
       add: vi.fn((...classNames: string[]) => {
@@ -62,13 +63,21 @@ function installThemeInitGlobals({
     value: {
       matchMedia: vi.fn(matchMedia),
       requestAnimationFrame: vi.fn((callback: FrameRequestCallback) => {
-        callback(0);
-        return 1;
+        frameCallbacks.push(callback);
+        return frameCallbacks.length;
       }),
     },
   });
 
-  return {attributes, classes};
+  return {
+    attributes,
+    classes,
+    advanceFrame() {
+      const callbacks = frameCallbacks;
+      frameCallbacks = [];
+      callbacks.forEach((callback) => callback(0));
+    },
+  };
 }
 
 describe("theme init script", () => {
@@ -85,6 +94,10 @@ describe("theme init script", () => {
     expect(browser.classes.has("js")).toBe(false);
     Function(motionInitScript)();
     expect(browser.classes.has("js")).toBe(true);
+    expect(browser.classes.has("motion-initializing")).toBe(true);
+    browser.advanceFrame();
+    expect(browser.classes.has("motion-initializing")).toBe(true);
+    browser.advanceFrame();
     expect(browser.classes.has("motion-initializing")).toBe(false);
   });
 
@@ -127,6 +140,10 @@ describe("theme init script", () => {
     expect(missingBrowser.attributes.get(themeAttribute)).toBe(themePreference.dark);
     // Theme initialization must not hide content before the application is ready.
     expect(missingBrowser.classes.has("js")).toBe(false);
+    expect(missingBrowser.classes.has("theme-initializing")).toBe(true);
+    missingBrowser.advanceFrame();
+    expect(missingBrowser.classes.has("theme-initializing")).toBe(true);
+    missingBrowser.advanceFrame();
     expect(missingBrowser.classes.has("theme-initializing")).toBe(false);
 
     const invalidBrowser = installThemeInitGlobals({getItem: () => "sepia"});

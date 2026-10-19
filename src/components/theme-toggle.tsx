@@ -36,9 +36,8 @@ export function ThemeToggle() {
     useState<ThemePreference>(fallbackThemePreference);
   const [resolvedMode, setResolvedMode] = useState<"light" | "dark">(themePreference.dark);
 
-  function syncThemeState(preference?: ThemePreference) {
-    const selectedTheme = preference ?? getAppliedThemePreference() ?? fallbackThemePreference;
-    setSelectedPreference(selectedTheme);
+  function syncThemeState(preference: ThemePreference) {
+    setSelectedPreference(preference);
     setResolvedMode(isLightThemeActive() ? themePreference.light : themePreference.dark);
   }
 
@@ -96,17 +95,10 @@ export function ThemeToggle() {
   }, []);
 
   function handleToggle() {
-    const isCurrentlyLight = isLightThemeActive();
-    if (isCurrentlyLight) {
-      handleSelectPreference(themePreference.dark);
-      return;
-    }
-
-    handleSelectPreference(themePreference.light);
+    handleSelectPreference(isLightThemeActive() ? themePreference.dark : themePreference.light);
   }
 
   const iconSizeClass = "h-5 w-5";
-  const wrapperSizeClass = "h-5 w-5";
   const currentModeLabel =
     selectedPreference === themePreference.system
       ? `${themePreference.system} (${resolvedMode})`
@@ -133,7 +125,7 @@ export function ThemeToggle() {
         aria-describedby="theme-status"
         className="theme-toggle-button inline-flex cursor-pointer items-center justify-center rounded-sm p-1 text-[var(--header-item-color)] transition duration-300 hover:scale-110 hover:text-[var(--header-item-hover-color)] focus-visible:scale-110 focus-visible:text-[var(--header-item-hover-color)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--ui-fg)]"
       >
-        <span className={`relative ${wrapperSizeClass}`}>
+        <span className={`relative ${iconSizeClass}`}>
           <FiSun
             aria-hidden={true}
             className={`theme-toggle-sun absolute inset-0 ${iconSizeClass} transform-gpu transition-all duration-500 ease-out`}

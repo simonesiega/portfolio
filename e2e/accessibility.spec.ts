@@ -16,6 +16,7 @@ for (const width of [390, 1280]) {
     await page.addInitScript((storageKey) => {
       window.localStorage.setItem(storageKey, "system");
     }, appConfig.theme.storageKey);
+    await page.goto("/");
 
     for (const colorScheme of colorSchemes) {
       await page.emulateMedia({colorScheme, reducedMotion: "reduce"});
@@ -23,6 +24,7 @@ for (const width of [390, 1280]) {
       for (const route of appRoutes) {
         await test.step(`${colorScheme}: ${route}`, async () => {
           await page.goto(route);
+          await expect(page.locator("html")).toHaveAttribute("data-theme", colorScheme);
 
           const {violations} = await new AxeBuilder({page})
             .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])

@@ -1,6 +1,3 @@
-const SCROLL_BEHAVIOR_AUTO = "auto";
-const SCROLL_BEHAVIOR_SMOOTH = "smooth";
-
 type ClickEvent = {
   defaultPrevented: boolean;
   button: number;
@@ -21,13 +18,8 @@ export function isPlainLeftClick(event: ClickEvent) {
   );
 }
 
-function setScrollBehaviorMode(mode: "auto" | "smooth") {
-  const root = document.documentElement;
-  root.dataset.scrollBehavior = mode;
-}
-
 export function beginRouteNavigationScrollMode() {
-  setScrollBehaviorMode(SCROLL_BEHAVIOR_AUTO);
+  document.documentElement.dataset.scrollBehavior = "auto";
 }
 
 export function resetScrollTopInstant() {
@@ -35,5 +27,5 @@ export function resetScrollTopInstant() {
 }
 
 export function restoreSmoothScrollMode() {
-  setScrollBehaviorMode(SCROLL_BEHAVIOR_SMOOTH);
+  document.documentElement.dataset.scrollBehavior = "smooth";
 }
