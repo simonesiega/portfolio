@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # deps
-FROM oven/bun:1.4.3-alpine@sha256:629e17411f1f129dbec3af78d5af9c9f2a937435c80349437206c6b0b7422373 AS deps
+FROM oven/bun:1.4.4-alpine@sha256:4cf82f5686b196504fe119db3fcd9185b191f82ece82c40680e597228ec6070a AS deps
 WORKDIR /app
 ENV HUSKY=0
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 # build
-FROM node:26-alpine@sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5 AS builder
+FROM node:26-alpine@sha256:40cd011b55415bc894e45b02fdd5a5dfde056921b7d23a64c74f80497af48797 AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_UMAMI_ENABLED
@@ -27,7 +27,7 @@ RUN --mount=type=secret,id=NEXT_PUBLIC_UMAMI_WEBSITE_ID,required=false \
   && node node_modules/next/dist/bin/next build
 
 # run
-FROM node:26-alpine@sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5 AS runner
+FROM node:26-alpine@sha256:40cd011b55415bc894e45b02fdd5a5dfde056921b7d23a64c74f80497af48797 AS runner
 WORKDIR /app
 ARG NEXT_PUBLIC_UMAMI_ENABLED
 ARG NEXT_PUBLIC_UMAMI_SCRIPT_SRC
