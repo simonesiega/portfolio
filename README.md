@@ -31,28 +31,36 @@ Use Node 26 (`.node-version`) and the Bun version pinned in `package.json`.
 ```bash
 git clone https://github.com/simonesiega/portfolio.git
 cd portfolio
-bun install
-bun dev
+bun install --frozen-lockfile
+bun run dev
 ```
 
 Open [localhost:3000](http://localhost:3000).
 
 ## Commands
 
-| Command            | Description                                              |
-| ------------------ | -------------------------------------------------------- |
-| `bun run dev`      | Start the local development server                       |
-| `bun run build`    | Create a production build                                |
-| `bun run check`    | Run formatting, linting, type checks, tests, and a build |
-| `bun run test`     | Run unit tests                                           |
-| `bun run test:e2e` | Run end-to-end tests                                     |
-| `bun run format`   | Format the codebase                                      |
+| Command                          | Description                                                   |
+| -------------------------------- | ------------------------------------------------------------- |
+| `bun run dev`                    | Start the local development server                            |
+| `bun run build:local`            | Build with the portfolio's canonical origin                   |
+| `bun run build`                  | Build with a configured production origin                     |
+| `bun run build:standalone:local` | Build and copy assets for standalone preview                  |
+| `bun run start`                  | Serve the standalone production build                         |
+| `bun run check`                  | Run formatting, linting, type checks, unit tests, and a build |
+| `bun audit`                      | Audit direct and transitive dependencies                      |
+| `bun run test`                   | Run unit tests                                                |
+| `bun run test:e2e --workers=2`   | Run the Chromium, Firefox, and WebKit suites                  |
+| `bun run format`                 | Format the codebase                                           |
 
-Before running browser tests, install Chromium, Firefox, and WebKit:
+For `bun run build`, set `NEXT_PUBLIC_SITE_URL` or `SITE_URL` at build time; the public value takes precedence. See [`.env.example`](.env.example) for configuration names. `NEXT_PUBLIC_*` values are public and embedded in the build, not secrets. Analytics is disabled unless explicitly enabled.
+
+Before running browser tests, install Chromium, Firefox, and WebKit (add `--with-deps` on Linux):
 
 ```bash
-bunx playwright install --with-deps chromium firefox webkit
+bunx playwright install chromium firefox webkit
 ```
+
+E2E builds and starts its own standalone server on port **3100**, with analytics disabled and CSP enforced. Do not run it alongside another build or development server in the same worktree: they share `.next`.
 
 ## Project Structure
 
